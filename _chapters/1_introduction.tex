@@ -93,8 +93,8 @@ Questa definizione può essere formulata elegantemente in termini di inconsisten
   Dato un insieme \(\Gamma\) di enunciati e un enunciato \(\phi\), diremo che \(\phi\) è \keyword{conseguenza logica} di \(\Gamma\) se l'insieme \(\Gamma \cup \{\neg \phi\}\) è inconsistente. % NDR: Excluded middle assumed
 \end{definition}
 
-Questa definizione cattura formalmente l'idea della dimostrazione per assurdo: per dimostrare che una conclusione segue da certe premesse, assumiamo che la conclusione sia falsa e mostriamo che ciò conduce a una contraddizione con le premesse.
-Vediamo come questo metodo si applica a un caso concreto.
+Si noti che, se $\phi$ è conseguenza logica di $\Gamma$, allora, secondo la definizione: se tutti gli enunciati in $\Gamma$ sono veri, allora $\neg \phi$ è necessariamente falso, ovvero $\phi$ è vero; se $\neg \phi$ è vero, allora almeno uno degli enunciati di $\Gamma$ dovrà essere falso. Il primo caso cattura l'idea della dimostrazione diretta, mentre il secondo caso cattura l'idea della dimostrazione per assurdo.
+In particolare, vediamo come il ragionamento per assurdo si applica ad un caso concreto.
 
 \begin{example}{}
   Dati gli enunciati \(\Gamma\):
