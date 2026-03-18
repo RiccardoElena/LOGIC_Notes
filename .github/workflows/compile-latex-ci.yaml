@@ -11,6 +11,6 @@ permissions:
 
 jobs:
   build:
-    uses: RiccardoElena/UniNotes_Template/.github/workflows/latex-compile.yaml@master
+    uses: RiccardoElena/UniNotes_Template/.github/workflows/latex-compile-ci.yaml@master
     with:
       pdf_name: 'Logic_for_Computer_Science'
