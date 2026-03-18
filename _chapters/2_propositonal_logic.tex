@@ -12,7 +12,7 @@ In generale, un linguaggio logico è composto da due tipi di simboli: i \textit{
 \begin{definition}{Alfabeto della logica proposizionale}
   L'alfabeto della logica proposizionale è costituito da:
   \begin{itemize}
-    \item Un insieme potenzialmente infinito di \textit{simboli non logici}, detti \keyword{proposizioni atomiche}, denotati con \(AP = \set{A,B,C,\ldots}\).
+    \item Un insieme potenzialmente infinito di \textit{simboli non logici}, detti \keyword{proposizioni atomiche}, denotati con \(\AP = \set{A,B,C,\ldots}\).
     \item Un insieme di \textit{simboli logici}, che includono i connettivi logici \(\set{\land, \lor, \rightarrow, \neg,\leftrightarrow}\) e le parentesi \(\set{(,)}\) per disambiguare la struttura delle formule.
   \end{itemize}
 \end{definition}
@@ -20,18 +20,18 @@ In generale, un linguaggio logico è composto da due tipi di simboli: i \textit{
 Un'\keyword{espressione} è una sequenza finita di simboli del linguaggio.
 Tuttavia, non tutte le espressioni sono significative dal punto di vista logico: dobbiamo distinguere quelle che rispettano le regole grammaticali del linguaggio.
 
-\begin{definition}{Formula ben formata (WFF)}
-  Una formula ben formata (WFF) è un'espressione che può essere costruita usando una grammatica definita sui simboli del linguaggio.
+\begin{definition}{Formula ben formata (\(\WFF\))}
+  Una formula ben formata (\(\WFF\)) è un'espressione che può essere costruita usando una grammatica definita sui simboli del linguaggio.
 \end{definition}
 
 La definizione precisa di quali espressioni sono formule ben formate nella logica proposizionale è data ricorsivamente attraverso le seguenti regole di formazione.
 
-\begin{definition}{WFF Proposizionale}
+\begin{definition}{\(\WFF\) Proposizionale}
   Una formula è ben formata in logica proposizionale se è costruita secondo le seguenti regole:
 \begin{itemize}
-  \item \(AP \subseteq WFF\)
-  \item Se \(\phi \in WFF\), allora \(\neg \phi \in WFF\)
-  \item Se \(\phi,\psi \in WFF\), allora \((\phi \bigodot \psi)\in WFF\), dove \(\bigodot \in \set{\land, \lor, \rightarrow, \leftrightarrow}\) 
+  \item \(\AP \subseteq \WFF\)
+  \item Se \(\phi \in \WFF\), allora \(\neg \phi \in \WFF\)
+  \item Se \(\phi,\psi \in \WFF\), allora \((\phi \odot \psi)\in \WFF\), dove \(\odot \in \set{\land, \lor, \rightarrow, \leftrightarrow}\) 
   \item Nessuna altra espressione è una formula ben formata
 \end{itemize}
   
@@ -43,7 +43,7 @@ Ovviamente, tale albero sintattico cattura la struttura gerarchica della formula
 \begin{example}{Albero sintattico}
   Consideriamo la formula \(\phi = (A \rightarrow (B \land \neg C))\). 
   
-  Questa formula è ben formata secondo la definizione ricorsiva: a partire dalle variabili proposizionali \(A\), \(B\), \(C\) (che sono WFF per la prima regola), costruiamo \(\neg C\) (seconda regola), poi \((B \land \neg C)\) (terza regola), e infine \((A \rightarrow (B \land \neg C))\) (terza regola).
+  Questa formula è ben formata secondo la definizione ricorsiva: a partire dalle variabili proposizionali \(A\), \(B\), \(C\) (che sono \(\WFF\) per la prima regola), costruiamo \(\neg C\) (seconda regola), poi \((B \land \neg C)\) (terza regola), e infine \((A \rightarrow (B \land \neg C))\) (terza regola).
   
   L'albero sintattico di \(\phi\) rappresenta questa costruzione gerarchica:
   
@@ -65,7 +65,7 @@ Ovviamente, tale albero sintattico cattura la struttura gerarchica della formula
   \begin{itemize}
     \item Le foglie sono le variabili proposizionali \(A\), \(B\), \(C\)
     \item I nodi interni sono i connettivi logici \(\rightarrow\), \(\land\), \(\neg\)
-    \item La struttura dell'albero riflette l'ordine di applicazione delle regole di costruzione delle WFF
+    \item La struttura dell'albero riflette l'ordine di applicazione delle regole di costruzione delle \(\WFF\)
   \end{itemize}
 \end{example}
 
@@ -79,11 +79,11 @@ Inoltre, questa definizione induttiva impone forti vincoli sulla forma dei sotto
 Tali sottoalberi rappresentano le \keyword{sottoformule} di una formula, il cui insieme è definito come segue.
 
 \begin{definition}{Sottoformule}
-  Dato \(\phi \in WFF\), l'\keyword{insieme delle sottoformule} di \(\phi\), denotato con \(Sub(\phi)\), è definito ricorsivamente come segue:
-  \[Sub(\phi) = \begin{cases}
-    \{\phi\} & ,\phi \in AP\\
-    Sub(\phi') \cup \{\neg \phi'\} & ,\phi = \neg \phi'\\
-    Sub(\phi') \cup Sub(\psi') \cup \{(\phi' \bigodot \psi')\} & ,\phi = (\phi' \bigodot \psi')
+  Dato \(\phi \in WFF\), l'\keyword{insieme delle sottoformule} di \(\phi\), denotato con \(\Sub{\phi}\), è definito ricorsivamente come segue:
+  \[\Sub{\phi} = \begin{cases}
+    \{\phi\} & ,\phi \in \AP\\
+    \Sub{\phi'} \cup \{\neg \phi'\} & ,\phi = \neg \phi'\\
+    \Sub{\phi'} \cup \Sub{\psi'} \cup \{(\phi' \odot \psi')\} & ,\phi = (\phi' \odot \psi')
   \end{cases}
   \]
 \end{definition}
@@ -97,28 +97,28 @@ Possiamo ora osservare una prima applicazione dell'induzione strutturale, dimost
 \end{note}
 
 \begin{proposition}{}
-  Sia \(\phi \in WFF\). Siano inoltre \(\abs{\phi}\) la lunghezza della formula \(\phi\) in numero di simboli (parentesi escluse) e \(\abs{Sub(\phi)}\) la cardinalità dell'insieme delle sottoformule di \(\phi\). Allora
-  \[\abs{Sub(\phi)}\leq \abs{\phi}\]
+  Sia \(\phi \in WFF\). Siano inoltre \(\abs{\phi}\) la lunghezza della formula \(\phi\) in numero di simboli (parentesi escluse) e \(\abs{\Sub{\phi}}\) la cardinalità dell'insieme delle sottoformule di \(\phi\). Allora
+  \[\abs{\Sub{\phi}}\leq \abs{\phi}\]
 \end{proposition}
 
 \begin{proof}
   Per dimostrare questa proposizione, procediamo per induzione strutturale sulla formula \(\phi\).
   \begin{description}
-    \item[\(\phi \in AP\)]: In questo caso, \(\phi\) è una formula atomica, quindi \(Sub(\phi) = \{\phi\}\) e \(\abs{Sub(\phi)} = 1\). Dato che \(\abs{\phi} = 1\) (ogni simbolo ha lunghezza 1), abbiamo
-          \[\abs{Sub(\phi)} = 1 \leq 1 = \abs{\phi}\]
-    \item[\(\phi = \neg \phi'\)]: In questo caso, per induzione strutturale, assumiamo che \(\abs{Sub(\phi')} \leq \abs{\phi'}\). Dato che \(Sub(\phi) = Sub(\phi') \cup \{\neg \phi'\}\), abbiamo
-          \[\abs{Sub(\phi)} = \abs{Sub(\phi')} + 1\]
+    \item[\(\phi \in \AP\)]: In questo caso, \(\phi\) è una formula atomica, quindi \(\Sub{\phi} = \{\phi\}\) e \(\abs{\Sub{\phi}} = 1\). Dato che \(\abs{\phi} = 1\) (ogni simbolo ha lunghezza 1), abbiamo
+          \[\abs{\Sub{\phi}} = 1 \leq 1 = \abs{\phi}\]
+    \item[\(\phi = \neg \phi'\)]: In questo caso, per induzione strutturale, assumiamo che \(\abs{\Sub{\phi'}} \leq \abs{\phi'}\). Dato che \(\Sub{\phi} = \Sub{\phi'} \cup \{\neg \phi'\}\), abbiamo
+          \[\abs{\Sub{\phi}} = \abs{\Sub{\phi'}} + 1\]
           Inoltre, \(\abs{\phi} = \abs{\phi'} + 1\) (perché aggiungiamo il simbolo di negazione). Quindi,
-          \[\abs{Sub(\phi)} = \abs{Sub(\phi')} + 1 \leq \abs{\phi'} + 1 = \abs{\phi}\]
-    \item[\(\phi = (\phi' \bigodot \psi')\)]: Infine, sempre per induzione strutturale, assumiamo che \(\abs{Sub(\phi')} \leq \abs{\phi'}\) e \(\abs{Sub(\psi')} \leq \abs{\psi'}\). Dato che \(Sub(\phi) = Sub(\phi') \cup Sub(\psi') \cup \{(\phi' \bigodot \psi')\}\), abbiamo
-          \[\abs{Sub(\phi)} \leq \abs{Sub(\phi')} + \abs{Sub(\psi')} + 1\]
-          In questo caso non è detto valga l'uguaglianza, perché è possibile che \(Sub(\phi')\) e \(Sub(\psi')\) non siano disgiunti.
+          \[\abs{\Sub{\phi}} = \abs{\Sub{\phi'}} + 1 \leq \abs{\phi'} + 1 = \abs{\phi}\]
+    \item[\(\phi = (\phi' \odot \psi')\)]: Infine, sempre per induzione strutturale, assumiamo che \(\abs{\Sub{\phi'}} \leq \abs{\phi'}\) e \(\abs{\Sub{\psi'}} \leq \abs{\psi'}\). Dato che \(\Sub{\phi} = \Sub{\phi'} \cup \Sub{\psi'} \cup \{(\phi' \odot \psi')\}\), abbiamo
+          \[\abs{\Sub{\phi}} \leq \abs{\Sub{\phi'}} + \abs{\Sub{\psi'}} + 1\]
+          In questo caso non è detto valga l'uguaglianza, perché è possibile che \(\Sub{\phi'}\) e \(\Sub{\psi'}\) non siano disgiunti.
           Inoltre, \(\abs{\phi} = \abs{\phi'} + \abs{\psi'} + 1\) (perché aggiungiamo il connettivo). Quindi partendo da:
-          \[\abs{Sub(\phi')} \leq \abs{\phi'}\]
-          essendo numeri naturali, possiamo sommare \(\abs{Sub(\psi')}\) a entrambi i membri dell'inequazione senza invertire il verso:
-          \[\abs{Sub(\phi')} +\abs{Sub(\psi')} \leq \abs{\phi'} + \abs{Sub(\psi')} \leq \abs{\phi'} + \abs{\psi'}\]
+          \[\abs{\Sub{\phi'}} \leq \abs{\phi'}\]
+          essendo numeri naturali, possiamo sommare \(\abs{\Sub{\psi'}}\) a entrambi i membri dell'inequazione senza invertire il verso:
+          \[\abs{\Sub{\phi'}} +\abs{\Sub{\psi'}} \leq \abs{\phi'} + \abs{\Sub{\psi'}} \leq \abs{\phi'} + \abs{\psi'}\]
           e dunque
-          \[\abs{Sub(\phi)} \leq \abs{Sub(\phi')} + \abs{Sub(\psi')} + 1 \leq \abs{\phi'} + \abs{\psi'} + 1 = \abs{\phi}\]
+          \[\abs{\Sub{\phi}} \leq \abs{\Sub{\phi'}} + \abs{\Sub{\psi'}} + 1 \leq \abs{\phi'} + \abs{\psi'} + 1 = \abs{\phi}\]
   \end{description}
 \end{proof}
 
@@ -130,18 +130,18 @@ Un modo per definire tale semantica è attraverso il concetto di \keyword{modell
 In particolare, per la logica proposizionale, possiamo definire un modello come segue.
 
 \begin{definition}{Modello per la logica proposizionale}
-  Un modello \(m\) per la logica proposizionale è un qualsiasi sottoinsieme di \(AP\). In altre parole, \(m \in 2^{AP}\).\footnote{\(2^{AP}\) non è altro che una notazione alternativa per l'insieme di tutti i sott'insiemi di \(AP\), chiamato anche insieme potenza indicato anche con \(\mathcal{P}(AP)\).}
+  Un modello \(m\) per la logica proposizionale è un qualsiasi sottoinsieme di \(\AP\). In altre parole, \(m \in 2^{\AP}\).\footnote{\(2^{\AP}\) non è altro che una notazione alternativa per l'insieme di tutti i sott'insiemi di \(\AP\), chiamato anche insieme potenza indicato anche con \(\mathcal{P}(\AP)\).}
 \end{definition}
 
 Essendo la logica proposizionale un linguaggio molto semplice, per darle significato è sufficiente una struttura altrettanto semplice: un insieme di proposizioni atomiche che consideriamo vere.
 
-Essendo \(AP\) potenzialmente infinito, anche i modelli possono essere infiniti. Da un punto di vista matematico non è particolarmente importante, ma modelli infiniti portano a problemi computazionali di rappresentazione e manipolazione.
+Essendo \(\AP\) potenzialmente infinito, anche i modelli possono essere infiniti. Da un punto di vista matematico non è particolarmente importante, ma modelli infiniti portano a problemi computazionali di rappresentazione e manipolazione.
 
 \begin{definition}{Soddisfacimento di una formula da parte di un modello}
-  Definiamo la \keyword{relazione di soddisfazione} \(\models \subseteq 2^{AP} \times PL\) dato un modello \(m \in 2^{AP}\) e una formula \(\phi \in PL\) come segue:
+  Definiamo la \keyword{relazione di soddisfazione} \(\models \subseteq 2^{\AP} \times \PL\) dato un modello \(m \in 2^{\AP}\) e una formula \(\phi \in \PL\) come segue:
   \(m\models \phi \) se e solo se vale uno dei seguenti casi:
   \begin{enumerate}
-    \item \(\phi \in m\) se \(\phi \in AP\).
+    \item \(\phi \in m\) se \(\phi \in \AP\).
     \item \(m \not\models \phi'\) se \(\phi = \neg \phi'\).
     \item \(m \models \phi_1\) e \(m \models \phi_2\) se \(\phi = \phi_1 \land \phi_2\).
     \item \(m \models \phi_1\) o \(m \models \phi_2\) se \(\phi = \phi_1 \lor \phi_2\).
@@ -156,32 +156,32 @@ Il problema decisionale di verificare se \(m \models \phi\) è detto \keyword{mo
 
 Avendo finalmente definito la semantica possiamo andare a formalizzare le definizioni informali date all'inizio del corso.
 \begin{definition}{Soddisfacibilità}
-  Una formula \(\phi\) è \keyword{soddisfacibile} (\(SAT(\phi)\)) se e soltanto se esiste un modello \(m\in 2^{AP}\) tale che \(m \models \phi\).
+  Una formula \(\phi\) è \keyword{soddisfacibile} (\(\Sat[\phi]\)) se e soltanto se esiste un modello \(m\in 2^{\AP}\) tale che \(m \models \phi\).
 \end{definition}
 
-Il problema decisionale di verificare se \(SAT(\phi)\) è detto \keyword{soddisfacibilità}, ed è un problema centrale in logica e informatica teorica, poiché molte questioni di interesse possono essere ridotte a problemi di soddisfacibilità.
+Il problema decisionale di verificare se \(\Sat[\phi]\) è detto \keyword{soddisfacibilità}, ed è un problema centrale in logica e informatica teorica, poiché molte questioni di interesse possono essere ridotte a problemi di soddisfacibilità.
 Rispetto al model checking, il problema di soddisfacibilità è spesso più complesso, poiché richiede l'esplorazione dello spazio dei modelli, che cresce esponenzialmente con il numero di proposizioni atomiche coinvolte nella formula.
 
 \begin{definition}{Validità}
-  Una formula \(\phi\) è valida (\(Valid(\phi)\)) se e soltanto se per ogni modello \(m\in 2^{AP}\) vale \(m \models \phi\).
+  Una formula \(\phi\) è valida (\(\Valid[\phi]\)) se e soltanto se per ogni modello \(m\in 2^{\AP}\) vale \(m \models \phi\).
 \end{definition}
 
-La validità e la soddisfacibilità sono concetti duali, nel senso che \(SAT(\phi)\iff \neg Valid(\neg \phi)\) e \(Valid(\phi) \iff \not SAT(\neg \phi)\).\footnote{I simboli \(\iff\) e \(\implies\) sono simboli di \textbf{meta-linguaggio}. Tali simboli non appartengono al linguaggio ogetto del discroso (in questo caso la logica proposizionale), ma sono simboli sono utilizzati (con l'interpretazione usuale) per parlare di proprietà del linguaggio stesso.}
+La validità e la soddisfacibilità sono concetti duali, nel senso che \(\Sat[\phi]\iff \neg \Valid[\neg \phi]\) e \(\Valid[\phi] \iff \neg \Sat[\neg \phi]\).\footnote{I simboli \(\iff\) e \(\implies\) sono simboli di \textbf{meta-linguaggio}. Tali simboli non appartengono al linguaggio ogetto del discroso (in questo caso la logica proposizionale), ma sono simboli sono utilizzati (con l'interpretazione usuale) per parlare di proprietà del linguaggio stesso.}
 Questo è diretta conseguenza del fatto che, data una qualsiasi proprietà \(P\), \(\exists x:P(x) \iff \forall x, \neg P(\neg x)\). Ciò verrà dimostrato formalmente quando tratteremo la logica del primo ordine.
 
 \begin{definition}{Estensione della soddisfacibilità}
-  Dato \(\Gamma \subseteq PL\) e \(m \in 2^{AP}\), diremo che \(m\) soddisfa \(\Gamma\) (\(m \models \Gamma\)) se e soltanto se \(m \models \phi\) per ogni \(\phi \in \Gamma\).
+  Dato \(\Gamma \subseteq \PL\) e \(m \in 2^{\AP}\), diremo che \(m\) soddisfa \(\Gamma\) (\(m \models \Gamma\)) se e soltanto se \(m \models \phi\) per ogni \(\phi \in \Gamma\).
 \end{definition}
 
 \begin{definition}{Conseguenza logica}
-  Dato \(\Gamma \subseteq PL\), una formula \(\phi\) è conseguenza logica di \(\Gamma\) (\(\Gamma \models \phi\)) se e soltanto se per ogni \(m \in 2^{AP}\) che soddisga \(\Gamma\) allora \(m \models \phi\).
+  Dato \(\Gamma \subseteq \PL\), una formula \(\phi\) è conseguenza logica di \(\Gamma\) (\(\Gamma \models \phi\)) se e soltanto se per ogni \(m \in 2^{\AP}\) che soddisga \(\Gamma\) allora \(m \models \phi\).
 
-  Alternativamente, \(\Gamma \models \phi\) se e soltanto se non esiste \(m \in 2^{AP}\) tale che \(m \models \Gamma\) e \(m \not\models \phi\).
+  Alternativamente, \(\Gamma \models \phi\) se e soltanto se non esiste \(m \in 2^{\AP}\) tale che \(m \models \Gamma\) e \(m \not\models \phi\).
 \end{definition}
 
 \begin{note}{}
   Nonostante si usi la stessa notazione \(\models\) per indicare sia la soddisfacibilità di una formula da parte di un modello, sia la conseguenza logica di una formula da parte di un insieme di formule, è importante sottolineare che si tratta di due concetti distinti.
-  La soddisfacibilità \(m \models \phi\) è una relazione conenuta in \(2^{AP}\times PL\), mentre la conseguenza logica \(\Gamma \models \phi\) è una relazione contenuta in \(2^{PL}\times PL\).
+  La soddisfacibilità \(m \models \phi\) è una relazione conenuta in \(2^{\AP}\times \PL\), mentre la conseguenza logica \(\Gamma \models \phi\) è una relazione contenuta in \(2^{\PL}\times \PL\).
 \end{note}
 
 Dalla definizione di conseguenza logica segue che se \(\emptyset \models \phi\), denotato alternativamente con \(\models \phi\), allora \(\phi\) è valida.
@@ -203,142 +203,144 @@ Per fare ciò, andremo a definire una rappresenzatione più compatta della seman
 In primo luogo, per risolvere il problema della potenziale infinitezza dei modelli, possiamo limitare la nostra attenzione solo alle proposizioni atomiche che effettivamente compaiono nella formula di interesse.
 
 \begin{definition}{Proposizioni atomiche di una formula}
-  Data \(\phi \in PL\), possiamo definire \(AP(\phi) = Sub(\phi) \cap AP\) l'insieme delle proposizioni atomiche contenute in \(\phi\)
+  Data \(\phi \in \PL\), possiamo definire \(\AP[\phi] = \Sub{\phi} \cap \AP\) l'insieme delle proposizioni atomiche contenute in \(\phi\)
 \end{definition}
 
-Essendo che \(\abs{Sub(\phi)}\leq \abs{\phi}\) avremo che \(\abs{AP(\phi)}\leq \abs{\phi}\), che essendo la lunghezza di una parola finita è finito.
+Essendo che \(\abs{\Sub{\phi}}\leq \abs{\phi}\) avremo che \(\abs{\AP[\phi]}\leq \abs{\phi}\), che essendo la lunghezza di una parola finita è finito.
 
 \begin{definition}{Assegnamento}
-  Dato \(\phi \in PL\), un assegnamento \(\alpha\) per \(\phi\) è una funzione \(\alpha: \Delta_\phi \rightarrow \{0,1\}\), tale che \(\Delta_\phi\) è finito e \(AP(\phi) \subseteq \Delta_\phi \subseteq AP\).
+  Dato \(\phi \in \PL\), un assegnamento \(\alpha\) per \(\phi\) è una funzione \(\alpha: \Delta_\phi \rightarrow \{0,1\}\), tale che \(\Delta_\phi\) è finito e \(\AP[\phi] \subseteq \Delta_\phi \subseteq \AP\).
 
-  Chiameremo l'insieme di tali assegnamenti \(Ass(\phi)\).\footnote{Analogamente alla notazione \(2^S\) per indicare l'insieme \(\mathcal{P}(S)\), una notazione molto in uso per indicare un insieme di funzioni \(f: D \to C\) è \(C^D\) essendo che la cardinalità di tale insieme (per insiemi finiti) è proprio \(\abs{C}^{\abs{D}}\). Di conseguenza, una notazione alternativa per \(Ass(\phi)\) è \(\set{0,1}^{\Delta_\phi}\)}
+  Chiameremo l'insieme di tali assegnamenti \(\Ass{\phi}\).\footnote{Analogamente alla notazione \(2^S\) per indicare l'insieme \(\mathcal{P}(S)\), una notazione molto in uso per indicare un insieme di funzioni \(f: D \to C\) è \(C^D\) essendo che la cardinalità di tale insieme (per insiemi finiti) è proprio \(\abs{C}^{\abs{D}}\). Di conseguenza, una notazione alternativa per \(\Ass{\phi}\) è \(\set{0,1}^{\Delta_\phi}\)}
 \end{definition}
 
 Tali funzioni di assegnamento ci permettono di assegnare il valore di verità a ciascuna proposizione atomica. Data la natura induttiva della semantica, possiamo definire induttivamente la \keyword{valutazione} del valore di verità di una formula induttivamente partendo da un assegnamento.
 
 \begin{definition}{Valutazione di una formula}
-  Siano \(\phi \in PL\) e \(\alpha \in Ass(\phi)\). Definiamo dunque la \keyword{valutazione basata su \(\alpha\)} come una funzione \(val^{\alpha}: PL \to \set{0,1}\) come\footnote{Per essre precisi, \(val\) ha una dipendenza implicita dall'assegnamento, e quindi sarebbe più corretto descriverla come una funzione \(val: Ass(\phi) \to PL \to \set{0,1}\). Nel pratico però, l'assegnamento sarà fissato a priori.}:
-  \[val^{\alpha}(\phi) = \begin{cases}
-  \alpha(\phi) &, \phi \in AP \\
-  1 - val^{\alpha}(\phi') &, \phi = \neg \phi' \\
-  \min\set{val^{\alpha}(\phi_1), val^{\alpha}(\phi_2)} &, \phi = \phi_1 \land \phi_2 \\
-  \max\set{val^{\alpha}(\phi_1), val^{\alpha}(\phi_2)} &, \phi = \phi_1 \lor \phi_2 \\
-  1 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } val^{\alpha}(\phi_1) \leq val^{\alpha}(\phi_2) \\
-  0 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } val^{\alpha}(\phi_1) > val^{\alpha}(\phi_2)
+  Siano \(\phi \in \PL\) e \(\alpha \in \Ass{\phi}\). Definiamo dunque la \keyword{valutazione basata su \(\alpha\)} come una funzione \(\Val{\alpha}: \PL \to \set{0,1}\) come\footnote{Per essre precisi, \(val\) ha una dipendenza implicita dall'assegnamento, e quindi sarebbe più corretto descriverla come una funzione \(val: \Ass{\phi} \to \PL \to \set{0,1}\). Nel pratico però, l'assegnamento sarà fissato a priori.}:
+  \[\Val{\alpha}[\phi] = \begin{cases}
+  \alpha(\phi) &, \phi \in \AP[\phi] \\
+  1 - \Val{\alpha}(\phi') &, \phi = \neg \phi' \\
+  \min\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]} &, \phi = \phi_1 \land \phi_2 \\
+  \max\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]} &, \phi = \phi_1 \lor \phi_2 \\
+  1 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] \leq \Val{\alpha}[\phi_2] \\
+  0 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] > \Val{\alpha}[\phi_2]
   \end{cases}\]
   % \begin{enumerate}
-  %   \item Se \(\phi \in AP\), ovvero \(\phi \in \Delta_\phi\), allora \(\alpha(\phi) = val^{\alpha}(\phi)\).
-  %   \item Se \(\phi = \neg \phi'\) allora \(val^{\alpha}(\phi) = 1 - val^{\alpha}(\phi')\).
-  %   \item Se \(\phi = \phi_1 \land \phi_2\) allora \(val^{\alpha}(\phi) = \min\set{val^{\alpha}(\phi_1), val^{\alpha}(\phi_2)}\).
-  %   \item Se \(\phi = \phi_1 \lor \phi_2\) allora \(val^{\alpha}(\phi) = \max\set{val^{\alpha}(\phi_1), val^{\alpha}(\phi_2)}\).
+  %   \item Se \(\phi \in AP\), ovvero \(\phi \in \Delta_\phi\), allora \(\alpha(\phi) = \Val{\alpha}[\phi]\).
+  %   \item Se \(\phi = \neg \phi'\) allora \(\Val{\alpha}[\phi] = 1 - \Val{\alpha}(\phi')\).
+  %   \item Se \(\phi = \phi_1 \land \phi_2\) allora \(\Val{\alpha}[\phi] = \min\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]}\).
+  %   \item Se \(\phi = \phi_1 \lor \phi_2\) allora \(\Val{\alpha}[\phi] = \max\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]}\).
   %   \item Se \(\phi = \phi_1 \rightarrow \phi_2\) allora
-  %             \[val^{\alpha}(\phi) = \begin{cases}
-  %               1 & val^{\alpha}(\phi_1) \leq val^{\alpha}(\phi_2)\\
+  %             \[\Val{\alpha}[\phi] = \begin{cases}
+  %               1 & \Val{\alpha}[\phi_1] \leq \Val{\alpha}[\phi_2]\\
   %               0 & \text{ altrimenti}
   %             \end{cases}\]
   % \end{enumerate}
 \end{definition}
 
 Varificare se una certa formula assume valore \(0\) o \(1\) rispetto ad un assegnamento compatibile con la formula diventa un problma facilmente decidibile, poiché non si pone più il problema di rappresentabilità di modelli potenzialmente infiniti.
-In particolare ora abbiamo una funzione tra domini finiti, delle quali ne esistono \(\abs{\set{0,1}}^{\abs{AP(\phi)}}=2^{\abs{AP(\phi)}}\).
+In particolare ora abbiamo una funzione tra domini finiti, delle quali ne esistono \(\abs{\set{0,1}}^{\abs{\AP[\phi]}}=2^{\abs{\AP[\phi]}}\).
 
 Di consueguenza, il problema di valutazione di un espressione ha complessità \(\BigTheta{\abs{\phi}}\).
 
-Dobbiamo dunque mostrare che questa nuova semantica basata sugli assegnamenti sia equivalente alla semantica basata sui modelli, in altre parole mostrare che a ogni modello corrisponde un assegnamento equivalente e viceversa, e che la relazione di soddisfacimento \(m \models \phi\) è equivalente alla valutazione \(val^{\alpha}(\phi) = 1\).
+Dobbiamo dunque mostrare che questa nuova semantica basata sugli assegnamenti sia equivalente alla semantica basata sui modelli, in altre parole mostrare che a ogni modello corrisponde un assegnamento equivalente e viceversa, e che la relazione di soddisfacimento \(m \models \phi\) è equivalente alla valutazione \(\Val{\alpha}[\phi] = 1\).
 Per fare ciò, andremo a definire la proprietà di essere una tautologia, che rappresenta la proprietà di una formula di essere valutata a \(1\) a prescindere dall'assegnamento scelto, e mostrare che questa è equivalente alla validità, ovvero alla proprietà di essere soddisfatta da ogni modello.
 
-Facendo ciò, otterremo anche un modo per correlare \(m \models \phi\) e \(val^{\alpha}(\phi) = 1\).
+Facendo ciò, otterremo anche un modo per correlare \(m \models \phi\) e \(\Val{\alpha}[\phi] = 1\).
 
 \begin{theorem}{}
-  Data \(\phi \in PL\), \(\models \phi \) se e solo se \(Taut(\phi)\)
+  Data \(\phi \in \PL\), \(\models \phi \) se e solo se \(\Taut[\phi]\)
 \end{theorem}
 
 \begin{proof}
   Dalla definizione di validità abbiamo che 
   \[\models \phi \iff \forall m, m \models \phi\]
   e dalla definizione di tautologia si ha che 
-  \[Taut(\phi)\iff\forall \alpha val^{\alpha}(\phi) = 1\]
+  \[\Taut[\phi]\iff\forall \alpha ,\Val{\alpha}[\phi] = 1\]
 
-  In altre parole, per avere la tesi, basta mostrare che \(\forall m, m \models \phi \iff \forall \alpha, val^{\alpha}(\phi) =1\).
+  In altre parole, per avere la tesi, basta mostrare che \(\forall m, m \models \phi \iff \forall \alpha, \Val{\alpha}[\phi] =1\).
   Procediamo un verso alla volta:
   \begin{description}
      \item[\(\impliedby\)] %Assumiamo che \(\forall m, m \models \phi\).
-     Possiamo notare che \(\forall m,\exists alpha : m\models \phi \iff val^{\alpha}(\phi) = 1\).
-      Questo poiché, preso un \(m \in 2^{AP}\) generico posso costruire 
+     Possiamo notare che \(\forall m,\exists \alpha : m\models \phi \iff  \Val{\alpha}[\phi] = 1\).
+      Questo poiché, preso un \(m \in 2^{\AP}\) generico posso costruire 
       \[\alpha_{m}(P) = \begin{cases}
         1, & P \in m\\
         0, & \text{ altrimenti}
       \end{cases}\]
     
-      Per verificare che \(m\models \phi \iff val^{\alpha_m}(\phi) = 1\) procediamo per induzione strutturale:
+      Per verificare che \(m\models \phi \iff \Val{\alpha_m}[\phi] = 1\) procediamo per induzione strutturale:
       \begin{description}
-        \item[\(\phi \in AP\):] In tal caso
-          \[m \models \phi \iff \phi \in m \overset{def}{\iff}\alpha_m(\phi) = 1 \iff val^{\alpha}(\phi)\]
+        \item[\(\phi \in \AP\):] In tal caso
+          \[m \models \phi \iff \phi \in m \overset{def}{\iff}\alpha_m(\phi) = 1 \iff \Val{\alpha_m}[\phi] = 1\]
         \item[\(\phi = \neg \phi'\):] In tal caso
-          \[m \models \phi \iff m \not\models \phi' \overset{ind. hp.}{\iff} val^{\alpha_m}(\phi') = 0\]
-          Ma allora dalla definizione di valutazione, \(val^{\alpha_m}(\phi) = 1-val^{\alpha_m}(\phi') = 1-0 = 1\).
+          \[m \models \phi \iff m \not\models \phi' \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi'] = 0\]
+          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = 1-\Val{\alpha_m}[\phi'] = 1-0 = 1\).
         \item[\(\phi = \phi_1 \land \phi_2\):] In tal caso 
-          \[m \models \phi \iff m \models \phi_1 \text{ e } m \models \phi_2 \overset{ind. hp.}{\iff} val^{\alpha_m}(\phi_1) = 1 \text{ e } val^{\alpha_m}(\phi_2) = 1\]
-          Ma allora dalla definizione di valutazione, \(val^{\alpha_m}(\phi) = \min\set{val^{\alpha_m}(\phi_1), val^{\alpha_m}(\phi_2)} = \min\set{1, 1} = 1\).
+          \[m \models \phi \iff m \models \phi_1 \text{ e } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ e } \Val{\alpha_m}[\phi_2] = 1\]
+          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \min\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \min\set{1, 1} = 1\).
         \item[\(\phi = \phi_1 \lor \phi_2\):] In tal caso 
-          \[m \models \phi \iff m \models \phi_1 \text{ o } m \models \phi_2 \overset{ind. hp.}{\iff} val^{\alpha_m}(\phi_1) = 1 \text{ o } val^{\alpha_m}(\phi_2) = 1\]
-          Ma allora dalla definizione di valutazione, \(val^{\alpha_m}(\phi) = \max\set{val^{\alpha_m}(\phi_1), val^{\alpha_m}(\phi_2)} = \max\set{1, 0} = 1\).
+          \[m \models \phi \iff m \models \phi_1 \text{ o } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ o } \Val{\alpha_m}[\phi_2] = 1\]
+          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \max\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \max\set{1, 0} = 1\).
         \item[\(\phi = \phi_1 \rightarrow \phi_2\):] In tal caso 
           \[m \models \phi \iff \text{ se } m \models \phi_1 \text{ allora } m \models \phi_2\]
-          Per ipotesi induttiva, se \(m \not\models \phi_1\) allora \(val^{\alpha_m}(\phi_1) = 0\), e quindi a prescindere dal valore di \(val^{\alpha_m}(\phi_2)\) si ha \(val^{\alpha_m}(\phi) = 1\), essendo che \(0 \leq val^{\alpha_m}(\phi_2)\).
-          Se invece \(m \models \phi_1\) allora \(val^{\alpha_m}(\phi_1) = 1\), ma sempre per ipotesi induttiva \(m \models \phi_2\) e quindi \(val^{\alpha_m}(\phi_2) = 1\), e dunque \(val^{\alpha_m}(\phi) = 1\), essendo che \(1 \leq 1\).
+          Per ipotesi induttiva, se \(m \not\models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 0\), e quindi a prescindere dal valore di \(\Val{\alpha_m}[\phi_2]\) si ha \(\Val{\alpha_m}[\phi] = 1\), essendo che \(0 \leq \Val{\alpha_m}[\phi_2]\).
+          Se invece \(m \models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 1\), ma sempre per ipotesi induttiva \(m \models \phi_2\) e quindi \(\Val{\alpha_m}[\phi_2] = 1\), e dunque \(\Val{\alpha_m}[\phi] = 1\), essendo che \(1 \leq 1\).
       \end{description}
 
       Dunque, per ogni modello \(m\) esiste un assegnamento \(\alpha_m\) tale che la sua valutazione di \(\phi\) è \(1\) solo se \(m\) soddisfa \(\phi\).
-      Andiamo dunque a dimostrare l'implicazione da destra a sinistraper contrapposizione, ovvero mostrando che, assumendo \(\not\models \phi\) segue che \(\neg Taut(\phi)\).
+      Andiamo dunque a dimostrare l'implicazione da destra a sinistra per contrapposizione, ovvero mostrando che, assumendo \(\not\models \phi\) segue che \(\neg \Taut[\phi]\).
       Ma allora \(\exists m, m \not\models \phi \iff m \models \neg\phi\).
       
-      Dalla costruzione precedente però sappiamo che, fissato questo \(m\), esiste \(\alpha_m : m \models \neg \phi \iff val^{\alpha_m}(\neg\phi) = 1\).
-      Ma allora \(val^{\alpha_m}(\neg \phi) = 1\) implica \(val^{\alpha_m}(\phi) = 0\), e dunque \(\neg Taut(\phi)\).
+      Dalla costruzione precedente però sappiamo che, fissato questo \(m\), esiste \(\alpha_m : m \models \neg \phi \iff \Val{\alpha_m}(\neg\phi) = 1\).
+      Ma allora \(\Val{\alpha_m}(\neg \phi) = 1\) implica \(\Val{\alpha_m}[\phi] = 0\), e dunque \(\neg \Taut[\phi]\).
 
-  \item[\(\impliedby\)] anche qui per contrapposizione assumo \(\neg Taut(\phi)\) e dimostro \(\not\models\phi\).
-    Per fare questo ci serve mostrare che \(\forall \alpha \exists m_{\alpha}: val^{\alpha}(\phi) = 1 \iff m\models\phi\).
-    Ma allora basta definire \(m_\alpha = \set{P \in AP(\phi)}[\alpha(P) = 1]\).
+  \item[\(\implies\)] anche qui per contrapposizione assumo \(\neg \Taut[\phi]\) e dimostro \(\not\models\phi\).
+    Per fare questo ci serve mostrare che \(\forall \alpha \exists m_{\alpha}: \Val{\alpha}[\phi] = 1 \iff m\models\phi\).
+    Ma allora basta definire \(m_\alpha = \set{P \in \AP[\phi]}[\alpha(P) = 1]\).
     
-    In maniera analoga al caso precedente, possiamo dimostrare che \(val^{\alpha}(\phi) = 1 \iff m_\alpha \models \phi\) per induzione strutturale su \(\phi\).
+    In maniera analoga al caso precedente, possiamo dimostrare che \(\Val{\alpha}[\phi] = 1 \iff m_\alpha \models \phi\) per induzione strutturale su \(\phi\).
 
-    A questo punto però, assumendo \(\neg Taut(\phi)\) abbiamo che \(\exists \alpha, val^{\alpha}(\phi) = 0\), e dunque \(val^{\alpha}(\neg \phi) = 1\), e quindi \(m_\alpha \models \neg \phi\), e dunque \(m_\alpha \not\models \phi\), e quindi \(\not\models \phi\).
+    A questo punto però, assumendo \(\neg \Taut[\phi]\) abbiamo che \(\exists \alpha, \Val{\alpha}[\phi] = 0\), e dunque \(\Val{\alpha}(\neg \phi) = 1\), e quindi \(m_\alpha \models \neg \phi\), e dunque \(m_\alpha \not\models \phi\), e quindi \(\not\models \phi\).
   \end{description}
 \end{proof}
 
-Questo risultato ha come sottoprodotto il fatto che \(Valid\) è computabile, poiché è equivalente a \(Taut\), che è computabile, essendo su insiemi finiti.
-Il costo computazionale di \(Valid\) è però esponenziale, poiché il \(\abs{Ass(\phi)} = 2^{\abs{\phi}}\), e dunque \(Valid\) è \(\BigO{\abs{\phi}2^{\abs{\phi}}}\leq 2^{\BigTheta{\abs{\phi}}}\).
+Questo risultato ha come sottoprodotto il fatto che \(\Valid\) è computabile, poiché è equivalente a \(\Taut\), che è computabile, essendo su insiemi finiti.
+Il costo computazionale di \(\Valid\) è però esponenziale, poiché il \(\abs{\Ass{\phi}} = 2^{\abs{\phi}}\), e dunque \(\Valid\) è \(\BigO{\abs{\phi}2^{\abs{\phi}}}\leq 2^{\BigTheta{\abs{\phi}}}\).
 
-\begin{example}{Tautologie}
-  Vediamo alcune tautologie notevoli.
+\begin{example}{Tautologie notevoli}
+  Vediamo alcune tautologie notevoli che ci saranno successivamente utili per la dimostrazione di altri risultati.
   \begin{enumerate}
     \item \(P \lor \neg P\) (legge del terzo escluso).
     \item \(\neg (P \land \neg P)\) (principio di non contraddizione \(\bot\))
     \item \(P \lor Q \leftrightarrow \neg(\neg P \land \neg Q)\) (legge di De Morgan)
     \item \(P\land Q \leftrightarrow \neg(\neg P \lor \neg Q)\) (legge di De Morgan)
-    \item \(\neg \neg P \iff P\)
+    \item \(\neg \neg P \iff P\) (principio di doppia negazione)
     \item \(P \land(Q \lor R) \leftrightarrow (P \land Q) \lor (P \land R)\) (distributività)
     \item \((P \lor(Q\land R)) \leftrightarrow (P \land (Q \lor R))\) (distributività)
     \item \((P \rightarrow Q) \leftrightarrow (\neg P \lor Q)\) (implicazione materiale)
   \end{enumerate}
 \end{example}
 
-\subsection{Sostituzioni}
+\section{Sostituzioni}
 
-\todo{Aggiungi piccola prefazione per contestualizzare. Probabilmente richiede prossima lezione}
+Per avvicinarci gradualmente verso la formalizzazione del concetto di \q{ragionamento} o deduzione anticipato all'inizio del corso, introduciamo una prima forma di manipolazione delle formule, che permetta di costruire nuove formule a partire da formule già esistenti preservando alcune proprietà semantiche.
+
+In particolare, introduciamo il concetto di sostituzione, che ci permetterà di sostituire ogni proposizione atomica con una formula arbitraria, e dunque di costruire nuove formule a partire da formule già esistenti.
 
 \begin{definition}{Sostituzione}
-  Definiamo una \keyword{sostituzione} come una funzione \(\sigma: AP \to PL\).
+  Definiamo una \keyword{sostituzione} come una funzione \(\sigma: \AP \to \PL\).
 \end{definition}
 
-Tale funzione ci permette di sostituire ogni proposizione atomica con una formula arbitraria, e dunque di costruire nuove formule a partire da formule già esistenti.
+Come già accennato, una sostituzione ci permette di sostituire ogni proposizione atomica con una formula arbitraria, e dunque di costruire nuove formule a partire da formule già esistenti. Andiamo quindi a formalmente definire questa operazione di sostituzione.
 
 \begin{definition}{Applicazione di una sostituzione a una formula}
-  Dato \(\phi \in PL\) e una sostituzione \(\sigma\), definiamo l'applicazione di \(\sigma\) a \(\phi\), denotata con \(\phi\sigma\), come segue:
+  Dato \(\phi \in \PL\) e una sostituzione \(\sigma\), definiamo l'applicazione di \(\sigma\) a \(\phi\), denotata con \(\phi\sigma\), come segue:
   \begin{itemize}
-   \item se \(\phi \in AP\) allora \(\phi\sigma = \sigma(\phi)\)
+   \item se \(\phi \in \AP\) allora \(\phi\sigma = \sigma(\phi)\)
    \item se \(\phi = \neg \phi'\) allora \(\phi\sigma = (\neg \phi ')\sigma = \neg (\phi'\sigma)\)
-   \item se \(\phi = \phi_1 \bigcirc \phi_2\) allora \(\phi\sigma = (\phi_1 \bigcirc \phi_2)\sigma = (\phi_1\sigma) \bigcirc (\phi_2\sigma)\)
+   \item se \(\phi = \phi_1 \odot \phi_2\) allora \(\phi\sigma = (\phi_1 \odot \phi_2)\sigma = (\phi_1\sigma) \odot (\phi_2\sigma)\)
   \end{itemize}
 \end{definition}
 
@@ -349,5 +351,209 @@ Tale funzione ci permette di sostituire ogni proposizione atomica con una formul
 \begin{example}{Sostituzioni e loro applicazione}  
   Consideriamo \(\sigma = \set{A \leftarrow (A\lor B), B \leftarrow \neg A, C \leftarrow C}\) e \(\phi = (A \land B) \lor C\).
   
-  Allora, \(\phi\sigma\) sarà \[((A\lor B) \land \neg A) \lor C\]
+  Allora, \(\phi\sigma\) sarà:
+  \[((A\lor B) \land \neg A) \lor C\]
+
+  e non:
+  \[((A\lor \neg A)\land \neg A)\lor C\]
+
+  Nel secondo caso infatti si è applicata la sostituzione per \(B\) anche all'interno della formula sostituita a \(A\). Tale comportamento èquello che si sarebbe ottenuto considerando un ulteriore sostituzione \(\tau = \set{B\leftarrow \neg A}\) e applicando \((\phi\sigma)\tau\).
 \end{example}
+
+Per mostrare come la sostituzione sia una prima forma di deduzione logica molto elementare, e che quindi preservi alcune proprietà semantiche, andiamo ad enunciare e successivamente dimostrare il \Namedonly{thm:substitution}.
+
+\begin{theorem}[namedlabel={thm:substitution}{Teorema di Sostituzione}]{Teorema di Sostituzione}
+  Sia \(\phi\in \Taut\) e \(\sigma\) un'arbitraria sostituzione. Allora \(\phi\sigma\in \Taut\).
+\end{theorem}
+
+Per dimostrare questo teorema, è necessario dare carattere semantico all'operazione di sostituzione, altrimenti esclusivamente sintattica, e mostrare che questa operazione preserva la proprietà di essere una tautologia.
+
+\begin{definition}{Semantica della sostituzione}
+  Data \(\phi \in \PL\), una sostituzione \(\sigma\) e un assegnamento \(\alpha \in \Ass{\phi\sigma}\), definiamo l'assegnamento \(\alpha^\sigma \in \Ass{\phi}\) come:
+  \[\alpha^\sigma(P)=\Val{\alpha}[\sigma(P)]\]
+\end{definition}
+
+\begin{note}{}
+  È fondamentale notare che tale assegnamento è definito \qi{nel verso opposto} rispetto alla sostituzione, in quanto \(\alpha^\sigma\) è un assegnamento per \(\phi\), mentre \(\alpha\) è un assegnamento per \(\phi\sigma\).
+\end{note}
+
+Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Namedonlyhref{thm:substitution}.
+\begin{lemma}[namedlabel={lem:substitution}{Lemma di Sostituzione}]{Lemma di Sostituzione}
+  \(\forall \phi \in \PL, \sigma \in \PL^{\AP}, \alpha \in \Ass{\phi\sigma}\) vale che
+  \[\Val{\alpha}[\phi\sigma]=\Val{\alpha^\sigma}[\phi]\]
+\end{lemma}
+
+\begin{proof}
+  Dimostriamo per induzione strutturale.
+
+  \begin{description}
+    \item[\(\phi \in \AP\):] in questo caso, che rappresenta il caso base, \(\phi\sigma = \sigma(\phi)\). Ma quindi
+      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\sigma(\phi)] = \alpha^\sigma(\phi) \overset{def}{=} \Val{\alpha^\sigma}[\phi]\]
+    \item[\(\phi = \neg \psi\):] in questo primo caso induttivo, dalla definizione di sostituzione abbiamo che\(\phi\sigma = \neg (\psi\sigma)\). Allora:
+      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\neg (\psi\sigma)] = 1 - \Val{\alpha}[\psi\sigma]\]
+      Ma per ipotesi induttiva \(\Val{\alpha}[\psi\sigma] = \Val{\alpha^\sigma}[\psi]\), quindi
+      \[\Val{\alpha}[\phi\sigma] = 1 - \Val{\alpha^\sigma}[\psi] = \Val{\alpha^\sigma}[\neg \psi] = \Val{\alpha^\sigma}[\phi]\]
+    \item[\(\phi = \psi_1 \odot \psi_2\):] Per tutti gli operatori binari, che rappresentano i restanti casi induttivi, la struttura di dimostrazione è analoga, e si basa sempre sull'ipotesi induttiva. Ad esempio, se \(\phi = \psi_1 \land \psi_2\) allora
+      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[(\psi_1\sigma) \land (\psi_2\sigma)] = \min\set{\Val{\alpha}[\psi_1\sigma], \Val{\alpha}[\psi_2\sigma]}\]
+      Ma per ipotesi induttiva \(\Val{\alpha}[\psi_i\sigma] = \Val{\alpha^\sigma}[\psi_i]\) per \(i\in\set{1,2}\), quindi
+      \[\Val{\alpha}[\phi\sigma] = \min\set{\Val{\alpha^\sigma}[\psi_1], \Val{\alpha^\sigma}[\psi_2]} = \Val{\alpha^\sigma}[\psi_1 \land \psi_2] = \Val{\alpha^\sigma}[\phi]\]
+  \end{description}
+\end{proof}
+
+Ottenuto questo lemma, possiamo finalmente procedere con la dimostrazione del \Namedcref{thm:substitution}, che ora risulta quasi immediata.
+
+\begin{proof}{\Namedref{thm:substitution}.}
+
+  Vogliamo dimostrare che \(\forall \sigma \in \PL^{\AP}\), \(\phi \in \Taut \implies \phi\sigma \in \Taut\).
+
+  Procediamo per contrapposizione, ovvero assumiamo che \(\phi\sigma \not\in \Taut\) e dimostriamo che \(\phi \not\in \Taut\).
+
+  Se \(\phi\sigma \not\in \Taut\) allora \(\exists \alpha \in \Ass(\phi\sigma)\st \Val{\alpha}[\phi\sigma] = 0\).
+
+  Ma per il \Namedonlyhref{lem:substitution}, \(\Val{\alpha}[\phi\sigma] = \Val{\alpha^\sigma}[\phi]\), quindi \(\Val{\alpha^\sigma}[\phi] = 0\), ovvero esiste un assegnamento \(\alpha^\sigma\) tale che \(\phi\) è falsa, e quindi \(\phi \not\in \Taut\).
+\end{proof}
+
+
+\begin{observation}{}
+  È importante notare che nonostante la sostituzione preserva validità e tautologicità, essa non preserva la soddisfacibilità o la verità in generale.
+
+  Formalmente:
+  \[\phi \in \Sat \centernot\implies \phi\sigma \in \Sat\]
+
+  Questo è facile da vedere considerando \(\phi = P \in \AP\). Si ha che \(\phi \in \Sat\) banalmente da qualsiasi assegnamento \(\alpha\) tale che \(\alpha(P)=1\).
+  Scegliendo però \(\sigma : P \to P\land \neg P\), che è chiaramente insoddisfacibile.
+  Di conseguenza, fissato un modello \(m\), si ha che
+  \[m\models\phi \centernot\implies m\models\phi\sigma\]
+  Altrimenti otterei una contraddizione.
+
+  Cosa diversa per la insoddisfacibilità. Infatti
+  \[\phi \in \Unsat \iff \neg \phi \in \Taut \implies (\neg\phi)\in \Taut\iff \]
+  \[\iff \neg(\phi\sigma) \in \Taut \implies \phi\sigma \in \Unsat\]
+\end{observation}
+
+Questo teorema di sostituzione è un primo esempio di risultato che mostra come sia possibile manipolare le formule in modo da preservare alcune proprietà semantiche. In particolare, ci dice che è possibile creare infinite formule valide, poiché è suficiente partire da una formula valida e applicare una qualsiasi sostituzione per ottenere una nuova formula valida.
+
+\subsection{Deduzione Semantica}
+
+Possiamo notare che \(A \to (B\to C)\equiv (A\land B)\to C\).
+Infatti, chiamando \(\phi_1 = A \to (B\to C)\) e la seconda \(\phi_2 = (A\land B)\to C\) possiamo andare ad analizzare quali assignamenti rendono vere o false ciascuna di queste formule.
+
+La prima formula \(\phi_1\) ha come connetivo principale l'implicazione, e dunque è falsa se e soltanto se \(A\) è vera e \(B\to C\) è falsa. Ma \(B\to C\) è un altra implicazione, dunque è falsa se e soltanto se \(B\) è vera e \(C\) è falsa. Di conseguenza, \(\phi_1\) è falsa se e soltanto se \(A\) è vera, \(B\) è vera e \(C\) è falsa.
+
+D'altro canto, anche la seconda formula \(\phi_2\) ha come connettivo principale l'implicazione, e dunque è falsa se e soltanto se \(A\land B\) è vera e \(C\) è falsa. Ma \(A\land B\) è vera se e soltanto se \(A\) è vera e \(B\) è vera. Di conseguenza, \(\phi_2\) è falsa se e soltanto se \(A\) è vera, \(B\) è vera e \(C\) è falsa, ovvero le due formule sono false, e quindi vere, negli stessi assegnamenti, e dunque sono logicamente equivalenti.
+
+Possiamo dunque trasformare questa equivalenza in una tautologia, scrivendo
+\[A \to (B\to C) \leftrightarrow (A\land B)\to C\]
+
+Tale risultato è alla base del concetto di deduzione semantica, ovvero la possibilità di dedurre una formula \(\phi\) sapendo che esiste una formula \(\psi\) vera tale che \(\psi \to \phi\) è vera.
+
+\begin{theorem}[namedlabel={thm:semantic_deduction}{Teorema di Deduzione Semantica}]{Teorema di Deduzione Semantica}
+  Sia \(\Gamma \subseteq \PL\) e \(\phi,\psi \in \PL\). Allora
+  \[\Gamma,\phi \models \psi \iff \Gamma \models \phi\to\psi\]
+\end{theorem}
+
+\begin{proof}
+  Dalla definizione di conseguenza logica, \(\Gamma,\phi \models \psi\) significa che
+  \[\forall m \in 2^{\AP}, m\models \Gamma \cup \set{\phi} \implies m\models \phi\]
+
+  L'argomento sinistro dell'implicazione è però equivalente a dire che \(m\models \Gamma\) e \(m\models \phi\). Quindi
+  \[\forall m \in 2^{\AP}, m\models \Gamma \text{e} m\models \phi \implies m\models \psi\]
+
+  Dando quindi semantica agli operatori di metalivello nel modo usuale (ovvero identico a quelli della logica proposizionale), possiamo riscrivere la precedente formula con variabili proposizionali \(A\), \(B\) e \(C\) al posto di \(m\models \Gamma\), \(m\models \phi\) e \(m\models \psi\) rispettivamente, ottenendo
+  \[\forall m \in 2^{\AP}, A\text{ e }B \implies C\]
+
+  Ma dalla tautologia vista in precedenza, e applicando un'opportuna sostituzione, abbiamo che
+  \[\forall m \in 2^{\AP}, m\models \Gamma \implies (m\models \phi \implies m\models \psi)\]
+
+  Per semantica dell'implicazione però \((m\models \phi \implies m\models \psi) \iff (m\models \phi \to \psi)\), dunque
+  \[\forall m \in 2^{\AP}, m\models \Gamma \implies m\models \phi\to\psi\]
+\end{proof}
+
+\section{Forme normali}
+
+Il linguaggio che abbiamo utilizzato fino ad adesso contiene molti simboli, ma come abbiamo già osservato tramite alcune tatutologie è possibile esprimere alcuni operatori in funzione di altri.
+
+Un esempio potrebbero essere le leggi di De Morgan
+\[\neg(\phi\land\psi) \equiv \neg\phi \lor \neg\psi\]
+\[\neg(\phi\lor\psi) \equiv \neg\phi \land \neg\psi\]
+
+Interpretando queste equivalenze come regole di trasformazione, questo ci permette di spingere le negazioni fino alle proposizioni atomiche mantenedo l'equivalenza logica.
+
+In questo modo, possiamo definire una prima forma normale, chiamata \(\PNF\) (Positive Normal Form) o \(\NNF\) (Negation Normal Form), che contiene tutte le formule di \(\PL\) in cui le negazioni occorrono solo davanti a proposizioni atomiche.
+
+Per definire formalmente questa forma normale, introduciamo il concetto di letterale
+
+\begin{definition}{Letterale}
+  Una formula \(\phi\) è un letterale se \(\phi \in AP\) o \(\phi = \neg P \), con \(P \in AP\).
+\end{definition}
+
+\begin{definition}{Forma normale positiva}
+  Definiamo la forma normale positiva (\(\PNF\) o \(\NNF\)) come l'insieme di tutte le formule costruite come in \(\PL\), senza usare negazioni e utilizzando l'insieme dei letterali \(\mathcal{L}\) come \(\AP\).
+\end{definition}
+
+Si ha ovviamente che \(\PNF \subset \PL\), ma dalle leggi di De Morgan è ovvio che
+\[\forall \phi \in \PL, \exists \phi' \in \PNF: \phi \iff \phi'\]
+
+In generale il concetto di forma normale è un sott'insieme di formule costruibile in maniera induttiva tale che mantenga completezza semantica, ovvero che per ogni formula esista una formula equivalente in forma normale.
+
+Le due forme normali più importanti sono la forma normale congiuntiva (\(\CNF\)) e la forma normale disgiuntiva (\(\DNF\)).
+
+\begin{definition}{Disjunctive Normal Form}
+  Definiamo la forma normale disgiuntiva (\(\DNF\)) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigvee_{i=1}^k(\bigwedge_{j=1}^{r_i} l_{ij})\]
+  dove \(l_{ij} \in \mathcal{L}\) per ogni \(i\) e \(j\).
+\end{definition}
+
+\begin{example}{}
+  Un esempio di formula in DNF è la seguente:
+  \[(P\land \neg Q) \lor (\neg P \land \neg Q \land R) \lor \ldots\]
+
+  Ognuna delle parentesi (quindi ogni congiunzione) è detta clausola congiuntiva.
+\end{example}
+
+\begin{definition}{Conjunctive Normal Form}
+  Definiamo la forma normale congiuntiva (\(\CNF\)) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigwedge_{i=1}^k(\bigvee_{j=1}^{r_i} l_{ij})\]
+  dove \(l_{ij} \in \mathcal{L}\) per ogni \(i\) e \(j\).
+\end{definition}
+
+\begin{example}{}
+  Un esempio di formula in CNF è la seguente:
+  \[(P\lor \neg Q) \land (\neg P \lor \neg Q \lor R) \land \ldots\]
+
+  Ognuna delle parentesi (quindi ogni disgiunzione) è detta clausola disgiuntiva.
+\end{example}
+
+Essendoci dualità tra congiunzione e disgiunzione, è facile vedere che le due forme normali sono duali.
+
+Ovviamente \(\CNF \cup \DNF \subseteq \PNF\). È possibile inoltre mostrare facilmente come, per ogni \(\phi \in \Sat\) sia possibile costruire \(\psi \in \DNF\) tale che \(\phi \equiv \psi\) partendo dalla tabella di verità di \(\phi\) e costruendo una disgiunzione di congiunzioni che rappresenti esattamente gli assegnamenti che rendono vera \(\phi\). In particolare, è sufficiente aggiungere una clausola congiuntiva per ogni assegnamento che rende vera \(\phi\), e in ciascuna clausola congiuntiva inserire \(P\) se \(P\) è vera in quell'assegnamento, e \(\neg P\) altrimenti.
+
+\begin{example}{}
+  Consideriamo la formula \(\phi \) con la seguente tabella di verità:
+
+  \begin{center}
+    \begin{tabular}{ccc|c}
+      \(A\) & \(B\) & \(C\) & \(\phi\)\\
+      \hline
+      0 & 0 & 0 & 1\\
+      0 & 0 & 1 & 0\\
+      0 & 1 & 0 & 1\\
+      0 & 1 & 1 & 0\\
+      1 & 0 & 0 & 1\\
+      1 & 1 & 1 & 0\\
+      1 & 1 & 0 & 1\\
+      1 & 0 & 1 & 0\\
+    \end{tabular}
+  \end{center}
+
+  Dalla tabella di verità, possiamo costruire la formula in DNF equivalente a \(\phi\) come segue:
+  \[(\neg A \land \neg B \land \neg C) \lor (\neg A \land B \land \neg C) \lor (A \land \neg B \land \neg C) \lor (A \land B \land \neg C)\]
+  
+\end{example}
+
+\begin{note}{}
+  Il fatto che ci stiamo limitando alle sole formule soddisfacibili non è una limitazione, poiché tutte le formule insoddisfacibili sono equivalenti a una contraddizione.
+  Quindi per mostrare che la \(\DNF\) mantiene completezza semantica è sufficiente trovare una contraddizione espressa in \(\DNF\).
+  
+  Dunque è sufficiente notare che \((P\land \neg P) \in \DNF\). Nel metodo mostrato precedentemente tali formule insoddisfacibili sono escluse poiché non è possibile applicare la costruzione mostrata, ma è sufficiente aggiungere questa formula \q{ad hoc} per ottenere la completezza semantica anche per le formule insoddisfacibili.
+\end{note}
