@@ -2,7 +2,7 @@
 
 Questo repository contiene appunti e materiali di studio relativi al corso di **Logic for Computer Science** tenuto dal Prof. M. Benerecetti presso l'Università degli Studi Federico II di Napoli nell'Anno Accademico 2025/2026.
 
-[![Download Latest Notes](https://img.shields.io/badge/Download-Latest_Notes-blue.svg)](https://github.com/ViMen23/giocattolo-latex/releases/latest/download/main.pdf)
+[![Download Latest Notes](https://img.shields.io/badge/Download-Latest_Notes-blue.svg)](https://github.com/RiccardoElena/Logic_Notes/releases/latest/download/Logic_for_Computer_Science.pdf)
 
 ## Contenuti del Corso
 
