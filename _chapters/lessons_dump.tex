@@ -1,0 +1,163 @@
+\chapter{Lezione 17/03}
+
+Il motivo per cui introduciamo questo concetto di sostituzione è perché il lemma o teorema che poi introdurremo legato a questo concetto di sostituzione ci permetterà di ottenere formule valide a partire da altre formule valide.
+
+Questo sarà una prima forma di deduzione logica molto elementare, ma che ci introdurrà verso calcoli deduttivi più raffinati e complessi.
+
+\begin{theorem}[namedlabel={thm:substitution}{Teorema di Sostituzione}]{Teorema di Sostituzione}
+  Sia \(\phi\in TAUT\) e \(\sigma\) un'arbitraria sostituzione. Allora \(\phi\sigma\in TAUT\).
+\end{theorem}
+
+\begin{note}{}
+  Una formulazione alternativa e più intuitiva di questo teorema è che la sostituzione preserva la tautologicità (o la validità) delle formule.
+\end{note}
+
+Per dimostrare questo teorema, andremo a introdurre una versione semantica della sostituzione.
+
+Dati \(\phi, \sigma\) e \(\alpha\) (assegnamento per \(\phi\sigma\)), definiamo \(\alpha^\sigma:AP(\phi)\to\set{0,1}\) come segue:
+\[\alpha^\sigma(P)=val^\alpha(\sigma(P))\]
+
+Possiamo vedere l'applicazione di \(\sigma\) come una mera sostituzione sintattica (renaming), mentre questa nuova definizione ci dà una sostituziuone semantica.
+
+Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Namedref{thm:substitution}.
+\begin{lemma}[namedlabel={lem:substitution}{Lemma di Sostituzione}]{Lemma di Sostituzione}
+  \(\forall \phi \in PL, \sigma \in PL^{AP}, \alpha \in ASS(\phi\sigma)\) vale che
+  \[val^\alpha(\phi\sigma)=val^{\alpha^\sigma}(\phi)\]
+\end{lemma}
+
+
+\begin{proof}
+  Dimostriamo per induzione strutturale.
+
+  Nel caso base \(\phi \in AP\). Allora \(\phi\sigma = \sigma(\phi)\).
+
+  Ma quindi
+  \[val^{\alpha}(\phi\sigma) = val^\alpha(\sigma(\phi)) = \alpha^\sigma(\phi) \overset{def}{=} val^{\alpha^\sigma}(\phi)\]
+
+  Andando quindi ai casi induttivi, iniziamo con \(\phi = \neg \psi\). In questo caso dalla definizione di sostituzione abbiamo
+  \[\phi\sigma = (\neg\psi)\sigma = \neg(\psi\sigma)\]
+
+  Allora:
+  \[val^{\alpha}(\phi\sigma)= val^{\alpha}(\neg(\psi\sigma)) = 1 - val^{\alpha}(\psi\sigma)\]
+  Ma per ipotesi induttiva \(val^{\alpha}(\psi\sigma) = val^{\alpha^\sigma}(\psi)\), quindi
+  \[val^{\alpha}(\phi\sigma)= 1 - val^{\alpha^\sigma}(\psi) = val^{\alpha^\sigma}(\neg\psi) = val^{\alpha^\sigma}(\phi)\]
+
+  Per gli altri casi induttivi la struttura di dimostrazione è analoga, e si basa sempre sull'ipotesi induttiva.
+\end{proof}
+
+Andiamo quindi alla dimostrazione del \Namedref{thm:substitution}.
+\begin{proof}{\Namedref{thm:substitution}}
+  Vogliamo dimostrare che \(\forall \sigma \in PL^{AP}\), \(\phi \in TAUT \implies \phi\sigma \in TAUT\).
+
+  Procediamo per contrapposizione, ovvero assumiamo che \(\phi\sigma \not\in TAUT\) e dimostriamo che \(\phi \not\in TAUT\).
+
+  Se \(\phi\sigma \not\in TAUT\) allora \(\exists \alpha \in Ass(\phi\sigma)\st val^\alpha(\phi\sigma) = 0\).
+
+  Ma per il \Namedref{lem:substitution}, \(val^\alpha(\phi\sigma) = val^{\alpha^\sigma}(\phi)\), quindi \(val^{\alpha^\sigma}(\phi) = 0\), e quindi \(\phi \not\in TAUT\).
+\end{proof}
+
+\begin{observation}{}
+  È importante notare che nonostante la sostituzione preserva validità e tautologicità, essa non preserva la soddisfacibilità o la verità in generale.
+
+  Formalmente:
+  \[\phi \in Sat \not\implies \phi\sigma \in Sat\]
+
+  Questo è facile da vedere considerando \(\phi = P \in AP\). Si ha che \(\phi \in Sat\) banalmente da qualsiasi assegnamento \(\alpha\) tale che \(\alpha(P)=1\).
+  Scegliendo però \(\sigma : P \to P\land \neg P\), che è chiaramente insoddisfacibile.
+  Di conseguenza, fissato un modello \(m\), si ha che
+  \[m\models\phi \not\implies m\models\phi\sigma\]
+  Altrimenti otterei una contraddizione.
+
+  Cosa diversa per la insoddisfacibilità. Infatti
+  \[\phi \in Unsat \iff \neg \phi \in TAUT \implies (\neg\phi)\in TAUT\iff \]
+  \[\iff \neg(\phi\sigma) \in TAUT \implies \phi\sigma \in Unsat\]
+\end{observation}
+
+Possiamo notare che \(A \to (B\to C)\equiv (A\land B)\to C\). Chiamiamo la prima formula \(\phi_1\) e la seconda \(\phi_2\).
+
+Sappiamo che \(\phi_1\) può essere falsa se e soltanto se \(A\) è vera, \(B\) è vera e \(C\) è falsa. 
+Invece essendo \(\phi_2\) una semplice implicazione questa è falsa se e soltanto se \(A\land B\) è vera e \(C\) è falsa, ovvero se e soltanto se \(A\) è vera, \(B\) è vera e \(C\) è falsa. Quindi \(\phi_1\) è falsa se e soltanto se \(\phi_2\) è falsa, e quindi \(\phi_1\equiv\phi_2\).
+
+Possiamo trasformare questa equivalenza in una tautologia, scrivendo \(A \to (B\to C) \leftrightarrow (A\land B)\to C\).
+
+\begin{theorem}[namedlabel={thm:semantic_deduction}{Teorema di Deduzione Semantica}]{Teorema di Deduzione Semantica}
+  Sia \(\Gamma \subseteq PL\) e \(\phi,\psi \in PL\). Allora
+  \[\Gamma,\phi \models \psi \iff \Gamma \models \phi\to\psi\]
+\end{theorem}
+
+\begin{proof}
+  Dalla definizione di conseguenza logica, \(\Gamma,\phi \models \psi\) significa che
+  \[\forall m \in 2^{AP}, m\models \Gamma \cup \set{\phi} \implies m\models \phi\]
+
+  L'argomento sinistro dell'implicazione è però equivalente a dire che \(m\models \Gamma\) e \(m\models \phi\). Quindi
+  \[\forall m \in 2^{AP}, m\models \Gamma \text{e} m\models \phi \implies m\models \psi\]
+
+  Dando quindi semantica agli operatori di metalivello nel modo usuale (ovvero identico a quelli della logica proposizionale), e possiamo riscrivere la precedente formula con variabili proposizionali \(A\), \(B\) e \(C\) al posto di \(m\models \Gamma\), \(m\models \phi\) e \(m\models \psi\) rispettivamente, ottenendo
+  \[\forall m \in 2^{AP}, A\text{ e }B \implies C\]
+
+  Ma dalla tautologia vista in precedenza, abbiamo che
+  \[\forall m \in 2^{AP}, m\models \Gamma \implies (m\models \phi \implies m\models \psi)\]
+
+  Per semantica dell'implicazione però \(m\models \phi \implies m\models \psi \iff m\models \phi \to \psi\), dunque
+  \[\forall m \in 2^{AP}, m\models \Gamma \implies m\models \phi\to\psi\]
+\end{proof}
+
+\section{Forme normali}
+
+Abbiamo un linguaggio che contiene molti simboli, ma abbiamo già osservato tramite alcune tatutologie che è possibile esprimere alcuni operatori in funzione di altri.
+
+Un esempio potrebbero essere le leggi di De Morgan
+\[\neg(\phi\land\psi) \equiv \neg\phi \lor \neg\psi\]
+\[\neg(\phi\lor\psi) \equiv \neg\phi \land \neg\psi\]
+
+Interpretando queste equivalenze come regole di trasformazione, questo ci permette di spingere le negazioni fino alle proposizioni atomiche mantenedo l'equivalenza logica.
+
+In questo modo, possiamo definire una prima forma normale, chiamata PNF (Positive Normal Form) o NNF (Negation Normal Form), che contiene tutte le formule di PL in cui le negazioni occorrono solo davanti a proposizioni atomiche.
+
+Per definire formalmente questa forma normale, introduciamo il concetto di letterale
+
+\begin{definition}{Letterale}
+  Una formula \(\phi\) è un letterale se \(\phi \in AP\) o \(\phi = \neg P \), con \(P \in AP\).
+\end{definition}
+
+\begin{definition}{Forma normale positiva}
+  Definiamo la forma normale positiva (PNF o NNF) come l'insieme di tutte le formule costruite come in PL, senza usare negazioni e utilizzando l'insieme dei letterali come AP
+\end{definition}
+
+Si ha ovviamente che \(PNF \subset PL\), ma dalle leggi di De Morgan è ovvio che \(\forall \phi \in PL \exists \phi' \in PNF: \phi \iff \phi'\)
+
+In generale il concetto di forma normale è un sott'insieme di formule costruibile in maniera induttiva tale che mantenga completezza semantica, ovvero che per ogni formula esista una formula equivalente in forma normale.
+
+Le due forme normali più importanti sono la forma normale congiuntiva (CNF) e la forma normale disgiuntiva (DNF).
+
+\begin{definition}{Disjuntiva Normal Form}
+  Definiamo la forma normale disgiuntiva (DNF) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigvee_{i=1}^k(\bigwedge_{j=1}^{r_i} l_{ij})\]
+  dove \(l_{ij}\) è un letterale per ogni \(i\) e \(j\).
+\end{definition}
+
+\begin{example}{}
+  Un esempio di formula in DNF è la seguente:
+  \[(P\land \neg Q) \lor (\neg P \land \neg Q \land R) \lor \ldots\]
+
+  Ognuna delle parentesi (quindi ogni congiunzione) è detta clausola congiuntiva.
+\end{example}
+
+\begin{definition}{Conjunctive Normal Form}
+  Definiamo la forma normale congiuntiva (CNF) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigwedge_{i=1}^k(\bigvee_{j=1}^{r_i} l_{ij})\]
+  dove \(l_{ij}\) è un letterale per ogni \(i\) e \(j\).
+\end{definition}
+
+\begin{example}{}
+  Un esempio di formula in CNF è la seguente:
+  \[(P\lor \neg Q) \land (\neg P \lor \neg Q \lor R) \land \ldots\]
+
+  Ognuna delle parentesi (quindi ogni disgiunzione) è detta clausola disgiuntiva.
+\end{example}
+
+Essendoci dualità tra congiunzione e disgiunzione, è facile vedere che le due forme normali sono duali.
+
+Ovviamente \(CNF \cup DNF \subseteq PNF\).
+
+\todo{Esempio tabella verità.}

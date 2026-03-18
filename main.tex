@@ -1,3 +1,6 @@
+\makeatletter
+\def\input@path{{template/}}
+\makeatother
 \documentclass{csnotes}
 
 % ==============================================================================
@@ -8,15 +11,64 @@
 
 % You can add any custom packages or commands specific to this document here
 
-% ---------------------------- END CUSTOMIZATIONS ------------------------------
+\NewDocumentCommand{\Ass}{m}{\operatorname{Ass}\left(#1\right)}
 
+\NewDocumentCommand{\Sub}{m}{\operatorname{Sub}\left(#1\right)}
+
+
+\NewDocumentCommand{\AP}{o}{
+  \IfNoValueTF{#1}
+      {\operatorname{AP}}
+      {\operatorname{AP}\left(#1\right)}
+}
+
+\NewDocumentCommand{\Sat}{o}{
+  \IfNoValueTF{#1}
+      {\operatorname{SAT}}
+      {\operatorname{Sat}\left(#1\right)}
+}
+
+\NewDocumentCommand{\Unsat}{o}{
+  \IfNoValueTF{#1}
+      {\operatorname{UNSAT}}
+      {\operatorname{Unsat}\left(#1\right)}
+}
+
+\NewDocumentCommand{\Val}{m o}{
+  \IfNoValueTF{#2}
+  {\operatorname{Val}^{#1}}
+  {\operatorname{Val}^{#1}\left(#2\right)}
+}
+
+\NewDocumentCommand{\Valid}{o}{
+  \IfNoValueTF{#1}
+      {\operatorname{VALID}}
+      {\operatorname{Valid}\left(#1\right)}
+}
+
+\NewDocumentCommand{\Taut}{o}{
+  \IfNoValueTF{#1}
+      {\operatorname{TAUT}}
+      {\operatorname{Taut}\left(#1\right)}
+}
+
+\newcommand{\WFF}{\operatorname{WFF}}
+\newcommand{\PL}{\operatorname{PL}}
+\newcommand{\FOL}{\operatorname{FOL}}
+\newcommand{\PNF}{\operatorname{PNF}}
+\newcommand{\NNF}{\operatorname{NNF}}
+\newcommand{\DNF}{\operatorname{DNF}}
+\newcommand{\CNF}{\operatorname{CNF}}
+
+
+% ---------------------------- END CUSTOMIZATIONS ------------------------------
 
 
 % ==============================================================================
 % DOCUMENT INFORMATION
 % ==============================================================================
 \title{Logic for Computer Science}
-\author{Riccardo Elena}
+\author{Riccardo Elena, Alfredo Volpe}
 \date{\today}
 
 % Additional information for the title page
