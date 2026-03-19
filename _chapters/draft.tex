@@ -1,0 +1,71 @@
+\chapter{Lezione 19/03}
+
+Per la \(\CNF\) il ragionamento è simile, poiché dobbiamo esprimere la formula come una congiunzione di clausole disgiuntive, che cozza con l'uso degli assegnamenti come in precedenza, poiché gli assegnamenti sono delle congiunzioni.
+
+Quindi invece di costruire una formula elencando tutti i casi in cui è vera ma costruiremo una formula che non è vera in tutti gli assegnamenti in cui quella originale era falsa.
+
+Quindi basta creare una formula in cui ogni clausola è della forma forma analoga a quella della \(\DNF\) ma con una negazione davanti, tutte queste congiunte. Ma dalla leggi di de morgan queste clausole congiuntive sono trasformabili in clausole disgiuntive.
+
+\todo{fai esempio pratico}
+
+Se sono tutti a \(1\) posso prendere una qualsiasi tautologia che è già in \(\CNF\) come \(P \lor \neg P\) e mappare in questa.
+
+Queste costruizioni non sono di certo ottimali, poiché per ogni \(\phi\) la formula \(\phi'\) sarà molto più grande. Infatti la grandezza della tabella di verità è \(2^{\AP{\phi}}\), e quindi nel peggiore dei casi si può avere un numero esponenziale sulle proposizioni atomiche di clausole. Non è detto che sia sempre così ma ci sono alcune formule in cui è inevitabile, in particolare quando si passa dall'una all'altra.
+
+\begin{example}{}
+  Sia \(\phi \in\DNF\) tale che \(\phi\) sia:
+  \[(P_1 \land P_2)\lor (P_3 \land P_4)\]
+
+  Andiamo quindi a trasformarla in \(\CNF\) usando le tautologie note
+  \[(P_1 \land P_2)\lor (P_3 \land P_4)\equiv\]
+  \[\equiv ((P_1 \land P_2)\lor P_3)\land((P_1 \lor P_4)\lor P_4)\equiv\]
+  \[\equiv (P_1 \lor P_3) \land (P_2 \lor P_3) \land (P_1 \lor P_4) \land (P_2 \lor P_4)\]
+
+  Si è passati quindi da \(2\) a \(4\), che può sembrare un incremento lineare. Possiamo notare però che questo processo può essere vista come una funzione di scelta.
+
+  In particolare, data
+  \[\phi = (l_1^1 \land l_2^1) \lor (l_1^2 \land l_2^2) \lor\ldots\lor (l_1^n \land l_2^n)\]
+  Possiamo costruire una classe di funzione \(f: \set{1,\ldots,n}\to \set{1,2}\) tale che ogni clausola della trasformazione corrisponde a una di queste funzioni di scelta, dunque avremo \(\abs{\phi'}\leq 2^{k}\).
+
+  SPIEGA MEGLIO
+\end{example}
+
+Il motivo per cui abbiamo introdotto queste forme è perché se la formula è in \(\DNF\) sarà molto computazionalmente facile valutare al sua soddisfacibilità, mentre se è in \(\CNF\) sarà molto facile valutare la sua validità.
+
+Infatti sia \(\phi = C_1 \lor C_2 \lor\ldots\lor C_k\), con \(C_i = (l_1 \land \ldots \land l_n), \forall i \in \set{1,\ldots, k}\). Una formula del genere è soddisfacibile se e solo se almeno una delle \(C_i\) è soddisfacibile, ma ogni \(C_i\) è insoddisfacibile se e solo se esistono due letterali \(l_j\) e \(l_{j'}\) tali che \(l_j = \neg l_{j'}\). Questo perché se ci sono tali letterali, la clausola contiene la contraddizione \(P \land \neg P\), altrimenti è sembre possibile costruire un assegnamento che rende vera la clausola, in maniera analoga ma inversa a come abbiamo ragionato precedentemene con le tabelle di verità.
+
+Dualmentne, se \(\phi = D_1 \land D_2 \land\ldots\land D_k\), con \(D_i = (l_1 \lor \ldots \lor l_n), \forall i \in \set{1,\ldots, k}\). Una formula del genere è valida se e solo se tutte le \(D_i\) sono valide, ma ogni \(D_i\) è valida se e solo se esistono due letterali \(l_j\) e \(l_{j'}\) tali che \(l_j = \neg l_{j'}\).
+
+\section{Calcolo deduttivo NUOVO CAPITOLO}
+
+Abbiamo definito una logica come una tripla \((\mathcal{L}, \models, \vdash)\), dove \(\mathcal{L}\) è un linguaggio, \(\models\) è la relazione di soddisfacibilità che ne esprime la semantica, e \(\vdash\) è un calcolo, che ci permette di dedurre formule a partire da altre, o verificare se una formula è valida o meno.
+
+Abbiamo già visto una formula di calcolo tramite le tabelle di verità, ma questo tipo di calcolo non \qi{scala}, poiché ad esempio nel prim'ordine non sarà possibile ridursi a un numero finito di casi, come abbiamo visto per il prim'ordine.
+
+Il calcolo che vedremo sarà di pura manipolazione simbolica, noi ne vedremo due, il primo è il \keyword{calcolo di deduzione naturale}.
+
+Un calcolo in generale è definito da un insieme di formule denominato \keyword{assiomi} \(Axi \subseteq PL\),  e un insieme di regole di trasformazione dette \keyword{regole di inferenza} \(R\) che a partire da un numero finito di formule, dette \keyword{premesse}, ci permettono di dedurre una nuova formula, detta \keyword{conclusione}.
+
+Ovviamente non tutte le regole di trasformazioni sono regole d'inferenza valide, poiché vorremmo che queste regole preservassero delle proprietà semantiche. Tramite esse potremmo definire la relazione di \keyword{deducibilità} \(\Gamma \vdash \phi\), se partendo da \(\Gamma\) applicando regole in \(R\) si potrà dedurre \(\phi\). L'obiettivo sarebbe fare in modo in maniera puramente sintattico per ottenere la conseguenza logica, ovvero vorremmo che:
+\[\Gamma \models \phi \iff \Gamma \vdash \phi\]
+
+Per quanto riguarda gli assiomi, sono un insieme minimale di tautologie dalle quali tramite il teorema di sostituzione varranno in diverse istansiazioni.\footnote{In un certo senso la regola di sostituzione fa parte di \(R\).}
+
+Il primo calcolo che vedremo però non ha assiomi, ma solo regole di inferenza, e si chiama \keyword{calcolo di deduzione naturale}.
+
+Ovviamente per definirlo è sufficiente definire le regole, il cui numero dipende dal numero di simboli logici che abbiamo. In particolare avremo regole associate ad ogni operatore logico, e verrà usato \(\bot \equiv P\land \neg P\) come simbolo di contraddizione. Le regole catturano il significato semantico degli operatori logici.
+
+\todo{Inserisci regole di deduzione naturale}
+
+AND
+\(A \land B \vdash A\) \(A \land B \vdash B\) \(A , B \vdash A\land B\)
+IMPLIES
+\(A \to B, A \vdash B\) \(B \vdash A \to B\), questa regola mi permette di eliminare un assunzione, poiché se da \(A\) deduco \(B\), allora posso dedurre \(A \to B\) senza più assumere \(A\).
+OR
+\(A \vdash A \lor B\) \(B \vdash A \lor B\) \([A]\ldots C ,[B]\ldots C, A \lor B \vdash C\) 
+NOT
+\(\neg A , A \vdash \bot\) \([A]\ldots \bot \vdash \neg A\)
+BOT
+\(\bot \vdash A\) \([A] \ldots \bot \vdash A\) (RAA)
+
+Per il processo di deduzione l'idea è che partiremo da delle assunzioni e usando passi atomici di deduzione, che sono applicazioni di regole di inferenza, arriveremo a dedurre la formula che ci interessa. Alcune delle assunzioni potranno essere eliminate, tutte le altre saranno invece assunzioni residue, che andranno a formare \(\Gamma\) nella deducibilità \(\Gamma \vdash \phi\).
