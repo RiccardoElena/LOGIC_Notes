@@ -27,9 +27,9 @@ Questo documento è prodotto da studenti, per studenti, e potrebbe contenere err
 
 Per compilare questo documento è necessario utilizzare il template LaTeX presente nella repository [https://github.com/RiccardoElena/UniNotes_Template].
 
+Dopo il clone del repository, è necessario inizializzare i submodule per ottenere il template:
+
 ```bash
-# 1. Clonare la repository del template
-git clone [https://github.com/RiccardoElena/UniNotes_Template] template-notes
 git submodule update --init --recursive
 ```
 
