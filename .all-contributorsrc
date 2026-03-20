@@ -27,6 +27,17 @@
         "doc",
         "maintenance"
       ]
+    },
+    {
+      "login": "riccardoregina",
+      "name": "riccardoregina",
+      "avatar_url": "https://avatars.githubusercontent.com/u/126416822?v=4",
+      "profile": "https://github.com/riccardoregina",
+      "contributions": [
+        "doc",
+        "maintenance"
+      ]
     }
-  ]
+  ],
+  "commitType": "docs"
 }
