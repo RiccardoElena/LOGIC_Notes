@@ -102,6 +102,7 @@ Per mantenere una cronologia chiara e leggibile dei commit e delle modifiche, si
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RiccardoElena"><img src="https://avatars.githubusercontent.com/u/23059036?v=4?s=100" width="100px;" alt="Riccardo Elena"/><br /><sub><b>Riccardo Elena</b></sub></a><br /><a href="#content-RiccardoElena" title="Content">🖋</a> <a href="https://github.com/RiccardoElena/LOGIC_Notes/commits?author=RiccardoElena" title="Documentation">📖</a> <a href="#maintenance-RiccardoElena" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/riccardoregina"><img src="https://avatars.githubusercontent.com/u/126416822?v=4?s=100" width="100px;" alt="riccardoregina"/><br /><sub><b>riccardoregina</b></sub></a><br /><a href="https://github.com/RiccardoElena/LOGIC_Notes/commits?author=riccardoregina" title="Documentation">📖</a> <a href="#maintenance-riccardoregina" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
