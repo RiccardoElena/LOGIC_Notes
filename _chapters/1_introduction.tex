@@ -3,13 +3,13 @@
 \section{Ragionamenti}
 
 Il ragionamento è l'attività fondamentale attraverso cui l'essere umano processa informazioni per giungere a nuove conclusioni.
-Nella vita quotidiana ragioniamo continuamente: dalle decisioni più semplici alle inferenze più complesse, utilizziamo schemi di ragionamento che ci permettono di derivare nuova conoscenza a partire da ciò che già sappiamo.
-La logica formale studia proprio questi schemi, astraendo dalla particolare natura del contenuto per concentrarsi sulla forma e sulla validità delle inferenze.
-Un esempio classico è il \textit{modus ponens}, una regola inferenziale che permette di concludere \(B\) a partire dalle premesse \(A \rightarrow B\) e \(A\): se sappiamo che \qi{se piove, la strada è bagnata} e osserviamo che \qi{piove}, possiamo validamente concludere che \qi{la strada è bagnata}.
-In questo caso, la validità del ragionamento non dipende dal contenuto specifico delle proposizioni (pioggia, strada bagnata), ma dalla loro struttura logica: ogni volta che abbiamo un'implicazione e il suo antecedente, possiamo inferire il conseguente.
+Nella vita quotidiana ragioniamo di continuo, passando dalle decisioni più semplici ai ragionamenti più complessi. Nel ragionamento, spesso, seguiamo schemi di ragionamento che abbiamo imparato essere efficaci per la comprensione del mondo che ci circonda.
+La logica formale studia proprio questi schemi, astraendoli dalle particolari situazioni e concentrandosi sulla loro forma e sulla validità dei ragionamenti.
+Un esempio classico è il \textit{modus ponens}, una regola di ragionamento che permette di concludere \(B\) a partire dalle premesse \(A \rightarrow B\) e \(A\): se sappiamo che \qi{se piove, la strada è bagnata} e osserviamo che \qi{piove}, possiamo validamente concludere che \qi{la strada è bagnata}.
+In questo caso, la validità del ragionamento non dipende dal contenuto specifico delle proposizioni (pioggia, strada bagnata), ma dalla loro struttura logica: ogni volta che abbiamo un'implicazione (\(A \rightarrow B\)) e il suo antecedente (\(A\)), possiamo inferire il conseguente (\(B\)).
 
 Non tutti i ragionamenti, tuttavia, seguono la stessa logica, né hanno lo stesso grado di certezza nelle loro conclusioni.
-Possiamo distinguere tre forme principali di ragionamento, ciascuna con caratteristiche e applicazioni diverse, che riflettono diversi modi in cui gli esseri umani costruiscono e giustificano la conoscenza.
+Possiamo distinguere tre forme principali di ragionamento, ciascuna con caratteristiche e applicazioni distinte, che riflettono diversi modi in cui gli esseri umani costruiscono e giustificano la conoscenza.
 
 \begin{definition}{Ragionamento Deduttivo}
   Il \keyword{ragionamento deduttivo} parte da premesse generali per derivare conclusioni necessarie: se le premesse sono vere, la conclusione non può che essere vera.
@@ -22,7 +22,7 @@ In un certo senso, il ragionamento deduttivo non aggiunge nuova informazione, ma
   Il \keyword{ragionamento abduttivo} procede dall'effetto alla causa, cercando la spiegazione più plausibile per un fenomeno osservato.
 \end{definition}
 
-È il ragionamento tipico della diagnosi medica o dell'investigazione scientifica, dove si osservano dei dati e si cerca di inferire la causa più probabile, pur sapendo che potrebbero esserci altre spiegazioni possibili.
+È il ragionamento tipico della diagnosi medica o dell'investigazione scientifica, in cui, a partire dai dati osservati, si cerca di inferire la causa più probabile, pur sapendo che potrebbero esserci altre spiegazioni possibili.
 
 \begin{definition}{Ragionamento Induttivo}
   Il \keyword{ragionamento induttivo} procede dal particolare al generale: osservando un certo numero di casi, si induce una regola o una legge generale.
@@ -30,42 +30,35 @@ In un certo senso, il ragionamento deduttivo non aggiunge nuova informazione, ma
 Qui la conclusione è probabile ma non certa, e la forza dell'inferenza dipende dal numero e dalla qualità delle osservazioni.
 
 Ognuno di questi tipi di ragionamento ha un ruolo fondamentale nella nostra comprensione del mondo e nella nostra capacità di agire efficacemente e per ognuno di essi esistono formulazioni diverse del concetto di validità e di conseguenza logica.
-In questo corso ci concentreremo principalmente sul ragionamento deduttivo e sui sistemi formali che ne catturano la struttura. Studieremo come rappresentare il linguaggio naturale attraverso linguaggi formali, quali la \keyword{logica proposizionale} e la \keyword{logica dei predicati}, come definire rigorosamente la nozione di conseguenza logica, e come costruire sistemi di deduzione che ci permettano di derivare meccanicamente conclusioni valide.
+In questo corso, ci concentreremo principalmente sul ragionamento deduttivo e sui sistemi formali che ne catturano la struttura. Studieremo come rappresentare il linguaggio naturale attraverso linguaggi formali, quali la \keyword{logica proposizionale} e la \keyword{logica dei predicati}, come definire rigorosamente la nozione di conseguenza logica, e come costruire sistemi di deduzione che ci permettano di derivare meccanicamente conclusioni valide.
 
 \section{Validità e Conseguenza Logica}
 
 Abbiamo visto che esistono diverse forme di ragionamento, ma come possiamo stabilire quando un ragionamento è corretto?
-Nel contesto della logica deduttiva, la nozione fondamentale è quella di \textit{validità}: un ragionamento valido è tale che, se le premesse sono vere, la conclusione non può essere falsa.
-Questa proprietà dipende unicamente dalla struttura logica dell'argomento, non dal contenuto specifico delle proposizioni coinvolte.
+Nel contesto della logica deduttiva, la nozione fondamentale è quella di \textit{validità}.
 
 \begin{definition}{Ragionamento valido (informalmente)}
-  Un ragionamento è detto \keyword{valido} se, in ogni situazione in cui le premesse sono tutte vere, anche la conclusione è vera
+  Un ragionamento è detto \keyword{valido} se, in ogni situazione in cui tutte le premesse sono vere, anche la conclusione è vera.
 \end{definition}
 
-La validità è strettamente connessa a un altro concetto fondamentale: quello di consistenza (o coerenza) di un insieme di enunciati.
-Intuitivamente, un insieme di affermazioni è consistente se è possibile che siano tutte vere contemporaneamente, mentre è inconsistente se contiene una contraddizione che rende impossibile la loro verità simultanea.
+Come anticipato, questa proprietà dipende unicamente dalla struttura logica dell'argomento e non dalle particolari proposizioni coinvolte.
+La validità è strettamente connessa ad un altro concetto fondamentale: la consistenza (o coerenza) di un insieme di enunciati.
 
 \begin{definition}{Inconsistenza (informalmente)}
-  Un insieme di enunciati è detto \keyword{inconsistente} se non esiste nessuna \qi{situazione} immaginabile in cui gli enunciati sono tutti veri
+  Un insieme di enunciati è detto \keyword{inconsistente} se non esiste \qi{situazione} immaginabile in cui tutti gli enunciati sono veri.
 \end{definition}
 
-È importante notare che l'inconsistenza è una proprietà strutturale, non empirica: dipende dalle relazioni logiche tra gli enunciati, non dal fatto che siano effettivamente veri o falsi nel mondo reale.
+Anche l'inconsistenza è una proprietà strutturale: essa dipende dalle relazioni logiche tra gli enunciati, non dalla particolare situazione che li rende veri o falsi.
+Ad esempio, l'insieme formato da \qi{piove}, \qi{non piove} è chiaramente inconsistente: non esiste situazione immaginabile in cui \qi{piove} e \qi{non piove} siano contemporaneamente vere.
+D'altra parte, l'insieme \qi{piove}, \qi{c'è vento} \textbf{non} è inconsistente: è ragionevole pensare che le due affermazioni possano essere contemporaneamente vere, anche se ci si potrebbe trovare in una situazione in cui non c'è nè pioggia nè vento.
 
-\begin{note}{}
-  L'inconsistenza non riguarda la verità o falsità degli enunciati, ma la possibilità di rendere tutti gli enunciati veri contemporaneamente.
-  Anche un insieme di enunciati tutti falsi può non essere inconsistente, se esiste una situazione in cui tutti gli enunciati sono veri.
-\end{note}
-
-Il concetto duale all'inconsistenza è naturalmente quello di consistenza, che caratterizza gli insiemi di enunciati privi di contraddizioni logiche.
+Il concetto duale\footnote{Intuitivamente, due concetti sono duali quando costituiscono facce diverse della stessa medaglia. Approfondiremo, più avanti, il concetto di dualità.} all'inconsistenza è naturalmente quello di consistenza.
 
 \begin{definition}{Consistenza (informalmente)}
-  Un insieme di enunciati è detto \keyword{consistente} se esiste almeno una \qi{situazione} immaginabile in cui gli enunciati sono tutti veri
+  Un insieme di enunciati è detto \keyword{consistente} se esiste almeno una \qi{situazione} immaginabile in cui tutti gli enunciati sono veri.
 \end{definition}
 
-\begin{note}{}
-  Essere consistenti significa non essere inconsistente.
-\end{note}
-
+Un insieme consistente non è inconsistente, e viceversa.
 Per comprendere meglio questi concetti, consideriamo un esempio concreto che illustra come un insieme di enunciati apparentemente innocui possa in realtà essere inconsistente.
 
 \begin{example}{}
@@ -84,16 +77,14 @@ Per comprendere meglio questi concetti, consideriamo un esempio concreto che ill
 
 I concetti di validità e consistenza che abbiamo introdotto ci permettono ora di definire in modo preciso la nozione centrale della logica: quella di \textit{conseguenza logica}.
 
-
-Un enunciato è conseguenza logica di un insieme di premesse se segue necessariamente da esse, ovvero se non è possibile che le premesse siano tutte vere e la conclusione falsa.
-
-Questa definizione può essere formulata elegantemente in termini di inconsistenza: un enunciato segue logicamente da un insieme di premesse se assumere la sua negazione, insieme alle premesse, porta a una contraddizione.
+Date delle premesse, un enunciato è conseguenza logica di queste se, quando sono tutte vere, anche l'enunciato è vero.
+Questa definizione può essere formulata elegantemente in termini di inconsistenza.
 
 \begin{definition}{Conseguenza Logica}
   Dato un insieme \(\Gamma\) di enunciati e un enunciato \(\phi\), diremo che \(\phi\) è \keyword{conseguenza logica} di \(\Gamma\) se l'insieme \(\Gamma \cup \{\neg \phi\}\) è inconsistente. % NDR: Excluded middle assumed
 \end{definition}
 
-Si noti che, se \(\phi\) è conseguenza logica di \(\Gamma\), allora, secondo la definizione: se tutti gli enunciati in \(\Gamma\) sono veri, allora \(\neg \phi\) è necessariamente falso, ovvero \(\phi\) è vero; se \(\neg \phi\) è vero, allora almeno uno degli enunciati di \(\Gamma\) dovrà essere falso. Il primo caso cattura l'idea della dimostrazione diretta, mentre il secondo caso cattura l'idea della dimostrazione per assurdo.
+Si noti che, se \(\phi\) è conseguenza logica di \(\Gamma\), allora, secondo la definizione: se tutti gli enunciati in \(\Gamma\) sono veri, allora \(\neg \phi\) è necessariamente falso, ovvero \(\phi\) è vero; se \(\neg \phi\) è vero, allora almeno uno degli enunciati di \(\Gamma\) dovrà essere falso. Il primo caso cattura l'idea della dimostrazione diretta, mentre il secondo caso cattura quella di dimostrazione per assurdo.
 In particolare, vediamo come il ragionamento per assurdo si applica ad un caso concreto.
 
 \begin{example}{}
@@ -111,7 +102,7 @@ In particolare, vediamo come il ragionamento per assurdo si applica ad un caso c
   è conseguenza logica di \(\Gamma\)?
   
   Per verificarlo, dobbiamo valutare se l'insieme \(\Gamma \cup \{\neg \phi\}\) è inconsistente.
-  In altre parole, procediamo con una dimostrazione per assurdo.
+  Procediamo con una dimostrazione per assurdo.
   
   Assumiamo che Lucia non sia francese (\(\neg \phi\)).
 
@@ -125,25 +116,24 @@ In particolare, vediamo come il ragionamento per assurdo si applica ad un caso c
   Abbiamo quindi ottenuto una contraddizione, il che dimostra che \(\Gamma \cup \{\neg \phi\}\) è inconsistente, e quindi \(\phi\) è conseguenza logica di \(\Gamma\).
 \end{example}
 
-Andiamo dunque a definire formalmente la nozione di \keyword{logica}, per andare a formalizzare i concetti visti finora in modo rigoroso e sistematico.
+Andiamo dunque a definire formalmente la nozione di \keyword{logica}, per poi formalizzare i concetti visti finora in modo rigoroso e sistematico.
 
 \begin{definition}{Logica}
   Una \keyword{logica} è un sistema formale caratterizzato da:
   \begin{itemize}
     \item Un insieme di simboli e regole sintattiche che definiscono un \keyword{linguaggio} formale, che ne delinea la sintassi e la struttura delle espressioni;
-    \item Una \keyword{semantica}, che assegna significati alle espressioni del linguaggio;
+    \item Una \keyword{semantica}, che assegna valori alle espressioni del linguaggio, assegnando valori di verità agli enunciati;
     \item Un \keyword{calcolo}, che definisce le regole di inferenza.
   \end{itemize}
-
-  Il \keyword{calcolo} funge in qualche modo da ponte tra la sintassi e la semantica, essendo un insieme di regole di manipolazione simbolica (trasformazioni sintattiche) che preservano certe proprietà semantiche, come la verità o la validità.
 \end{definition}
 
+Il \keyword{calcolo} funge da ponte tra la sintassi e la semantica: esso consente di derivare in modo sistematico nuove formule sfruttando regole di trasformazione sintattica, conservando proprietà semantiche come la verità o la validità. Pertanto, il calcolo è ciò che permette di estrarre in modo corretto informazioni implicite nelle premesse.
 Esempi di logiche sono:
 \begin{itemize}
   \item Logica Proposizionale
-  \item Logiche Modali (Tra cui la logica temporale)
+  \item Logiche Modali (tra cui la logica temporale)
   \item Logica del Primo Ordine
 \end{itemize}
 
 Durante il corso, ci concentreremo sulle logiche dette \textit{classiche}, che si basano su principi come il \textit{terzo escluso} e il \textit{non contraddittorio}, e che sono caratterizzate da una semantica bivalente (ogni proposizione è vera o falsa).
-Tra queste in particolare, studieremo la logica proposizionale e la logica del primo ordine, che sono le fondamenta su cui si basano molte altre logiche più complesse.
+Tra queste in particolare, studieremo la logica proposizionale e la logica del primo ordine, che si pongono a fondamento di molte altre logiche più complesse.
