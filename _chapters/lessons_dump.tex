@@ -333,3 +333,153 @@ Ci manca quindi solo dimostrare \(P\). Possiamo quindi usare \(\RAA\) per ottene
 Proviamo allora a dimostrare ora l'altro verso, ovvero \(\neg P \lor Q \vdash P\to Q\).
 
 Dobbiamo concludere \(P\to Q\), e il tentativo più promettente è quello di usare \(\to I\) per ottenere \(Q\) da \(P\) scaricata. Ora però dobbiamo dimostrare \(Q\) da \(P\) e \(\neg P \lor Q\). Avendo un \(\lor\) posso pensare di usare \(\lor E\) per ottenere \(Q\) da \(\neg P \lor Q\) che mi fornisce due assunzioni scaricabili \(\neg P\) e \(Q\) a patto che da queste io possa dimostrare \(Q\). Da \(Q\) è chiaro che possa dimostrare \(Q\). Per quanto riguarda \(\neg P\) e avendo \(P\) scaricata da \(\to I\) otteniamo \(\bot\), che tramite \(\bot E\) ci permette di dimostrare \(Q\).
+
+\chapter{Lezione 26/03}
+
+Iniziamgo con qualche esercizio.
+\section{TEMP}
+\subsection*{Dimostrazione di \(P\land Q \vdash \neg (\neg P \lor \neg Q)\).}
+
+Essendo che l'operatore principaele è la una contradizzione possiamo inziare con una \(\neg I\).
+
+\begin{prooftree}
+  \AxiomC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}[\(\neg P \lor \neg Q\)]
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+Essendo che semanticamente sappiamo che da \(P \land Q\) segue che sia \(P\) che \(Q\) sono veri, quindi è ragionevole pensare di poter ottenere una contraddizione da \(\neg P \lor \neg Q\). Qui ci tocca usare \(\lor E\) poiché per usare una \(\neg E\) dovrei usare ciò che sto cercando di dimostrare, e questo non è possibile.
+
+\begin{prooftree}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\({[\neg P \lor \neg Q]}_1\)}
+  \RuleLabel{\(\lor E\)}[\(\neg P\), \(\neg Q\)]
+  \TrinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+Adesso mi serve trovare una contraddizione sia da \(\neg P\) che da \(\neg Q\). Per entrambi sarà sufficiente usare una \(\land E\) per ottenere \(P\) e \(Q\) da \(P \land Q\).
+
+%TODO AGGIORNA
+\begin{prooftree}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\({[\neg P \lor \neg Q]}_1\)}
+  \RuleLabel{\(\lor E\)}[\(\neg P\), \(\neg Q\)]
+  \TrinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+Per quanto riguarda l'altro lato il ragionamento è diverso. Iniziamo con \(\land E\).
+
+Quindi ci serve dimostrare separatamente \(P\) e \(Q\). Ma qui è facile, basta usare \(\bot\) da \(\RAA\) in entrambi i casi in modo da ottenere come assunzioni scaricabili i negati, da cui posso ottenere per \(\lor I\) la negata di \(\neg (\neg P \lor \neg Q)\) in modo da ottenre la contraddizione che cercavo via \(\neg E\).
+
+Da questo usando \(\to I\) entrambi i lati e \(\land I\) posso ottenre che le due cose sono equivalenti.
+
+\subsection*{Dimostrazione di \((P\to Q) \leftrightarrow (\neg Q \to \neg P)\).}
+
+Andiamo anche qui a dimostrare i due versi. Iniziamo con \((P\to Q) \to (\neg Q \to \neg P)\).
+Partiamo con \(\to I\) che im regala l'assunzione \(P\to Q\). Devo dimostare \(\neg Q \to \neg P\). Questa è un altra implicazione, quindi posso usare \(\to I\) di nuovo, e ottenere come assunzione \(\neg Q\). A questo punto devo dimostare \(\neg P\). A questo punto posso usare \(\neg I\) per ottenere una contraddizione da \(P\). Con \(P\) e \(P\to Q\) posso ottenere \(Q\) con \(\to E\), e con \(Q\) e \(\neg Q\) ottengo la contraddizione che cercavo.
+
+Per l'altro verso, partiamo con \(\to I\) che ci regala l'assunzione \(\neg Q \to \neg P\). Devo dimostrare \(P\to Q\). Questa è un altra implicazione, quindi posso usare \(\to I\) di nuovo, e ottenere come assunzione \(P\). A questo punto devo dimostrare \(Q\). A questo punto posso usare \(\neg I\) per ottenere una contraddizione da \(\neg Q\). Con \(\neg Q\) e \(\neg Q \to \neg P\) posso ottenere \(\neg P\) con \(\to E\), e con \(P\) e \(\neg P\) ottengo la contraddizione che cercavo.
+
+\subsection{Dimostrazione di \((\neg \neg (A \to B)) \leftrightarrow (A \to B)\)}
+
+Questa ha la stessa struttura di \(\neg \neg A \leftrightarrow A\), che abbiamo già dimostrato, ma allora possiamo prendere l'albero di derivazione di \(\neg \neg A \leftrightarrow A\) e sostituire \(A\) con \(A \to B\) in modo da ottenere la dimostrazione che cerchiamo.
+
+\subsection*{Dimostrazione di \((A \to B) \leftrightarrow (\neg \neg A \to \neg \neg B)\)}
+
+Anche qua conviene andare per passi. Iniziamo con \((A \to B) \to (\neg \neg A \to \neg \neg B)\). Usa \(\to I\), \(\neg I\) e poi da \(\neg \neg A\) sappiamo già che equivale ad \(A\), quindi possiamo usare \(\to E\) per ottenere \(B\), e da \(B\) e \(\neg \neg B\) otteniamo la contraddizione che cercavamo.
+
+Altro lato come esercizio, ma è simile al precedente.
+
+\subsection*{Dimostrazione di \((A \land B)\lor C \vdash (A \lor C) \land (B \lor C)\).}
+
+Iniziamo con \(\land I\). Dobbiamo quindi dedurre i due congiunti. Per usare l'assunzione dovremo prima o poi usare una \(\lor E\). Le due assunzioni che \(\lor E\) scarica sono i disgiunti quindi potrò usare anche quelle.
+
+Banale falla a casa.
+
+Facciamo l'altro versio. Iniziamo con \(\lor I\), devo dimostrare \((A \land B)\) oppure \(C\). Per dimostrare \(A \land B\) devo usare \(\land I\), quindi devo dimostrare \(A\) e \(B\). Dall'assunzione che non devo scaricare posso ottenere \(A \lor C\) e \(B \lor C\) con \(\land E\) che potrò usare in un \(\lor E\). Allora posso usare \(\lor E\) con \(A \lor C\) per ottenere \((A \land B) \lor C\) scaricando la \(A\). Per scaricare la \(B\) lo faccio ancora.
+
+Questo è un altro esempio in cui dobbiamo aggiungere cose sotto l'ipotizzata radice, non è detto che riusciamo sempre a imbroccare la regola giusta alla prima botta.
+
+\subsection*{Dimostrazione di \((A \lor B) \land C \vdash (A \land C) \lor (B \land C)\).}
+
+\(\lor I\), devo dimostrare \(A \land C\).
+\(\land I\) devo dimostrare \(A\) e \(C\).
+\(C\) è da \(\land E\) di \((A \lor B)\land C\). Per \(A\) devo usare \(\lor E\) con \((A \lor B)\). Per la prima dimostrazione di \(A\) è gratis da assunzione di \(A\).
+Ora devo dimostrare \(A\) assumendo \(B\).
+
+Continua a casa.
+
+Esercizi
+
+\[\neg (A \to B), (\neg B) \to C \vdash C\]
+\[((A\land B)\lor (\neg C \lor B))\to (C \to B)\]
+\[(A \to (B\lor C))\lor((\neg A \land \neg C)\to B)\]
+
+\section{Relazione fra deduzione e conseguenza logica}
+
+\begin{theorem}{Monotonicità di \(\vdash\)}
+  \(\Gamma \vdash \phi \implies \Gamma \cup \{\psi\} \vdash \phi\)
+\end{theorem}
+
+Intuitivamente questo è vero anche se introduco contraddizioni, grazie alla regola \(\bot E\).
+
+\begin{note}{}
+  Questa proprietà di generalizza in \(\Gamma \vdash \phi \implies \Gamma \cup \Gamma' \vdash \phi\).
+\end{note}
+
+\begin{proof}
+  Per definizione di deduzione, \(\Gamma \vdash \phi\) se e solo se esiste un albero di derivazione ben formato radice etichettata con \(\phi\) e le cui foglie o sono etichettate con formule di \(\Gamma\) o sono assunzioni scaricabili. 
+
+  In tale definizione non c'è alcun obbligo di usare ogni formula di \(\Gamma\) come etichetta di una foglia. Pertanto, aggiungendo all'insieme delle premesse \(\Gamma\) una nuova formula \(\psi\) non usata nell'albero di derivazione, lo stesso identico albero di derivazione rimane valido per dimostrare \(\Gamma \cup \{\psi\} \vdash \phi\).
+\end{proof}
+
+\begin{note}{}
+  NON È VERO CAMBIA.
+  Questa proprietà vale nella logica classica, ma non in tutte le logiche. Ad esempio, nella logica intuizionista, in cui vogliamo ottenere deduzioni costruttive, l'aggiunta di una nuova formula \(\psi\) potrebbe non essere innocua, poiché potrebbe portare a contraddizioni.
+\end{note}
+
+Possiamo vedere un analogo del \Namedcref{thm:semantic_deduction}. Infatti questa proprietà è vera anche per \(\vdash\).
+
+\begin{theorem}{Teorema di Deduzione}
+  \(\Gamma, \psi \vdash \phi \iff \Gamma \vdash \psi \to \phi\)
+\end{theorem}
+
+\begin{proof}
+  Andiamo a dimostrare entrambi i versi. Iniziamo con \(\Gamma, \psi \vdash \phi \implies \Gamma \vdash \psi \to \phi\). Per definizione di deduzione, esiste un albero che dimostra \(\Gamma, \psi \vdash \phi\). Ma allora mi basta applicare la regola \(\to I\) a questo albero, scaricando l'assunzione \(\psi\) e ottenendo così un albero che dimostra \(\Gamma \vdash \psi \to \phi\).
+
+  L'altro verso, \(\Gamma \vdash \psi \to \phi \implies \Gamma, \psi \vdash \phi\), è ancora più semplice. Per definizione di deduzione, esiste un albero che dimostra \(\Gamma \vdash \psi \to \phi\). A questo punto, aggiungendo l'assunzione \(\psi\) all'albero, possiamo applicare la regola \(\to E\) per ottenere un albero che dimostra \(\Gamma, \psi \vdash \phi\).
+\end{proof}
+
+Queste cose mi iniziano a suggerire che le due relazioni godono delle stesse proprietà, e che quindi forse sono equivalenti.
+
+\begin{theorem}{Regola del taglio}
+  Se \(\Gamma, \psi \vdash \phi\) e \(\Gamma' \vdash \psi\) allora \(\Gamma \cup \Gamma' \vdash \phi\)
+\end{theorem}
+
+\begin{proof}
+  Intuitivamente basta sostituire a ogni foglia etichettata con \(\psi\) nell'albero di derivazione che dimostra \(\Gamma, \psi \vdash \phi\) l'albero di derivazione che dimostra \(\Gamma' \vdash \psi\). In questo modo otteniamo un albero di derivazione che dimostra \(\Gamma \cup \Gamma' \vdash \phi\).
+
+  Un altro modo per dimostrare questo è utilizzare la monotonicità e il teorema di deduzione.
+  Infatti per monotonicità abbiamo sia \(\Gamma, \Gamma', \psi \vdash \phi\) e \(\Gamma \cup \Gamma'\vdash \psi\).
+  A questo punto, usando il teorema di deduzione, otteniamo \(\Gamma, \Gamma' \vdash \psi \to \phi\). 
+
+  Posso quindi costruire un albero con \(\phi\) in radice che usa come regola in radice \(\to E\) e come sottoalberi l'albero che deriva \(\psi\) e l'albero che deriva \(\psi \to \phi\). In questo modo otteniamo un albero di derivazione che dimostra \(\Gamma \cup \Gamma' \vdash \phi\).
+\end{proof}
+
+\begin{definition}{Inconsistenza}
+  Un insieme di formule \(\Gamma\) è inconsistente se \(\Gamma \vdash \bot\).
+
+  Una definizione equivalente è che \(\Gamma\) è inconsistente se \(\Gamma \vdash \phi\), \(\forall \phi \in \PL\).
+\end{definition}
+
+L'inconsistenza è la versione sintattica all'interno del calcolo dell'essere insoddisfacibile.
+
+La prossima volta dimostreremo correttezza e completezza del calcolo.
+
+Ovviamente non si bastano singolarmente, perché per garantire la sola correttezza basta usare come relazione di deduzione una relazione vuota, mentre per garantire la sola completezza basta usare come relazione di deduzione una relazione che contiene tutte le coppie \((\Gamma, \phi)\). Quindi averle da sole non è particolaremente interessante.
