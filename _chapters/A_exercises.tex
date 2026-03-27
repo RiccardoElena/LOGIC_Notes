@@ -1,0 +1,429 @@
+\chapter{Esercizi}
+
+Quest'appendice contiene una raccolta di esercizi proposti durante il corso, con relative soluzioni.
+
+Gli esercizi verranno organizzati in sezioni, a seconda dell'argomento trattato.
+
+\section{Deduzione naturale per \(\PL\)}
+
+\subsection{Svolti}
+
+\subsubsection*{Dimostrazione di \(P\land Q \equiv \neg (\neg P \lor \neg Q)\).}
+
+Per dimostrare questa equivalenza andiamo a dimostrare i due sequenti \(P \land Q \vdash \neg (\neg P \lor \neg Q)\) e \(\neg (\neg P \lor \neg Q) \vdash P \land Q\).
+
+\paragraph{Dimostrazione di \(P \land Q \vdash \neg (\neg P \lor \neg Q)\).}
+
+Essendo che l'operatore principaele è la una contradizzione possiamo inziare con una \(\neg I\).
+
+\begin{prooftree}
+  \AxiomC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}[\(\neg P \lor \neg Q\)]
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+Essendo che semanticamente sappiamo che da \(P \land Q\) segue che sia \(P\) che \(Q\) sono veri, è ragionevole pensare di poter ottenere una contraddizione da \(\neg P \lor \neg Q\).
+Questo perché \(\neg P \lor \neg Q\) richiede che almeno uno tra \(P\) e \(Q\) sia falso, ma noi sappiamo che entrambi sono veri.
+Qui ci tocca usare \(\lor E\) poiché per usare una \(\neg E\) sarebbe necessario usare ciò che sto cercando di dimostrare, e questo non è possibile.
+
+\begin{prooftree}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\(\bot\)}
+  \AxiomC{\({[\neg P \lor \neg Q]}_1\)}
+  \RuleLabel{\(\lor E_{2,3}\)}[\(\neg P\), \(\neg Q\)]
+  \TrinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+A questo punto sarà necessario trovare una contraddizione sia da \(\neg P\) che da \(\neg Q\). Per entrambi sarà sufficiente usare una \(\land E\) per ottenere \(P\) e \(Q\) da \(P \land Q\).
+
+\begin{prooftree}
+  \AxiomC{\(P\land Q\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(P\)}
+  \AxiomC{\({[\neg P]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \AxiomC{\(P\land Q\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(Q\)}
+  \AxiomC{\({[\neg Q]}_3\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \AxiomC{\({[\neg P \lor \neg Q]}_1\)}
+  \RuleLabel{\(\lor E_{2,3}\)}
+  \TrinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg (\neg P \lor \neg Q)\)}
+\end{prooftree}
+
+\paragraph{Dimostrazione di \(\neg (\neg P \lor \neg Q) \vdash P \land Q\).}
+
+Qui il ragionamento è diverso. Avendo come operatore principale una congiunzione, è ragionevole pensare di usare \(\land I\) per ottenere \(P \land Q\).
+
+\begin{prooftree}
+  \AxiomC{\(P\)}
+  \AxiomC{\(Q\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(P \land Q\)}
+\end{prooftree}
+
+Dobbiamo quindi dimostrare separatamente \(P\) e \(Q\).
+
+A questo punto con \(\RAA\) possiamo assumere \(\neg P\) e dimostrare una contraddizione, e poi assumere \(\neg Q\) e dimostrare una contraddizione. Da queste assunzioni possiamo introdurre \(\neg P \land \neg Q\) con \(\land I\), che ci permette di ottenere una contraddizione con \(\neg (\neg P \lor \neg Q)\).
+
+\begin{prooftree}
+  \AxiomC{\({[\neg Q]}_1\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(\neg P \lor \neg Q\)}
+  \AxiomC{\(\neg(\neg P \lor \neg Q)\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_1\)}
+  \UnaryInfC{\(Q\)}
+  \AxiomC{\({[\neg P]}_2\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(\neg P \lor \neg Q\)}
+  \AxiomC{\(\neg(\neg P \lor \neg Q)\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_2\)}
+  \UnaryInfC{\(P\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(P \land Q\)}
+\end{prooftree}
+
+\subsubsection*{Dimostrazione di \((P\to Q) \leftrightarrow (\neg Q \to \neg P)\).}
+
+Anche in questo caso conviene andare per passi. Iniziamo con \((P\to Q) \to (\neg Q \to \neg P)\). Per dimostrare questa implicazione, possiamo usare la regola di introduzione dell'implicazione (\(\to I\)) per assumere \(P \to Q\) e poi dimostrare \(\neg Q \to \neg P\).
+
+\begin{prooftree}
+  \AxiomC{\(\neg Q \to \neg P\)}
+  \RuleLabel{\(\to I\)}[\(P \to Q\)]
+  \UnaryInfC{\((P\to Q) \to (\neg Q \to \neg P)\)}
+\end{prooftree}
+
+Abbiamo quindi un ulteriore implicazione da dimostrare, quindi possiamo usare di nuovo \(\to I\) per assumere \(\neg Q\) e poi dimostrare \(\neg P\).
+
+\begin{prooftree}
+  \AxiomC{\(\neg P\)}
+  \RuleLabel{\(\to I\)}[\(\neg Q\)]
+  \UnaryInfC{\(\neg Q \to \neg P\)}
+  \RuleLabel{\(\to I\)}[\(P \to Q\)]
+  \UnaryInfC{\((P\to Q) \to (\neg Q \to \neg P)\)}
+\end{prooftree}
+
+Ora per dimostrare una negazione, possiamo usare la regola di introduzione della negazione (\(\neg I\)) che ci permette di assumere \(P\) e dimostrare una contraddizione.
+A questo punto possiamo usare la regola di eliminazione dell'implicazione (\(\to E\)) con \(P\) e \(P \to Q\) per ottenere \(Q\), e poi usare \(Q\) e \(\neg Q\) per ottenere la contraddizione che cercavamo.
+
+\begin{prooftree}
+  \AxiomC{\({[P]}_3\)}
+  \AxiomC{\({[P \to Q]}_1\)}
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(Q\)}
+  \AxiomC{\({[\neg Q]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_3\)}
+  \UnaryInfC{\(\neg P\)}
+  \RuleLabel{\(\to I_2\)}
+  \UnaryInfC{\(\neg Q \to \neg P\)}
+  \RuleLabel{\(\to I_1\)}
+  \UnaryInfC{\((P\to Q) \to (\neg Q \to \neg P)\)}
+\end{prooftree}
+
+Per l'altro verso, il ragionamento è analogo, ma utilizzando \(\RAA\) invece di \(\neg I\).
+
+\begin{prooftree}
+  \AxiomC{\({[\neg Q]}_3\)}
+  \AxiomC{\({[\neg Q \to \neg P]}_1\)}
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(\neg P\)}
+  \AxiomC{\({[P]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_3\)}
+  \UnaryInfC{\(Q\)}
+  \RuleLabel{\(\to I_2\)}
+  \UnaryInfC{\(P\to Q\)}
+  \RuleLabel{\(\to I_1\)}
+  \UnaryInfC{\((\neg Q \to \neg P)\to(P\to Q)\)}
+\end{prooftree}
+
+
+\subsubsection*{Dimostrazione di \((\neg \neg (A \to B)) \leftrightarrow (A \to B)\)}
+
+Possiamo notare che questo teorema ha la stessa struttura di \(\neg \neg A \leftrightarrow A\), che abbiamo già dimostrato nell'\Namedcref{ex:natural_deduction}.
+
+Possiamo allora costruire un albero di derivazione identico e sostituire ogni occorrenza di \(A\) con \(A \to B\).
+
+Questo è possibile per il \Namedref{thm:substitution}, poiché stiamo applicando una sostituzione \(\sigma = \set{A \leftarrow A \to B}\) a una formula valida. Il teorema di sostituzione ci garantisce che la formula risultante dalla sostituzione è ancora valida, e quindi dimostrabile, per la completezza di \(\vdash\).
+
+\subsubsection*{Dimostrazione di \((A \lor B) \land C \equiv (A \land C) \lor (B \land C)\).}
+
+Iniziamo come sempre a dimostrare i due sequenti \( (A \lor B) \land C \vdash (A \land C) \lor (B \land C)\) e \((A \land C) \lor (B \land C) \vdash (A \lor B) \land C\).
+
+\paragraph{Dimostrazione di \((A \lor B) \land C \vdash (A \land C) \lor (B \land C)\).}
+
+Abbiamo una disgiunzione come operatore principale, quindi andiamo a utilizzare \(\lor I\).
+
+\begin{prooftree}
+  \AxiomC{\(A \land C\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+A questo punto per dimostrare \(A \land C\) possiamo usare \(\land I\).
+
+\begin{prooftree}
+  \AxiomC{\(A\)}
+  \AxiomC{\(C\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(A \land C\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+Dobbiamo quindi dimostrare separatamente \(A\) e \(C\). Per \(C\) è sufficiente usare una \(\land E\) per ottenere \(C\) da \((A \lor B) \land C\).
+
+Per \(A\) invece dobbiamo sfruttare \(A \lor B\) ottenibile per \(\land E\) da \((A \lor B) \land C\). A questo punto, trovandoci con una disgiunzione, dobbiamo usare \(\lor E\) per dimostrare \(A\) sia assumendo \(A\) che assumendo \(B\).
+
+\begin{prooftree}
+  \AxiomC{\(A\)}
+  \AxiomC{\(A\)}
+  \AxiomC{\(A\lor B\)}
+  \RuleLabel{\(\lor E_{2,3}\)}[\(A\), \(B\)]
+  \TrinaryInfC{\(A\)}
+  \AxiomC{\((A \lor B) \land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(A \land C\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+Ottenere \(A\) assumendo \(A\) è ovvio, ma ottenere \(A\) assumendo \(B\) non è possibile.
+
+Un alternativa per la dimostrazione di una disgiunzione, per quanto paradossale possa sembrare, è quella di usare \(\lor E\) invece di \(\lor I\). Questo è possibile se tra le assunzioni che possiamo usare c'è una disgiunzione. In questo caso, avendo \(A \lor B\) ottenibile da \((A \lor B) \land C\), possiamo usare \(\lor E\).
+
+Ricominciamo quindi la dimostrazione usando \(\lor E\) invece di \(\lor I\).
+
+\begin{prooftree}
+  \AxiomC{\((A\lor B)\land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\lor B\)}
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \RuleLabel{\(\lor E_{1,2}\)}[\(A, B\)]
+  \TrinaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+A questo punto possiamo andare a dimostrare i due rami introducendo la disgiunzione dimostrando il disgiunto che contiene l'assunzione che possiamo scaricare. Per esempio, per il primo ramo, assumendo \(A\) possiamo dimostrare \(A \land C\) usando \(\land I\), e poi introdurre la disgiunzione con \(\lor I\).
+
+\begin{prooftree}
+  \AxiomC{\((A\lor B)\land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\lor B\)}
+  \AxiomC{\((A \lor B) \land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \AxiomC{\({[A]}_1\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \land C) \)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \RuleLabel{\(\lor E_{1,2}\)}[\(B\)]
+  \TrinaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+Il secondo ramo è analogo.
+
+\begin{prooftree}
+  \AxiomC{\((A\lor B)\land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\lor B\)}
+  \AxiomC{\((A \lor B) \land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \AxiomC{\({[A]}_1\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \land C) \)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+  \AxiomC{\((A \lor B) \land C\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \AxiomC{\({[B]}_1\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((B \land C) \)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land C) \lor (B \land C)\)}
+  \RuleLabel{\(\lor E_{1,2}\)}
+  \TrinaryInfC{\((A \land C) \lor (B \land C)\)}
+\end{prooftree}
+
+\paragraph{Dimostrazione di \((A \land C) \lor (B \land C) \vdash (A \lor B) \land C\).}
+
+In questo caso, abbiamo da dimostrare una congiunzione, quindi è necessario iniziare con \(\land I\).
+
+\begin{prooftree}
+  \AxiomC{\(A \lor B\)}
+  \AxiomC{\(C\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \lor B) \land C\)}
+\end{prooftree}
+
+Nuovamente, avendo una disgiunzione tra le assunzioni, possiamo usare \(\lor E\) per ottenere assunzioni scaricabili che ci permettono di dimostrare \(A \lor B\) e \(C\).
+
+Possiamo ottenere infatti \(C\) da entrambi i disgiunti usando \(\land E\)
+
+\begin{prooftree}
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \AxiomC{\({[B \land C]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \AxiomC{\({[A \land C]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \RuleLabel{\(\lor E_{1,2}\)}
+  \TrinaryInfC{\(C\)}
+  \AxiomC{\(A \lor B\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \lor B) \land C\)}
+\end{prooftree}
+
+Per dimostrare \(A \lor B\) invece, dovremmo usare nuovamente \(\lor E\), ma questa volta derivando una volta \(A\) e una volta \(B\) usando \(\land E\).
+
+\begin{prooftree}
+  \tiny
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \AxiomC{\({[B \land C]}_2\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \AxiomC{\({[A \land C]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(C\)}
+  \RuleLabel{\(\lor E_{1,2}\)}
+  \TrinaryInfC{\(C\)}
+  \AxiomC{\({[A \land C]}_3\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(A \lor B\)}
+  \AxiomC{\({[B \land C]}_4\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(B\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(A \lor B\)}
+  \AxiomC{\((A \land C) \lor (B \land C)\)}
+  \RuleLabel{\(\lor E_{3,4}\)}
+  \TrinaryInfC{\(A \lor B\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \lor B) \land C\)}
+\end{prooftree}
+
+\subsubsection*{Dimostrazione di \((A \land B) \lor C \equiv (A \lor C) \land (B \lor C)\).}
+
+Dividiamo la dimostrazione in due parti, come al solito. Iniziamo con \((A \land B) \lor C \vdash (A \lor C) \land (B \lor C)\).
+
+Per dimostrare questa implicazione, avendo una congiunzione come operatore principale, è ragionevole pensare di usare \(\land I\) per ottenere \((A \lor C) \land (B \lor C)\).
+
+\begin{prooftree}
+  \AxiomC{\(A \lor C\)}
+  \AxiomC{\(B \lor C\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \lor C) \land (B \lor C)\)}
+\end{prooftree}
+
+Ancora una volta, la presenza di una disgiunzione tra le assunzioni ci porta ad usare \(\lor E\) per ottenere assunzioni scaricabili che ci permettono di dimostrare \(A \lor C\) e \(B \lor C\). Iniziamo con \(A \lor C\).
+
+\begin{prooftree}
+  \AxiomC{\({[A \land B]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(A \lor C\)}
+  \AxiomC{\({[C]}_2\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(A \lor C\)}
+  \AxiomC{\((A \land B) \lor C\)}
+  \RuleLabel{\(\lor E_{1,2}\)}
+  \TrinaryInfC{\(A \lor C\)}
+  \AxiomC{\(B \lor C\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\((A \lor C) \land (B \lor C)\)}
+\end{prooftree}
+
+L'altro ramo è analogo, ma invece di dimostrare \(A \lor C\) dobbiamo dimostrare \(B \lor C\). Verrà omesso per brevità e spazio.
+
+Per l'altro verso, \((A \lor C) \land (B \lor C) \vdash (A \land B) \lor C\), possiamo sia usare \(\land I\) o, come visto in precedenza, \(\lor E\). In questo caso, nonostante abbiamo una congiunzione come assunzione, possiamo vederla come invece due disgiunzioni grazie alla regola di eliminazione della congiunzione (\(\land E\)).
+
+Quindi scegliendo una delle due disgiunzioni, ad esempio \(A \lor C\), possiamo usare \(\lor E\).
+
+\begin{prooftree}
+  \AxiomC{\((A \lor C) \land (B \lor C)\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A \lor C\)}
+  \AxiomC{\((A \land B) \lor C\)}
+  \AxiomC{\((A \land B) \lor C\)}
+  \RuleLabel{\(\lor E_{1,2}\)}[\(A, C\)]
+  \TrinaryInfC{\((A \land B) \lor C\)}
+\end{prooftree}
+
+Un ramo possiamo subito dimostrarlo, usando \(\lor I\) per introdurre la disgiunzione mediante \(C\).
+
+\begin{prooftree}
+  \AxiomC{\((A \lor C) \land (B \lor C)\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A \lor C\)}
+  \AxiomC{\({[C]}_2\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \land B) \lor C\)}
+  \AxiomC{\((A \land B) \lor C\)}
+  \RuleLabel{\(\lor E_{1,2}\)}[\(A\)]
+  \TrinaryInfC{\((A \land B) \lor C\)}
+\end{prooftree}
+
+Per l'altro ramo, invece, si potrebbe essere tentati di usare nuovamente \(\lor I\) tentando di dimostrare \(A \land B\). Possiamo però subito accorgerci che le assunzioni che abbiamo a disposizione non sono sufficienti per dimostrare direttamente \(A \land B\). Abbiamo infatti \(A\) e \(B \lor C\), dalle quali sappiamo solo che è necessaiamente vero uno tra \(B\) e \(C\), e quindi non possiamo concludere con certezza che \(B\) sia vero, necessario a \(A \land B\).
+
+Possiamo allora utilizzare nuovamente \(\lor E\), in modo da poter avere sui nuovi rami una volta \(C\), che da sola come visto ci permette di dimostrare \((A \land B) \lor C\), e una volta \(B\), che insieme ad \(A\) ci permette di dimostrare \(A \land B\) e quindi di introdurre la disgiunzione con \(\lor I\).
+
+\begin{prooftree}
+  \tiny
+      \AxiomC{\((A \lor C) \land (B \lor C)\)}
+      \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(A \lor C\)}
+
+      \AxiomC{\({[C]}_2\)}
+      \RuleLabel{\(\lor I\)}
+    \UnaryInfC{\((A \land B) \lor C\)}
+    
+        \AxiomC{\((A \lor C) \land (B \lor C)\)}
+        \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(B \lor C\)}
+      
+        \AxiomC{\({[C]}_4\)}
+        \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\((A \land B) \lor C\)}
+      
+          \AxiomC{\({[A]}_2\)}
+          \AxiomC{\({[B]}_3\)}
+          \RuleLabel{\(\land I\)}
+        \BinaryInfC{\(A \land B\)}
+        \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\((A \land B) \lor C\)}
+      \RuleLabel{\(\lor E_{3,4}\)}
+    \TrinaryInfC{\((A \land B) \lor C\)}
+    \RuleLabel{\(\lor E_{1,2}\)}
+  \TrinaryInfC{\((A \land B) \lor C\)}
+\end{prooftree}
+
+\begin{note}{}
+  Mai come questo esercizio mosta come la regola di \(\lor E\) sia sottile. Infatti, nonostante ci dicesse già nella prima applicazione che avremmo potuto scaricare \(C\), questo era possibile solo in uno dei due rami, e non in entrambi. Per poterla scaricare anche nell'altro siamo stati costretti ad una seconda applicazione di \(\lor E\),
+\end{note}
+
+\subsection{Non svolti}
+\[\neg (A \to B), (\neg B) \to C \vdash C\]
+\[((A\land B)\lor (\neg C \lor B))\to (C \to B)\]
+\[(A \to (B\lor C))\lor((\neg A \land \neg C)\to B)\]
