@@ -129,21 +129,23 @@ Possiamo ora osservare una prima applicazione dell'induzione strutturale, dimost
 
 \section{Semantica Proposizionale tramite Modelli}
 
-Definita la sintassi del linguaggio della logica proposizionale, per formalizzare i concetti anticipati nello scorso capitolo è necessario definire formalmente un modo per dare significato alle parole del linguaggio descritto, ovvero la sua \keyword{semantica}.\footnote{La semantica della logica proposizionale formalizza il concetto intuitivo di \q{situazione} in cui una formula è vera o falsa menzionato precedentemente.}
-
-Un modo per definire tale semantica è attraverso il concetto di \keyword{modello}. Un modello, in generale, non è altro che una struttura matematica che interpreta i simboli del linguaggio e stabilisce le condizioni di verità per le formule.
-In particolare, per la logica proposizionale, possiamo definire un modello come segue.
+Definita la sintassi della logica proposizionale, diamo una definizione formale di semantica. La \keyword{semantica} della logica proposizionale formalizza il concetto intuitivo di \q{situazione}, che determina quali proposizioni elementari sono vere e quali false.
+Un modo per definire la semantica è attraverso il concetto di \keyword{modello}.
 
 \begin{definition}{Modello per la logica proposizionale}
-  Un modello \(m\) per la logica proposizionale è un qualsiasi sottoinsieme di \(\AP\). In altre parole, \(m \in 2^{\AP}\).\footnote{\(2^{\AP}\) non è altro che una notazione alternativa per l'insieme di tutti i sott'insiemi di \(\AP\), chiamato anche insieme potenza indicato anche con \(\mathcal{P}(\AP)\).}
+  In logica proposizionale, un modello \(m\) è un qualsiasi sottoinsieme di \(\AP\). In altre parole, \(m \in 2^{\AP}\).\footnote{\(2^{\AP}\) non è altro che una notazione alternativa per l'insieme di tutti i sottoinsiemi di \(\AP\), chiamato anche insieme potenza indicato anche con \(\mathcal{P}(\AP)\).}
 \end{definition}
 
-Essendo la logica proposizionale un linguaggio molto semplice, per darle significato è sufficiente una struttura altrettanto semplice: un insieme di proposizioni atomiche che consideriamo vere.
+Essendo la logica proposizionale molto semplice, per darle significato è sufficiente una struttura altrettanto semplice: un insieme di proposizioni atomiche che consideriamo vere.
+Infatti, un modello non è altro che un insieme di proposizioni elementari tale per cui una proposizione è vera se e soltanto se appartiene al modello.
+Affinché un modello sia ben definito su formule più complesse, è necessaria una regola ricorsiva per il soddisfacimento.
 
+\begin{note}{}
 Essendo \(\AP\) potenzialmente infinito, anche i modelli possono essere infiniti. Da un punto di vista matematico non è particolarmente importante, ma modelli infiniti portano a problemi computazionali di rappresentazione e manipolazione.
+\end{note}
 
 \begin{definition}{Soddisfacimento di una formula da parte di un modello}
-  Definiamo la \keyword{relazione di soddisfazione} \(\models \subseteq 2^{\AP} \times \PL\) dato un modello \(m \in 2^{\AP}\) e una formula \(\phi \in \PL\) come segue:
+  Dato un modello \(m \in 2^{\AP}\) e una formula \(\phi \in \PL\), definiamo la \keyword{relazione di soddisfazione}, \(\models \subseteq 2^{\AP} \times \PL\), come segue:
   \(m\models \phi \) se e solo se vale uno dei seguenti casi:
   \begin{enumerate}
     \item \(\phi \in m\) se \(\phi \in \AP\).
@@ -155,20 +157,22 @@ Essendo \(\AP\) potenzialmente infinito, anche i modelli possono essere infiniti
   \end{enumerate}
 \end{definition}
 
-Tale definizione rappresenta una procedura ricorsiva per determinare se una formula è soddisfatta da un modello, partendo dalle proposizioni atomiche e risalendo la struttura sintattica della formula.
+Tale definizione rappresenta una procedura ricorsiva per determinare se una formula è soddisfatta da un modello, partendo dalle proposizioni atomiche e risalendo l'albero sintattico della formula.
 
-Il problema decisionale di verificare se \(m \models \phi\) è detto \keyword{model checking}, e, a patto di risolvere il problema di rappresentazione di modelli potenzialmente infiniti, è facilmente decidibile, poiché si tratta di un'esplorazione in post-ordine dell'albero sintattico di \(\phi\), che ha un numero di nodi pari al numero di sottoformule di \(\phi\), che è al più pari alla lunghezza di \(\phi\).
+Il problema decisionale di verificare se \(m \models \phi\) è detto \keyword{model checking}, e, a patto di risolvere il problema di rappresentazione di modelli potenzialmente infiniti, è facilmente decidibile\footnote{Un problema è decidibile quando per esso esiste un algoritmo, la cui terminazione è garantita, che lo risolve. In particolare, un problema è facilmente decidibile quando esiste un tale algoritmo che abbia complessità polinomiale.}, poiché equivale ad un'esplorazione in post-ordine dell'albero sintattico di \(\phi\), che ha un numero di nodi pari al numero di sottoformule di \(\phi\), che è al più pari alla lunghezza di \(\phi\).
 
-Avendo finalmente definito la semantica possiamo andare a formalizzare le definizioni informali date all'inizio del corso.
+Avendo finalmente definito la semantica possiamo andare a formalizzare le definizioni informali date nel primo capitolo.
 \begin{definition}{Soddisfacibilità}
   Una formula \(\phi\) è \keyword{soddisfacibile} (\(\Sat[\phi]\)) se e soltanto se esiste un modello \(m\in 2^{\AP}\) tale che \(m \models \phi\).
 \end{definition}
 
-Il problema decisionale di verificare se \(\Sat[\phi]\) è detto \keyword{soddisfacibilità}, ed è un problema centrale in logica e informatica teorica, poiché molte questioni di interesse possono essere ridotte a problemi di soddisfacibilità.
-Rispetto al model checking, il problema di soddisfacibilità è spesso più complesso, poiché richiede l'esplorazione dello spazio dei modelli, che cresce esponenzialmente con il numero di proposizioni atomiche coinvolte nella formula.
+Il problema decisionale di verificare \(\Sat[\phi]\) è detto \keyword{soddisfacibilità} ed è un problema centrale in logica e informatica teorica, poiché molti problemi di interesse (pianificazione delle azioni, colorazione dei grafi etc.) possono essere ridotti ad esso. 
+Ciò significa che, se riuscissimo a risolvere il problema di soddisfacibilità in modo efficiente, potremmo risolvere anche molti altri problemi in modo efficiente.
+Rispetto al model checking, il problema di soddisfacibilità è spesso più complesso, poiché richiede l'esplorazione dello spazio dei modelli, che cresce esponenzialmente con il numero di proposizioni atomiche coinvolte nella formula\footnote{Se una formula è composta da una sola proposizione elementare \(A\), allora sono necessari due modelli per esplorare tutte le situazioni possibili: uno in cui \(A\) è vera, uno in cui \(A\) è falsa. Se \(\phi\) è composta da due formule elementari \(A\) e \(B\), allora, per esplorare tutte le situazioni possibili, ovvero tutte le combinazioni di verità e falsità delle di \(A\) e \(B\), sono necessari quattro modelli. Se le formule sono tre, servono otto modelli e così via. In generale, per descrivere tutti casi possibili per una formula con \(n\) proposizioni elementari, sono necessari \(2^{n}\) modelli.}. 
+Più semplicemente, il problema di soddisfacibilità è più complesso perché costituito da tanti problemi di model checking per quanti sono i modelli possibili.
 
 \begin{definition}{Validità}
-  Una formula \(\phi\) è valida (\(\Valid[\phi]\)) se e soltanto se per ogni modello \(m\in 2^{\AP}\) vale \(m \models \phi\).
+  Una formula \(\phi\) è \keyword{valida} (\(\Valid[\phi]\)) se e soltanto se per ogni modello \(m\in 2^{\AP}\) vale \(m \models \phi\).
 \end{definition}
 
 La validità e la soddisfacibilità sono concetti duali, nel senso che \(\Sat[\phi]\iff \neg \Valid[\neg \phi]\) e \(\Valid[\phi] \iff \neg \Sat[\neg \phi]\).\footnote{I simboli \(\iff\) e \(\implies\) sono simboli di \textbf{meta-linguaggio}. Tali simboli non appartengono al linguaggio ogetto del discroso (in questo caso la logica proposizionale), ma sono simboli sono utilizzati (con l'interpretazione usuale) per parlare di proprietà del linguaggio stesso.}
@@ -177,28 +181,28 @@ Questo è diretta conseguenza del fatto che, data una qualsiasi proprietà \(P\)
 \begin{definition}{Estensione della soddisfacibilità}
   Dato \(\Gamma \subseteq \PL\) e \(m \in 2^{\AP}\), diremo che \(m\) soddisfa \(\Gamma\) (\(m \models \Gamma\)) se e soltanto se \(m \models \phi\) per ogni \(\phi \in \Gamma\).
 \end{definition}
+Ciò consente una scrittura più compatta per intendere che un modello soddisfa un insieme di formule.
 
 \begin{definition}{Conseguenza logica}
-  Dato \(\Gamma \subseteq \PL\), una formula \(\phi\) è conseguenza logica di \(\Gamma\) (\(\Gamma \models \phi\)) se e soltanto se per ogni \(m \in 2^{\AP}\) che soddisga \(\Gamma\) allora \(m \models \phi\).
+  Dato \(\Gamma \subseteq \PL\), una formula \(\phi\) è conseguenza logica di \(\Gamma\) (\(\Gamma \models \phi\)) se e soltanto se per ogni \(m \in 2^{\AP}\) che soddisfa \(\Gamma\) allora \(m \models \phi\).
 
   Alternativamente, \(\Gamma \models \phi\) se e soltanto se non esiste \(m \in 2^{\AP}\) tale che \(m \models \Gamma\) e \(m \not\models \phi\).
 \end{definition}
 
 \begin{note}{}
-  Nonostante si usi la stessa notazione \(\models\) per indicare sia la soddisfacibilità di una formula da parte di un modello, sia la conseguenza logica di una formula da parte di un insieme di formule, è importante sottolineare che si tratta di due concetti distinti.
-  La soddisfacibilità \(m \models \phi\) è una relazione conenuta in \(2^{\AP}\times \PL\), mentre la conseguenza logica \(\Gamma \models \phi\) è una relazione contenuta in \(2^{\PL}\times \PL\).
+  Nonostante si usi la stessa notazione \(\models\) per indicare sia la soddisfacibilità che la conseguenza logica, è importante sottolineare che si tratta di due concetti distinti, anche se tra loro molto legati.
+  La soddisfacibilità \(m \models \phi\) è una relazione contenuta in \(2^{\AP}\times \PL\), mentre la conseguenza logica \(\Gamma \models \phi\) è una relazione contenuta in \(2^{\PL}\times \PL\).
 \end{note}
 
 Dalla definizione di conseguenza logica segue che se \(\emptyset \models \phi\), denotato alternativamente con \(\models \phi\), allora \(\phi\) è valida.
-Questo poiché, preso \(\Gamma = \emptyset\), ogni modello soddisfa \(\Gamma\).
-Quindi, la relazione di conseguenza logica dall'insime vuoto si riduce alla soddisfacibilità di \(\phi\) da parte di ogni modello, che è proprio la definizione di validità.
-In altre parole potendo risolvere il problema decisionale di conseguenza logica, potremmo risolvere anche il problema decisionale di validità.
+Questo poiché, preso \(\Gamma = \emptyset\), ogni modello soddisfa \(\Gamma\), poichè un modello è un insieme e l'insieme vuoto è contenuto in tutti gli insiemi.
+Quindi, la relazione di conseguenza logica dall'insieme vuoto si riduce alla soddisfacibilità di \(\phi\) da parte di ogni modello, ovvero la validità di \(\phi\).
+In altre parole, potendo risolvere il problema decisionale di conseguenza logica, potremmo risolvere quello di validità.
 
-Inoltre se \(\Gamma\) è un insieme finito di formule vale anche il viceversa, poiché è possibile considereare 
-\[(\bigwedge_{\gamma \in \Gamma} \gamma) \rightarrow \phi\]
-come una formula singola, la cui validità è equivalente alla conseguenza logica di \(\phi\) da parte di \(\Gamma\).
+Inoltre, se \(\Gamma\) è un insieme finito di formule, si verifica anche il viceversa, ovvero è possibile risolvere il problema decisionale di validità per risolvere quello di conseguenza logica. Infatti, in tal caso, è possibile esprimere \(\Gamma \models \phi\), ovvero il concetto di conseguenza logica di \(\phi\) rispetto a \(\Gamma\), in termini di validità della formula
+\[\left(\bigwedge_{\gamma \in \Gamma} \gamma\right) \rightarrow \phi.\]
 
-Ciò, oltre a evidenziare la stretta connessione tra conseguenza logica e validità (e quindi soddisfacibilità per dualità), sottolinea come la relazione \(\models\) sia correlato alla semantica del simbolo di implicazione \(\rightarrow\).
+Ciò, oltre a evidenziare la stretta connessione tra conseguenza logica e validità (e quindi soddisfacibilità, per dualità), sottolinea come la relazione \(\models\) sia correlata alla semantica del simbolo di implicazione \(\rightarrow\).
 
 \section{Semantica Proposizionale tramite Assegnamenti}
 
