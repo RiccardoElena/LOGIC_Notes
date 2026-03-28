@@ -614,3 +614,91 @@ Ora rimane da dimostrare \(Q\) assumendo \(\neg P\). Per farlo, possiamo utilizz
 \end{prooftree}
 
 In questo esempio, abbiamo potuto osservare come anche le regole di inferza più controintuitive e complesse, come \(\bot E\) e \(\lor E\) possano trovare applicazione.
+
+\section{Proprietà del calcolo deduttivo}
+
+Abbimo visto come il calcolo di deduzione naturale sia un sistema formale che ci permette sintatticamente di ottenere nuove formule a partire da un insieme di premesse, ma per poterlo usare in modo efficace è necessario assicurarsi che esso sia in grado di catturare la conseguenza logica.
+
+In questo senso, andremo a dimostrare varie proprietà del calcolo di deduzione naturale, che lo mettono in relazione con la conseguenza logica, per fare in modo da garantire che questa tecnica di manipolazione sitattica riesca a mantenere valore semantico, e quindi che se una formula è dimostrabile, allora è anche valida, e viceversa.
+
+Iniziamo con una proprietà strettamente relativa al calcolo che ci permette di ampliare arbitrariamente l'insieme di premesse da cui dedurre una formula, senza perdere la possibilità di dedurla.
+
+\begin{theorem}{Monotonicità di \(\vdash\)}
+  Dato un insieme di formule \(\Gamma\) e due formule \(\phi\) e \(\psi\), si ha che
+  \[\Gamma \vdash \phi \implies \Gamma \cup \{\psi\} \vdash \phi\]
+\end{theorem}
+
+È importante notare che questa proprità risulta solo rafforzata nel caso vengano aggiunte formule che rendono \(\Gamma\) inconsistente, poiché in questo caso sarà possibile dedurre qualsiasi formula a partire da \(\Gamma\) mediante \(\bot E\). Questa è una caratteristica tipica della logica classica, e non è condivisa da tutte le logiche, come ad esempio le logiche paraconsistenti, in cui l'inconsistenza non porta alla trivialità, ma viena in qualche modo contenuta permettendo di parlare del resto dell'insieme di formule anche in presenza di contraddizioni.
+
+\begin{note}{}
+  Questa proprietà di generalizza in \(\Gamma \vdash \phi \implies \Gamma \cup \Gamma' \vdash \phi\), applicandola più volte. La dimostrazione di questa versione più generale però segue direttamente da quella della versione più semplice, e quindi non è necessario farla esplicitamente.
+\end{note}
+
+\begin{proof}
+  Per definizione di deduzione, \(\Gamma \vdash \phi\) se e solo se esiste un albero di derivazione ben formato radice etichettata con \(\phi\) e le cui foglie o sono etichettate con formule di \(\Gamma\) o sono assunzioni scaricabili. 
+
+  In tale definizione non c'è alcun obbligo di usare ogni formula di \(\Gamma\) come etichetta di una foglia. Pertanto, aggiungendo all'insieme delle premesse \(\Gamma\) una nuova formula \(\psi\) non usata nell'albero di derivazione, lo stesso identico albero di derivazione rimane valido per dimostrare \(\Gamma \cup \{\psi\} \vdash \phi\).
+\end{proof}
+
+Andiamo quindi a vedere una proprietà analoga a quella vista per la conseguenza logica nel \Namedcref{thm:semantic_deduction}, il vero e proprio \Namedonlyhref{thm:deduction}.
+
+\begin{theorem}[namedlabel={thm:deduction}{Teorema di Deduzione}]{Teorema di Deduzione}
+  Dato un insieme di formule \(\Gamma\) e due formule \(\phi\) e \(\psi\), si ha che:
+  \[\Gamma, \psi \vdash \phi \iff \Gamma \vdash \psi \to \phi\]
+\end{theorem}
+
+\begin{proof}
+  Andiamo a dimostrare entrambi i versi.
+  
+  Iniziamo con \(\Gamma, \psi \vdash \phi \implies \Gamma \vdash \psi \to \phi\).
+  Per definizione di deduzione, esiste un albero che dimostra \(\Gamma, \psi \vdash \phi\). Allora è sufficiente applicare la regola \(\to I\) in radice di tale albero, scaricando l'assunzione \(\psi\) e ottenendo così un albero che dimostra \(\Gamma \vdash \psi \to \phi\).
+
+  Nell'altro verso, \(\Gamma \vdash \psi \to \phi \implies \Gamma, \psi \vdash \phi\), l'idea è duale.
+  Per definizione di deduzione, esiste un albero che dimostra \(\Gamma \vdash \psi \to \phi\). A questo punto, aggiungendo l'assunzione \(\psi\) all'albero, possiamo applicare la regola \(\to E\) per ottenere un albero che dimostra \(\Gamma, \psi \vdash \phi\).
+\end{proof}
+
+Già da questi primi due teoremi è possibile notare un forte parallelismo tra la conseguenza logica e la deduzione, la quale verrà ulteriormente rafforzata dai prossimi teoremi, per poi essere dimostrata in modo definitivo con i teoremi di correttezza e completezza.
+
+\begin{theorem}{Regola del taglio}
+  Dato un insieme di formule \(\Gamma\) e due formule \(\phi\) e \(\psi\), si ha che:
+  Se \(\Gamma, \psi \vdash \phi\) e \(\Gamma' \vdash \psi\) allora \(\Gamma \cup \Gamma' \vdash \phi\)
+\end{theorem}
+
+Intuitivamente, questa regola ci dice se abbiamo un albero di derivazione che dimostra un'assunzione, possiamo sostituire a ogni foglia etichettata con quell'assunzione l'albero di derivazione che dimostra quell'assunzione, mantenendo una derivazione valida.
+
+
+\begin{proof}
+  Possiamo formalmente dimostrare questa regola tramite il teorema di deduzione e la monotonicità di \(\vdash\).
+  Infatti per monotonicità valgono sia \(\Gamma, \Gamma', \psi \vdash \phi\), che \(\Gamma \cup \Gamma'\vdash \psi\).
+  A questo punto, usando il teorema di deduzione, otteniamo \(\Gamma\cup \Gamma' \vdash \psi \to \phi\).
+
+  A questo punto, possiamo costruire un albero di derivazione con \(\phi\) in radice dedotta tramite \(\to E\), i cui due sottoalberi sono l'albero relativo a \(\Gamma \cup \Gamma' \vdash \psi\) e l'albero relativo a \(\Gamma\cup \Gamma' \vdash \psi \to \phi\).
+\end{proof}
+
+Prima di spostarci a dimostrare le proprietà di correttezza e completezza, è utile introdurre formalmente l'equivalente sintattico del concetto di insieme insoddisfacile, ovvero quello di insieme inconsistente.
+
+\begin{definition}{Inconsistenza}
+  Un insieme di formule \(\Gamma\) è \keyword{inconsistente} se \(\Gamma \vdash \bot\).
+
+  Equivalentemente, \(\Gamma\) è inconsistente, per definizione, se \(\Gamma \vdash \phi\), \(\forall \phi \in \PL\).
+\end{definition}
+
+Vedere che le due definizioni sono equivalenti è immediato, poiché se \(\Gamma \vdash \bot\), allora per \(\bot E\) si ha che \(\Gamma \vdash \phi\) per ogni formula \(\phi\). Viceversa, se \(\Gamma \vdash \phi\) per ogni formula \(\phi\), allora in particolare si ha che \(\Gamma \vdash \bot\).
+
+Veniamo dunque alle proprietà di correttezza e completezza, che intuitivamente esprimono relazioni di inclusione tra la conseguenza logica e la deduzione. 
+
+\begin{definition}{Completezza}
+  Un sistema di deduzione è \keyword{completo} se, per ogni insieme di formule \(\Gamma\) e ogni formula \(\phi\), si ha che:
+  \[\Gamma \models \phi \implies \Gamma \vdash \phi\]
+\end{definition}
+
+\begin{definition}{Correttezza}
+  Un sistema di deduzione è \keyword{corretto} se, per ogni insieme di formule \(\Gamma\) e ogni formula \(\phi\), si ha che:
+  \[\Gamma \vdash \phi \implies \Gamma \models \phi\]
+\end{definition}
+
+Essendo che sia \(\vdash \subseteq 2^{\PL}\times\PL\) che \(\models \subseteq 2^{\PL}\times\PL\), è possibile pensare a queste due proprietà come a delle relazioni di inclusione tra i due insiemi. In particolare, diremo che il calcolo è corretto se \(\vdash \subseteq \models\), e completo se \(\models \subseteq \vdash\).
+
+Intuitivamente, la completezza di un calcolo ci dice che tutto ciò che è conseguenza logica è anche deducibile, e quindi che il calcolo è in grado di catturare tutta la conseguenza logica. La correttezza invece ci dice che tutto ciò che è deducibile è anche conseguenza logica, e quindi che il calcolo non permette di dedurre formule che non sono conseguenza logica.
+
+Queste due proprietà prese in isolamento però non ci dicono molto, poiché è possibile soddifarle in modo triviale. Per la completezza, ad esempio, è sufficiente prendere come relazione di deduzione l'intero insieme \(2^{\PL}\times\PL\), in modo da poter dedurre qualsiasi formula a partire da qualsiasi insieme di formule, e quindi soddifare la condizione di completezza, ma non quella di correttezza. Per la correttezza invece è sufficiente prendere come relazione di deduzione l'insieme vuoto, in modo da non poter dedurre nessuna formula a partire da nessun insieme di formule, e quindi soddifare la condizione di correttezza, ma non quella di completezza.
