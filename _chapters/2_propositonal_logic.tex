@@ -206,34 +206,39 @@ Ciò, oltre a evidenziare la stretta connessione tra conseguenza logica e validi
 
 \section{Semantica Proposizionale tramite Assegnamenti}
 
-Definito formalmente un primo concetto di semantica, andiamo a risolvere il problema della sua rappresentabilità.
-Per fare ciò, andremo a definire una rappresenzatione più compatta della semantica di una formula, andando a dimostrare come questa sia equivalente alla semantica basata sui modelli, ma con il vantaggio di essere rappresentabile in modo finito.
+Definito formalmente un primo concetto di semantica, andiamo a risolvere il problema della sua rappresentabilità definendo un altro tipo di semantica, che dimostreremo essere equivalente a quella precedente.
 
-In primo luogo, per risolvere il problema della potenziale infinitezza dei modelli, possiamo limitare la nostra attenzione solo alle proposizioni atomiche che effettivamente compaiono nella formula di interesse.
+La semantica mediante modelli è semplice ed elegante. 
+Tuttavia, data una formula soddisfacibile, esistono infiniti modelli che la soddisfano: un modello potrebbe contenere anche proposizioni elementari non contenute in tale formula.
+L'infinitezza dei modelli è un problema non trascurabile per la computazione.
+Per risolverlo, possiamo semplicemente limitare la semantica alle sole proposizioni atomiche che compaiono nella formula d'interesse.
 
 \begin{definition}{Proposizioni atomiche di una formula}
-  Data \(\phi \in \PL\), possiamo definire \(\AP[\phi] = \Sub{\phi} \cap \AP\) l'insieme delle proposizioni atomiche contenute in \(\phi\)
+  Data \(\phi \in \PL\), possiamo definire \(\AP[\phi] = \Sub{\phi} \cap \AP\) l'insieme delle proposizioni atomiche contenute in \(\phi\).
 \end{definition}
 
-Essendo che \(\abs{\Sub{\phi}}\leq \abs{\phi}\) avremo che \(\abs{\AP[\phi]}\leq \abs{\phi}\), che essendo la lunghezza di una parola finita è finito.
+Essendo \(\abs{\Sub{\phi}}\leq \abs{\phi}\), si ha \(\abs{\AP[\phi]}\leq \abs{\phi}\). Essendo \(\abs{\phi}\) finito, anche \(\abs{\AP[\phi]}\) lo sarà.
 
 \begin{definition}{Assegnamento}
-  Dato \(\phi \in \PL\), un assegnamento \(\alpha\) per \(\phi\) è una funzione \(\alpha: \Delta_\phi \rightarrow \{0,1\}\), tale che \(\Delta_\phi\) è finito e \(\AP[\phi] \subseteq \Delta_\phi \subseteq \AP\).
+  Dato \(\phi \in \PL\), un assegnamento \(\alpha\) per \(\phi\) è una funzione \(\alpha: \Delta_\phi \rightarrow \{0,1\}\), tale che \(\Delta_\phi\) è finito e \(\AP[\phi] \subseteq \Delta_\phi \subseteq \AP\).\footnote{Il dominio \(\Delta_{\phi}\) di un assegnamento è un qualsiasi insieme di proposizioni che contenga le proposizioni elementari di \(\phi\). Un assegnamento per cui \(\Delta_{\phi}=\Sub{\phi}\) è un assegnamento minimale, ovvero un assegnamento che copre solo le proposizioni strettamente necessarie.}
 
   Chiameremo l'insieme di tali assegnamenti \(\Ass{\phi}\).\footnote{Analogamente alla notazione \(2^S\) per indicare l'insieme \(\mathcal{P}(S)\), una notazione molto in uso per indicare un insieme di funzioni \(f: D \to C\) è \(C^D\) essendo che la cardinalità di tale insieme (per insiemi finiti) è proprio \(\abs{C}^{\abs{D}}\). Di conseguenza, una notazione alternativa per \(\Ass{\phi}\) è \(\set{0,1}^{\Delta_\phi}\)}
 \end{definition}
 
-Tali funzioni di assegnamento ci permettono di assegnare il valore di verità a ciascuna proposizione atomica. Data la natura induttiva della semantica, possiamo definire induttivamente la \keyword{valutazione} del valore di verità di una formula induttivamente partendo da un assegnamento.
+Come visto nella definizione, data una formula \(\phi\), l'insieme degli assegnamenti compatibili è finito.
+In particolare, essi ne sono \(\abs{\set{0,1}}^{\abs{\AP[\phi]}}=2^{\abs{\AP[\phi]}}\).
+Tali funzioni di assegnamento ci permettono di assegnare il valore di verità a ciascuna proposizione atomica considerata. 
+Tuttavia, per calcolare il valore di verità di una formula complessa, definiamo ora la sua \keyword{valutazione} in modo ricorsivo, a partire dall'assegnamento, un po' come avevamo fatto per la soddisfacibilità nella semantica tramite modelli.
 
 \begin{definition}{Valutazione di una formula}
-  Siano \(\phi \in \PL\) e \(\alpha \in \Ass{\phi}\). Definiamo dunque la \keyword{valutazione basata su \(\alpha\)} come una funzione \(\Val{\alpha}: \PL \to \set{0,1}\) come\footnote{Per essre precisi, \(val\) ha una dipendenza implicita dall'assegnamento, e quindi sarebbe più corretto descriverla come una funzione \(val: \Ass{\phi} \to \PL \to \set{0,1}\). Nel pratico però, l'assegnamento sarà fissato a priori.}:
+  Siano \(\phi \in \PL\) e \(\alpha \in \Ass{\phi}\). Definiamo dunque la \keyword{valutazione basata su \(\alpha\)} come una funzione \(\Val{\alpha}: \PL \to \set{0,1}\) come\footnote{Per essere precisi, \(\Val{}\) ha una dipendenza implicita dall'assegnamento, e quindi sarebbe più corretto descriverla come una funzione \(\Val{}: \Ass{\phi} \to \PL \to \set{0,1}\). Nel pratico però, l'assegnamento sarà fissato a priori.}:
   \[\Val{\alpha}[\phi] = \begin{cases}
   \alpha(\phi) &, \phi \in \AP[\phi] \\
   1 - \Val{\alpha}(\phi') &, \phi = \neg \phi' \\
   \min\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]} &, \phi = \phi_1 \land \phi_2 \\
   \max\set{\Val{\alpha}[\phi_1], \Val{\alpha}[\phi_2]} &, \phi = \phi_1 \lor \phi_2 \\
-  1 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] \leq \Val{\alpha}[\phi_2] \\
-  0 & \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] > \Val{\alpha}[\phi_2]
+  1 &, \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] \leq \Val{\alpha}[\phi_2] \\
+  0 &, \phi = \phi_1 \rightarrow \phi_2 \text{ e } \Val{\alpha}[\phi_1] > \Val{\alpha}[\phi_2]
   \end{cases}\]
   % \begin{enumerate}
   %   \item Se \(\phi \in AP\), ovvero \(\phi \in \Delta_\phi\), allora \(\alpha(\phi) = \Val{\alpha}[\phi]\).
@@ -248,75 +253,87 @@ Tali funzioni di assegnamento ci permettono di assegnare il valore di verità a 
   % \end{enumerate}
 \end{definition}
 
-Varificare se una certa formula assume valore \(0\) o \(1\) rispetto ad un assegnamento compatibile con la formula diventa un problma facilmente decidibile, poiché non si pone più il problema di rappresentabilità di modelli potenzialmente infiniti.
-In particolare ora abbiamo una funzione tra domini finiti, delle quali ne esistono \(\abs{\set{0,1}}^{\abs{\AP[\phi]}}=2^{\abs{\AP[\phi]}}\).
+A questo punto, verificare se una certa formula assume valore \(0\) o \(1\) rispetto ad un assegnamento compatibile diventa un problema facilmente decidibile. 
+Infatti, la valutazione di una formula \(\phi\) ha complessità \(\BigTheta{\abs{\AP[\phi]}}\), quindi \(\BigTheta{\abs{\phi}}\).
 
-Di consueguenza, il problema di valutazione di un espressione ha complessità \(\BigTheta{\abs{\phi}}\).
-
-Dobbiamo dunque mostrare che questa nuova semantica basata sugli assegnamenti sia equivalente alla semantica basata sui modelli, in altre parole mostrare che a ogni modello corrisponde un assegnamento equivalente e viceversa, e che la relazione di soddisfacimento \(m \models \phi\) è equivalente alla valutazione \(\Val{\alpha}[\phi] = 1\).
-Per fare ciò, andremo a definire la proprietà di essere una tautologia, che rappresenta la proprietà di una formula di essere valutata a \(1\) a prescindere dall'assegnamento scelto, e mostrare che questa è equivalente alla validità, ovvero alla proprietà di essere soddisfatta da ogni modello.
-
+Per poter dire di aver risolto definitivamente il problema dell'infinità dei modelli, bisogna dimostrare che questa nuova semantica, basata sugli assegnamenti, sia equivalente a quella basata su modelli. 
+In altre parole, dobbiamo mostrare che ad ogni modello corrisponde un assegnamento equivalente, e viceversa, e che la relazione di soddisfacimento \(m \models \phi\) è equivalente alla valutazione \(\Val{\alpha}[\phi] = 1\).
+Per fare ciò, andremo a mostrare che una formula è tautologica se e solo se è valida. 
 Facendo ciò, otterremo anche un modo per correlare \(m \models \phi\) e \(\Val{\alpha}[\phi] = 1\).
+Prima, però, definiamo il concetto di \keyword{tautologia}.
 
-\begin{theorem}{}
-  Data \(\phi \in \PL\), \(\models \phi \) se e solo se \(\Taut[\phi]\)
+\begin{definition}{}
+  Una formula \(\phi\) è una \keyword{tautologia} (\(\Taut[\phi]\)) quando, per ogni assegnamento compatibile \(\alpha\), si ha \(\Val{\alpha}[\phi]=1\).
+\end{definition}
+
+\begin{theorem}[label=thm:validity-equals-taut]{}
+  Data \(\phi \in \PL\), \(\models \phi \) se e solo se \(\Taut[\phi]\).
 \end{theorem}
 
+In precedenza, abbiamo osservato che \(\models \phi \iff \forall m, m \models \phi\).
+Per definizione di tautologia, si ha che
+\(\Taut[\phi]\iff\forall \alpha ,\Val{\alpha}[\phi] = 1\).
+In altre parole, per dimostrare il teorema, basta mostrare che \(\forall m, m \models \phi \iff \forall \alpha, \Val{\alpha}[\phi] =1\).
+
+\begin{lemma}{}
+  Per ogni \(m \in 2^{AP}\), esiste un \(\alpha \in Ass(\phi)\) tale per cui \(m \models \phi \iff \Val{\alpha}[\phi]=1\).
+\end{lemma}
+
 \begin{proof}
-  Dalla definizione di validità abbiamo che 
-  \[\models \phi \iff \forall m, m \models \phi\]
-  e dalla definizione di tautologia si ha che 
-  \[\Taut[\phi]\iff\forall \alpha ,\Val{\alpha}[\phi] = 1\]
-
-  In altre parole, per avere la tesi, basta mostrare che \(\forall m, m \models \phi \iff \forall \alpha, \Val{\alpha}[\phi] =1\).
-  Procediamo un verso alla volta:
+  Per ogni modello \(m\), possiamo definire un assegnamento \(\alpha_{m}\) t.c.
+  \[\alpha_{m}(P) = \begin{cases}
+    1, & P \in m\\
+    0, & \text{ altrimenti}
+  \end{cases}\]
+  Facciamo vedere, per induzione strutturale, che \(m\models \phi \iff \Val{\alpha_m}[\phi] = 1\).
   \begin{description}
-     \item[\(\impliedby\)] %Assumiamo che \(\forall m, m \models \phi\).
-     Possiamo notare che \(\forall m,\exists \alpha : m\models \phi \iff  \Val{\alpha}[\phi] = 1\).
-      Questo poiché, preso un \(m \in 2^{\AP}\) generico posso costruire 
-      \[\alpha_{m}(P) = \begin{cases}
-        1, & P \in m\\
-        0, & \text{ altrimenti}
-      \end{cases}\]
-    
-      Per verificare che \(m\models \phi \iff \Val{\alpha_m}[\phi] = 1\) procediamo per induzione strutturale:
-      \begin{description}
-        \item[\(\phi \in \AP\):] In tal caso
-          \[m \models \phi \iff \phi \in m \overset{def}{\iff}\alpha_m(\phi) = 1 \iff \Val{\alpha_m}[\phi] = 1\]
-        \item[\(\phi = \neg \phi'\):] In tal caso
-          \[m \models \phi \iff m \not\models \phi' \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi'] = 0\]
-          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = 1-\Val{\alpha_m}[\phi'] = 1-0 = 1\).
-        \item[\(\phi = \phi_1 \land \phi_2\):] In tal caso 
-          \[m \models \phi \iff m \models \phi_1 \text{ e } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ e } \Val{\alpha_m}[\phi_2] = 1\]
-          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \min\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \min\set{1, 1} = 1\).
-        \item[\(\phi = \phi_1 \lor \phi_2\):] In tal caso 
-          \[m \models \phi \iff m \models \phi_1 \text{ o } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ o } \Val{\alpha_m}[\phi_2] = 1\]
-          Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \max\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \max\set{1, 0} = 1\).
-        \item[\(\phi = \phi_1 \rightarrow \phi_2\):] In tal caso 
-          \[m \models \phi \iff \text{ se } m \models \phi_1 \text{ allora } m \models \phi_2\]
-          Per ipotesi induttiva, se \(m \not\models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 0\), e quindi a prescindere dal valore di \(\Val{\alpha_m}[\phi_2]\) si ha \(\Val{\alpha_m}[\phi] = 1\), essendo che \(0 \leq \Val{\alpha_m}[\phi_2]\).
-          Se invece \(m \models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 1\), ma sempre per ipotesi induttiva \(m \models \phi_2\) e quindi \(\Val{\alpha_m}[\phi_2] = 1\), e dunque \(\Val{\alpha_m}[\phi] = 1\), essendo che \(1 \leq 1\).
-      \end{description}
-
-      Dunque, per ogni modello \(m\) esiste un assegnamento \(\alpha_m\) tale che la sua valutazione di \(\phi\) è \(1\) solo se \(m\) soddisfa \(\phi\).
-      Andiamo dunque a dimostrare l'implicazione da destra a sinistra per contrapposizione, ovvero mostrando che, assumendo \(\not\models \phi\) segue che \(\neg \Taut[\phi]\).
-      Ma allora \(\exists m, m \not\models \phi \iff m \models \neg\phi\).
-      
-      Dalla costruzione precedente però sappiamo che, fissato questo \(m\), esiste \(\alpha_m : m \models \neg \phi \iff \Val{\alpha_m}(\neg\phi) = 1\).
-      Ma allora \(\Val{\alpha_m}(\neg \phi) = 1\) implica \(\Val{\alpha_m}[\phi] = 0\), e dunque \(\neg \Taut[\phi]\).
-
-  \item[\(\implies\)] anche qui per contrapposizione assumo \(\neg \Taut[\phi]\) e dimostro \(\not\models\phi\).
-    Per fare questo ci serve mostrare che \(\forall \alpha \exists m_{\alpha}: \Val{\alpha}[\phi] = 1 \iff m\models\phi\).
-    Ma allora basta definire \(m_\alpha = \set{P \in \AP[\phi]}[\alpha(P) = 1]\).
-    
-    In maniera analoga al caso precedente, possiamo dimostrare che \(\Val{\alpha}[\phi] = 1 \iff m_\alpha \models \phi\) per induzione strutturale su \(\phi\).
-
-    A questo punto però, assumendo \(\neg \Taut[\phi]\) abbiamo che \(\exists \alpha, \Val{\alpha}[\phi] = 0\), e dunque \(\Val{\alpha}(\neg \phi) = 1\), e quindi \(m_\alpha \models \neg \phi\), e dunque \(m_\alpha \not\models \phi\), e quindi \(\not\models \phi\).
+    \item[\(\phi \in \AP\):] In tal caso
+      \[m \models \phi \iff \phi \in m \overset{def}{\iff}\alpha_m(\phi) = 1 \iff \Val{\alpha_m}[\phi] = 1\]
+    \item[\(\phi = \neg \phi'\):] In tal caso
+      \[m \models \phi \iff m \not\models \phi' \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi'] = 0\]
+      Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = 1-\Val{\alpha_m}[\phi'] = 1-0 = 1\).
+    \item[\(\phi = \phi_1 \land \phi_2\):] In tal caso 
+      \[m \models \phi \iff m \models \phi_1 \text{ e } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ e } \Val{\alpha_m}[\phi_2] = 1\]
+      Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \min\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \min\set{1, 1} = 1\).
+    \item[\(\phi = \phi_1 \lor \phi_2\):] In tal caso 
+      \[m \models \phi \iff m \models \phi_1 \text{ o } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ o } \Val{\alpha_m}[\phi_2] = 1\]
+      Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = \max\set{\Val{\alpha_m}[\phi_1], \Val{\alpha_m}[\phi_2]} = \max\set{1, 0} = 1\).
+    \item[\(\phi = \phi_1 \rightarrow \phi_2\):] In tal caso 
+      \[m \models \phi \iff \text{ se } m \models \phi_1 \text{ allora } m \models \phi_2\]
+      Per ipotesi induttiva, se \(m \not\models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 0\), e quindi a prescindere dal valore di \(\Val{\alpha_m}[\phi_2]\) si ha \(\Val{\alpha_m}[\phi] = 1\), essendo che \(0 \leq \Val{\alpha_m}[\phi_2]\).
+      Se invece \(m \models \phi_1\) allora \(\Val{\alpha_m}[\phi_1] = 1\), ma sempre per ipotesi induttiva \(m \models \phi_2\) e quindi \(\Val{\alpha_m}[\phi_2] = 1\), e dunque \(\Val{\alpha_m}[\phi] = 1\), essendo che \(1 \leq 1\).
   \end{description}
 \end{proof}
 
-Questo risultato ha come sottoprodotto il fatto che \(\Valid\) è computabile, poiché è equivalente a \(\Taut\), che è computabile, essendo su insiemi finiti.
-Il costo computazionale di \(\Valid\) è però esponenziale, poiché il \(\abs{\Ass{\phi}} = 2^{\abs{\phi}}\), e dunque \(\Valid\) è \(\BigO{\abs{\phi}2^{\abs{\phi}}}\leq 2^{\BigTheta{\abs{\phi}}}\).
+\begin{lemma}{}
+  Per ogni \(\alpha \in Ass(\phi)\), esiste un \(m \in 2^{AP}\) tale per cui \(m \models \phi \iff \Val{\alpha}[\phi]=1\).
+\end{lemma}
+
+\begin{proof}
+  Per ogni assegnamento \(\alpha\), è possibile definire un modello \(m_{\alpha}\) t.c.
+  \[m_\alpha = \set{P \in \AP[\phi]}[\alpha(P) = 1]\]
+  Si dimostra per induzione strutturale, in maniera del tutto analoga alla dimostrazione del precedente lemma, che \(\Val{\alpha}[\phi] = 1 \iff m_\alpha \models \phi\).
+\end{proof}
+
+Procediamo adesso, per contrapposizione, alla dimostrazione del teorema. Quindi, vogliamo dimostrare \(\not\models \phi \iff \neg \Taut(\phi)\).
+\begin{proof}[Dimostrazione (\ref{thm:validity-equals-taut})]
+  \begin{description}
+    \item[\qi{\(\implies\)}]
+      Sia \(m\) t.c. \(m \models \neg \phi\).
+      Costruendo \(\alpha_{m}\) secondo il lemma, si ha:
+      \[m\models \neg \phi \iff \Val{\alpha_{m}}[\neg\phi]=1 \iff \Val{\alpha_{m}}[\phi]=0\]
+      Allora, abbiamo trovato un assegnamento \(\alpha_{m}\) tale per cui la valutazione di \(\phi\) è \(0\). Quindi, \(\neg\Taut[\phi]\).
+    \item[\qi{\(\impliedby\)}]
+      Sia \(\alpha\) un assegnamento per \(\phi\) t.c. \(\Val{\alpha}[\phi]=0\).
+      Costruiamo \(m_{\alpha}\) secondo il lemma.
+      Allora, si ha:
+      \[\Val{\alpha}[\neg\phi]=1 \iff m \not\models \phi\]
+      Allora, abbiamo trovato un modello \(m_{\alpha}\) che non soddisfa \(\phi\). Quindi, \(\not\models \phi\).
+  \end{description}
+\end{proof}
+
+Questo teorema ci dice che risolvere \(\Taut\) equivale a risolvere \(\Valid\) e che, quindi, essendo \(\Taut\) computabile, in quanto una ricerca in un insieme finito, anche \(\Valid\) lo è.
+Il costo computazionale di \(\Valid\) è però esponenziale, in quanto \(\abs{\Ass{\phi}} = 2^{\abs{\phi}}\) e dunque \(\Valid\) ha complessità \(\BigO{\abs{\phi}2^{\abs{\phi}}}\leq 2^{\BigTheta{\abs{\phi}}}\).
 
 \begin{example}[namedlabel={ex:notable_tautologies}{Tautologie notevoli}]{Tautologie notevoli}
   Vediamo alcune tautologie notevoli che ci saranno successivamente utili per la dimostrazione di altri risultati.
