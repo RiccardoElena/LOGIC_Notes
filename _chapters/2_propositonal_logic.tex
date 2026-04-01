@@ -351,15 +351,13 @@ Il costo computazionale di \(\Valid\) è però esponenziale, in quanto \(\abs{\A
 
 \section{Sostituzioni}
 
-Per avvicinarci gradualmente verso la formalizzazione del concetto di \q{ragionamento} o deduzione anticipato all'inizio del corso, introduciamo una prima forma di manipolazione delle formule, che permetta di costruire nuove formule a partire da formule già esistenti preservando alcune proprietà semantiche.
-
-In particolare, introduciamo il concetto di sostituzione, che ci permetterà di sostituire ogni proposizione atomica con una formula arbitraria, e dunque di costruire nuove formule a partire da formule già esistenti.
+Per avvicinarci gradualmente verso la formalizzazione del concetto di \q{ragionamento}, o deduzione, anticipato all'inizio del corso, introduciamo una prima forma di manipolazione delle formule: la sostituzione, che permette di costruire nuove formule a partire da formule già esistenti, preservando alcune proprietà semantiche.
 
 \begin{definition}{Sostituzione}
   Definiamo una \keyword{sostituzione} come una funzione \(\sigma: \AP \to \PL\).
 \end{definition}
 
-Come già accennato, una sostituzione ci permette di sostituire ogni proposizione atomica con una formula arbitraria, e dunque di costruire nuove formule a partire da formule già esistenti. Andiamo quindi a formalmente definire questa operazione di sostituzione.
+La sostituzione permette di sostituire ogni proposizione atomica con una formula arbitraria, e, dunque, di costruire nuove formule a partire da formule già esistenti. Procediamo, adesso, con la definizione formale.
 
 \begin{definition}{Applicazione di una sostituzione a una formula}
   Dato \(\phi \in \PL\) e una sostituzione \(\sigma\), definiamo l'applicazione di \(\sigma\) a \(\phi\), denotata con \(\phi\sigma\), come segue:
@@ -383,7 +381,7 @@ Come già accennato, una sostituzione ci permette di sostituire ogni proposizion
   e non:
   \[((A\lor \neg A)\land \neg A)\lor C\]
 
-  Nel secondo caso infatti si è applicata la sostituzione per \(B\) anche all'interno della formula sostituita a \(A\). Tale comportamento èquello che si sarebbe ottenuto considerando un ulteriore sostituzione \(\tau = \set{B\leftarrow \neg A}\) e applicando \((\phi\sigma)\tau\).
+  Nel secondo caso infatti si è applicata la sostituzione per \(B\) anche all'interno della formula sostituita a \(A\). Tale comportamento è quello che si sarebbe ottenuto considerando un ulteriore sostituzione \(\tau = \set{B\leftarrow \neg A}\) e applicando \((\phi\sigma)\tau\).
 \end{example}
 
 Per mostrare come la sostituzione sia una prima forma di deduzione logica molto elementare, e che quindi preservi alcune proprietà semantiche, andiamo ad enunciare e successivamente dimostrare il \Namedonly{thm:substitution}.
@@ -392,15 +390,17 @@ Per mostrare come la sostituzione sia una prima forma di deduzione logica molto 
   Sia \(\phi\in \Taut\) e \(\sigma\) un'arbitraria sostituzione. Allora \(\phi\sigma\in \Taut\).
 \end{theorem}
 
-Per dimostrare questo teorema, è necessario dare carattere semantico all'operazione di sostituzione, altrimenti esclusivamente sintattica, e mostrare che questa operazione preserva la proprietà di essere una tautologia.
+Per dimostrare questo teorema, è necessario dare carattere semantico all'operazione di sostituzione, altrimenti esclusivamente sintattica, e mostrare che questa operazione preserva la proprietà di tautologia.
 
 \begin{definition}{Semantica della sostituzione}
   Data \(\phi \in \PL\), una sostituzione \(\sigma\) e un assegnamento \(\alpha \in \Ass{\phi\sigma}\), definiamo l'assegnamento \(\alpha^\sigma \in \Ass{\phi}\) come:
   \[\alpha^\sigma(P)=\Val{\alpha}[\sigma(P)]\]
 \end{definition}
 
+In altre parole, \(\alpha^{\sigma}\) è un assegnamento che, a ciascuna proposizione elementare \(P\in Sub(\phi)\), assegna la valutazione della formula \(\sigma(P)\) ottenuta dopo la sostituzione \(\sigma\).
+
 \begin{note}{}
-  È fondamentale notare che tale assegnamento è definito \qi{nel verso opposto} rispetto alla sostituzione, in quanto \(\alpha^\sigma\) è un assegnamento per \(\phi\), mentre \(\alpha\) è un assegnamento per \(\phi\sigma\).
+  Si noti che \(\alpha^\sigma\) è un assegnamento per \(\phi\), mentre \(\alpha\) è un assegnamento per \(\phi\sigma\).
 \end{note}
 
 Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Namedonlyhref{thm:substitution}.
@@ -414,7 +414,7 @@ Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Nam
 
   \begin{description}
     \item[\(\phi \in \AP\):] in questo caso, che rappresenta il caso base, \(\phi\sigma = \sigma(\phi)\). Ma quindi
-      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\sigma(\phi)] = \alpha^\sigma(\phi) \overset{def}{=} \Val{\alpha^\sigma}[\phi]\]
+      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\sigma(\phi)] \overset{def}{=} \alpha^\sigma(\phi) = \Val{\alpha^\sigma}[\phi]\]
     \item[\(\phi = \neg \psi\):] in questo primo caso induttivo, dalla definizione di sostituzione abbiamo che\(\phi\sigma = \neg (\psi\sigma)\). Allora:
       \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\neg (\psi\sigma)] = 1 - \Val{\alpha}[\psi\sigma]\]
       Ma per ipotesi induttiva \(\Val{\alpha}[\psi\sigma] = \Val{\alpha^\sigma}[\psi]\), quindi
@@ -426,38 +426,34 @@ Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Nam
   \end{description}
 \end{proof}
 
-Ottenuto questo lemma, possiamo finalmente procedere con la dimostrazione del \Namedcref{thm:substitution}, che ora risulta quasi immediata.
+Forti del lemma, possiamo finalmente procedere con la dimostrazione del \Namedonlyhref{thm:substitution}, che ora risulta quasi immediata.
+Vogliamo dimostrare che \(\forall \sigma \in \PL^{\AP}\), \(\phi \in \Taut \implies \phi\sigma \in \Taut\).
+Procederemo per contrapposizione, ovvero assumeremo che \(\phi\sigma \not\in \Taut\) e dimostreremo che \(\phi \not\in \Taut\).
 
 \begin{proof}{\Namedref{thm:substitution}.}
+  Se \(\phi\sigma \not\in \Taut\), allora \(\exists \alpha \in \Ass[\phi\sigma] \st \Val{\alpha}[\phi\sigma] = 0\).
 
-  Vogliamo dimostrare che \(\forall \sigma \in \PL^{\AP}\), \(\phi \in \Taut \implies \phi\sigma \in \Taut\).
-
-  Procediamo per contrapposizione, ovvero assumiamo che \(\phi\sigma \not\in \Taut\) e dimostriamo che \(\phi \not\in \Taut\).
-
-  Se \(\phi\sigma \not\in \Taut\) allora \(\exists \alpha \in \Ass(\phi\sigma)\st \Val{\alpha}[\phi\sigma] = 0\).
-
-  Ma per il \Namedonlyhref{lem:substitution}, \(\Val{\alpha}[\phi\sigma] = \Val{\alpha^\sigma}[\phi]\), quindi \(\Val{\alpha^\sigma}[\phi] = 0\), ovvero esiste un assegnamento \(\alpha^\sigma\) tale che \(\phi\) è falsa, e quindi \(\phi \not\in \Taut\).
+  Per il \Namedonlyhref{lem:substitution}, \(\Val{\alpha}[\phi\sigma] = \Val{\alpha^\sigma}[\phi]\), quindi \(\Val{\alpha^\sigma}[\phi] = 0\), ovvero esiste un assegnamento \(\alpha^\sigma\) tale che \(\phi\) è falsa, e quindi \(\phi \not\in \Taut\).
 \end{proof}
 
 
 \begin{observation}{}
-  È importante notare che nonostante la sostituzione preserva validità e tautologicità, essa non preserva la soddisfacibilità o la verità in generale.
-
+  È importante notare che, nonostante la sostituzione preservi validità e tautologicità, essa non preserva la soddisfacibilità o, in generale, la verità.
   Formalmente:
   \[\phi \in \Sat \centernot\implies \phi\sigma \in \Sat\]
 
-  Questo è facile da vedere considerando \(\phi = P \in \AP\). Si ha che \(\phi \in \Sat\) banalmente da qualsiasi assegnamento \(\alpha\) tale che \(\alpha(P)=1\).
-  Scegliendo però \(\sigma : P \to P\land \neg P\), che è chiaramente insoddisfacibile.
-  Di conseguenza, fissato un modello \(m\), si ha che
+  Questo è facile da vedere considerando \(\phi = P \in \AP\). Si osserva \(\phi \in \Sat\) per qualsiasi assegnamento \(\alpha\) tale per cui \(\alpha(P)=1\).
+  Scegliendo però \(\sigma : P \to P\land \neg P\), che è chiaramente insoddisfacibile, e fissato un modello \(m\), si ha che
   \[m\models\phi \centernot\implies m\models\phi\sigma\]
-  Altrimenti otterei una contraddizione.
+  Altrimenti, si otterebbe una contraddizione.
 
-  Cosa diversa per la insoddisfacibilità. Infatti
+  Invece, la sostituzione conserva l'insoddisfacibilità. Infatti,
   \[\phi \in \Unsat \iff \neg \phi \in \Taut \implies (\neg\phi)\in \Taut\iff \]
   \[\iff \neg(\phi\sigma) \in \Taut \implies \phi\sigma \in \Unsat\]
 \end{observation}
 
-Questo teorema di sostituzione è un primo esempio di risultato che mostra come sia possibile manipolare le formule in modo da preservare alcune proprietà semantiche. In particolare, ci dice che è possibile creare infinite formule valide, poiché è suficiente partire da una formula valida e applicare una qualsiasi sostituzione per ottenere una nuova formula valida.
+Il teorema di sostituzione è un primo esempio di come sia possibile manipolare le formule in modo da preservare alcune proprietà semantiche. 
+In particolare, tale teorema ci dice che è possibile creare infinite formule valide, poiché è sufficiente partire da una formula valida, applicare una qualsiasi sostituzione ed ottenere una nuova formula valida.
 
 \subsection{Deduzione Semantica}
 
