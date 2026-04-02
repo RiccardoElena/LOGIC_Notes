@@ -458,7 +458,7 @@ In particolare, tale teorema ci dice che è possibile creare infinite formule va
 \subsection{Deduzione Semantica}
 
 Possiamo notare che \(A \to (B\to C)\equiv (A\land B)\to C\).
-Infatti, chiamando \(\phi_1 = A \to (B\to C)\) e la seconda \(\phi_2 = (A\land B)\to C\) possiamo andare ad analizzare quali assignamenti rendono vere o false ciascuna di queste formule.
+Infatti, chiamando \(\phi_1 = A \to (B\to C)\) e la seconda \(\phi_2 = (A\land B)\to C\) possiamo andare ad analizzare quali assegnamenti rendono vere o false ciascuna di queste formule.
 
 La prima formula \(\phi_1\) ha come connetivo principale l'implicazione, e dunque è falsa se e soltanto se \(A\) è vera e \(B\to C\) è falsa. Ma \(B\to C\) è un altra implicazione, dunque è falsa se e soltanto se \(B\) è vera e \(C\) è falsa. Di conseguenza, \(\phi_1\) è falsa se e soltanto se \(A\) è vera, \(B\) è vera e \(C\) è falsa.
 
@@ -467,24 +467,33 @@ D'altro canto, anche la seconda formula \(\phi_2\) ha come connettivo principale
 Possiamo dunque trasformare questa equivalenza in una tautologia, scrivendo
 \[A \to (B\to C) \leftrightarrow (A\land B)\to C\]
 
-Tale risultato è alla base del concetto di deduzione semantica, ovvero la possibilità di dedurre una formula \(\phi\) sapendo che esiste una formula \(\psi\) vera tale che \(\psi \to \phi\) è vera.
+Questa tautologia è alla base del concetto di deduzione semantica, ovvero la possibilità di dedurre una formula \(\phi\) sapendo che esiste una formula \(\psi\) vera tale che \(\psi \to \phi\) è vera.
 
 \begin{theorem}[namedlabel={thm:semantic_deduction}{Teorema di Deduzione Semantica}]{Teorema di Deduzione Semantica}
   Sia \(\Gamma \subseteq \PL\) e \(\phi,\psi \in \PL\). Allora
   \[\Gamma,\phi \models \psi \iff \Gamma \models \phi\to\psi\]
 \end{theorem}
 
+Il teorema permette di \qi{estrarre} una premessa, spostandola nella conseguenza logica da dimostrare.
+Ciò consente spesso di semplificare le dimostrazioni. 
+Infatti, per dimostrare \(\Gamma,\phi \models \psi\), è necessario, in primis, trovare un modello per cui valga \(\Gamma, \phi\).
+Abbiamo visto che la ricerca di un modello ha complessità esponenziale rispetto al numero di proposizioni elementari coinvolte. A ciò, si aggiungono eventuali dipendenze tra queste. 
+Pertanto, cercare un modello che soddisfi \(\Gamma\) è sicuramente più facile che cercare un modello che soddisfi \(\Gamma, \phi\).
+Inoltre, la deduzione logica permette di soddisfare le proposizioni in maniera sequenziale.
+Ad esempio, invece di dire \qi{Se piove e fa freddo, allora prendo l'ombrello e la sciarpa}, possiamo \qi{Se piove, allora se fa freddo prendo l'ombrello e la sciarpa}, il che ci consente di affrontare un problema alla volta.
+
 \begin{proof}
   Dalla definizione di conseguenza logica, \(\Gamma,\phi \models \psi\) significa che
   \[\forall m \in 2^{\AP}, m\models \Gamma \cup \set{\phi} \implies m\models \phi\]
 
   L'argomento sinistro dell'implicazione è però equivalente a dire che \(m\models \Gamma\) e \(m\models \phi\). Quindi
-  \[\forall m \in 2^{\AP}, m\models \Gamma \text{e} m\models \phi \implies m\models \psi\]
+  \[\forall m \in 2^{\AP}, m\models \Gamma \text{ e } m\models \phi \implies m\models \psi\]
 
   Dando quindi semantica agli operatori di metalivello nel modo usuale (ovvero identico a quelli della logica proposizionale), possiamo riscrivere la precedente formula con variabili proposizionali \(A\), \(B\) e \(C\) al posto di \(m\models \Gamma\), \(m\models \phi\) e \(m\models \psi\) rispettivamente, ottenendo
   \[\forall m \in 2^{\AP}, A\text{ e }B \implies C\]
-
-  Ma dalla tautologia vista in precedenza, e applicando un'opportuna sostituzione, abbiamo che
+  che, per la tautologia vista in precedenza, è equivalente a
+  \[\forall m \in 2^{\AP}, A \implies (B \implies C)\]
+  Applicando la sostituzione \(\sigma: A \to m\models \Gamma, B \to m\models \phi, C \to m\models \psi\), si ottiene 
   \[\forall m \in 2^{\AP}, m\models \Gamma \implies (m\models \phi \implies m\models \psi)\]
 
   Per semantica dell'implicazione però \((m\models \phi \implies m\models \psi) \iff (m\models \phi \to \psi)\), dunque
@@ -503,10 +512,10 @@ Interpretando queste equivalenze come regole di trasformazione, questo ci permet
 
 In questo modo, possiamo definire una prima forma normale, chiamata \(\PNF\) (Positive Normal Form) o \(\NNF\) (Negation Normal Form), che contiene tutte le formule di \(\PL\) in cui le negazioni occorrono solo davanti a proposizioni atomiche.
 
-Per definire formalmente questa forma normale, introduciamo il concetto di letterale
+Per definire formalmente questa forma normale, introduciamo il concetto di letterale.
 
 \begin{definition}{Letterale}
-  Una formula \(\phi\) è un letterale se \(\phi \in AP\) o \(\phi = \neg P \), con \(P \in AP\).
+  Una formula \(\phi\) è un \keyword{letterale} se \(\phi \in AP\) o \(\phi = \neg P \), con \(P \in AP\).
 \end{definition}
 
 \begin{definition}{Forma normale positiva}
@@ -516,13 +525,14 @@ Per definire formalmente questa forma normale, introduciamo il concetto di lette
 Si ha ovviamente che \(\PNF \subset \PL\), ma dalle leggi di De Morgan è ovvio che
 \[\forall \phi \in \PL, \exists \phi' \in \PNF: \phi \iff \phi'\]
 
-In generale il concetto di forma normale è un sott'insieme di formule costruibile in maniera induttiva tale che mantenga completezza semantica, ovvero che per ogni formula esista una formula equivalente in forma normale.
+In generale, il concetto di forma normale è un sottoinsieme di formule, costruibile in maniera induttiva, che mantiene la completezza semantica.
+Ciò significa che per ogni formula esiste una formula equivalente in forma normale.
 
-Le due forme normali più importanti sono la forma normale congiuntiva (\(\CNF\)) e la forma normale disgiuntiva (\(\DNF\)).
+Le due forme normali più importanti sono la \keyword{forma normale congiuntiva} (\(\CNF\)) e la \keyword{forma normale disgiuntiva} (\(\DNF\)).
 
 \begin{definition}{Disjunctive Normal Form}
-  Definiamo la forma normale disgiuntiva (\(\DNF\)) come l'insieme di tutte le formule con la seguente struttura:
-  \[\phi = \bigvee_{i=1}^k(\bigwedge_{j=1}^{r_i} l_{ij})\]
+  Definiamo la \keyword{forma normale disgiuntiva} (\(\DNF\)) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigvee_{i=1}^k\left(\bigwedge_{j=1}^{r_i} l_{ij}\right)\]
   dove \(l_{ij} \in \mathcal{L}\) per ogni \(i\) e \(j\).
 \end{definition}
 
@@ -530,12 +540,12 @@ Le due forme normali più importanti sono la forma normale congiuntiva (\(\CNF\)
   Un esempio di formula in DNF è la seguente:
   \[(P\land \neg Q) \lor (\neg P \land \neg Q \land R) \lor \ldots\]
 
-  Ognuna delle parentesi (quindi ogni congiunzione) è detta clausola congiuntiva.
+  Ognuna delle parentesi (quindi ogni congiunzione) è detta \keyword{clausola congiuntiva}.
 \end{example}
 
 \begin{definition}{Conjunctive Normal Form}
-  Definiamo la forma normale congiuntiva (\(\CNF\)) come l'insieme di tutte le formule con la seguente struttura:
-  \[\phi = \bigwedge_{i=1}^k(\bigvee_{j=1}^{r_i} l_i^j)\]
+  Definiamo la \keyword{forma normale congiuntiva} (\(\CNF\)) come l'insieme di tutte le formule con la seguente struttura:
+  \[\phi = \bigwedge_{i=1}^k\left(\bigvee_{j=1}^{r_i} l_i^j\right)\]
   dove \(l_{ij} \in \mathcal{L}\) per ogni \(i\) e \(j\).
 \end{definition}
 
@@ -543,12 +553,15 @@ Le due forme normali più importanti sono la forma normale congiuntiva (\(\CNF\)
   Un esempio di formula in CNF è la seguente:
   \[(P\lor \neg Q) \land (\neg P \lor \neg Q \lor R) \land \ldots\]
 
-  Ognuna delle parentesi (quindi ogni disgiunzione) è detta clausola disgiuntiva.
+  Ognuna delle parentesi (quindi ogni disgiunzione) è detta \keyword{clausola disgiuntiva}.
 \end{example}
 
 Essendoci dualità tra congiunzione e disgiunzione, è facile vedere che le due forme normali sono duali.
 
-Ovviamente \(\CNF \cup \DNF \subseteq \PNF\). È possibile inoltre mostrare facilmente come, per ogni \(\phi \in \Sat\) sia possibile costruire \(\psi \in \DNF\) tale che \(\phi \equiv \psi\) partendo dalla tabella di verità di \(\phi\) e costruendo una disgiunzione di congiunzioni che rappresenti esattamente gli assegnamenti che rendono vera \(\phi\). In particolare, è sufficiente aggiungere una clausola congiuntiva per ogni assegnamento che rende vera \(\phi\), e in ciascuna clausola congiuntiva inserire \(P\) se \(P\) è vera in quell'assegnamento, e \(\neg P\) altrimenti.
+Ovviamente \(\CNF \cup \DNF \subseteq \PNF\). È possibile mostrare facilmente come, per ogni \(\phi \in \Sat\), sia possibile costruire \(\psi \in \DNF\) tale che \(\phi \equiv \psi\) partendo dalla tabella di verità di \(\phi\).
+Infatti, basterà aggiungere una clausola congiuntiva per ogni assegnamento che rende vera \(\phi\).
+In ciascuna clausola congiuntiva, un \(P\in \AP[\phi]\) corrisponderà al letterale \(P\) se \(P\) è vero nell'assegnamento, al letterale \(\neg P\) altrimenti.
+Il seguente esempio chiarirà sicuramente il procedimento descritto.
 
 \begin{example}{}
   Consideriamo la formula \(\phi \) con la seguente tabella di verità:
@@ -574,23 +587,20 @@ Ovviamente \(\CNF \cup \DNF \subseteq \PNF\). È possibile inoltre mostrare faci
 \end{example}
 
 \begin{note}{}
-  Il fatto che ci stiamo limitando alle sole formule soddisfacibili non è una limitazione, poiché tutte le formule insoddisfacibili sono equivalenti a una contraddizione.
-  Quindi per mostrare che la \(\DNF\) mantiene completezza semantica è sufficiente trovare una contraddizione espressa in \(\DNF\).
-  
-  Dunque è sufficiente notare che \((P\land \neg P) \in \DNF\). Nel metodo mostrato precedentemente tali formule insoddisfacibili sono escluse poiché non è possibile applicare la costruzione mostrata, ma è sufficiente aggiungere questa formula \q{ad hoc} per ottenere la completezza semantica anche per le formule insoddisfacibili.
+  Il procedimento mostrato non permette di costruire formule non soddisfacibili. Se non riuscissimo ad esprimere le formule insoddisfacibili in \(\DNF\), allora la \(\DNF\) non manterrebbe, come abbiamo detto, la completezza semantica.
+  Per risolvere il \qi{buco} lasciato dal procedimento descritto, è sufficiente associare, ad ogni formula insoddisfacibile, la formula \(P\land \neg P\), che è \(\DNF\).
+  Ciò è possibile dal momento in cui tutte le formula insoddisfacibili sono equivalenti ad una contraddizione.
 \end{note}
 
-Per la \(\CNF\) il ragionamento è simile.
-
-In questo caso però, poiché dobbiamo esprimere la formula come una congiunzione di clausole disgiuntive, non possiamo semplicemente elencare degli assegnamenti come in precedenza, poiché gli assegnamenti sono essenzialmente delle congiunzioni.
-
-Dunque, al posto di elencare gli assegnamenti che rendono vera la formula, elenchiamo in congiunzione la negazione di ogni assegnamento che la rende falsa. Questo poiché, l'unico modo per rendere vera una congiunzione è che tutte le sue componenti siano vere, e dunque, se ogni componente è la negazione di un assegnamento che rende falsa la formula, allora l'unica possibilità per rendere vera la congiunzione è che nessuno di questi assegnamenti che rendono falsa la formula sia vero, ovvero che la formula sia vera.
-
+Per le \(\CNF\) il ragionamento è simile. 
+In questo caso, però, poiché dobbiamo esprimere la formula come una congiunzione di clausole disgiuntive, non possiamo semplicemente elencare degli assegnamenti come in precedenza, poiché gli assegnamenti sono essenzialmente delle congiunzioni.
+Dunque, al posto di elencare gli assegnamenti che rendono vera la formula, elenchiamo in congiunzione la negazione di ogni assegnamento che la rende falsa. 
 In questo modo, ci troviamo con una formula della forma:
 \[\phi' = \neg(l_1^1 \land \ldots \land \ldots \land l_1^{r_1})\land\neg(l_2^{r_2}\land \ldots \land \ldots\land l_2^{r_2})\land\ldots\land \neg(l_k^1\land\ldots\land l_k^{r_k})\]
-A questo punto però, possiamo notare come, grazie alle leggi di De Morgan e della doppia negazione, la negazione di una congiunzione è equivalente alla disgiunzione delle negazioni, e dunque possiamo raggiungere una formula della forma:
+A questo punto, applicando le leggi di De Morgan, possiamo ottenere una formula della forma:
 \[\phi'' = (\neg l_1^1 \lor \ldots \lor \neg l_1^{r_1})\land(\neg l_2^1 \lor \ldots \lor \neg l_2^{r_2})\land\ldots\land (\neg l_k^1 \lor \ldots \lor \neg l_k^{r_k})\]
 che è esattamente una formula in \(\CNF\).
+Si noti che, se, prima dell'applicazione della legge di De Morgan, un letterale era della forma \(\neg l\), allora l'applicazione di De Morgan porta il letterale ad essere \(\neg \neg l\), che, per doppia negazione, equivale a \(l\).
 
 \begin{example}{}
   Riprendendo la tabella di verità dell'esempio precedente, possiamo costruire la formula in \(\CNF\) equivalente a \(\phi\) come segue:
@@ -599,16 +609,19 @@ che è esattamente una formula in \(\CNF\).
 \end{example}
 
 \begin{note}{}
-  Dualmente a come detto per la \(\DNF\), anche per la \(\CNF\) è necessario aggiungere una tautologia espressa in \(\CNF\) per garantire la completezza semantica anche per le formule valide. Ad esempio, è sufficiente aggiungere \(P \lor \neg P\), che è una tautologia espressa in \(\CNF\).
+  In modo duale alle \(\DNF\), il procedimento descritto non consente di costruire una formula \(\CNF\) equivalente a formule valide.
+  Poiché tutte le formule valide sono equivalenti ad una tautologia, è possibile associare ad esse la formula \(P \lor \neg P\), che è \(\CNF\).
 \end{note}
 
-Ovviamente queste costruzioni sono estremamente inefficienti, e portano a formule di dimensione esponenziale rispetto alla formula di partenza. Questo poiché la dimensione della tabella di verità di una formula \(\phi\) è \(2^{\AP[\phi]}\) dovendo considerare tutti gli assegnamenti possibili, e dunque la formula in \(\DNF\) o \(\CNF\) costruita a partire da questa tabella di verità può avere un numero di clausole esponenziale. In particolare, se \(\phi\) è già in \(\DNF\) o in \(\CNF\), allora passare alla forma normale duale usando le leggi di De Morgan e la distribuitività porta a una formula di dimensione esponenziale.
+Tuttavia, queste costruzioni sono estremamente inefficienti e portano a formule di dimensione esponenziale rispetto alla formula di partenza. 
+Ciò avviene perché la dimensione della tabella di verità di una formula \(\phi\) è \(2^{\AP[\phi]}\), dovendo considerare tutti gli assegnamenti possibili, e dunque la formula in \(\DNF\) o \(\CNF\) costruita a partire da tale tabella può avere un numero di clausole esponenziale. 
+In particolare, se \(\phi\) è già in \(\DNF\) o in \(\CNF\), allora passare alla forma normale duale usando le leggi di De Morgan e la distribuitività porta a una formula di dimensione esponenziale.
 
 \begin{example}{}
   Sia \(\phi \in\DNF\) tale che \(\phi\) sia:
   \[(P_1 \land P_2)\lor (P_3 \land P_4)\]
 
-  Andiamo quindi a trasformarla in \(\CNF\) usando le tautologie note
+  Andiamo quindi a trasformarla in \(\CNF\) usando la proprietà distributiva.
   \[(P_1 \land P_2)\lor (P_3 \land P_4)\equiv\]
   \[\equiv ((P_1 \land P_2)\lor P_3)\land((P_1 \lor P_4)\lor P_4)\equiv\]
   \[\equiv (P_1 \lor P_3) \land (P_2 \lor P_3) \land (P_1 \lor P_4) \land (P_2 \lor P_4)\]
@@ -621,11 +634,11 @@ Ovviamente queste costruzioni sono estremamente inefficienti, e portano a formul
 
   Analizzando la distributività però, possiamo notare come venga generata una clausola disgiuntiva per ogni possibile combinazione di letterali.
 
-  In generale quindi, ogni clausola disgiuntiva prodotta con la distributività corrisponde a una scelta di un letterale per ogni clausola congiuntiva, ed è dunque equivalente a una funzione \(f:\set{1,2,\ldots,n} \to \{1,2\}\). Dunque, il numero di clausole disgiuntive generate è pari al numero di tali funzioni, che è \(\abs{\set{1,2}}^n = 2^n\).
+  In generale, quindi, ogni clausola disgiuntiva prodotta con la distributività corrisponde a una scelta di un letterale per ogni clausola congiuntiva, ed è dunque equivalente a una funzione \(f:\set{1,2,\ldots,n} \to \{1,2\}\). Dunque, il numero di clausole disgiuntive generate è pari al numero di tali funzioni, che è \(\abs{\set{1,2}}^n = 2^n\).
 \end{example}
 
-Il motivo per cui abbiamo introdotto queste forme è che, se una formula è in \(\DNF\), la sua soddisfacibilità è facilmente verificabile; dualmente, se una formula è in \(\CNF\), la sua validità è facilmente verificabile.
-
+Il motivo per cui abbiamo introdotto queste forme è che, se una formula è in \(\DNF\), la sua soddisfacibilità è facilmente verificabile. 
+Dualmente, se una formula è in \(\CNF\), la sua validità è facilmente verificabile.
 Infatti, sia
 \[\phi = C_1 \lor C_2 \lor \ldots \lor C_k\]
 con \(C_i = (l_1^i \land \ldots \land l_{r_i}^i)\), per ogni \(i \in \set{1,\ldots,k}\).
