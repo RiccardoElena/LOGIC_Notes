@@ -430,8 +430,8 @@ Forti del lemma, possiamo finalmente procedere con la dimostrazione del \Namedon
 Vogliamo dimostrare che \(\forall \sigma \in \PL^{\AP}\), \(\phi \in \Taut \implies \phi\sigma \in \Taut\).
 Procederemo per contrapposizione, ovvero assumeremo che \(\phi\sigma \not\in \Taut\) e dimostreremo che \(\phi \not\in \Taut\).
 
-\begin{proof}{\Namedref{thm:substitution}.}
-  Se \(\phi\sigma \not\in \Taut\), allora \(\exists \alpha \in \Ass[\phi\sigma] \st \Val{\alpha}[\phi\sigma] = 0\).
+\begin{proof}[Dimostrazione del (\ref{thm:substitution})]
+  Se \(\phi\sigma \not\in \Taut\), allora \(\exists \alpha \in \Ass{\phi\sigma} \st \Val{\alpha}[\phi\sigma] = 0\).
 
   Per il \Namedonlyhref{lem:substitution}, \(\Val{\alpha}[\phi\sigma] = \Val{\alpha^\sigma}[\phi]\), quindi \(\Val{\alpha^\sigma}[\phi] = 0\), ovvero esiste un assegnamento \(\alpha^\sigma\) tale che \(\phi\) è falsa, e quindi \(\phi \not\in \Taut\).
 \end{proof}
