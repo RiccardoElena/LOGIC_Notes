@@ -28,9 +28,10 @@ Tuttavia, non tutte le espressioni sono significative dal punto di vista logico:
   Una formula ben formata (\(\WFF\)) è un'espressione che può essere costruita usando una grammatica definita sui simboli del linguaggio.
 \end{definition}
 
-L'insieme delle formule ben formate di una logica viene spesso indicato con \(PL\), che sta per \textit{Propositional Logic}.
+Nel caso specifico della logica proposizionale, l'insieme \(\WFF\) viene indicato con \(PL\), che sta per \textit{Propositional Logic}.
+In generale, l'insieme delle formule ben formate di una logica viene indicato con le iniziali di tale logica. 
 
-La definizione precisa di quali espressioni sono formule ben formate nella logica proposizionale è data ricorsivamente attraverso le seguenti regole di formazione.
+La definizione precisa di quali espressioni siano formule ben formate nella logica proposizionale è data ricorsivamente attraverso le seguenti regole di formazione.
 
 \begin{definition}{\(\WFF\) Proposizionale}
   Nella logica proposizionale, una formula è ben formata se è costruita secondo le seguenti regole:
@@ -195,7 +196,7 @@ Ciò consente una scrittura più compatta per intendere che un modello soddisfa 
 \end{note}
 
 Dalla definizione di conseguenza logica segue che se \(\emptyset \models \phi\), denotato alternativamente con \(\models \phi\), allora \(\phi\) è valida.
-Questo poiché, preso \(\Gamma = \emptyset\), ogni modello soddisfa \(\Gamma\), poichè un modello è un insieme e l'insieme vuoto è contenuto in tutti gli insiemi.
+Se consideriamo \(\Gamma\) come l'insieme dei vincoli a cui il modello è sottoposto, allora è chiaro che, se \(\Gamma\) è vuoto, e quindi non vi sono vincoli, allora ogni modello lo soddisfa.
 Quindi, la relazione di conseguenza logica dall'insieme vuoto si riduce alla soddisfacibilità di \(\phi\) da parte di ogni modello, ovvero la validità di \(\phi\).
 In altre parole, potendo risolvere il problema decisionale di conseguenza logica, potremmo risolvere quello di validità.
 
@@ -390,7 +391,7 @@ Per mostrare come la sostituzione sia una prima forma di deduzione logica molto 
   Sia \(\phi\in \Taut\) e \(\sigma\) un'arbitraria sostituzione. Allora \(\phi\sigma\in \Taut\).
 \end{theorem}
 
-Per dimostrare questo teorema, è necessario dare carattere semantico all'operazione di sostituzione, altrimenti esclusivamente sintattica, e mostrare che questa operazione preserva la proprietà di tautologia.
+Per dimostrare questo teorema, è necessario dare carattere semantico all'operazione di sostituzione, altrimenti esclusivamente sintattica, e mostrare che questa operazione preserva la proprietà di essere una tautologia.
 
 \begin{definition}{Semantica della sostituzione}
   Data \(\phi \in \PL\), una sostituzione \(\sigma\) e un assegnamento \(\alpha \in \Ass{\phi\sigma}\), definiamo l'assegnamento \(\alpha^\sigma \in \Ass{\phi}\) come:
@@ -614,7 +615,7 @@ Si noti che, se, prima dell'applicazione della legge di De Morgan, un letterale 
 \end{note}
 
 Tuttavia, queste costruzioni sono estremamente inefficienti e portano a formule di dimensione esponenziale rispetto alla formula di partenza. 
-Ciò avviene perché la dimensione della tabella di verità di una formula \(\phi\) è \(2^{\AP[\phi]}\), dovendo considerare tutti gli assegnamenti possibili, e dunque la formula in \(\DNF\) o \(\CNF\) costruita a partire da tale tabella può avere un numero di clausole esponenziale. 
+Ciò avviene perché la dimensione della tabella di verità di una formula \(\phi\) è \(2^{\abs{\AP[\phi]}}\), dovendo considerare tutti gli assegnamenti possibili, e dunque la formula in \(\DNF\) o \(\CNF\) costruita a partire da tale tabella può avere un numero di clausole esponenziale. 
 In particolare, se \(\phi\) è già in \(\DNF\) o in \(\CNF\), allora passare alla forma normale duale usando le leggi di De Morgan e la distribuitività porta a una formula di dimensione esponenziale.
 
 \begin{example}{}
