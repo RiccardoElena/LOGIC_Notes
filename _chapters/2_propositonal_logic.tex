@@ -79,8 +79,9 @@ Tale albero sintattico cattura la struttura gerarchica della formula, mostrando 
 Tale costruzione ci permette di utilizzare un potente strumento di ragionamento: l'\textit{induzione strutturale}.
 L'induzione strutturale consente di dimostrare proprietà delle formule procedendo per casi: il caso base verifica che la proprietà in esame sia valida per le formule atomiche (variabili proposizionali), mentre i passi induttivi verificano la proprietà su formule costruite a partire da sottoformule più semplici.
 
-A differenza dell'induzione matematica semplice sui numeri naturali (dove per dimostrare \(P(n)\) assumiamo solo \(P(n-1)\)), l'induzione strutturale è basata sul principio di \textit{induzione completa} (o forte), secondo cui, per dimostrare una proprietà per una formula \(\phi\), assumiamo che valga per \textbf{tutte} le sue sottoformule proprie.
-Infatti, l'induzione strutturale è equivalente all'induzione completa sull'albero sintattico.
+A differenza dell'induzione matematica semplice sui numeri naturali, dove per dimostrare \(P(n)\) assumiamo solo \(P(n-1)\), l'induzione strutturale è basata sul principio di \textit{induzione completa} (o forte), secondo cui, per dimostrare una proprietà \(P(n)\) assumiamo che valga \(P(m), \forall m < n\). 
+Nel caso dell'induzione strutturale, per dimostrare una proprietà di \(\phi\), assumiamo che tale proprietà valga per ogni sottoformula propria di \(\phi\).
+L'induzione strutturale su una formula è equivalente all'induzione completa sull'altezza del relativo albero sintattico. Poiché l'altezza di un albero sintattico fornisce un ordine ben fondato\footnote{L'altezza di un albero indica il numero massimo di nodi lungo un percorso dalla radice ad una foglia. L'altezza è un intero non negativo: il minimo è \(0\), ovvero l'altezza di una foglia. Essendo l'insieme degli interi non negativi, assieme alla relazione d'ordine \(\leq\), ben fondato, anche l'insieme delle altezze, con la stessa relazione d'ordine, è ben fondato.}, anche l'induzione strutturale è ben fondata.
 
 La definizione ricorsiva di formula ben formata impone che i sottoalberi di un albero sintattico siano a loro volta alberi sintattici.
 Tali sottoalberi rappresentano le \keyword{sottoformule} di una formula, il cui insieme è definito come segue.
@@ -132,6 +133,8 @@ Possiamo ora osservare una prima applicazione dell'induzione strutturale, dimost
 
 Definita la sintassi della logica proposizionale, diamo una definizione formale di semantica. La \keyword{semantica} della logica proposizionale formalizza il concetto intuitivo di \q{situazione}, che determina quali proposizioni elementari sono vere e quali false.
 Un modo per definire la semantica è attraverso il concetto di \keyword{modello}.
+Un modello, in generale, è una struttura matematica che interpreta i simboli del linguaggio e stabilisce le condizioni di verità per le formule.
+Nel caso della logica proposizionale, una possibile implementazione di modello è mediante insiemi, per cui un modello è un qualsiasi sottoinsieme di \(\AP\).
 
 \begin{definition}{Modello per la logica proposizionale}
   In logica proposizionale, un modello \(m\) è un qualsiasi sottoinsieme di \(\AP\). In altre parole, \(m \in 2^{\AP}\).\footnote{\(2^{\AP}\) non è altro che una notazione alternativa per l'insieme di tutti i sottoinsiemi di \(\AP\), chiamato anche insieme potenza indicato anche con \(\mathcal{P}(\AP)\).}
