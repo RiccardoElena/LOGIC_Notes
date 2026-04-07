@@ -623,7 +623,7 @@ In questo senso, andremo a dimostrare varie proprietà del calcolo di deduzione 
 
 Iniziamo con una proprietà strettamente relativa al calcolo che ci permette di ampliare arbitrariamente l'insieme di premesse da cui dedurre una formula, senza perdere la possibilità di dedurla.
 
-\begin{theorem}{Monotonicità di \(\vdash\)}
+\begin{theorem}[namedlabel={thm:monotonicity}{Monotonicità}]{Monotonicità di \(\vdash\)}
   Dato un insieme di formule \(\Gamma\) e due formule \(\phi\) e \(\psi\), si ha che
   \[\Gamma \vdash \phi \implies \Gamma \cup \{\psi\} \vdash \phi\]
 \end{theorem}
@@ -661,6 +661,7 @@ Già da questi primi due teoremi è possibile notare un forte parallelismo tra l
 
 \begin{theorem}{Regola del taglio}
   Dato un insieme di formule \(\Gamma\) e due formule \(\phi\) e \(\psi\), si ha che:
+  
   Se \(\Gamma, \psi \vdash \phi\) e \(\Gamma' \vdash \psi\) allora \(\Gamma \cup \Gamma' \vdash \phi\)
 \end{theorem}
 
@@ -683,7 +684,8 @@ Prima di spostarci a dimostrare le proprietà di correttezza e completezza, è u
   Equivalentemente, \(\Gamma\) è inconsistente, per definizione, se \(\Gamma \vdash \phi\), \(\forall \phi \in \PL\).
 \end{definition}
 
-Vedere che le due definizioni sono equivalenti è immediato, poiché se \(\Gamma \vdash \bot\), allora per \(\bot E\) si ha che \(\Gamma \vdash \phi\) per ogni formula \(\phi\). Viceversa, se \(\Gamma \vdash \phi\) per ogni formula \(\phi\), allora in particolare si ha che \(\Gamma \vdash \bot\).
+Vedere che le due definizioni sono equivalenti è immediato.
+Infatti, se \(\Gamma \vdash \bot\), possiamo applicare \(\bot E\) alla derivazione di \(\bot\), ottenendo così \(\Gamma \vdash \phi\) per ogni formula \(\phi\). Viceversa, se \(\Gamma \vdash \phi\) per ogni formula \(\phi\), allora in particolare si ha che \(\Gamma \vdash \bot\), poiché \(\bot\) è una formula di queste \(\phi\).
 
 Veniamo dunque alle proprietà di correttezza e completezza, che intuitivamente esprimono relazioni di inclusione tra la conseguenza logica e la deduzione. 
 
@@ -702,3 +704,184 @@ Essendo che sia \(\vdash \subseteq 2^{\PL}\times\PL\) che \(\models \subseteq 2^
 Intuitivamente, la completezza di un calcolo ci dice che tutto ciò che è conseguenza logica è anche deducibile, e quindi che il calcolo è in grado di catturare tutta la conseguenza logica. La correttezza invece ci dice che tutto ciò che è deducibile è anche conseguenza logica, e quindi che il calcolo non permette di dedurre formule che non sono conseguenza logica.
 
 Queste due proprietà prese in isolamento però non ci dicono molto, poiché è possibile soddifarle in modo triviale. Per la completezza, ad esempio, è sufficiente prendere come relazione di deduzione l'intero insieme \(2^{\PL}\times\PL\), in modo da poter dedurre qualsiasi formula a partire da qualsiasi insieme di formule, e quindi soddifare la condizione di completezza, ma non quella di correttezza. Per la correttezza invece è sufficiente prendere come relazione di deduzione l'insieme vuoto, in modo da non poter dedurre nessuna formula a partire da nessun insieme di formule, e quindi soddifare la condizione di correttezza, ma non quella di completezza.
+
+Prima di poter dimostrare però che il calcolo di deduzione naturale è corretto e completo, sarà necessario introdurre alcune definizioni e risultati intermedi, che ci permetteranno di dimostrare più facilmente queste due proprietà.
+
+Iniziamo col definire un concetto che ci aiuterà nella dimostrazione di correttezza.
+
+\begin{definition}{Denotazione}
+  Data una formula \(\phi\), la \keyword{denotazione} di \(\phi\) è l'insieme di tutti i modelli che soddisfano \(\phi\), ovvero:
+  \[\den{\phi} = \set{m \in 2^{\AP}}[ m \models \phi]\]
+
+  Dato un insieme di formule \(\Gamma\), la \keyword{denotazione} di \(\Gamma\) è l'insieme di tutti i modelli che soddisfano tutte le formule di \(\Gamma\), ovvero:
+  \[\den{\Gamma} = \set{m \in 2^{\AP}}[ m \models \Gamma] = \bigcap_{\phi \in \Gamma} \den{\phi}\]
+\end{definition}
+
+Possiamo dunque procedere alla dimostrazione della correttezza del calcolo di deduzione naturale, che intuitivamente ci dice che tutto ciò che è provabile è semanticamente fondato, e che quindi il calcolo di deduzione naturale ci permette di dedurre solo formule che sono conseguenza logica delle premesse.
+
+\begin{theorem}{Correttezza del calcolo di deduzione naturale}
+  Per ogni insieme di formule \(\Gamma\) e ogni formula \(\phi\) si ha che:
+  \[\Gamma \vdash \phi \implies \Gamma \models \phi\]
+\end{theorem}
+
+\begin{proof}
+
+  Per definzione di \(\Gamma\vdash\phi\), esiste un albero di deduzione con radice \(\phi\) e con foglie che sono o assunzioni scaricate o formule di \(\Gamma\).
+
+  Dunque dimostrare la tesi equivale a dimostrare che, per ogni albero di deduzione in deduzione naturale per \(\phi\) da \(\Gamma\), \(\Gamma\models\phi\).
+
+  Possiamo facilmente vederlo per induzione sulla struttura (o altezza) dell'albero di deduzione.
+  
+  Il caso base è una deduzione di altezza \(0\), ovvero \(\phi \in \Gamma\). In questo caso, \(\Gamma\models\phi\) è ovviamente verificato.
+
+  A questo punto sia l'altezza maggiore di \(0\). In questo caso avremo che l'albero avrà in radice \(\phi\) dedotta da una certa regola \(\Rules\) e con figli \(\psi_1,\ldots,\psi_k \in \PL\), ognuno di questi a sua volte radice di un sottoalbero di altezza strettamente minore di quella dell'albero di deduzione di \(\phi\). Per ipotesi induttiva, \(\Gamma\models\psi_i\) per ogni \(i=1,\ldots,k\).
+
+  A questo punto quindi ci basta mostrare con un analisi per casi che, per ogni regola di deduzione naturale, se \(\set{\psi_1,\ldots,\psi_k} \vdash_{\Rules} \phi\) allora \(\set{\psi_1,\ldots,\psi_k} \models_{\Rules} \phi\).
+
+  \begin{description}
+    \item[\(\to E\).] Abbiamo da ipotesi induttiva che \(\Gamma\models\psi\) e \(\Gamma\models\psi\to\phi\).
+      Ovvero, ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\psi\) e \(\psi\to\phi\).
+      
+      Dalla semantica dell'implicazione, abbiamo che, se un modello \(m\) soddisfa \(\psi\to\phi\) allora o non soddisfa \(\psi\) o, se la soddisfa, allora soddisfa \(\phi\). Ma essendo che \(m\) soddisfa \(\psi\), allora \(m\) deve soddisfare anche \(\phi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\phi\), e quindi \(\Gamma\models\phi\).
+    \item[\(\neg E\).] Abbiamo da ipotesi induttiva che \(\Gamma\models\neg\psi\) e \(\Gamma\models\psi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\neg\psi\) e \(\psi\). Per semantica del \(\neg\), allora \(m\) non soddisfa \(\psi\), ma abbiamo detto che \(m\) soddisfa \(\psi\), assurdo. Dunque non esiste alcun modello che soddisfa \(\Gamma\), e dunque \(\Gamma\) è insoddisfacibile.
+
+    Una definizione alternativa di conseguenza logica che avevamo dato era che \(\Gamma\models\phi\) se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile. Ma allora \(\Gamma\models\bot\) se \(\Gamma\cup\set{\neg \bot}\) è insoddisfacibile. Ma \(\neg\bot\) è tautologicamente vero, dunque \(\Gamma\cup\set{\neg \bot}\) è insoddisfacibile se e solo se \(\Gamma\) è insoddisfacibile. Cosa che abbiamo appena dimostrato nel caso in cui \(\Gamma\models\neg\psi\) e \(\Gamma\models\psi\). Dunque \(\Gamma\models\bot\).
+
+    \item[\(\RAA\).] Abbiamo da ipotesi induttiva che \(\Gamma,\neg\phi\models\bot\). Ovvero \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile. Dunque \(\Gamma\models\phi\).
+    \item[\(\lor E\).] Abbiamo da ipotesi induttiva che \(\Gamma,\psi_1\models\phi\), \(\Gamma,\psi_2\models\phi\) e \(\Gamma\models\psi_1\lor\psi_2\).
+    
+    Possiamo uniformare le assunzioni usando il teorema di deduzione semantica, ottenendo \(\Gamma\models\psi_1\to\phi\) e \(\Gamma\models\psi_2\to\phi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\psi_1\to\phi\), \(\psi_2\to\phi\) e \(\psi_1\lor\psi_2\). Ma essendo che \(m\) soddisfa \(\psi_1\lor\psi_2\), allora \(m\) soddisfa almeno una tra \(\psi_1\) e \(\psi_2\). Se \(m\) soddisfa \(\psi_1\), soddisfando \(\psi_1\to\phi\) soddisfa anche \(\phi\). Se \(m\) soddisfa \(\psi_2\), soddisfacendo \(\psi_2\to\phi\) soddisfa anche \(\phi\). Dunque \(m\) soddisfa \(\phi\) in ogni caso.
+    
+    Alternativamente, possiamo dimostrare questo punto usando \(\den{\phi}\) e \(\den{\Gamma}\).
+
+    Essendo che \(\Gamma\models \psi_1 \lor \psi_2\), ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\psi_1\lor\psi_2\). Dunque \(\forall m \in \den{\Gamma}, m \in \den{\psi_1\lor\psi_2}\). Alternativamente, \(\den{\Gamma}\subseteq \den{\psi_1\lor\psi_2}\). Con lo stesso ragionamento, dalla semantica della disgiunzione, \(\forall m \in \den{\psi_1\lor\psi_2}, m \in \den{\psi_1}\cup \den{\psi_2}\). Inoltre, abbiamo che \(\den{\Gamma}\subseteq\den{\psi_1\to\phi}\) e \(\den{\Gamma}\subseteq\den{\psi_2\to\phi}\), e dalla semantica dell'implicazione, si ha che \(\den{\Gamma} \cap \den{\psi_1}\subseteq\den{\phi}\) e \(\den{\Gamma}\cap\den{\psi_2}\subseteq\den{\phi}\), poiché ogni modello che soddisfa \(\Gamma\) e soddisfa \(\psi_1\) o \(\psi_2\) deve soddisfare anche \(\phi\). In particolare quindi
+    \[(\den{\Gamma}\cap\den{\psi_1})\cup(\den{\Gamma}\cap\den{\psi_2})\subseteq \den{\phi}\]
+    dalla distributività dell'intersezione rispetto all'unione, si ha che
+    \[\den{\Gamma} \cap (\den{\psi_1}\cup\den{\psi_2})\subseteq\den{\phi}\]
+    Avendo già mostrato però che \(\den{\Gamma} \subseteq \den{\psi_1}\cup\den{\psi_2}\) la loro intersezione è proprio \(\den{\Gamma}\),
+    dunque \(\den{\Gamma}\subseteq \den{\phi}\), ovvero ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\phi\), e dunque \(\Gamma\models\phi\).
+    \item[] Per questioni di brevità non verranno trattate tutte le regole, ma solo quelle più interessanti. Gli altri casi sono analoghi a quelli già trattati, e possono essere dimostrati con un ragionamento simile a quello fatto per le regole già trattate.
+  \end{description}
+\end{proof}
+
+Conclusa la dimostrazione di correttezza, possiamo passare al verso più interessante, ovvero quello di completezza, che ci dice che tutto ciò che è conseguenza logica è anche deducibile, e quindi che il calcolo di deduzione naturale è in grado di catturare tutta la conseguenza logica.
+
+Questo risulta un po' più complesso da dimostrare, poiché, a differenza della correttezza che chiedeva semplicemente di verificare che le prove generate dal calcolo esibissero una certa proprietà, ovvero l'essere conseguenze logiche delle premesse, la completezza ci chiede di verificare che l'intero spazio delle conseguenze logiche sia coperto dal calcolo, e quindi non sarà più sufficiente verificare in maniera strutturale le prove.
+
+Per dimostrare il teorema di correttezza infatti faremo uso di un paio di risultati intermedi, che ci permetteranno di dimostrare la completezza in modo più semplice.
+
+\begin{lemma}[namedlabel={lem:lindenbaum}{Lindenbaum}]{Lindenbaum}
+  Sia \(\Sigma\subseteq\PL\) un insieme consistente di formule. Allora è possibile costruire un insieme di formule \(\Sigma'\) tale che \(\Sigma\subseteq\Sigma'\) e \(\Sigma'\) è massimalmente consistente, ovvero per ogni formula \(\psi\), o \(\psi\in\Sigma'\) o \(\neg\psi\in\Sigma'\).
+\end{lemma}
+
+\begin{proof}
+  Consideriamo un'arbitraria enumerazione delle formule di \(\PL\), ovvero una sequenza \(\phi_1,\phi_2,\ldots\) che contiene tutte le formule di \(\PL\).
+  
+  Si costruisca dunque una sequenza di insiemi di formule \(\Sigma_0,\Sigma_1,\ldots\) tale che \(\Sigma_0 = \Sigma\) e che
+  
+  \[ \Sigma_{i+1} = \begin{cases}
+                      \Sigma_i\cup\set{\phi_{i+1}} & \text{se } \Sigma_i\cup\set{\phi_{i+1}} \text{ è consistente} \\
+                      \Sigma_i & \text{altrimenti}
+                    \end{cases}
+                    \]
+
+  In questo modo è garantito che, se \(\Sigma\) è consistente, per induzione ogni \(\Sigma_i\) è consistente.
+
+  Definiamo allora \(\Sigma^* = \bigcup_{i\geq 0}\Sigma_i\). Dobbiamo allora mostrare che \(\Sigma^*\) è massimalmente consistente.
+
+  È importante notare che, nonostante \(\Sigma^*\) sia il limite di una successione di cui ogni elemento presenta una proprietà, non è detto che \(\Sigma^*\) presenti quella proprietà, e quindi è necessario dimostrarlo esplicitamente. Si pensi ad esempio a una qualsiasi successione numerica diventante. Ogni elemento di questa successione ha la proprietà di essere finito, ma il limite di questa successione è infinito, e quindi non presenta la proprietà di essere finito.
+
+  Per dimostrare dunque che \(\Sigma^*\) è massimalmente consistente dovremo prima verificare che \(\Sigma^*\) è consistente, e poi verificare che \(\Sigma^*\) è massimale.
+
+  Per assurdo, assumiamo che non sia consistente, ovvero \(\Sigma^*\vdash\bot\). Per definizione di deduzione, deve esistere una deduzione naturale di \(\bot\) da \(\Sigma^*\) che chiamiamo \(\pi\). Una deduzione però è un oggetto finito, dunque \(\pi\) contiene solo un numero finito di foglie, e dunque solo un numero finito di assunzioni non scaricate. Dunque dev'esistere un \(\Gamma\) finito tale che \(\Gamma\subset\Sigma^*\) e \(\Gamma\vdash\bot\). Ma essendo che ogni \(\Sigma_i\) contiene tutti i \(\Sigma_j\) con \(j<i\), posso prendere un \(i\) pari al massimo indice di una formula di \(\Gamma\) rispetto all'enumerazione scelta. Dunque \(\Gamma\subseteq\Sigma_i\), e dunque \(\Sigma_i\vdash\bot\), ovvero \(\Sigma_i\) non è consistente, assurdo.\footnote{Ciò che in questo caso ci permette di dimostrare che il limite mantiene la proprietà degli elementi della successione è il fatto che la deduzione è un oggetto finito, e quindi un'eventuale violazione della proprietà di consistenza da parte del limite deve essersi verificata già in un punto della successione, e quindi in un elemento della successione.}
+
+  Passando dunque alla massimalità, dobbiamo dimostrare che, per ogni formula \(\psi\), o \(\psi\in\Sigma^*\) o \(\neg\psi\in\Sigma^*\).
+  Possiamo però notare che, se esiste \(\psi\not\in\Sigma^*\) tale che \(\Sigma^*\cup\set{\psi}\) è consistente, allora \(\Sigma^*\) non è massimalmente consistente, poiché \(\neg\psi\not\in\Sigma^*\), altrimenti si potrebbe dedurre \(\bot\) da \(\Sigma^*\cup\set{\psi}\) usando \(\neg E\), e quindi \(\Sigma^*\cup\set{\psi}\) sarebbe inconsistente, assurdo. Di conseguenza per mostrare che \(\Sigma^*\) è massimalmente consistente è sufficiente mostrare che, per ogni formula \(\psi\) tale che \(\psi\not\in\Sigma^*\), \(\Sigma^*\cup\set{\psi}\) è inconsistente.\footnote{Ad essere precisi, qui vale l'equivalenza tra le condizioni. Infatti, se \(\Sigma^*\) è massimalmente consistente, allora per ogni formula \(\psi\not\in\Sigma^*\) si ha che necessariamente \(\neg\psi\in\Sigma^*\), e quindi \(\Sigma^*\cup\set{\psi}\) è inconsistente.}
+
+  Dall'enumerazione delle formule di \(\PL\) scelta in precedenza, deve esistere un \(i \in \N\) tale che \(\phi_i = \psi\).
+  Per costruzione di \(\Sigma^*\), se \(\psi\not\in\Sigma^*\) allora \(\Sigma_{i-1}\cup\set{\psi}\) è inconsistente, altrimenti \(\psi = \phi_i\) sarebbe stata aggiunta a \(\Sigma_{i-1}\) e quindi sarebbe stata aggiunta anche a \(\Sigma^*\).
+
+  Ma allora \(\Sigma_{i-1}\cup\set{\psi}\vdash\bot\). Essendo \(\Sigma_{i-1}\cup\set{\psi} \subseteq \Sigma^*\cup\set{\psi}\), dal \Namedcref{thm:monotonicity} si ha che \(\Sigma^*\cup\set{\psi}\vdash\bot\), assurdo.
+\end{proof}
+
+A questo punto, possiamo a dimostrare una proprietà più generale, che ci permetterà di dimostrare la completezza del calcolo di deduzione naturale in modo più semplice, ovvero che un insieme di formule consistente è soddisfacibile.
+
+Per fare ciò pero, dobbiamo andare ad introdurre un concetto simile a quello di denotazione, ma in un certo senso duale, ovvero la \keyword{teoria} di un modello.
+
+\begin{definition}{Teoria}
+  Dato un modello \(m\), la \keyword{teoria} di \(m\) è l'insieme di tutte le formule che sono soddisfatte da \(m\), ovvero:
+  \[\Th{m} = \set{\phi \in \PL }[ m \models \phi]\]
+\end{definition}
+
+In un certo senso, sia la denotazione che la teoria collegano il mondo sintattico a quello semantico tramite una sorta di proprietà di chiusura. Infatti, la denotazione di una formula è l'insieme di tutti i modelli che la soddisfano, e quindi è un insieme di modelli, mentre la teoria di un modello è l'insieme di tutte le formule che sono soddisfatte da quel modello, e quindi è un insieme di formule.
+
+Andiamo dunque a vedere qualche proprietà delle teorie di modelli, che ci permetteranno di costruire un modello a partire da un insieme di formule consistente.
+
+\begin{proposition}{}
+  Sia \(m\) un modello e \(\Th{m}\) la sua teoria. Allora \(\Th{m}\) è massimalmente consistente.
+\end{proposition}
+
+\begin{proof}
+  Per definizione di teoria, \(\Th{m} = \set{\phi\in\PL}[m\models\phi]\). Dunque, se \(\Th{m}\) fosse inconsistente, allora \(\Th{m}\vdash\bot\), e quindi dalla correttezza del calcolo di deduzione naturale, \(\Th{m}\models\bot\), e quindi \(m\models\bot\), assurdo. Dunque \(\Th{m}\) è consistente.
+
+  Per dimostrare che \(\Th{m}\) è massimale, dobbiamo dimostrare che, per ogni formula \(\psi\), o \(\psi\in\Th{m}\) o \(\neg\psi\in\Th{m}\). Ma essendo \(m\) un modello, per ogni formula \(\psi\), \(m\) soddisfa esattamente una tra \(\psi\) e \(\neg\psi\). Dunque, se \(m\models\psi\), allora \(m\not\models\neg\psi\), e quindi \(\neg\psi\notin\Th{m}\), ma \(m\models\psi\), dunque \(\psi\in\Th{m}\). Se invece \(m\models\neg\psi\), allora \(m\not\models\psi\), e quindi \(\psi\notin\Th{m}\), ma \(m\models\neg\psi\), dunque \(\neg\psi \in \Th{m}\).
+\end{proof}
+
+\begin{proposition}[label=prop:max-consistent-set-are-theory]{}
+  Sia \(\Sigma^* \subseteq \PL\) massimalmente consistente. Allora esiste un modello \(m\) tale che \(\Sigma^* = \Th{m}\).
+\end{proposition}
+
+\begin{proof}
+  Dato \(\Sigma^*\) massimalmente consistente, dobbiamo costruire un modello \(m\) tale che \(\Sigma^* = \Th{m}\).
+  Per fare ciò, basta definire \(m = \Sigma^*\cap\AP\), poiché essendo \(\Sigma^*\) massimalmente consistente, contiene tutte e sole le proposizioni atomiche che non portano a inconsistenza. Infatti le uniche proposizioni atomiche che non possono essere contenute in \(\Sigma^*\) sono quelle che, se aggiunte a \(\Sigma^*\), rendono \(\Sigma^*\) inconsistente, ovvero appaiono in qualche formula che è già presente in \(\Sigma^*\) e che le richiede con assegnamento falso per essere soffisfatte.
+
+  A questo punto, dobbiamo mostrare che \(\Sigma^* = \Th{m}\), ovvero che ogni formula \(\phi\), \(\phi \in \Sigma^* \iff m \models \phi\).
+
+   Per fare ciò, possiamo procedere per induzione strutturale sulle formule.
+
+  Il caso base è una formula atomica \(p\). Se \(p\in\Sigma^*\), allora \(p\in m\) per costruzione, e quindi \(m\models p\) e viceversa.
+  A questo punto, sia \(\phi\) una formul di altezza maggiore di \(0\). In questo caso, \(\phi\) è costruita a partire da formule di altezza minore tramite l'applicazione di una regola di formazione. L'ipotesi induttiva è dunque che per ogni \(\psi\) di altezza minore di \(\phi\),\(\psi \in \Sigma^*\) se e solo se \(m\models\psi\).
+  \begin{description}
+    \item[\(\phi = \neg\psi_1\)] Essendo \(\Sigma^*\) massimalmente consistente, se \(\neg\psi_1\in\Sigma^*\) allora \(\psi_1\notin\Sigma^*\). Per ipotesi induttiva, \(m\) non soddisfa \(\psi_1\), dunque \(m\) soddisfa \(\neg\psi_1\), ovvero \(m\models\phi\). Viceversa, se \(m\models\neg\psi_1\) allora \(m\) non soddisfa \(\psi_1\), dunque, per ipotesi induttiva, \(\psi_1\notin\Sigma^*\). Essendo \(\Sigma^*\) massimalmente consistente, se \(\psi_1\notin\Sigma^*\) allora \(\neg\psi_1\in\Sigma^*\), dunque \(\phi = \neg\psi_1\in\Sigma^*\).
+    \item[\(\phi = \psi_1\to\psi_2\)] Essendo \(\Sigma^*\) massimalmente consistente, se \(\psi_1\to\psi_2\in\Sigma^*\) allora \(\psi_1\notin\Sigma^*\) o \(\psi_2\in\Sigma^*\). Se \(\psi_1\notin\Sigma^*\), allora \(m\) non soddisfa \(\psi_1\), dunque \(m\) soddisfa \(\psi_1\to\psi_2\), ovvero \(m\models\phi\). Se invece \(\psi_2\in\Sigma^*\), allora \(m\) soddisfa \(\psi_2\), dunque \(m\) soddisfa \(\psi_1\to\psi_2\), ovvero \(m\models\phi\). Viceversa, se \(m\models\psi_1\to\psi_2\) allora o \(m\) non soddisfa \(\psi_1\) o \(m\) soddisfa \(\psi_2\). Se \(m\) non soddisfa \(\psi_1\), allora per ipotesi induttiva \(\psi_1\notin\Sigma^*\), dunque, essendo \(\Sigma^*\) massimalmente consistente, \(\neg\psi_1\in\Sigma^*\). Ma essendo \(\Sigma^*\) massimalmente consistente, deve contenere anche \(\psi_1\to\psi_2\), ovvero \(\phi\), poiché \(\neg\psi_1\vdash\psi_1\to\psi_2\) e \(\Sigma^*\) è chiuso per deduzione. Analogamente, se \(m\) soddisfa \(\psi_2\), allora per ipotesi induttiva \(\psi_2\in\Sigma^*\), dunque, essendo \(\Sigma^*\) massimalmente consistente, \(\psi_1\to\psi_2\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\) poiché \(\psi_2\vdash\psi_1\to\psi_2\) e \(\Sigma^*\) è chiuso per deduzione.
+    \item[\(\phi = \psi_1\lor\psi_2\)] Essendo \(\Sigma^*\) massimalmente consistente, se \(\psi_1\lor\psi_2\in\Sigma^*\) allora almeno una tra \(\psi_1\) e \(\psi_2\) è presente in \(\Sigma^*\). Se \(\psi_1\in\Sigma^*\), allora \(m\) soddisfa \(\psi_1\), dunque \(m\) soddisfa \(\psi_1\lor\psi_2\), ovvero \(m\models\phi\). Se invece \(\psi_2\in\Sigma^*\), allora \(m\) soddisfa \(\psi_2\), dunque \(m\) soddisfa \(\psi_1\lor\psi_2\), ovvero \(m\models\phi\). Viceversa, se \(m\models\psi_1\lor\psi_2\) allora \(m\) soddisfa almeno una tra \(\psi_1\) e \(\psi_2\). Se \(m\) soddisfa \(\psi_1\), allora per ipotesi induttiva \(\psi_1\in\Sigma^*\), dunque, essendo \(\Sigma^*\) massimalmente consistente, \(\psi_1\lor\psi_2\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\). Se invece \(m\) soddisfa \(\psi_2\), allora per ipotesi induttiva \(\psi_2\in\Sigma^*\), dunque, essendo \(\Sigma^*\) massimalmente consistente, \(\psi_1\lor\psi_2\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\).
+    \item[\(\phi = \psi_1\land\psi_2\)] Essendo \(\Sigma^*\) massimalmente consistente, se \(\psi_1\land\psi_2\in\Sigma^*\) allora sia \(\psi_1\) che \(\psi_2\) sono presenti in \(\Sigma^*\). Dunque \(m\) soddisfa sia \(\psi_1\) che \(\psi_2\), dunque \(m\) soddisfa \(\psi_1\land\psi_2\), ovvero \(m\models\phi\). Viceversa, se \(m\models\psi_1\land\psi_2\) allora \(m\) soddisfa sia \(\psi_1\) che \(\psi_2\). Dunque per ipotesi induttiva sia \(\psi_1\) che \(\psi_2\) sono presenti in \(\Sigma^*\), dunque, essendo \(\Sigma^*\) massimalmente consistente, \(\psi_1\land\psi_2\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\).
+  \end{description}
+\end{proof}
+
+\begin{lemma}[namedlabel={lem:model-existence}{Esistenza del modello}]{Esistenza del modello}
+  Dato \(\Sigma\subseteq\PL\), si ha che:
+  
+  \(\Sigma\) è consistente \(\implies\Sigma\) è soddisfacibile.
+\end{lemma}
+
+\begin{proof}
+  Per definizione di consistenza \(\Sigma \not\vdash \bot\), ovvero non esiste alcun albero di deduzione con radice \(\bot\) e con foglie che sono o assunzioni scaricate o appartengono a \(\Sigma\). Essere soddisfacibile significa che esiste un modello \(m\) tale che \(m\models\Sigma\).
+
+  Dunque dobbiamo andare a costruire un modello \(m\) che soddisfa \(\Sigma\) sapendo che le formule di \(\Sigma\) sono consistenti.
+
+  Ma a questo punto, se \(\Sigma\) è consistente, allora per il \Namedcref{lem:lindenbaum} è possibile costruire un insieme di formule \(\Sigma^*\) tale che \(\Sigma\subseteq\Sigma^*\) e \(\Sigma^*\) è massimalmente consistente. Dunque, per la \Cref{prop:max-consistent-set-are-theory}, esiste un modello \(m\) tale che \(\Sigma^* = \Th{m}\). Dunque, essendo \(\Sigma\subseteq\Sigma^*\), allora \(\Sigma\subseteq\Th{m}\), e quindi \(m\models\Sigma\), ovvero \(m\) soddisfa tutte le formule di \(\Sigma\), e quindi \(\Sigma\) è soddisfacibile.
+\end{proof}
+
+A questo punto, siamo finalmente in grado di dimostrare la completezza del calcolo di deduzione naturale, che ci dice che tutto ciò che è conseguenza logica è anche deducibile, e quindi che il calcolo di deduzione naturale è in grado di catturare tutta la conseguenza logica.
+
+\begin{theorem}{Completezza del calcolo di deduzione naturale}
+  Per ogni insieme di formule \(\Gamma\) e ogni formula \(\phi\) si ha che:
+  \[\Gamma \models \phi \implies \Gamma \vdash \phi\]
+\end{theorem}
+
+\begin{proof}
+  Come già visto precedentemente, abbiamo che \(\Gamma\models\phi \iff \Gamma \cup \set{\neg\phi}\) è insoddisfacibile.
+
+  Inoltre, possiamo facilmente vedere che \(\Gamma\vdash \phi \iff \Gamma \cup \set{\neg\phi}\) è inconsistente.
+
+  Infatti, se \(\Gamma \cup \set{\neg\phi}\) è inconsistente allora \(\Gamma \cup \set{\neg\phi}\vdash \bot\), ovvero esiste un'albero di deduzione per \(\bot\) da \(\Gamma \cup \set{\neg\phi}\). Dunque, se scarichiamo l'assunzione \(\neg\phi\) con \(\RAA\), otteniamo un albero di deduzione per \(\phi\) da \(\Gamma\), ovvero \(\Gamma\vdash\phi\).
+
+  Viceversa, se \(\Gamma\vdash\phi\) allora esiste un albero di deduzione per \(\phi\) da \(\Gamma\). Se aggiungiamo a questo albero di deduzione un'assunzione \(\neg\phi\) e applichiamo \(\neg E\), allora otteniamo un albero di deduzione per \(\bot\) da \(\Gamma \cup \set{\neg\phi}\), ovvero \(\Gamma \cup \set{\neg\phi}\vdash\bot\), e quindi \(\Gamma \cup \set{\neg\phi}\) è inconsistente.
+
+  Di conseguenza, \(\Gamma\models\phi \implies \Gamma\vdash\phi\) è equivalente a \(\Gamma \cup \set{\neg\phi}\) è insoddisfacibile \(\implies\) \(\Gamma \cup \set{\neg\phi}\) è inconsistente.
+
+  A questo punto, possiamo dimostrare la proprietà di completezza per contrapposizione, ovvero che, preso un qualsiasi insieme \(\Gamma\), \(\Gamma\) consistente \(\implies\) \(\Gamma\)soddisfacibile.
+
+  Ma per fare ciò è sufficiente il \Namedonlyhref{lem:model-existence}, che ci dice che un insieme di formule consistente è soddisfacibile. Di conseguenza, se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile, allora è inconsistente, ovvero se \(\Gamma\models\phi\) allora \(\Gamma\vdash\phi\).
+\end{proof}
