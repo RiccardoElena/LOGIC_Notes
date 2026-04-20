@@ -1011,3 +1011,183 @@ Essendo \(\square\) insoddisfacibile, per valutare l'insoddisfacibilità di un i
 
   Da ora in poi quindi assumeremo che le forme clausali non contengano clausole banali.
 \end{example}
+
+Per andare a definire formalmente il calcolo di risoluzione, ovvero definire la sua unica regola di deduzione, anch'essa chiamata risoluzione, è necessario prima definire una proprietà di clausole che sarà la condizione di applicabilità della regola di risoluzione, ovvero la proprietà di essere in \keyword{contrasto} o in \keyword{clash}.
+
+\begin{definition}{Clausole in contrasto}
+  Siano \(C_1\) e \(C_2\) due clausole. Diremo che \(C_1\) e \(C_2\) sono in \keyword{contrasto}, o in \keyword{clash}, se esiste un \(l \in \mathcal{L}\) tale che \(l \in C_1\) e \(\tilde{l} \in C_2\) con
+  
+  \[\tilde{l} = \begin{cases}
+                \neg P & \text{se } l = P\\
+                P & \text{se } l = \neg P
+              \end{cases}
+  \]
+\end{definition}
+
+In altre parole, due clausole sono in clash se contengono un letterale su cui non sono concordi. Intuitivamente, per soddisfarle entrambe, è necessario che almeno una delle due \qi{rinunci} ad avere ragione su quel letterale, dovendo aver soffisfatto un letterale diverso da quello di clash. Non potendo però sapere a priori quale delle due clausole rinuncerà ad avere quel letterale soddisfatto, l'unica cosa che possiamo intuitivamente dedurre è che almeno uno dei letterrali della prima clausola o almeno uno della seconda dovrà essere soffisfatto. Tale ragionamento è proprio ciò che caratterizza la regola di risoluzione
+
+\begin{definition}{Regola di risoluzione}
+  Siano \(C_1\) e \(C_2\) due clausole in contrasto su un letterale \(l\), con \(l \in C_1\) e \(\tilde{l} \in C_2\). Allora, è possibile dedurre la clausola \(R\) detta \keyword{risolvente} di \(C_1\) e \(C_2\) su \(l\), definita come:
+
+  \[\infer[\text{Risoluzione}]{R = (C_1 \cup C_2)\setminus\set{l, \hat{l}}}{C_1 \quad C_2}\]
+
+\end{definition}
+
+Tale regola di deduzione segue esattamente il ragionamento intuitivo fatto in precedenza applicato alle forme clausali, in cui le clausole sono considerate in congiunzione, ovvero da soddisfare entrambe, e i letterali al loro interno in disgiunzione. L'insieme \((C_1 \cup C_2)\setminus\set{l, \hat{l}}\) è esattamente l'insieme contenente tutti i letterali delle due clausole tranne quelli in clash. Interpretandoli in disgiunzione, tale insieme corrispnde semanticamente esattamente al richiedere che ne sia soddisfatto almeno uno, che intuitivamente dovrà appartenere alla clausola che non avrà il letterale di clash soddisfatto.
+
+Ovviamente, assunto che \(C_1\) e \(C_2\) non fossero clausole banali, \(R\) non è una clausola banale, poiché \(R\) non contiene né \(l\) né \(\tilde{l}\), e quindi non può contenere sia un letterale che la sua negazione.
+\todo{chiedi riguardo a questo perché mi sembra una scemenza, prob me la sono inventata io nella fretta }
+% controesempio C_1 = {Q, ~P}, C_2 = {P, ~Q} => R = {Q, ~Q} che è banale
+
+Andiamo dunque a formalizzare la fondatezza semantica di tale regola.
+
+\begin{proposition}{}
+  La regola di risoluzione presernva la verità
+\end{proposition}
+
+\begin{proof}
+  Formalmente, una regola di inferenza preserva la verità se ogni modello che soddisfa le premesse soddisfa anche la conclusione della regola.
+  Chiaramente, il preservare la verità implica il preservare anche la conseguenza logica.\todo{chiedi qual'è la differenza tra le due}
+
+  Sia \(m\) un moello che soddisfa \(C_1\) e \(C_2\) che sono in clash su \(l\).
+  Per definizione di \(l\) e \(\tilde{l}\), \(m\) soddisfa esattamente uno tra \(l\) e \(\tilde{l}\). Senza perdita di generalità, supponiamo che \(l\in C_1\) e \(\tilde{l}\in C_2\).
+
+  Consideriamo il caso \(m\models l\). Essendo che \(m\models C_2\), allora \(\exists l' \in C_2\setminus{\tilde{l}}\) tale che \(m\models l'\). Dunque \(l' \in R\), ovvero \(m\models R\).
+  Nel caso in cui \(m \models \tilde{l}\), essendo che \(m\models C_1\), allora \(\exists l' \in C_1\setminus{l}\) tale che \(m\models l'\). Dunque \(l' \in R\), ovvero \(m\models R\).
+\end{proof}
+
+Per quanto riguarda il verso opposto invece, l'unica proprietà che è preservata è la soddisfacibilità, ovvero se \(R\) risolvente di \(C_1\) e \(C_2\) su \(l\) è soddisfacibile, allora anche \(C_1\) e \(C_2\) sono soddisfacibili. Tale proprietà è ovviamente più debole della preservazione della verità, poiché l'unica garanzia che fornisce è che se esiste un modello in cui \(R\) è soddisfatto ne esiste uno, potenzialmente diverso, in cui \(C_1\) e \(C_2\) sono congiuntamente soddisfatte.
+
+Non è possibile richiedere di più poiché \(R\) contiene un numero di proposizioni atomiche strettamente inferiore sia di \(C_1\) che di \(C_2\), e di conseguenza gli assegnamenti che soddisfano \(R\) non sono assegnamenti validi per soddisfare \(C_1\) e \(C_2\). Andiamo però a mostrare che dato \(\alpha: \AP[R] \to \set{0,1}\) tale che \(\Val{\alpha}[R] = 1\), esiste un assegnamento \(\alpha':\AP[C_1]\cup\AP[C_2] \to \set{0,1}\) tale che \(\Val{\alpha'}[C_1] = 1\) e \(\Val{\alpha'}[C_2] = 1\).
+
+\begin{proposition}{}
+  Sia \(R\) risolvente di \(C_1\) e \(C_2\) in clash su \(l\). Allora, se \(R\) è soddisfacibile, allora anche \(C_1\) e \(C_2\) sono soddisfacibili.
+\end{proposition}
+
+\begin{proof}
+  Sia \(\alpha: \AP[R] \to \set{0,1}\) tale che \(\Val{\alpha}[R] = 1\).
+
+  Dato che \(\Val{\alpha}[R] = 1\), per la semantica della forma clausale, \(\exists l' \in R\) tale che \(\Val{\alpha}[l'] = 1\).
+  Per costruzione di \(R\), \(l'\) è un letterale che appartiene a \(C_1\) o a \(C_2\) o a entrambe.
+
+  Consideriamo per primo il caso in cui \(l'\) appartiene a entrambe. In tal caso l'assegnamento \(\alpha': \AP[C_1\cup C_2]\to\set{0,1}\) definita come
+  \[\alpha'(P) = \begin{cases}
+                \alpha(P) & \text{se } P \in AP(R)\\
+                0 & \text{se } P \not\in AP(R) 
+              \end{cases}\]
+              soddisfa sia \(C_1\) che \(C_2\), poiché \(l'\) appartiene a \(R\) e quindi tale letterale soddisfa sia \(C_1\) che \(C_2\).
+
+  Consideriamo ora il caso in cui \(l'\) appartiene a \(C_1\) ma non a \(C_2\). In tal caso, l'assegnamento \(\alpha': \AP[C_1\cup C_2]\to\set{0,1}\) definito come
+  \[\alpha'(P) = \begin{cases}
+                \alpha(P) & \text{se } P \in AP(R)\\
+                0 & \text{se } \tilde{l} = \neg P\\
+                1 & \text{se } \tilde{l} = P
+              \end{cases}
+  \]
+  soddisfa ancora entrambe, poiché \(C_1\) sarà soddisfatta da \(l'\), mentre \(C_2\) sarà soddisfatta da \(\tilde{l}\), poiché il suo assegnamento è costruito per essere soddisfatto qualunque sia la sua polarità.
+
+  Analogamente, se \(l'\) appartiene a \(C_2\) ma non a \(C_1\), allora l'assegnamento \(\alpha': \AP[C_1\cup C_2]\to\set{0,1}\) definito come
+  \[\alpha'(P) = \begin{cases}
+                \alpha(P) & \text{se } P \in AP(R)\\
+                0 & \text{se } l = \neg P\\
+                1 & \text{se } l = P
+              \end{cases}
+  \]
+  soddisfa ancora entrambe, per un ragionamento duale rispetto al caso precedente.
+\end{proof}
+
+Avendo ora un insieme di regole di inferenza, in questo caso composto da una regola sola, e un insieme di assunzioni, in questo caso la forma clausale, possiamo andare a definire il calcolo di deduzione di risoluzione attraverso la definizione di una deduzione.
+
+\begin{definition}{Deduzione di risoluzione}
+  Sia \(F\) una forma clausale. Una deduzione di risoluzione \(F\vdash_{\Rule }C\) da è un albero binario finito, la cui radice è etichettata con \(C\), tutte le foglie sono etichettate con clausole di \(F\) e ogni nodo interno è etichettato con il risolvente dei suoi figli.
+\end{definition}
+
+\begin{note}{}
+  Essendo che in risoluzione \(\Rules = \set{\Rule}\), con \(\Rule\) la regola di risoluzione, per distinguere tale calcolo da quello di natural deduction indicheremo le deduzioni di risoluzione con \(\vdash_{\Rule}\) invece che con \(\vdash\). Quando sarà necessario esplicitare l'utilizzo del calcolo di deduzione naturale invece, per dissipare ogni ambiguità, verrò utilizzato \(\vdash_{ND}\).
+\end{note}
+
+Essendo che la regola di risoluzione preserva la verità, e quindi la conseguenza logica, è facile vedere per induzione strutturale la correttezza del calcolo, ovvero che date \(S,C\) forme clausali, \(S\vdash_{\Rule} C \implies S\models C\).
+\todo{Perché c'è bisogno di induzione strutturale? La conseguenza logica da parte di un inisieme di formule non è definita esattamente come abbiamo definito la preservazione della verità?}
+
+Sarà possibile dimostrare anche una forma più debole della completezza, legata alla soddisfacibilità, ovvero che \(S\not\vdash_R \square \implies \Sat[S]\), o equivalentemente \(\Unsat[S] \implies S\vdash_R \square\). Come già anticipato, non è possibile dimostrare la totale completezza, perché esistono conseguenze logiche di clausole che non sono in alcun modo generabili dal calcolo.
+
+Consideriamo infati la forma clausale \(F = \set{\set{A},\set{B}}\). Dall'interpretazione sematica data, è ovvio che \(R=\set{A,B}\) sia conseguenza logica di \(F\). Essendo però che non esistono letterali in clash in \(F\), non è possibile applicare la regola di risoluzione, impedendo di derivare alcunchè.
+
+È possibile però in parte aggirare questo problema utilizzando la definizione alternativa di conseguenza logica, notando che \(S\models C \iff S\cup\set{\neg C} \in \Unsat\).
+Applicando tale riformulazione all'esempio di prima, potremo dimostrare che \(F\models R\) cercando di mostrare che \(F' = \set{\set{A}}, \set{B}, \set{\neg A, \neg B}\) è insoddisfacibile. In questo caso, essendo che \(C_1 = \set{A}\) e \(C_2 = \set{\neg A, \neg B}\) sono in clash su \(A\), è possibile applicare la regola di risoluzione per dedurre \(C_3 = \set{\neg B}\), da cui è possibile dedurre \(C_4 = \square\) con \(C_2\), che è in clash con \(C_3\) su \(B\). Dunque, \(F'\) è insoddisfacibile per correttezza, e quindi \(F\models R\) per la definizione di conseguenza logica.
+
+Utilizzando questo tipo di riformulazione, e questa completezza \qi{debole}, è possibile risolvere il problema di conseguenza logica usando risoluzione, passado per il problema di soddisfacibilità.
+
+Prima della dimosrazione formale di questa forma di completezza debole però, andiamo a vedere come automatizzare il calcolo di risoluzione tramite un algoritmo.
+
+\begin{algorithmdesc}{Risoluzione}
+    \begin{algorithmic}[1]
+      \Statex{} \textbf{signature} \(\textsc{Resolution:} \quad [Clause] \to \Unsat \mid \Sat\)
+      \Function{\(\textsc{Resolution}\)}{$S$} % chktex 46
+          \State{} \(S_0\gets S\)
+          \State{} \(E \gets \emptyset\)
+          \Comment{\(E \subseteq S_0 \times S_0\)}
+          \Repeat{}
+            \State{} Pick \((C_1, C_2) \in (S_0 \times S_0)\setminus E \st \operatorname{clash}(C_1, C_2)\)
+            \State{} \(R \gets \operatorname{resolve}(C_1, C_2)\)
+            \If{\(R\) non banale}
+              \State{} \(S_0 = S_0 \cup \set{R}\)
+            \EndIf{}
+            \State{} \(E \gets E \cup \set{(C_1, C_2)}\)
+          \Until{\(R = \square \lor E = S_0 \times S_0 \cap \set{(C_1,C_2) \in S_0\times S_0}[\operatorname{clash}(C_1, C_2)] \)}
+          \If{\(R = \square\)}
+            \State{} \Return{\(\Unsat\)}
+          \Else{}
+            \State{} \Return{\(\Sat\)}
+          \EndIf{}
+      \EndFunction{}
+    \end{algorithmic}
+\end{algorithmdesc}
+
+Per quanto riguarda la correttezza dell'algoritmo, questa risulta quasi scontata dal fatto che è l'esatta trasposizione di una deduzione di risoluzione. Riguardo alla terminazione invece, la cosa è meno scontata. Questo poiché la condizione di terminazione è e dev'essere valutata sull'insieme \(S_0\), il quale non è statico, ma cresce dinamicamente durante l'esecuzione. In linea di principio quindi, senza mostrare che esista un limite superiore al numero di clausole che è possibile generare mediante risoluzione, non è possibile garantire la terminazione di questo algoritmo.
+
+Fortunatamente, tale limite superiore esiste, e ne vedremo dimostrazione formale dopo un esempio di applicazione di tale algoritmo.
+
+\begin{example}{}
+  Consideriamo l'\Cref{ex:logical_conseguence} visto nel primo capitolo, formalizzato usando proposizioni atomiche per rappresentare le affermazioni legate al nome della persona coinvolta in ognuna di esse. In particolare sia:
+
+  \begin{itemize}
+    \item \(C\) la proposizione atomica che rappresenta l'affermazione \qi{Carlo è italiano}
+    \item \(G\) la proposizione atomica che rappresenta l'affermazione \qi{Giovanni è spagnolo}
+    \item \(R\) la proposizione atomica che rappresenta l'affermazione \qi{Rachele è tedesca}
+    \item \(L\) la proposizione atomica che rappresenta l'affermazione \qi{Lucia è francese}
+  \end{itemize}
+
+  Possiamo formalizzare il problema creando l'insieme di formule \(\Gamma\):
+  \begin{itemize}
+    \item \((C\land \neg G)\to R\)
+    \item \(R \to (L\lor G)\)
+    \item \(\neg L \to C\)
+    \item \(\neg G\)
+  \end{itemize}
+
+  Volevamo dimostrare che tale insieme avesse come conseguenza logica \(L\).
+  Con risoluzione, prendiamo \(\Gamma \cup \set{\neg L}\) e verificare che sia insoddisfacibile.
+  Dovremo trasformare quindi le formule in forma clausale passando per la \(\CNF\), e otteniamo:
+  \begin{enumerate}
+    \item \(\neg(C\land\neg G) \lor R \equiv \neg C \lor G \lor R\), ovvero \(\set{\neg C,G,R}\)
+    \item \(\neg R \lor L \lor G\), ovvero \(\set{\neg R, L, G}\)
+    \item \(L \lor C\), ovvero \(\set{L, C}\)
+    \item \(\neg G\), ovvero \(\set{\neg G}\)
+    \item \(\neg L\), ovvero \(\set{\neg L}\)
+  \end{enumerate}
+
+  Dobbiamo allora vedere se da queste \(5\) clausole è possibile derivare la clausola vuota \(\square\) tramite risoluzione.
+
+  In primo luogo ho diverse scelte, prendiamo ad esempio le clausole \(2\) e \(4\) che fanno clash su \(G\). Il risolvente è \(\set{\neg R, L}\), chiamiamo questo risolvente \(6\)
+
+  Da \(1\) e \(4\) che fanno clash su \(G\) ottengo \(\set{\neg C, R}\), chiamiamo questo risolvente \(7\).
+  Da \(3\) e \(7\) otteniamo \(\set{L, R}\), chiamiamo questo risolvente \(8\).
+  Da \(6\) e \(8\) otteniamo \(\set{L}\), chiamiamo questo risolvente \(9\).
+  Da \(5\) e \(9\) otteniamo \(\square\).
+
+  Ovviamente tale esecuzione non è unica. Ad esempio, si può iniziare da \(1\) e \(2\) in clash su \(R\) per ottenere \(\set{\neg C, G, L}\), che chiamiamo \(6\).
+
+  Possiamo quindi risolvere \(6\) con \(3\) ottenendo \(\set{G, L}\), che chiamiamo \(7\).
+  A questo punto risolvendo prima con \(4\), e poi il risolvente con \(5\) otteniamo \(\square\).
+\end{example}

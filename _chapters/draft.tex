@@ -1,354 +1,145 @@
+Consideriamo ora le clausole \(\set{A,B},\set{\neg A, \neg B}\). Si potrebbe pensare di applicare la risoluzione su entrambi i clash insieme, ottenendo qunidi \(\square\). Questa cosa però non è possibile, poiché fare questo ci farebbe perdere la correttezza, perchè queste due clausole sono banalmente soddisfacibili. La regola infatti decide prima un letterale su cui fare clash, e poi applica la risoluzione, e non è possibile fare entrambe le cose insieme su più letterali.
 
+\begin{theorem}{}
+  \(\textsc{Resolution}(S)\) termina sempre e l'insieme di saturazione \(S_0\) avrà al più \(3^{\abs{\AP[S]}}\) clausole.
+\end{theorem}
 
-\section{Calcolo di Risoluzione proposizionale}
+\begin{proof}
+  Sappiamo che \(S\) è un insieme finito di clausole finite. Sia dunque \(\AP[S]\) l'insieme di proposizioni atomiche che compaiono in \(S\). Chiaramente \(\abs{C}\leq\abs{\AP[S]}\). Questo perché sono state tolte le clausole banali e la clausole sono insiemi, quindi ogni clausole può contenere al massimo una versione del letterale per ogni proposizione atomica.
 
-Andiamo a vedere un calcolo meno naturale per la formazione di prove, ma che trova larga applicazione nella creazione di algoritmi per la dimostrazione automatica di teoremi.
+  Possiamo dunque vedere ogni clausola come una funzione che associa a \(P\in \AP[S]\) una delle tre possibilità: \(P\) è presente nella clausola, \(\neg P\) è presente nella clausola, o nessuna delle due è presente nella clausola. Dunque il numero di clausole che è possibile formare con le proposizioni atomiche di \(S\) è al più \(3^{\abs{\AP[S]}}\)
+\end{proof}
 
-Tale calcolo contiene una sola regola di inferenza, chiamata appunto \textit{risoluzione}, e questo lo rende particolarmente adatto alla formalizzazione di algoritmi poiché non ci sarà scelta su quale regola applicare in un certo momento, ma solo su quali formule applicare la regola di risoluzione.
+Abbiamo già visto che \(S\models_R \square \implies S \in \Unsat\), vorremmo dimostrare anche l'altro verso, ovvero che \(S \in \Unsat \implies S \models_R \square\).
 
-Una prima versione fu proposta da J. A. Robinson nel 1965, e da allora è stata oggetto di numerose estensioni e miglioramenti.
+La completezza del calcolo di risoluzione garantisce anche la completezza dell'algoritmo di risoluzione, poiché l'algoritmo genera tutto il generabile.
 
-Tale calcolo non si concentra sulla conseguenza logica, ma sull'inconsistenza. 
-Dunque per decidere \(\Gamma\models\phi\) è possibile farlo decidendo se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile.
-In questo senso la risoluzione non è un calcolo \qi{generativo}, come lo era la deduzione naturale, in cui dato un insieme di formule veniva generata la conseguenza logica.
+\begin{proof}
+  Per induzione su \(\abs{\AP[S]} = n\).
 
-Tale calcolo non si applica direttamente a formule proposizionali, ma solo a formule in \keyword{forma clausale}.
+  Se \(n = 0\), allora l'unica clausola che è possibile formare è la clausola vuota \(\square\). Quindi \(S = \set{\square}\), e ovviamente  \(S\models_R\square\).
+  Per \(n>0\), abbiamo l'ipotesi induttiva che per ogni \(S'\) con \(\abs{\AP[S']}<n\), \(S'\in\Unsat\implies S'\models_R\square\).
+  
+  Quello che vogliamo fare è quindi rimuovere in qualche modo una proposizione atomica. Fissiamo dunque \(P\in \AP[S]\).
+  Costruiamo allora gli insiemi \(S_P\) e \(S_{\neg P}\) tali che:
+  \begin{itemize}
+    \item \(P \notin \AP[S_P]\) e \(P\notin \AP[S_{\neg P}]\)
+    \item \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\)
+    \item \(S_P, S_{\neg P} \in \Unsat\)
+  \end{itemize}
 
-\begin{definition}{Forma clausare}
-  Una formula \(\phi\) è in forma clausale se \(\phi \in 2^{2^\mathcal{L}}\), dove \(\mathcal{L}\) è un insieme di letterali.
-\end{definition}
+  Andiamo a definire quindi questi due insiemi come:
+  \[S_P = \set{C\setminus P}[C\in S \text{ e } \neg P \in C]\]
+  \[S_{\neg P} =  \set{C\setminus \neg P}[C\in S \text{ e }  P \in C]\]
 
-Ovviamente ogni insieme interno non può contenere due volte lo stesso letterale, e l'insieme esterno non può contenere due volte lo stesso insieme interno.
+  Ovviamente nessuna clausola nè di \(S_P\), nè di \(S_{\neg P}\) contengono nè \(\neg P\) nè \(P\).
+  Dunque, nè \(\AP[S_P]\) nè \(\AP[S_{\neg P}]\) contengono \(P\), quindi \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\).
 
-C'è una corrispondenza biunivoca tra formule in forma clausale e formule proposizionali in \(\CNF\).
-Infatti ogni insieme interno rappresenta una clausola disgiuntiva, e l'insieme esterno rappresenta una congiunzione di tali clausole.
+  Per poter applicare l'ipotesi induttiva ci manca solamente garantire che questi due insiemi siano insoddisfacibili.
 
-Inoltre possiamo notare che dato un insieme di formule in \(\CNF\) la congiunzione di tutte le formule è una formula in \(\CNF\) equivalente a tutte le formule dell'insieme, e quindi possiamo sempre rappresentare un insieme di formule \(\Gamma\subseteq\CNF\) con la formula \(\bigwedge_{\phi\in\Gamma}\phi\). E per la forma clausale chiaramente questo equivale a fare l'unione tra formule in forma clausale.
+  Prima di vedere ciò è importante notare che tali insiemi non sono disgiunti. In particolare quelle che sono in entrambi erano già presente in \(S\). Questo perché per stare in entrambi gli insiemi non deve contenere ne \(P\) ne \(\neg P\), e quindi la sottrazione non la cambia.
+  Inoltre non sono vuoti. Supponiamo infatti per assurdo che \(S_P=\emptyset\). Dunque ogni clausola in \(S\) contiene \(\neg P\).
+  Ma allora basta prendere un assegnamento che assegni \(0\) a \(P\), e tale assegnamento soddisferebbe \(S\), il che contraddice l'ipotesi che \(S\) sia insoddisfacibile.
 
-Ovviamente quindi per ogni \(\Sigma\subseteq\PL\) esiste un \(F_\Sigma\) in forma clausale equivalente a \(\Sigma\).
-Questo si riduce a dire che \(\forall\phi\in\PL\) esiste un \(F_\phi\) in forma clausale equivalente a \(\phi\), e questo è vero poiché ogni formula è equivalente a una formula in \(\CNF\) e ogni formula in \(\CNF\) è equivalente a una formula in forma clausale.
+  Raggioniamo ora sull'insoddisfacibilità di \(S_P\), ovviamente l'altro sarà simile.
 
-Quando \(F = \emptyset\) è detta forma clausale banale ed è valida.
+  Supponiamo \(S_P\) soddisfacibile per assurdo. Allora esiste un assegnamento \(\alpha:\AP[S_P]\to\set{0,1}\), tale che \(\Val{\alpha}[S_p] = 1\). Definiamo allora \(\alpha^p\) come:
 
-Questo poiché, intuitivamente, \(m\models F\) se e soltanto se \(\forall C \in F\) insieme di letterali, \(m\models C\) cioè \(m\models l\) per qualche \(l \in C\) per ogni \(C\in F\).
-Quindi \(m\models F \iff \forall C \in F ,\exists l \in C\st m\models l\). Ovviamente se \(F =\emptyset\) qualsiasi \(m\) soddisfa \(F\) poiché non c'è nessuna clausola da poter non soddisfare.
+  \[\alpha^P(X)\begin{cases}
+    0 &, X = P\\
+    \alpha(X) &, X \neq P
+  \end{cases}\]
 
-È impotante notare che la forma clasuale vuota \(F=\emptyset\) non è la stessa cosa della clausola vuota \(C=\emptyset\), tipicamente indicata con \(\square\). Per la definizione di soddisfacibilità, \(m\not\models \square\) per ogni \(m\), e quindi \(\square\) è insoddisfacibile, mentre \(F=\emptyset\) è soddisfacibile da ogni \(m\).
+  Ovviamente questo è un assegnamento per \(S\), poiché aggingendo \(P\) a \(\AP[S_P]\) si ottiene \(\AP[S]\).
 
-Il calcolo di risoluzione si basa sul derivare la clausola vuota \(\square\) da un insieme di formule in forma clausale \(F\).
+  In particolare possiamo mostrare che \(\Val{\alpha^P}[S] = 1\). Questo è vero se e solo se \(\forall C \in S: \Val{\alpha^P}[C] =1\).
+  Ora, preso un \(C\) qualsaisi, se \(\neg P \in C \implies \Val{\alpha^P}[C] = 1\) perché \(\Val{\alpha^P}[\neg P] = 1\).
+  Se invece \(\neg P \not \in C \implies C \setminus \set{P} \in S_P\). Dunque \(\Val{\alpha}[C\setminus\set{\neg P}] = 1 \implies \Val{\alpha^P}[C\setminus\set{P}] = 1\). Ma \(\Val{\alpha}[C\setminus\set{\neg P}] = 1\) vale solo se \(\alpha^P\) soddisfa almeno un letterale di \(C\) che non è \(P\). Tale letterale è però presente anche in \(C\), dunque anche \(\Val{\alpha^P}[C] = 1\).
+
+  Ora possiamo finalmente applicare l'ipotesi induttiva, avendo che \(S_P\models_R \square\) e \(S_{\neg P}\models_R \square \).
+  In particolare quindi esistono due alberi di derivazione del calcolo di risoluzione che hanno uno dei due insiemi come foglie e \(\square\) in radice. Chiamiamoli \(\pi_P\) e \(\pi_{\neg P}\) e valutiamo i diversi casi:
+  \begin{enumerate}
+    \item Se tutte le foglie di \(\pi_P\) o di \(\pi_{\neg P}\) sono clausole di \(S\) per monotonicità la deduzione di \(\square\) è anche una deduzione da \(S\), e dunque \(S\models_R \square\).
+    \item Esiste almeno una foglia \(C_P\) di \(\pi_P\) e almeno una \(C_{\neg P}\) di \(\pi_{\neg P}\) con \(C_P,C_{\neg P} \not\in S\).
+        In altre parole c'è almeno una foglia per deduzione che è stata ottenuta dalla sottrazione del letterale.
+        Consideriamo ora una derivazione per risoluzione da \(C_P\) e una qualsiasi altra clausola in clash \(D\). Essendo che \(P\notin C_P\) e \(P\not\in D\), \(P\) non ci sarà neanche nel loro risolvente \(R\). A questo punto però anche se aggiungessi \(P\) sia a \(C_P\) che a \(R\) avrei comunque un applicazione corretta di risoluzione. Con questa idea possiamo aggiungere \(P\) a tutte le \(C \in S_P\setminus S\). Facendo ciò essendo che \(P\) non poteva essere mai usata per un clash nella deduzione tale \(P\) aggiunta verrà propagata fino alla fine della deduzione, ottenendo quindi una deduzione di \(P\) da \(S\) a partire di quella di \(\square\) da \(S_P\). Applicando il ragionamento duale per \(S_{\neg P}\) otteniamo una deduzione di \(\neg P\) da \(S\). A questo punto è sufficiente un ulitma applicazione di risoluzione per ottenere \(\square\) da \(S\) facendo fare clash alle clausole derivate \(\set{P}\) e \(\set{\neg P}\)
+  \end{enumerate}
+\end{proof}
 
 \begin{example}{}
-  Sia 
-  \[\phi=(P\to(Q\land R))\land(Q\lor(Q\to P)) \land((\neg P \to Q)\lor(\neg Q \to R))\]
-  che in \(\CNF\) è equivalente a
-  \[\phi_{\CNF} = (\neg P\lor Q)\land(\neg P\lor R)\land(Q\lor \neg Q \lor P)\land(P\lor Q \lor Q \lor R)\]
-  ottenibile applicando De Morgan, distributività, implicazione materiale e semplificazione di doppie negazioni.
-  La forma clausale equivalente è quindi
-  \[F_\phi = \set{\set{\neg P, Q},\set{\neg P, R},\set{Q, \neg Q, P},\set{P, Q, R}}\]
-  Ogni clausola che contiene \(P\) e \(\neg P\) per un qualche \(P \in AP\) è tautologica, ed essendo \(\phi\land\top\equiv\phi\) è possibile rimuovere la clausola \(\set{Q, \neg Q, P}\) da \(F_\phi\) senza alterare la soddisfacibilità di \(F_\phi\).
+  Supponiamo di avere
+  \[S = \set{\set{P,Q}, \set{P,\neg Q,\neg R}, \set{R}, \set{\neg P,\neg R}, \set{\neg P,Q,R} }\]
+  Fissando \(P\) possiamo creare gli insiemi
+  \[S_P=\set{\set{Q},\set{\neg Q, \neg R}, \set{R}}\]
+  \[S_{\neg P} = \set{\set{R}, \set{\neg R}, \set{Q,R}}\]
 
-  Da ora in poi quindi assumeremo che le forme clausali non contengano clausole banali.
+  Ora è vacile vedere che \(S_P \models_R\square\) e \(S_{\neg P} \models_R \square\):
+  AGGIUNGI DEDUZIONE
+
+  Per queste deduzioni abbiamo che \(\set{\neg R}\) in \(S_{\neg P}\) non apparteneva a \(S\), così come \(\set{\neg Q, \neg R}\).
+  Aggiungiamo quindi alla deduzione \(P\), e propaghiamola.
+
+  AGGIUNGI NUOVA DEDUZIONE
+
+  A questo punto possiamo dedurre \(\square\) facilmente col clash di \(P\) e \(\neg P\).
 \end{example}
 
-% \chapter{Lezione 14/03}
+Come già anticipato questa forma di completezza è più debole di quella vista per la deduzione naturale perché non è completa per la conseguenza logica. Infatti seppur \(A\models_{ND}A\lor B\), \(\set{A}\models_R\set{A,B}\).
 
-% Sia S una forma clausale di clausole \(C_1, \dots, C_n\) e sia \(C\) una clausola. Il calcolo di risoluzione è un calcolo di deduzione con una sola regola di inferenza, chiamata appunto \textit{risoluzione} definita come segue.
+L'unica cosa che si può fare è mostrare che \(\set{A,\neg(A\lor B) }\) è indossisfacibile. Questo è facile poiché \(\neg(A\lor B)\equiv \neg A \land \neg B\), quindi l'insieme diventa \(\set{\set{A},\set{\neg A}, \set{B}}\) da cui è facilmente deducibile square.
 
-% Per definirla formalmente andiamo a definire prima la nozione di clausole in contrasto.
+\section{Applicazioni della logica propisizionale}
 
-% \begin{definition}{Clausole in contrasto}
-%   Siano \(C_1\) e \(C_2\) due clausole. Diciamo che \(C_1\) e \(C_2\) sono in contrasto, o in \qi{clash}, se esiste un letterale \(l\) tale che \(l \in C_1\) e \(\hat{l} \in C_2\) con
-  
-%   \[\hat{l} = \begin{cases}
-%                 \neg P & \text{se } l = P\\
-%                 P & \text{se } l = \neg P
-%               \end{cases}
-%   \]
-% \end{definition}
-% \[\infer[\text{Risoluzione}]{R}{C_1 \quad C_2}\]
-% Con \(C_1\) e \(C_2\) in contrasto e \(R = (C_1 \cup C_2)\setminus\set{l, \hat{l}}\), detto \keyword{risolvente}.
-
-% Assumendo di aver eliminato le clausole banali, è facile vedere che \(R\) non contiene né \(l\) né \(\hat{l}\), e quindi \(R\) è una clausola non banale.
-
-% \begin{example}{}
-%   Sia \(C_1=\set{\neg P,R}\) e \(C_2 = \set{P,R,Q}\). Chiaramente queste due clausole sono in contrasto su \(P\), e quindi è possibile applicare la regola di risoluzione per ottenere la clausola \(\set{R, Q}\).
-% \end{example}
+Avendo trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se è possibile riuscire a trovare una riduzione di un qualsiasi problema a \(\Sat\) possiamo avere un algoritmo per risolvere quel problema.
 
-% Intuitivamente la regola di risoluzione è fondata per via della semantica che abbiamo dato alle clausole.
-% Le clausole vanno interpretate in congiunzioni, quindi avendo due clausole \(C_1\) e \(C_2\) devo soddisfarle entrambe. Ora, se queste due sono in contrasto su un letterale \(l\), allora gli assegnamenti che soddisfano la versione positiva rendono la versione negativa falsa. Per far si che la clausola tra le due che contiente la versione negativa sia soddisfatta è necessario che sia soddisfatto almeno un altro letterale. Negli assegnamenti invece in cui è la versione negativa di \(l\) è soddisfatta, allora è necessario che sia soddisfatto almeno un altro letterale della clausola che contiene la versione positiva di \(l\). In entrambi i casi è necessario che sia soddisfatto almeno un letterale di \(C_1\cup C_2\setminus\set{l, \hat{l}}\), e quindi se \(C_1\) e \(C_2\) sono soddisfatte allora è soddisfatta anche la clausola \(R\) ottenuta da \(C_1\) e \(C_2\) tramite risoluzione.
-
-% Più formalmente diremo che una regola di inferenza preserva la verità se ogni modello che soffisfa le premesse della regola soddisfa anche la conclusione della regola.
-
-% È facile vedere che la regola di risoluzione preserva la verità, per quanto detto prima. Ovviamente il fatto che preservi la verità preserva anche la conseguenza logica.
-
-% Sia \(m\) un modello tale che \(m\models C_1\) e \(m \models C_2\). Sappiamo che \(C_1\) e \(C_2\) fanno clash su un letterale \(l \in C_1\) e \(\hat{l} \in C_2\). 
-
-% Ovviamente \(m\models l\) o \(m\not\models l\), ovvero \(m\models \hat{l}\).
-% Consideriamo il caso \(m\models l\). Essendo che \(m\models C_2\), allora \(\exists l'\in C_2\st l'\neq \hat{l}, l'\neq l\) e \(m\models l'\). Dunque \(l' \in C_2\setminus\set{\hat{l}}\subseteq R\implies m\models R\).
-
-% Nel caso \(m\models \hat{l}\) essendo che \(m\models C_1\), allora \(\exists l'\in C_1\st l'\neq l, l'\neq \hat{l}\) e \(m\models l'\). Dunque \(l' \in C_1\setminus\set{l}\subseteq R\implies m\models R\).
-
-% Se il risolvente \(R\) di \(C_1\) e \(C_2\) è soddisfacibile allora \(C_1\) e \(C_2\) sono congiuntamente soddisfacibili.
-
-% Tale condizione è più debole di quella di prima, perché ci dice solo che se esiste un modello che soddisfa \(R\) allora esiste un modello che soddisfa \(C_1\) e \(C_2\), ma non dice sul fatto che sia lo stesso. Questo avviene perché \(R\) contiene meno proposizioni atomiche di \(C_1\) e \(C_2\), e quindi un assegnamento che soddisfa \(R\) non è un assegnamento valido per \(C_1\) e \(C_2\). Quello che però possiamo fare è, da ogni assegnamento che soddisfa \(R\), costruire un assegnamento che soddisfa \(C_1\) e \(C_2\).
-
-% Sia \(\alpha\) un assegnamento tale che \(\Val{\alpha}[R]=1\). Dunque \(\alpha: AP(R)\to\set{0,1}\).
-% Possiamo allora costruire un assegnamento \(\alpha': AP(C_1\cup C_2) \to \set{0,1}\) che soddisfa \(C_1\) e \(C_2\).
-
-% Dove \(l\) è il letterale su cui \(C_1\) e \(C_2\) fanno clash.
-
-% Essendo che \(\Val{\alpha}[R]=1\), allora \(\exists l' \in R\st \Val{\alpha}[l']=1\). Tale \(l'\) è un letterale che appartiene a \(C_1\) o a \(C_2\) o a entrambi.
-
-% Consideriamo il caso in cui appartenga a entrambi. In tal caso posso definire \(\alpha'\) come segue:
-% \[\alpha'(P) = \begin{cases}
-%                 \alpha(P) & \text{se } P \in AP(R)\\
-%                 0 & \text{se } P \not\in AP(R) 
-%               \end{cases}
-% \]
-% Chiaramente \(\alpha'\) soddisfa \(C_1\) e \(C_2\) poiché soddisfa \(l'\) che è sufficiente per soddisfare entrambe le clausole.
-
-% Se invece \(l'\) appartiene solo a \(C_1\), che ricordiamo per assunzione senza perdita di generalità contiene la versione positiva di \(l\), allora posso definire \(\alpha'\) come segue:
-% \[\alpha'(P) = \begin{cases}
-%                 \alpha(P) & \text{se } P \in AP(R)\\
-%                 0 & \text{se } \hat{l} = \neg P\\
-%                 1 & \text{se } \hat{l} = P
-%               \end{cases}
-% \]
-
-% Dualemente, se \(l'\) appartiene solo a \(C_2\), che ricordiamo per assunzione senza perdita di generalità contiene la versione negativa di \(l\), allora posso definire \(\alpha'\) come segue:
-% \[\alpha'(P) = \begin{cases}
-%                 \alpha(P) & \text{se } P \in AP(R)\\
-%                 1 & \text{se } \hat{l} = \neg P\\
-%                 0 & \text{se } \hat{l} = P
-%               \end{cases}
-% \]
+Vediamo quindi qualche problema e qualche riduzione.
 
-% Avendo ora una regola di inferenza, e volendo un insieme di assunzioni che sono la forma clausale, possiamo definire un deduzione rispetto alla regola di risoluzione.
+Supponiamo di avere un grafo \(G=(V,E)\) orientato e vogiamo vedere se \(G\) è ciclico.
+Chiaramente è noto un algoritmo per verificare che un grafo sia ciclico, ma vediamo come potremmo affrontarlo tramite logia proposizionale.
 
-% \begin{definition}{Deduzione di risoluzione}
-%   Sia \(F\) una forma clausale. Una deduzione di risoluzione \(F\vdash_\R C\) da è un albero binario finito, la cui radice è etichettata con \(C\), tutte le foglie sono etichettate con clausole di \(F\) e ogni nodo interno è etichettato con il risolvente dei suoi figli.
-% \end{definition}
+Per fare una riduzione dobbiamo avere un modo di rappresentare l'input e la soluzione. Inoltre, a differenza di un tipo di soluzione operativa tipica di altri modelli di calcolo, in cui delle operazioni fanno del lavoro, la logica ha un approccio prettamente dichiarativo, in cui esprimiamo solo i vincoli che devono sussistere tra l'input e l'output.
 
-% Essendp che la regola di risoluzione preserva la verità, e quindi la conseguenza logica, è facile vedere per induzione strutturale che
-% \(S\vdash_\R C \implies S\models C\).
-
-% BANALE, allarga in post.
-
-% Ovviamente da questo segue che \(S\vdash_R \square \implies S\) è insoddisfacibile.
-
-% Dimostreremo anche l'altro verso, ovvero che \(S\not\vdash_R \square \implies \Sat[S]\), questo posso vederlo anche come \(\Unsat[S] \implies S\vdash_R \square\). Possiamo vedere tale proprietà come una forma di completezza debole di completezza del calcolo di risoluzione. Infatti \(S\models C \not\implies S \vdash_R C\) in generale. Ma è possibile dire che \(S\models C \iff S \cup \set{\neg C} \in \Unsat\). Allora se \(S'\) è la forma clausale equivalente a \(S\cup\set{\neg C}\) allora \(S'\in\Unsat \implies S' \vdash_R \square\) per completezza debole. A questo punto posso risolvere il problema di conseguenza logica usando il calcolo di risoluzione.
-
-% Vediamo prima però come automatizzare tale calcolo, tramite un algoritmo.
-
-% \begin{algorithmdesc}{Risoluzione}
-%   \begin{algorithm}
-%     \begin{algorithmic}[1]
-%       \Statex{} \textbf{signature} \(\textsc{Resolution:} \quad [Clause] \to \Unsat \mid \Sat\)
-%       \Function{\(\textsc{Resolution}\)}{$S$} % chktex 46
-%           \State{} \(S_0\gets S\)
-%           \State{} \(E \gets \emptyset\)
-%           \Comment{\(E \subseteq S_0 \times S_0\)}
-%           \Repeat{}
-%             \State{} Pick \((C_1, C_2) \in (S_0 \times S_0)\setminus E \st \operatorname{clash}(C_1, C_2)\)
-%             \State{} \(R \gets \operatorname{resolve}(C_1, C_2)\)
-%             \If{\(R\) non banale}
-%               \State{} \(S_0 = S_0 \cup \set{R}\)
-%             \EndIf{}
-%             \State{} \(E \gets E \cup \set{(C_1, C_2)}\)
-%           \Until{\(R = \square \lor E = S_0 \times S_0 \cap \set{(C_1,C_2) \in S_0\times S_0}[\operatorname{clash}(C_1, C_2)] \)}
-%           \If{\(R = \square\)}
-%             \State{} \Return{\(\Unsat\)}
-%           \Else{}
-%             \State{} \Return{\(\Sat\)}
-%           \EndIf{}
-%       \EndFunction{}
-%     \end{algorithmic}
-% \end{algorithmdesc}
-% \end{algorithm}
-
-% C'è da fare attenzione sul fatto che la condizione di terminaizone non è banale, poiché l'insieme \(S_0\) cresce ad ogni iterazione, e quindi non è ovvio che, nel caso \(S\) sia soddisfacibile, prima o poi \(E\) lo riesca a coprire tutto.
-
-% Prima di vedere che l'algoritmo in realtà termina sempre, vediamo un esempio di esecuzione dell'algoritmo.
-
-% \begin{example}{}
-%   Consideriamo l'esempio del capitolo 1. \todo{Aggiunge ref}
-
-%   Avevamo l'insieme di formule \(\Gamma\):
-%   \begin{itemize}
-%     \item \((C\land \neg G)\to R\)
-%     \item \(R \to (L\lor G)\)
-%     \item \(\neg L \to C\)
-%     \item \(\neg G\)
-%   \end{itemize}
-
-%   Volevamo dimostrare che tale insieme avesse come conseguenza logica \(L\).
-%   Con risoluzione, prendiamo \(\Gamma \cup \set{\neg L}\) e verificare che sia insoddisfacibile.
-%   Dovremo trasformare quindi le formule in forma clausale passando per la \(\CNF\), e otteniamo:
-%   \begin{enumerate}
-%     \item \(\neg(C\land\neg G) \lor R \equiv \neg C \lor G \lor R\), ovvero \(\set{\neg C,G,R}\)
-%     \item \(\neg R \lor L \lor G\), ovvero \(\set{\neg R, L, G}\)
-%     \item \(L \lor C\), ovvero \(\set{L, C}\)
-%     \item \(\neg G\), ovvero \(\set{\neg G}\)
-%     \item \(\neg L\), ovvero \(\set{\neg L}\)
-%   \end{enumerate}
-
-%   Dobbiamo allora vedere se da queste \(5\) clausole è possibile derivare la clausola vuota \(\square\) tramite risoluzione.
-
-%   In primo luogo ho diverse scelte, prendiamo ad esempio le clausole \(2\) e \(4\) che fanno clash su \(G\). Il risolvente è \(\set{\neg R, L}\), chiamiamo questo risolvente \(6\)
-
-%   Da \(1\) e \(4\) che fanno clash su \(G\) ottengo \(\set{\neg C, R}\), chiamiamo questo risolvente \(7\).
-%   Da \(3\) e \(7\) otteniamo \(\set{L, R}\), chiamiamo questo risolvente \(8\).
-%   Da \(6\) e \(8\) otteniamo \(\set{L}\), chiamiamo questo risolvente \(9\).
-%   Da \(5\) e \(9\) otteniamo \(\square\).
-
-%   Ovviamente tale esecuzione non è unica. Ad esempio, si può iniziare da \(1\) e \(2\) in clash su \(R\) per ottenere \(\set{\neg C, G, L}\), che chiamiamo \(6\).
+In particolare per rappresentare il grafo, andremo a introdurre per ogni coppia \(u,v \in V\) una proposizione atomica \(X_{u,v}\).
 
-%   Possiamo quindi risolvere \(6\) con \(3\) ottenendo \(\set{G, L}\), che chiamiamo \(7\).
-%   A questo punto risolvendo prima con \(4\), e poi il risolvente con \(5\) otteniamo \(\square\).
-% \end{example}
+A questo punto per rappresentare gli archi è possibile costruire la formula \(\phi_E = \bigwedge_{(u,v)\in E} X_{u,v} \land \bigwedge_{(u,v)\not\in E}\neg X_{u,v}\). Intuitivamente tale formula rappresenta un'assegnamento soddisfatto solo dalla matrice di adiacenza del grafo.
 
-% Consideriamo ora le clausole \(\set{A,B},\set{\neg A, \neg B}\). Si potrebbe pensare di applicare la risoluzione su entrambi i clash insieme, ottenendo qunidi \(\square\). Questa cosa però non è possibile, poiché fare questo ci farebbe perdere la correttezza, perchè queste due clausole sono banalmente soddisfacibili. La regola infatti decide prima un letterale su cui fare clash, e poi applica la risoluzione, e non è possibile fare entrambe le cose insieme su più letterali.
+Per l'output vorremo mostrare che esista un \(S\subseteq E\) tale che \(S\) contiene un ciclo. Partiamo da definire le variabili per l'output come \(Y_{u,v}\) per ogni \(u,v \in V\). Dunque possiamo definire \(\phi_S = \bigwedge_{u,v \in V} Y_{u,v}\to X_{u,v}\). Tale formula ci dice che ogni elemento di \(S\) deve stare in \(E\). Inoltre, per far si che \(S\) contenga un ciclo non può essere vuoto, e questo lo posso esprimere con \(\phi_{\neq \emptyset} = \bigvee_{u,v\in V} Y_{u,v} \).
 
-% \begin{theorem}{}
-%   \(\textsc{Resolution}(S)\) termina sempre e l'insieme di saturazione \(S_0\) avrà al più \(3^{\abs{\AP[S]}}\) clausole.
-% \end{theorem}
+Ci manca solo descrivere che dentro \(S\) ci sia un ciclo.
+Per fare ciò useremo la formula \(\phi_{cyc} = \bigwedge_{u,v} (Y_{u,v}\to \bigvee_{z \in V} Y_{v,z})\).
+Per far vedere che questa condizione rappresenta la presenza di un ciclo assumiamo che tutte le \(\phi\) viste fino ad ora siano soffisfatte. Essendo che \(\phi_{\neq \emptyset}\), possiamo prendere un qualsiasi \(Y_{u,v}\), essendo che tale proposizione è vera da \(\phi_{cyc}\) dev'esserci un altro arco che parte da \(v\) in \(S\). Iterando il procedimento possiamo vedere che questo porta a 
+costruire un percorso infinito, che su un grafo finito implica l'esistenza di un ciclo.
 
-% \begin{proof}
-%   Sappiamo che \(S\) è un insieme finito di clausole finite. Sia dunque \(\AP[S]\) l'insieme di proposizioni atomiche che compaiono in \(S\). Chiaramente \(\abs{C}\leq\abs{\AP[S]}\). Questo perché sono state tolte le clausole banali e la clausole sono insiemi, quindi ogni clausole può contenere al massimo una versione del letterale per ogni proposizione atomica.
+Nell'altro verso, se è presente un ciclo esiste un percorso infinito nel grafo. Allora esiste un assegnamento delle variabili \(Y_{u,v}\), in particolare quello che assegna a \(1\) le variabili corrispondenti agli archi del percorso. Dunque se esiste un percorso infinito tale formula è soddisfatta.
 
-%   Possiamo dunque vedere ogni clausola come una funzione che associa a \(P\in \AP[S]\) una delle tre possibilità: \(P\) è presente nella clausola, \(\neg P\) è presente nella clausola, o nessuna delle due è presente nella clausola. Dunque il numero di clausole che è possibile formare con le proposizioni atomiche di \(S\) è al più \(3^{\abs{\AP[S]}}\)
-% \end{proof}
+A questo punto il grafo ha un ciclo se e solo se \(\phi_E \land \phi_S \land \phi_{\neq \emptyset} \land \phi_{cyc} \) è soddisfacibile.
 
-% Abbiamo già visto che \(S\models_R \square \implies S \in \Unsat\), vorremmo dimostrare anche l'altro verso, ovvero che \(S \in \Unsat \implies S \models_R \square\).
+Vediamo ora un problema più complesso.
 
-% La completezza del calcolo di risoluzione garantisce anche la completezza dell'algoritmo di risoluzione, poiché l'algoritmo genera tutto il generabile.
+Sia \(G = (V,E)\) un grafo e un insieme \(C = \set{c_1, \ldots, c_k}\) di colori.
+Il problema di \(k-\)colorabilità di un grafo si chiede se \(\exists f: V\to C \st \forall u,v \in V, (u,v) \in E \implies f(u)\neq f(v)\).
 
-% \begin{proof}
-%   Per induzione su \(\abs{\AP[S]} = n\).
+Questo problema è molto interessante perché rappresenta una generalizzazione di un problema di allocazione di risorse.
 
-%   Se \(n = 0\), allora l'unica clausola che è possibile formare è la clausola vuota \(\square\). Quindi \(S = \set{\square}\), e ovviamente  \(S\models_R\square\).
-%   Per \(n>0\), abbiamo l'ipotesi induttiva che per ogni \(S'\) con \(\abs{\AP[S']}<n\), \(S'\in\Unsat\implies S'\models_R\square\).
-  
-%   Quello che vogliamo fare è quindi rimuovere in qualche modo una proposizione atomica. Fissiamo dunque \(P\in \AP[S]\).
-%   Costruiamo allora gli insiemi \(S_P\) e \(S_{\neg P}\) tali che:
-%   \begin{itemize}
-%     \item \(P \notin \AP[S_P]\) e \(P\notin \AP[S_{\neg P}]\)
-%     \item \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\)
-%     \item \(S_P, S_{\neg P} \in \Unsat\)
-%   \end{itemize}
+Questo problema è molto più complicato del precedente perché si dimostra essere \(NP-\)completo.
 
-%   Andiamo a definire quindi questi due insiemi come:
-%   \[S_P = \set{C\setminus P}[C\in S \text{ e } \neg P \in C]\]
-%   \[S_{\neg P} =  \set{C\setminus \neg P}[C\in S \text{ e }  P \in C]\]
+Vediamo come ridurre tale problema in logica. La funzione di output la possiamo vedere come una relazione \(f\subseteq V\times C\) con un vincolo funzionale. Dunque possiamo rappresentarla estensionalmente tramite le coppie del prodotto cartesiano.
 
-%   Ovviamente nessuna clausola nè di \(S_P\), nè di \(S_{\neg P}\) contengono nè \(\neg P\) nè \(P\).
-%   Dunque, nè \(\AP[S_P]\) nè \(\AP[S_{\neg P}]\) contengono \(P\), quindi \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\).
+In particolare, possiamo avere \(X_v^c\) con \(v\in V\) e \(c\in C\), in cui ogni assegnamento di tali variabili va interpretato come una colorazione del vertice \(v\) del colore \(c\) se \(X_v^c\) vale \(1\). Dunque \(\AP = \set{X_v^c}[c\in C \land v \in V]\) e quindi \(\abs{\AP} = \abs{V}k\).
 
-%   Per poter applicare l'ipotesi induttiva ci manca solamente garantire che questi due insiemi siano insoddisfacibili.
+Dobbiamo però imporre il vincolo di funzionalità e di totalità e quello dell'adiacenza con colori diversi.
 
-%   Prima di vedere ciò è importante notare che tali insiemi non sono disgiunti. In particolare quelle che sono in entrambi erano già presente in \(S\). Questo perché per stare in entrambi gli insiemi non deve contenere ne \(P\) ne \(\neg P\), e quindi la sottrazione non la cambia.
-%   Inoltre non sono vuoti. Supponiamo infatti per assurdo che \(S_P=\emptyset\). Dunque ogni clausola in \(S\) contiene \(\neg P\).
-%   Ma allora basta prendere un assegnamento che assegni \(0\) a \(P\), e tale assegnamento soddisferebbe \(S\), il che contraddice l'ipotesi che \(S\) sia insoddisfacibile.
+Il primo, \(\phi_f = \bigwedge_{v\in V}(\bigvee_{c\in C} X_v^c \land \bigvee_{c'\in C\setminus\set{c}} \neg X_v^{c'})\). Questo mi dice che ogni vertice deve avere un colore, e che non ha nessuno degli altri. La dimensione di questa formula è \(\abs{V}k^2\)
 
-%   Raggioniamo ora sull'insoddisfacibilità di \(S_P\), ovviamente l'altro sarà simile.
+Il secondo è molto semplice, poiché basta definire \(\phi_2 = \bigwedge_{c \in C}\bigwedge_{u,v\in V \st (u,v)\in E} (\neg (X_u^c \land X_v^c))\). La lunghezza di questa formula è \(\abs{V}^2k\).
 
-%   Supponiamo \(S_P\) soddisfacibile per assurdo. Allora esiste un assegnamento \(\alpha:\AP[S_P]\to\set{0,1}\), tale che \(\Val{\alpha}[S_p] = 1\). Definiamo allora \(\alpha^p\) come:
+Dunque \(\phi_f \land \phi_2 = \BigO(\abs{V}^3)\). Questa codifica del problema è però problematica se l'input dei colori lo rappresento solo usando \(k\). Questo perché un numero per essere rappresentato necessita \(\log_2(k)\) celle. Quindi avere una formula di dimensione polinomiale in \(k\) non è una formula di dimensione polinomiale in \(\lceil\log_2(k)\rceil\).
 
-%   \[\alpha^P(X)\begin{cases}
-%     0 &, X = P\\
-%     \alpha(X) &, X \neq P
-%   \end{cases}\]
+Esiste però una codifica più efficiente. Visto che \(k\) può essere espresso con \(\lceil\log_2(k)\rceil\), posso rappresentare i colori con \(\lceil\log_2(k)\rceil\) variabili che rappresentano i bit. A questo punto per rappresentare ogni vertice utilizzo le variabili \(X_0^v\ldots X_{\log_2(k)-1}^v\) il cui assegnamento rappresenta il colore assegnato. Questo fa in modo di avere anche il vincolo funzionale, perché ogni assegnamento può assegnare a vero solo un colore a ogni vertici. Abbiamo chiaramente ora che \(\abs{AP} = \abs{V}\log_2(k)\).
 
-%   Ovviamente questo è un assegnamento per \(S\), poiché aggingendo \(P\) a \(\AP[S_P]\) si ottiene \(\AP[S]\).
+Dobbiamo solo esprimere il vincolo di adiacenza con colori diversi. Possiamo farlo con
+\[\phi_2' = \land_{u,v \in V \st (u,v)\in E}\left( \bigvee_{i=0}^{\log_2(k)-1} (X_i^u \land \neg X_i^v) \lor (\neg X_i^u \land X_i^v)\right)\] 
 
-%   In particolare possiamo mostrare che \(\Val{\alpha^P}[S] = 1\). Questo è vero se e solo se \(\forall C \in S: \Val{\alpha^P}[C] =1\).
-%   Ora, preso un \(C\) qualsaisi, se \(\neg P \in C \implies \Val{\alpha^P}[C] = 1\) perché \(\Val{\alpha^P}[\neg P] = 1\).
-%   Se invece \(\neg P \not \in C \implies C \setminus \set{P} \in S_P\). Dunque \(\Val{\alpha}[C\setminus\set{\neg P}] = 1 \implies \Val{\alpha^P}[C\setminus\set{P}] = 1\). Ma \(\Val{\alpha}[C\setminus\set{\neg P}] = 1\) vale solo se \(\alpha^P\) soddisfa almeno un letterale di \(C\) che non è \(P\). Tale letterale è però presente anche in \(C\), dunque anche \(\Val{\alpha^P}[C] = 1\).
+Tale codifica chiaramente occupa spazio \(\abs{V}^2\log_2(k)\), che è lineare nell'input.
 
-%   Ora possiamo finalmente applicare l'ipotesi induttiva, avendo che \(S_P\models_R \square\) e \(S_{\neg P}\models_R \square \).
-%   In particolare quindi esistono due alberi di derivazione del calcolo di risoluzione che hanno uno dei due insiemi come foglie e \(\square\) in radice. Chiamiamoli \(\pi_P\) e \(\pi_{\neg P}\) e valutiamo i diversi casi:
-%   \begin{enumerate}
-%     \item Se tutte le foglie di \(\pi_P\) o di \(\pi_{\neg P}\) sono clausole di \(S\) per monotonicità la deduzione di \(\square\) è anche una deduzione da \(S\), e dunque \(S\models_R \square\).
-%     \item Esiste almeno una foglia \(C_P\) di \(\pi_P\) e almeno una \(C_{\neg P}\) di \(\pi_{\neg P}\) con \(C_P,C_{\neg P} \not\in S\).
-%         In altre parole c'è almeno una foglia per deduzione che è stata ottenuta dalla sottrazione del letterale.
-%         Consideriamo ora una derivazione per risoluzione da \(C_P\) e una qualsiasi altra clausola in clash \(D\). Essendo che \(P\notin C_P\) e \(P\not\in D\), \(P\) non ci sarà neanche nel loro risolvente \(R\). A questo punto però anche se aggiungessi \(P\) sia a \(C_P\) che a \(R\) avrei comunque un applicazione corretta di risoluzione. Con questa idea possiamo aggiungere \(P\) a tutte le \(C \in S_P\setminus S\). Facendo ciò essendo che \(P\) non poteva essere mai usata per un clash nella deduzione tale \(P\) aggiunta verrà propagata fino alla fine della deduzione, ottenendo quindi una deduzione di \(P\) da \(S\) a partire di quella di \(\square\) da \(S_P\). Applicando il ragionamento duale per \(S_{\neg P}\) otteniamo una deduzione di \(\neg P\) da \(S\). A questo punto è sufficiente un ulitma applicazione di risoluzione per ottenere \(\square\) da \(S\) facendo fare clash alle clausole derivate \(\set{P}\) e \(\set{\neg P}\)
-%   \end{enumerate}
-% \end{proof}
-
-% \begin{example}{}
-%   Supponiamo di avere
-%   \[S = \set{\set{P,Q}, \set{P,\neg Q,\neg R}, \set{R}, \set{\neg P,\neg R}, \set{\neg P,Q,R} }\]
-%   Fissando \(P\) possiamo creare gli insiemi
-%   \[S_P=\set{\set{Q},\set{\neg Q, \neg R}, \set{R}}\]
-%   \[S_{\neg P} = \set{\set{R}, \set{\neg R}, \set{Q,R}}\]
-
-%   Ora è vacile vedere che \(S_P \models_R\square\) e \(S_{\neg P} \models_R \square\):
-%   AGGIUNGI DEDUZIONE
-
-%   Per queste deduzioni abbiamo che \(\set{\neg R}\) in \(S_{\neg P}\) non apparteneva a \(S\), così come \(\set{\neg Q, \neg R}\).
-%   Aggiungiamo quindi alla deduzione \(P\), e propaghiamola.
-
-%   AGGIUNGI NUOVA DEDUZIONE
-
-%   A questo punto possiamo dedurre \(\square\) facilmente col clash di \(P\) e \(\neg P\).
-% \end{example}
-
-% Come già anticipato questa forma di completezza è più debole di quella vista per la deduzione naturale perché non è completa per la conseguenza logica. Infatti seppur \(A\models_{ND}A\lor B\), \(\set{A}\models_R\set{A,B}\).
-
-% L'unica cosa che si può fare è mostrare che \(\set{A,\neg(A\lor B) }\) è indossisfacibile. Questo è facile poiché \(\neg(A\lor B)\equiv \neg A \land \neg B\), quindi l'insieme diventa \(\set{\set{A},\set{\neg A}, \set{B}}\) da cui è facilmente deducibile square.
-
-% \section{Applicazioni della logica propisizionale}
-
-% Avendo trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se è possibile riuscire a trovare una riduzione di un qualsiasi problema a \(\Sat\) possiamo avere un algoritmo per risolvere quel problema.
-
-% Vediamo quindi qualche problema e qualche riduzione.
-
-% Supponiamo di avere un grafo \(G=(V,E)\) orientato e vogiamo vedere se \(G\) è ciclico.
-% Chiaramente è noto un algoritmo per verificare che un grafo sia ciclico, ma vediamo come potremmo affrontarlo tramite logia proposizionale.
-
-% Per fare una riduzione dobbiamo avere un modo di rappresentare l'input e la soluzione. Inoltre, a differenza di un tipo di soluzione operativa tipica di altri modelli di calcolo, in cui delle operazioni fanno del lavoro, la logica ha un approccio prettamente dichiarativo, in cui esprimiamo solo i vincoli che devono sussistere tra l'input e l'output.
-
-% In particolare per rappresentare il grafo, andremo a introdurre per ogni coppia \(u,v \in V\) una proposizione atomica \(X_{u,v}\).
-
-% A questo punto per rappresentare gli archi è possibile costruire la formula \(\phi_E = \bigwedge_{(u,v)\in E} X_{u,v} \land \bigwedge_{(u,v)\not\in E}\neg X_{u,v}\). Intuitivamente tale formula rappresenta un'assegnamento soddisfatto solo dalla matrice di adiacenza del grafo.
-
-% Per l'output vorremo mostrare che esista un \(S\subseteq E\) tale che \(S\) contiene un ciclo. Partiamo da definire le variabili per l'output come \(Y_{u,v}\) per ogni \(u,v \in V\). Dunque possiamo definire \(\phi_S = \bigwedge_{u,v \in V} Y_{u,v}\to X_{u,v}\). Tale formula ci dice che ogni elemento di \(S\) deve stare in \(E\). Inoltre, per far si che \(S\) contenga un ciclo non può essere vuoto, e questo lo posso esprimere con \(\phi_{\neq \emptyset} = \bigvee_{u,v\in V} Y_{u,v} \).
-
-% Ci manca solo descrivere che dentro \(S\) ci sia un ciclo.
-% Per fare ciò useremo la formula \(\phi_{cyc} = \bigwedge_{u,v} (Y_{u,v}\to \bigvee_{z \in V} Y_{v,z})\).
-% Per far vedere che questa condizione rappresenta la presenza di un ciclo assumiamo che tutte le \(\phi\) viste fino ad ora siano soffisfatte. Essendo che \(\phi_{\neq \emptyset}\), possiamo prendere un qualsiasi \(Y_{u,v}\), essendo che tale proposizione è vera da \(\phi_{cyc}\) dev'esserci un altro arco che parte da \(v\) in \(S\). Iterando il procedimento possiamo vedere che questo porta a 
-% costruire un percorso infinito, che su un grafo finito implica l'esistenza di un ciclo.
-
-% Nell'altro verso, se è presente un ciclo esiste un percorso infinito nel grafo. Allora esiste un assegnamento delle variabili \(Y_{u,v}\), in particolare quello che assegna a \(1\) le variabili corrispondenti agli archi del percorso. Dunque se esiste un percorso infinito tale formula è soddisfatta.
-
-% A questo punto il grafo ha un ciclo se e solo se \(\phi_E \land \phi_S \land \phi_{\neq \emptyset} \land \phi_{cyc} \) è soddisfacibile.
-
-% Vediamo ora un problema più complesso.
-
-% Sia \(G = (V,E)\) un grafo e un insieme \(C = \set{c_1, \ldots, c_k}\) di colori.
-% Il problema di \(k-\)colorabilità di un grafo si chiede se \(\exists f: V\to C \st \forall u,v \in V, (u,v) \in E \implies f(u)\neq f(v)\).
-
-% Questo problema è molto interessante perché rappresenta una generalizzazione di un problema di allocazione di risorse.
-
-% Questo problema è molto più complicato del precedente perché si dimostra essere \(NP-\)completo.
-
-% Vediamo come ridurre tale problema in logica. La funzione di output la possiamo vedere come una relazione \(f\subseteq V\times C\) con un vincolo funzionale. Dunque possiamo rappresentarla estensionalmente tramite le coppie del prodotto cartesiano.
-
-% In particolare, possiamo avere \(X_v^c\) con \(v\in V\) e \(c\in C\), in cui ogni assegnamento di tali variabili va interpretato come una colorazione del vertice \(v\) del colore \(c\) se \(X_v^c\) vale \(1\). Dunque \(\AP = \set{X_v^c}[c\in C \land v \in V]\) e quindi \(\abs{\AP} = \abs{V}k\).
-
-% Dobbiamo però imporre il vincolo di funzionalità e di totalità e quello dell'adiacenza con colori diversi.
-
-% Il primo, \(\phi_f = \bigwedge_{v\in V}(\bigvee_{c\in C} X_v^c \land \bigvee_{c'\in C\setminus\set{c}} \neg X_v^{c'})\). Questo mi dice che ogni vertice deve avere un colore, e che non ha nessuno degli altri. La dimensione di questa formula è \(\abs{V}k^2\)
-
-% Il secondo è molto semplice, poiché basta definire \(\phi_2 = \bigwedge_{c \in C}\bigwedge_{u,v\in V \st (u,v)\in E} (\neg (X_u^c \land X_v^c))\). La lunghezza di questa formula è \(\abs{V}^2k\).
-
-% Dunque \(\phi_f \land \phi_2 = \BigO(\abs{V}^3)\). Questa codifica del problema è però problematica se l'input dei colori lo rappresento solo usando \(k\). Questo perché un numero per essere rappresentato necessita \(\log_2(k)\) celle. Quindi avere una formula di dimensione polinomiale in \(k\) non è una formula di dimensione polinomiale in \(\lceil\log_2(k)\rceil\).
-
-% Esiste però una codifica più efficiente. Visto che \(k\) può essere espresso con \(\lceil\log_2(k)\rceil\), posso rappresentare i colori con \(\lceil\log_2(k)\rceil\) variabili che rappresentano i bit. A questo punto per rappresentare ogni vertice utilizzo le variabili \(X_0^v\ldots X_{\log_2(k)-1}^v\) il cui assegnamento rappresenta il colore assegnato. Questo fa in modo di avere anche il vincolo funzionale, perché ogni assegnamento può assegnare a vero solo un colore a ogni vertici. Abbiamo chiaramente ora che \(\abs{AP} = \abs{V}\log_2(k)\).
-
-% Dobbiamo solo esprimere il vincolo di adiacenza con colori diversi. Possiamo farlo con
-% \[\phi_2' = \land_{u,v \in V \st (u,v)\in E}\left( \bigvee_{i=0}^{\log_2(k)-1} (X_i^u \land \neg X_i^v) \lor (\neg X_i^u \land X_i^v)\right)\] 
-
-% Tale codifica chiaramente occupa spazio \(\abs{V}^2\log_2(k)\), che è lineare nell'input.
-
-% Possiamo notare che in questa codifica, per \(k=2\) otteniamo un problema in \(2-\Sat\), il che mostra facilmente come il 2 graph coloring sia polinomiale.
+Possiamo notare che in questa codifica, per \(k=2\) otteniamo un problema in \(2-\Sat\), il che mostra facilmente come il 2 graph coloring sia polinomiale.
