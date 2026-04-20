@@ -1191,3 +1191,247 @@ Fortunatamente, tale limite superiore esiste, e ne vedremo dimostrazione formale
   Possiamo quindi risolvere \(6\) con \(3\) ottenendo \(\set{G, L}\), che chiamiamo \(7\).
   A questo punto risolvendo prima con \(4\), e poi il risolvente con \(5\) otteniamo \(\square\).
 \end{example}
+
+È fondamentale notare che l'applicazione della regola di risoluzione richiede la selezione di due clausole in clash su uno specifico letterale, e che quindi una singola applicazione della regola porti all'eliminazione di un solo letterale alla volta.
+
+Non è possibile estendere banalmente la regola per permettere la risoluzione di più letterali contemporaneamente, poiché in tal caso è facile cotruire controesempi in cui non è preservata la verità. Prendiamo infatti le clausole \(C_1 = \set{A, B}\) e \(C_2 = \set{\neg A, \neg B}\). Se fosse possibile risolvere entrambe le coppie di letterali in clash contemporaneamente, allora sarebbe possibile dedurre la clausola vuota \(\square\) da \(C_1\) e \(C_2\), che è insoddisfacibile, mentre invece \(C_1\) e \(C_2\) sono congiuntamente soddisfacibili da un assegnamento che assegna \(1\) ad \(A\) e \(0\) a \(B\), o viceversa. Andando ad applicare la regola di risoluzione in modo corretto, è possibile dedurre \(\set{A,\neg A}\) da \(C_1\) e \(C_2\) risolvendo su \(B\), ottenendo la clausola banale \(\set{A, \neg A}\), che è tautologica.
+
+Fatte queste precisazioni, possiamo ora dimostrare la terminazione dell'algoritmo di risoluzione, mostrando che esiste un limite superiore al numero di clausole che tale algoritmo può generare, limitando quindi la grandezza dell'insieme \(S_0\) su cui viene valutata la condizione di terminazione.
+
+\begin{theorem}{}
+  \(\textsc{Resolution}(S)\) termina sempre e l'insieme di saturazione \(S_0\) avrà al più \(3^{\abs{\AP[S]}}\) clausole.
+\end{theorem}
+
+\begin{proof}
+  Sappiamo che l'insieme di clausole in input \(S\) è finito. Sia dunque \(\AP[S] = \set{P \in \AP[\phi]}[\phi \in S]\) l'insieme di proposizioni atomiche che compaiono in \(S\). Chiaramente \(\AP[S]\) è finito, poiché \(S\) è finito e ogni formula contiene un numero finito di proposizioni atomiche.
+
+  Inoltre, avendo escluso le clausole banali, si ha che \(\forall C \in S, \abs{C}\leq\AP[S]\). Questo poiché ogni clausola è un insieme di letterali, che può essere presente o in forma positiva o in forma negativa, ma non entrambe, e quindi per ogni proposizione atomica in \(\AP[S]\) al più una delle due forme può essere presente in una clausola.
+
+  Quindi, in ogni clausola, una data proposizione atomica \(P\) può essere presente in forma positiva, in forma negativa, o non essere presente affatto. Di conseguenza ogni clausola può essere vista come una funzione da \(\AP[S]\) a \(\set{-1,0,1}\), dove \(0\) rappresenta l'assenza di \(P\) nella clausola, \(1\) rappresenta la presenza di \(P\) in forma positiva, e \(-1\) rappresenta la presenza di \(P\) in forma negativa.
+
+  Dunque, il numero di clausole che è possibile generare con le proposizioni atomiche in \(\AP[S]\) è al più il numero di funzioni da \(\AP[S]\) a \(\set{-1,0,1}\), che è \(3^{\abs{\AP[S]}}\).
+\end{proof}
+
+A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritmo di risoluzione, rimane da dimostrarne solo la completezza. Essendo che l'algoritmo per com'è definito genera ogni formula che il calcolo di risoluzione è in grado di generare, è sufficiente dimostrare la completezza del calcolo di risoluzione, ovvero che se \(S\) è insoddisfacibile allora \(S\vdash_R \square\).
+
+\begin{theorem}{Completezza debole del calcolo di risoluzione}
+  Se \(S\) è insoddisfacibile, allora \(S\vdash_R \square\).
+\end{theorem}
+
+\begin{proof}
+  Per fare ciò, ragioniamo induttivamente sulla cardinalità di \(\AP[S]\).
+
+  Il caso base è rappresentato da \(\abs{\AP[S]} = 0\), ovvero \(\AP[S] = \emptyset\). In questo caso è chiaro che l'unica formula che è possibile formare è la clausola vuota \(\square\), che è insoddisfacibile, e quindi \(S\vdash_R \square\).\footnote{È importante notare che \(\AP[S]=\emptyset\centernot\implies S = \emptyset\) poiché \(S\) è un insieme di insiemi di letterali. \(\AP[S]=\emptyset \implies  S = \emptyset \lor S = \set{\emptyset} = \set{\square}\). Avendo però che \(S\) è insoddisfacibile per ipotesi, siamo nella seconda situazione, e quindi \(S = \set{\square}\).}
+
+  Per \(\abs{\AP[S]}>0\), si ha l'ipotesi induttiva che per ogni \(S'\) con \(\abs{\AP[S']} < \abs{\AP[S]}\), se \(S'\) è insoddisfacibile allora \(S'\vdash_R \square\).
+
+  Per poter applicare tale ipotesi induttiva è quindi necessario in qualche modo rimuovere una proposizione atomica da \(S\), mostrare che il nuovo insieme di clausole è ancora insoddisfacibile, e da questa cosruzione usando l'ipotesi induttiva mostrare che è possibile dedurre \(\square\) anche da \(S\).
+
+  Iniziamo col fissare la proposizione atomica \(P\in\AP[S]\) che andremo ad escludere. Costruiamo dunque gli insiemi \(S_P\) e \(S_{\neg P}\) come segue:
+  \[S_P = \set{C\setminus P}[C\in S \text{ e } \neg P \in C]\]
+  \[S_{\neg P} =  \set{C\setminus \neg P}[C\in S \text{ e }  P \in C]\]
+
+  In altre parole, \(S_P\) è l'insieme di clausole che non contengono il letterale negativo di \(P\), a cui se presente è stato rimosso il letterale positivo di \(P\) e viceversa per \(S_{\neg P}\). In questo modo è chiaro che \(P\) non è presente in \(S_P\) e \(\neg P\) non è presente in \(S_{\neg P}\), e che inoltre \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\) poiché non sono state aggiunte nuove proposizioni atomiche, ma solo eventualmente rimosse.
+
+  Di conseguenza \(\AP[S_P]<\AP[S]\) e \(\AP[S_{\neg P}]<\AP[S]\).
+  Inoltre questi due insiemi non sono necessariamente disgiunti. In particolare infatti, ogni clausola in \(S\) che non conteneva ne \(P\) ne \(\neg P\) è presente sia in \(S_P\) che in \(S_{\neg P}\). In ogni caso, tutte le clausole dell'intersezione tra \(S_P\) e \(S_{\neg P}\) erano già presenti in \(S\), poiché se una clausola è stata ottenuta da \(S\) rimuovendo \(P\) o \(\neg P\), può essere ottenuta in tal modo solo in uno dei due insiemi, e quindi se è presente in entrambi, allora era già presente in \(S\) senza bisogno di rimuovere \(P\) o \(\neg P\).
+
+  In aggiunta, tali insiemi sono anche certamente non vuoti. Supponiamo infatti per assurdo che \(S_P = \emptyset\). Allora, necessariamente, ogni clausola di \(S\) contiene \(\neg P\). Essendo però che per soddisfare una clausola è sufficiente soddisfare un suo letterale, allora ogni assegnamento che assegna \(0\) a \(P\) soddisfa tutte le clausole di \(S\), rendendo \(S\) soddisfacibile, in contraddizione con l'ipotesi che \(S\) sia insoddisfacibile. Vale ovviamente un ragionamento duale per \(S_{\neg P}\).
+
+  Per poter applicare l'ipotesi induttiva a questi due insiemi ci rimane da mostrare che sono entrambi insoddisfacibili.
+  Iniziamo ragionando sull'insoddisfacibilità di \(S_P\) supponendo per assurdo che \(S_P\) sia soddisfacibile. Allora, esiste un assegnamento \(\alpha: \AP[S_P] \to \set{0,1}\) tale che \(\Val{\alpha}[C] = 1\) per ogni \(C \in S_P\). Estendendo banalmente tale assegnamento a \(S\) con:
+  \[\alpha^P(X) = \begin{cases}
+    0 &, X=P\\
+    \alpha(X) &, X\neq P
+  \end{cases}\]
+
+  possiamo facilmente vedere che \(\Val{\alpha^P}[S] = 1\) portando all'assurdo. Questo si ha sempre perché per soddisfare una clausola è sufficiente soddisfare un suo letterale, e ogni clausola di \(S\) o è presente in \(S_P\) e quindi soddisfatta da \(\alpha\), o contiene \(\neg P\) e quindi è soddisfatta da \(\alpha^P\) assegnando \(0\) a \(P\).
+  Formalmente, \(\forall C \in S\), \(\neg P \in C \implies \Val{\alpha^P}[C] = 1\) perché \(\Val{\alpha^P}[\neg P] = 1\) e 
+  \[\neg P \notin C \implies C\setminus\set{P} \in S_P \implies \exists l \in C\setminus\set{P} : \Val{\alpha^P}[l] = \Val{\alpha^P}[l] = 1\]
+
+  Per quanto riguarda \(S_{\neg P}\) il ragionamento è analogo costruendo un assegnamento che assegni \(1\) a \(P\).
+  A questo punto possiamo finalmente applicare l'ipotesi induttiva a \(S_P\) e \(S_{\neg P}\), avendo che entrambi sono insoddisfacibili, e quindi \(S_P\vdash_R \square\) e \(S_{\neg P}\vdash_R \square\).
+
+  In particolare quindi esistono due alberi di derivazione del calcolo di risoluzione che hanno uno dei due insiemi come foglie e \(\square\) in radice. Chiamiamoli \(\pi_P\) e \(\pi_{\neg P}\) e valutiamo i diversi casi:
+  \begin{itemize}
+    \item Se vale \(S_P\subseteq S\) o \(S_{\neg P}\subseteq S\), ovvero una tra \(P\) e \(\neg P\) non è presente in nessuna clausola di \(S\), allora \(S\vdash_R \square\) banalmente per monotonicità.\todo{Abbiamo dimostrato la monotonicità?}
+    \item Alternativamente, esiste almeno una foglia in \(\pi_P\) etichettata con una clausola \(C_P\) e una in \(\pi_{\neg P}\) etichettata con una clausola \(C_{\neg P}\) tali che \(C_P\) e \(C_{\neg P}\) non sono in \(S\).
+    In altre parole c'è almeno una foglia per albero deduzione che è stata ottenuta dalla sottrazione del letterale.
+    Consideriamo quindi un'applicazione di risoluzione tra \(C_P\) e una qualsiasi clausola \(D \in S_P\) in clash con \(C_P\).
+    Chiaramente \(P\notin C_P \land P \notin D \implies P \notin R\) risolvente di \(C_P\) e \(D\).
+    A questo punto però aggiungendo \(P\) sia a \(C_P\), che ricordiamo per costruzione originariamente conteneva \(P\) in \(S\), e a \(R\), otterrei ancora un applicazione corretta di risoluzione, poiché applicata ad un altro letterale in clash.
+    \[\infer[\text{Risoluzione}]{R}{C_P \quad D}\implies\infer[\text{Risoluzione}]{R\cup\set{P}}{C_P\cup\set{P} \quad D}\]
+    Con questa idea possiamo aggiungere \(P\) a tutte le foglie di \(\pi_P\) che non appartengono a \(S\), propagando \(P\) ai risolventi delle deduzioni in cui sono coinvolte.
+    \begin{center}
+      \begin{minipage}{0.42\textwidth}
+        \centering
+        \begin{prooftree}
+          \tiny
+          \AxiomC{\(C_P\)}
+          \AxiomC{\(D\)}
+          \BinaryInfC{\(R\)}
+          \AxiomC{\(\vdots\)}
+          \BinaryInfC{\(\vdots\)}
+          \AxiomC{\(\vdots\)}
+          \AxiomC{\(C_P'\)}
+          \AxiomC{\(D'\)}
+          \BinaryInfC{\(R'\)}
+          \BinaryInfC{\(\vdots\)}
+          \BinaryInfC{\(\square\)}
+        \end{prooftree}
+      \end{minipage}
+      \hspace{0.3cm}
+      \(\xrightarrow{P}\)
+      \hspace{0.3cm}
+      \begin{minipage}{0.42\textwidth}
+        \centering
+        \begin{prooftree}
+          \tiny
+          \AxiomC{\(C_P\cup\set{P}\)}
+          \AxiomC{\(D\)}
+          \BinaryInfC{\(R\cup\set{P}\)}
+          \AxiomC{\(\vdots\)}
+          \BinaryInfC{\(\vdots\)}
+          \AxiomC{\(\vdots\)}
+          \AxiomC{\(C_P'\cup\set{P}\)}
+          \AxiomC{\(D'\)}
+          \BinaryInfC{\(R'\cup\set{P}\)}
+          \BinaryInfC{\(\vdots\)}
+          \BinaryInfC{\(\set{P}\)}
+        \end{prooftree}
+      \end{minipage}
+    \end{center}
+    In questo modo, abbiamo costruito una nuova deduzione di risoluzione che, a partire da \(S\) essendo tute le foglie etichettate con clausole in \(S\), deduce \(\set{P}\).
+
+    Applicando il ragionamento duale a \(S_{\neg P}\) otteniamo da \(S\) anche una deduzione per \(\set{\neg P}\).
+        \begin{center}
+      \begin{minipage}{0.42\textwidth}
+        \centering
+        \begin{prooftree}
+          \tiny
+          \AxiomC{\(C_{\neg P}\)}
+          \AxiomC{\(D\)}
+          \BinaryInfC{\(R\)}
+          \AxiomC{\(\vdots\)}
+          \BinaryInfC{\(\vdots\)}
+          \AxiomC{\(\vdots\)}
+          \AxiomC{\(C_{\neg P}'\)}
+          \AxiomC{\(D'\)}
+          \BinaryInfC{\(R'\)}
+          \BinaryInfC{\(\vdots\)}
+          \BinaryInfC{\(\square\)}
+        \end{prooftree}
+      \end{minipage}
+      \hspace{0.2cm}
+      \(\xrightarrow{\neg P}\)
+      \hspace{0.2cm}
+      \begin{minipage}{0.42\textwidth}
+        \centering
+        \begin{prooftree}
+          \tiny
+          \AxiomC{\(C_{\neg P}\cup\set{\neg P}\)}
+          \AxiomC{\(D\)}
+          \BinaryInfC{\(R\cup\set{\neg P}\)}
+          \AxiomC{\(\vdots\)}
+          \BinaryInfC{\(\vdots\)}
+          \AxiomC{\(\vdots\)}
+          \AxiomC{\(C_{\neg P}'\cup\set{\neg P}\)}
+          \AxiomC{\(D'\)}
+          \BinaryInfC{\(R'\cup\set{\neg P}\)}
+          \BinaryInfC{\(\vdots\)}
+          \BinaryInfC{\(\set{\neg P}\)}
+        \end{prooftree}
+      \end{minipage}
+    \end{center}
+    A questo punto, applicando un ultima volta la regola di risoluzione, è possibile ottenre una deduzione da \(S\) a \(\square\).
+
+    \begin{prooftree}
+      \tiny
+      \AxiomC{\(C_P\cup\set{P}\)}
+      \AxiomC{\(D\)}
+      \BinaryInfC{\(R\cup\set{P}\)}
+      \AxiomC{\(\vdots\)}
+      \BinaryInfC{\(\vdots\)}
+      \AxiomC{\(\vdots\)}
+      \AxiomC{\(C_P'\cup\set{P}\)}
+      \AxiomC{\(D'\)}
+      \BinaryInfC{\(R'\cup\set{P}\)}
+      \BinaryInfC{\(\vdots\)}
+      \BinaryInfC{\(\set{P}\)}
+    
+      \AxiomC{\(C_{\neg P}\cup\set{\neg P}\)}
+      \AxiomC{\(D\)}
+      \BinaryInfC{\(R\cup\set{\neg P}\)}
+      \AxiomC{\(\vdots\)}
+      \BinaryInfC{\(\vdots\)}
+      \AxiomC{\(\vdots\)}
+      \AxiomC{\(C_{\neg P}'\cup\set{\neg P}\)}
+      \AxiomC{\(D'\)}
+      \BinaryInfC{\(R'\cup\set{\neg P}\)}
+      \BinaryInfC{\(\vdots\)}
+      \BinaryInfC{\(\set{\neg P}\)}
+      \BinaryInfC{\(\square\)}
+    \end{prooftree}
+  \end{itemize}
+\end{proof}
+
+Per concludere, andiamo a mostrare un esempio della costruzione presente in questa dimostrazione.
+
+\begin{example}{}
+  Supponiamo di avere
+  \[S = \set{\set{P,Q}, \set{P,\neg Q,\neg R}, \set{R}, \set{\neg P,\neg R}, \set{\neg P,Q,R} }\]
+  Fissando \(P\) possiamo creare gli insiemi
+  \[S_P=\set{\set{Q},\set{\neg Q, \neg R}, \set{R}}\]
+  \[S_{\neg P} = \set{\set{R}, \set{\neg R}, \set{Q,R}}\]
+
+  Ora è vacile vedere che \(S_P \models_R\square\) e \(S_{\neg P} \models_R \square\):
+  \begin{prooftree}
+    \tiny
+    \AxiomC{\(\set{Q}\)}
+    \AxiomC{\(\set{\neg Q, \neg R}\)}
+    \BinaryInfC{\(\set{\neg R}\)}
+    \AxiomC{\(\set{R}\)}
+    \BinaryInfC{\(\square\)}
+  \end{prooftree}
+
+  \begin{prooftree}
+    \tiny
+    \AxiomC{\(\set{R}\)}
+    \AxiomC{\(\set{\neg R}\)}
+    \BinaryInfC{\(\square\)}
+  \end{prooftree}
+
+  Per queste deduzioni abbiamo che \(\set{\neg R}\) in \(S_{\neg P}\) non apparteneva a \(S\), così come \(\set{\neg Q, \neg R}\).
+  Aggiungiamo quindi alle deduzioni \(P\) e \(\neg P\), e propaghiamole.
+
+  \begin{prooftree}
+    \tiny
+    \AxiomC{\(\set{Q}\)}
+    \AxiomC{\(\set{\neg Q, \neg R,P}\)}
+    \BinaryInfC{\(\set{\neg R,P}\)}
+    \AxiomC{\(\set{R}\)}
+    \BinaryInfC{\(\set{P}\)}
+  \end{prooftree}
+
+  \begin{prooftree}
+  \tiny
+    \AxiomC{\(\set{R}\)}
+    \AxiomC{\(\set{\neg R,\neg P}\)}
+    \BinaryInfC{\(\set{\neg P}\)}
+  \end{prooftree}
+
+  A questo punto possiamo dedurre \(\square\) facilmente col clash di \(P\) e \(\neg P\).
+
+  \begin{prooftree}
+    \tiny
+    \AxiomC{\(\set{Q}\)}
+    \AxiomC{\(\set{\neg Q, \neg R,P}\)}
+    \BinaryInfC{\(\set{\neg R,P}\)}
+    \AxiomC{\(\set{R}\)}
+    \BinaryInfC{\(\set{P}\)}
+    \AxiomC{\(\set{R}\)}
+    \AxiomC{\(\set{\neg R,\neg P}\)}
+    \BinaryInfC{\(\set{\neg P}\)}
+    \BinaryInfC{\(\square\)}
+  \end{prooftree}
+\end{example}
