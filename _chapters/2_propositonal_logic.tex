@@ -292,9 +292,9 @@ In altre parole, per dimostrare il teorema, basta mostrare che \(\forall m, m \m
   Facciamo vedere, per induzione strutturale, che \(m\models \phi \iff \Val{\alpha_m}[\phi] = 1\).
   \begin{description}
     \item[\(\phi \in \AP\):] In tal caso
-      \[m \models \phi \iff \phi \in m \overset{def}{\iff}\alpha_m(\phi) = 1 \iff \Val{\alpha_m}[\phi] = 1\]
+      \[m \models \phi \iff \phi \in m \eqdef {\iff}\alpha_m(\phi) = 1 \iff \Val{\alpha_m}[\phi] = 1\]
     \item[\(\phi = \neg \phi'\):] In tal caso
-      \[m \models \phi \iff m \not\models \phi' \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi'] = 0\]
+      \[m \models \phi \iff m \not\models \phi' \stackrel{ind. hp.}{\iff} \Val{\alpha_m}[\phi'] = 0\]
       Ma allora dalla definizione di valutazione, \(\Val{\alpha_m}[\phi] = 1-\Val{\alpha_m}[\phi'] = 1-0 = 1\).
     \item[\(\phi = \phi_1 \land \phi_2\):] In tal caso 
       \[m \models \phi \iff m \models \phi_1 \text{ e } m \models \phi_2 \overset{ind. hp.}{\iff} \Val{\alpha_m}[\phi_1] = 1 \text{ e } \Val{\alpha_m}[\phi_2] = 1\]
@@ -418,7 +418,7 @@ Vediamo dunque un risultato intermedio che ci sarà utile per dimostrare il \Nam
 
   \begin{description}
     \item[\(\phi \in \AP\):] in questo caso, che rappresenta il caso base, \(\phi\sigma = \sigma(\phi)\). Ma quindi
-      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\sigma(\phi)] \overset{def}{=} \alpha^\sigma(\phi) = \Val{\alpha^\sigma}[\phi]\]
+      \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\sigma(\phi)] \eqdef \alpha^\sigma(\phi) = \Val{\alpha^\sigma}[\phi]\]
     \item[\(\phi = \neg \psi\):] in questo primo caso induttivo, dalla definizione di sostituzione abbiamo che\(\phi\sigma = \neg (\psi\sigma)\). Allora:
       \[\Val{\alpha}[\phi\sigma] = \Val{\alpha}[\neg (\psi\sigma)] = 1 - \Val{\alpha}[\psi\sigma]\]
       Ma per ipotesi induttiva \(\Val{\alpha}[\psi\sigma] = \Val{\alpha^\sigma}[\psi]\), quindi

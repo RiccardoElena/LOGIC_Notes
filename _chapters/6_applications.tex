@@ -1,0 +1,177 @@
+\chapter{Applicazioni della logica in Computer Science}
+
+\todo{Questo capitolo è da intendere dopo la logica del primo ordine, quindi si faranno riferimenti anche ad essa.}
+
+Infine, andiamo ad analizzare come i linguaggi logici e i sistemi di deduzione possano essere applicati nell'informatica nella risoluzione di problemi. Una logica col suo calcolo di deduzione infatti fornisce un sistema formale di rappresentazione dei problemi oltre che una sistema di inferenza per risolverli. 
+In tal senso, non si è molto distanti da un modello di calcolo computazionale.
+Infatti, esistono linguaggi di programmazione logica, come Prolog, che si basano su questi principi per esprimere programmi e risolvere problemi.
+
+Tra le vaire applicazioni, quella su cui ci concentreremo è la specifica di problemi decisionali, ovvero problemi che possono essere risolti con una risposta sì o no.
+
+In particolare, andremo a vedere come le sintassi e le semantiche dei linguaggi logici possano essere utilizzate per rappresentare gli input, gli output e una relazione tra di essi, in modo tale che la congiunzione delle formule risultanti sia soddisfacibile se e solo se esiste il problema da risolvere ha risposta affermativa.
+
+In tal senso questo tipo di computazione si discosta molto dai paradigmi più noti, poiché puramente dichiarativa. Infatti, ciò che ci permette di risolvere un problema non è una serie di operazioni o manipolazioni da eseguire, ma la verifica di alcune condizioni e vincoli che legano input e output.
+
+\section{Applicazione della logica proposizionale}
+
+Avendo trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se è possibile riuscire a trovare una riduzione di un qualsiasi problema a \(\Sat\) possiamo avere un algoritmo per risolvere quel problema.
+
+Per riduzione si intende una codifica di un'istanza qualsiasi del problema in un'istanza di \(\Sat\), ovvero una formula proposizionale, tale che la soluzione dell'istanza di \(\Sat\) ci fornisca la soluzione dell'istanza del problema originale.
+
+Tale codifica per essere utile deve essere efficiente, ovvero deve essere eseguibile in tempo polinomiale rispetto alla dimensione dell'istanza del problema originale. Questo poiché essendo \(\Sat\) un problema NP-completo, riduzioni inefficienti porterebbero, oltre che a poter rappresentare problemi che non sono in NP, a non avere un algoritmo efficiente per risolvere il problema originale, la cui complessità è nascosta proprio nella riduzione.
+
+Consideriamo qualche esempio semplice di riduzione a \(\Sat\), concentrandoci principalmente su problemi su grafi, che sono tra i più comuni.
+
+\subsection{Ciclicità}
+Il problema della ciclicità è il seguente: dato un grafo \(G=(V,E)\), con \(V\) insieme dei vertici e \(E\subseteq V\times V\) insieme degli archi, esiste un ciclo in \(G\)?
+
+Un ciclo in un grafo è ovviamente definito come un percorso che contiene più di una volta lo stesso vertice, o riducendoci al caso dei cicli semplici, un percorso che inizia e finisce nello stesso vertice. Per percorso chiaramente si intende una sequenza di vertici \(v_1,v_2,\dots,v_k\) tale che \((v_i,v_{i+1})\in E\) per ogni \(i=1,\dots,k-1\).
+
+Come già detto, per operare la riduzione, è necessario trovare una rappresentazione dell'istanza dell'input, ovvero del grafo \(G\), e dell'output, ovvero un potenziale ciclo, e dei vincoli che legano i due, in modo tale che la congiunzione di tutte le formule risultanti sia soddisfacibile se e solo se esiste un ciclo in \(G\).
+
+Per la rappresentazione del grafo è necessaio andare a rappresentare i vertici e gli archi. Essendo che \(E\subseteq V\times V\) possiamo rappresentare ogni elemento di \((u,v)\in V\times V\) con una variabile \(X_{u,v}\) e richiedere che \(X_{u,v}\) sia vera se e solo se \((u,v)\in E\).
+
+\[\phi_E \eqdef \bigwedge_{(u,v)\in E} X_{u,v} \land \bigwedge_{(u,v)\notin E} \neg X_{u,v}\]
+
+Tale formula intuitivamente rappresenta un assegnamento di verità alle variabili \(X_{u,v}\) che è vero se e solo se rappresenta correttamente il grafo \(G\). Di conseguenza, andando a congiungere questa formula con altre che rappresentano i vincoli che legano l'input all'output, possiamo essere certi che qualunque assegnamento soddisfi la formula risultante questo corrisponda a proprietà del grafo \(G\) in input.
+
+Per quanto riguarda l'output, un modo alternativo alla sequenza di vertici per descrivere un ciclo è quello di rappresentarlo come sequenza di archi. Vorremo dunque mostrare che esista un \(S\subseteq E\) tale che \(S\) contiene un ciclo. Partiamo da definire le variabili per l'output come \(Y_{u,v}\) per ogni \(u,v \in V\). Dunque possiamo definire 
+\[\phi_S \eqdef \bigwedge_{u,v \in V} Y_{u,v}\to X_{u,v}\]
+Tale formula ci dice che ogni elemento di \(S\) deve stare in \(E\). Inoltre, per far si che \(S\) contenga un ciclo non può essere vuoto, e questo è esprimibile con
+\[\phi_{\neq \emptyset} \eqdef \bigvee_{u,v\in V} Y_{u,v} \]
+
+Ci manca solo da definire i vincoli che legano \(S\) al fatto che contenga un ciclo. Seppur in modo non estremamente intuitivo, la formula che ci permette di esprimere questo vincolo è la seguente:
+\[\phi_{cyc} \eqdef \bigwedge_{u,v} (Y_{u,v}\to \bigvee_{z \in V} Y_{v,z})\]
+
+Riflettendoci, essendo che \(\phi_{\not \emptyset}\) ci dice che esiste almeno un \(Y_{u,v}\) vero, \(\phi_{cycle}\) porta ad avere una catena di \(Y_{u,v}\) veri, che può chiudersi solo se esiste un ciclo. Infatti, l'unico modo per far si che la catena di \(Y_{u,v}\) veri non si chiuda è poter scegliere ogni volta un \(Y_{v,z}\) diverso da soddisfare, ma essendo che \(V\) è finito, prima o poi si sarà costretti a chiudere la catena, e dunque ad avere un ciclo. Equivalentemente, il percorso indotto dalle variabili di output vere per non contenere un ciclo dovrebbe essere infinito, ma essendo che \(V\) è finito, questo non è possibile. Viceversa, se esiste un ciclo, allora esiste un assegnamento che soddisfa \(\phi_{cycle}\) e \(\phi_{\not \emptyset}\) che è quello che rende vere le variabili \(Y_{u,v}\) corrispondenti agli archi del ciclo.
+
+Dunque, concludendo, la formula che rappresenta l'istanza di \(\Sat\) a cui ridurre il problema della ciclicità è la seguente:
+\[\phi \eqdef \phi_E \land \phi_S \land \phi_{\neq \emptyset} \land \phi_{cyc}\]
+
+Per tale problema sono noti anche algoritmi polinomiali, dunque questa riduzione non è particolarmente utile, ma è un esempio semplice di come si possa rappresentare un problema con una formula proposizionale.
+
+Passiamo ora a un altro problema, più complesso, per cui non sono noti algoritmi polinomiali, ovvero il problema della colorazione di grafi.
+
+\subsection{K-colorazione}
+Il problema della \(k\)-colorazione è il seguente: dato un grafo \(G=(V,E)\) e un intero \(k\leq \abs{V}\) numero di colori, è possibile colorare i vertici di \(G\) con al più \(k\) colori in modo tale che nessuna coppia di vertici adiacenti abbia lo stesso colore?
+
+Più formalmente, \(\exists f:V\to C = \set{1,\dots,k} \st \forall (u,v)\in E, f(u)\neq f(v)\)?
+Questo problema è molto interessante perché rappresenta una generalizzazione di un problema di allocazione di risorse. Inoltre, questo problema è molto più complicato del precedente perché si dimostra essere NP-completo.
+
+Vediamo dunque una sua riduzione a \(\Sat\). Per rappresentare il grafo \(G\), possiao rifarci alla rappresentazione già vista per il problema della ciclicità. Questo porta ad avere un insieme di proposizioni atomiche \(\AP[\phi_E]\) con \(\abs{\AP} = \abs{V}^2\) per rappresentare il grafo \(G\).
+Per la funzione di colorazione \(f\) invece, possiamo vederla come una relazione \(f\subseteq V\times C\) con un vincolo funzionale. Dunque possiamo rappresentarla estensionalmente tramite le coppie del prodotto cartesiano.
+
+In particolare, possiamo avere \(Y_v^c\) con \(v\in V\) e \(c\in C\), in cui ogni assegnamento di tali variabili va interpretato come una colorazione del vertice \(v\) del colore \(c\) se \(Y_v^c\) vale \(1\). Dunque \(\AP' = \set{Y_v^c}[c\in C \land v \in V]\) e quindi \(\abs{\AP'} = \abs{V}k\).
+
+Ci rimane da imporre i vincoli per rendere tale relazione una funzione, ovvero la funzionalità e la totalità, e il vincolo che impone che vertici adiacenti non abbiano lo stesso colore.
+
+Per la funzionalità e la totalità, ovvero che un vertice sia colorato con uno e un solo colore, possiamo imporre il seguente vincolo:
+\[\phi_{f} \eqdef \bigwedge_{v\in V}(\bigvee_{c\in C} Y_v^c \land \bigvee_{c'\in C\setminus\set{c}} \neg Y_v^{c'})\]
+
+Tale vincolo infatti impone che per ogni vertice \(v\) esista almeno un colore \(c\) tale che \(Y_v^c\) sia vero, e che per ogni colore \(c'\) diverso da \(c\), \(Y_v^{c'}\) sia falso. Dunque, ogni vertice è colorato con uno e un solo colore.
+
+Per il vincolo che impone che vertici adiacenti non abbiano lo stesso colore, possiamo imporre il seguente vincolo:
+\[\phi_{adj} \eqdef \bigwedge_{(u,v)\in E} \bigwedge_{c\in C} \neg (Y_u^c \land Y_v^c)\]
+
+Possiamo osservare che \(\abs{\phi_{f}} = \BigO(\abs{V}k^2)\) e \(\abs{\phi_{adj}} = \BigO(\abs{V}^2k)\), dunque la formula rusiltante dalla congiunzione di queste due formule sia \(\BigO(\abs{V}^3)\). Questa codifica del problema è però problematica se l'input dei colori è rappresentato usando solo \(k\) e non l'intero insieme \(C\), poiché per rappresentare \(C\) è necessario rappresentare ogni elemento di \(C\), il che richiede spazio lineare in \(k\), mentre per rappresentare \(k\) è sufficiente rappresentare il numero \(k\) in notazione posizionale, che richiede spazio logaritmico in \(k\). In tale scenario, una lunghezza lineare in \(k\) è esponenzialmente più grande di quella dell'input e dunque la codifica non è efficiente. 
+
+Esiste fortunatamente modo di ovviare a tale problema sfruttando prorpio la rappresentazione in notazione posizionale di \(k\). In particolare, essendo che \(k\) si può rappresentare con \(\lceil \log_2(k) \rceil\) bit, è possibile rappresentare ogni colore \(c\) con una stringa di \(\lceil \log_2(k) \rceil\) bit, e dunque utilizzando \(\lceil \log_2(k) \rceil\) variabili. Dunque, invece di avere \(Y_v^c\) con \(v\in V\) e \(c\in C\), possiamo avere \(Y_v^i\) con \(v\in V\) e \(i=1,\dots,\lceil \log_2(k) \rceil\), in cui ogni assegnamento di tali variabili va interpretato come una colorazione del vertice \(v\) del colore rappresentato dalla stringa di bit formata da tali variabili. Dunque \(\AP' = \set{Y_v^i}[i=1,\dots,\lceil \log_2(k) \rceil \land v \in V]\) e quindi \(\abs{\AP'} = \BigO(\abs{V}\log k)\). È interessante notare che questa nuova rappresentazione non necessità di esprimere il vincolo di funzionalità e totalità, poiché per ogni vertice esiste un solo insieme di variabili \(Y_v^i\) con \(i=1,\dots,\lceil \log_2(k) \rceil\) che può essere vero, e dunque ogni vertice è colorato con uno e un solo colore. Dunque, l'unico vincolo da esprimere è quello che impone che vertici adiacenti non abbiano lo stesso colore, che è il seguente:
+\[\phi_2' = \land_{(u,v)\in E}\left( \bigvee_{i=0}^{\log_2(k)-1} (X_i^u \land \neg X_i^v) \lor (\neg X_i^u \land X_i^v)\right)\] 
+
+In altre parole, quello che richiediamo adesso è che ogni coppia di vertici adiacenti abbia almeno un bit diverso nella rappresentazione del colore. Questo può essere espresso in maniera leggermente più compatta utilizzando l'operatore XOR, che è vero se e solo se i disgiunti sono diversi:
+\[\phi_2' = \land_{(u,v)\in E}\left( \bigvee_{i=0}^{\log_2(k)-1} (X_i^u \oplus X_i^v)\right)\]
+
+Dunque, concludendo, la formula che rappresenta l'istanza di \(\Sat\) a cui ridurre il problema della \(k\)-colorazione è la seguente:
+
+\[\phi' \eqdef \phi_E \land \phi_2'\]
+
+Tale codifica chiaramente occupa spazio \(\abs{V}^2\log_2(k)\), che è lineare nell'input.
+Possiamo facilmente notare in oltre che in questa codifica, per \(k=2\) otteniemo tutte formule che contengono al più 2 variabili.
+Tale frammento ristretto della logica proposizionale è noto come \(2-\Sat\) e per esso il problema della soddisfacibilità è risolvibile in tempo polinomiale. Dunque, questa codifica ci dice anche che \(2-\)colorazione è risolvibile in tempo polinomiale.
+
+\subsection{Ciclo Hamiltoniano}
+
+Un altro problema molto interessante è il problema del ciclo Hamiltoniano, che è il seguente: dato un grafo \(G=(V,E)\), esiste un ciclo semplice che contiene ogni vertice di \(G\) esattamente una volta?
+
+Anche qui, per la rappresentazione del grafo \(G\) utilizzeremo \(\phi_E\) vista in precedenza.
+
+Per avere un ciclo hamiltoniano, ovviamente, ci serve una sequenza di vertici lunga quanto l'insieme dei vertici, tale che ogni vertice sia presente esattamente una volta e che ci sia un arco tra ogni coppia di vertici adiacenti nella sequenza e tra l'ultimo e il primo vertice della sequenza.
+
+Quindi per \(\abs{V}=n\) bisogna avere una sequenza di vertici \(v_0, \ldots, v_{n-1}\) tale che \(v_i \neq v_j\) per \(i\neq j\) e \((v_i,v_{i+1 \mod n})\in E\) per \(i=0,\ldots, n-1\).
+
+È possibile vedere tale sequenza come una permutazione dell'insieme dei vertici \(V\), ovvero una funzione biettiva \(\pi:V\to \set{0,\ldots,n-1}\) che associa a ogni vertice la sua posizione nella sequenza. Dunque, per rappresentare l'output, ci basta rappresentare tale permutazione e poi imporre il vincolo che vertici adiacenti nella sequenza siano adiacenti nel grafo.
+
+Per semplicità ci restringeremo al caso in cui \(n\) è una potenza di \(2\). Chiaramente, è possibile estendere la codifica al caso generale, ma richide diversi accorgimenti tecnici che non sono particolarmente interessanti ai fini di questa trattazione.
+
+Chiaramente per la rappresentazione di \(\pi\) possiamo prendere spunto da quanto fatto per la \(k\)-colorazione, e utilizzare per ogni vertice \(v\) un insieme di variabili \(Y_v^i\) con \(i=1,\dots,\log_2(n)\), in cui ogni assegnamento di tali variabili va interpretato come la rappresentazione binaria della posizione del vertice \(v\) nella sequenza. Qui l'ipotesi che \(n\) sia una potenza di \(2\) è fondamentale, poiché in questo modo è garantito che non ci possano essere vertici assegnati a posizioni che non esistono. Questo infatti garantisce che l'insieme dei vertici e l'insieme dei numeri rappresentati dalle variabili \(Y_v^i\) siano della stessa cardinalità, e dunque che sia possibile avere una corrispondenza biunivoca tra i due insiemi, che è ciò che ci serve per rappresentare una permutazione. Inoltre, questo ci permette di poter esprimere la biettività della funzione \(\pi\) utilizzando solo l'iniettività, poiché l'iniettività garantisce anche la suriettività quando i due insiemi hanno la stessa cardinalità. Dunque, per esprimere la biettività di \(\pi\) è sufficiente esprimere il vincolo di iniettività, che è il seguente:
+
+\[\phi_{bij} \eqdef \bigwedge_{u,v\in V\st u\neq v} \bigvee_{i=0}^{\log_2(n)-1} (Y_u^i \oplus Y_v^i)\]
+
+In altre parole, quello che tale vincolo richiede è che \(\forall u,v \in V, u\neq v \implies \pi(u)\neq\pi(v)\).
+Quello che ci rimane da fare è imporre il vincolo che vertici adiacenti nella sequenza siano adiacenti nel grafo.
+
+Iniziamo assicurandoci che tale permutazione sia effettivamente un percorso. Per fare ciò è sufficiente che ogni coppia di vertici consequitivi nella sequenza sia effettivamente un arco. Per fare ciò è sufficiente imporre che:
+\[\phi_{path} \eqdef \bigwedge_{u,v\in V} \phi_{succ(u,v)} \to X_{u,v}\]
+Dove \(\phi_{succ(u,v)}\) è una formula che è vera se e solo se \(\pi(v) = \pi(u)+1 \mod n\). Per definire tale formula, è necessario avere modo di codificare l'incremento di \(1\) modulo \(n\) nella rappresentazione binaria. Per fare ciò possiamo pensare ad un circuito logico che prende in input la rappresentazione binaria di un numero \(x\) e restituisce in output la rappresentazione binaria di \(x+1 \mod n\). Tale circuito è composto, per ogni bit, da una porta XOR che calcola il nuovo valore del bit, e da una porta AND che calcola se è necessario portare \(1\) al bit successivo come carry. Volendo generalizzare, è possibile vedere l'incremento di \(1\) come carry iniziale portando ad una struttura di questo tipo:
+
+\begin{figure}[h!]
+	\centering
+	\begin{tikzpicture}[
+			x=1cm,
+			y=1cm,
+			>=Latex,
+			snodo/.style={draw, rectangle, minimum width=1.4cm, minimum height=0.9cm, font=\small},
+			stage/.style={font=\small, align=center}
+		]
+		% Nodi di stadio
+		\node[snodo] (b1) at (0,0) {};
+		\node[snodo] (b2) at (4.2,0) {};
+
+		% Input dall'alto
+		\draw[->] (0,1.6) -- (b1.north) node[midway, right, stage] {\(x_i\)};
+		\draw[->] (4.2,1.6) -- (b2.north) node[midway, right, stage] {\(x_{i+1}\)};
+
+		% Carry in da sinistra e propagazione a destra
+    \node[stage] at (-2.5,0) {\(\cdots\)};
+		\draw[->] (-2.0,0) -- (b1.west) node[midway, above, stage] {\(c_i\)};
+		\draw[->] (b1.east) -- (b2.west) node[midway, above, stage] {\(c_{i+1} = x_i \land c_i\)};
+		\draw[->] (b2.east) -- (8,0) node[midway, above, stage] {\(c_{i+2} = x_{i+1} \land c_{i+1}\)};
+		\node[stage] at (8.5,0) {\(\cdots\)};
+
+		% Output dal basso
+		\draw[->] (b1.south) -- (0,-2.0) node[midway, right, stage] {\(y_i = x_i \oplus c_i\)};
+		\draw[->] (b2.south) -- (4.2,-2.0) node[midway, right, stage] {\(y_{i+1} = x_{i+1} \oplus c_{i+1}\)};
+
+		% Carry iniziale
+		\node[stage] at (-1.6,-2.4) {Incremento di 1: \(c_0 = 1\)};
+	\end{tikzpicture}
+	\caption{Schema a blocchi del binary incrementer con propagazione del carry.}\label{fig:binary-incrementer}
+\end{figure}
+
+Per implementare ciò sarà sufficiente introdurre le variabili per i carry \(C_i^{u,v}\), richiedere che \(C_0^{u,v}\) sia vero, e poi imporre i vincoli che definiscono il funzionamento del circuito, ovvero \(C_{i+1}^{u,v} \leftrightarrow (Y_i^v \land C_i^{u,v})\) e \(Y_v^i \leftrightarrow (Y_u^i \oplus C_i^{u,v})\). Dunque, la formula che impone che vertici adiacenti nella sequenza siano adiacenti nel grafo è la seguente:
+\[\phi_{succ(u,v)} \eqdef C_0^{u,v}\land \bigwedge_{i=0}^{\log_2(n)-1} (Y_i^u \leftrightarrow (Y_i^v \oplus C_i^{u,v}))\land (C_{i+1}^{u,v} \leftrightarrow (Y_{i}^v \land C_{i}^{u,v}))\]
+
+A questo punto sostituendo opportunamente le varie \(\phi_{succ(u,v)}\) in \(\phi_{path}\) al variare di \(u,v\) possiamo ottenere la riduzione completa con la formula:
+\[\phi = \phi_E \land \phi_{perm} \land \phi_{path}\]
+
+\subsection{Copertura dei vertici}
+
+Un ultimo problema che andiamo ad analizzare, anche se meno nel dettaglio, è quello della copertura dei vertici. Dato un grafo \(G=(V,E)\) e un intero \(k\leq \abs{V}\), esiste un insieme \(S\subseteq V\) di cardinalità al più \(k\) tale che ogni arco di \(E\) sia incidente ad almeno un vertice di \(S\)?
+
+Per semplicità, analizzeremo una variante del problema che richiede il vincolo di uguaglianza sulla cardinalità di \(S\) più che la disuguaglianza. Tale semplificazione non intacca particolarmente il problema poiché se è possibile trovare una copertura di esattamente \(k\) vertici, tale copertura rispetta anche il vincolo di averne almeno \(k\).
+
+Per la rappresentazione dell'input, come solito, possiamo rappresentare il grafo con \(\phi_E\) e \(k\) in binario.
+
+Dobbiamo dunque definire come rappresentare l'output. Per ogni \(v \in S\) definiamo una variabile \(S_v\) la cui interpretazione sarà la relazione di appartenenza, ovvero \(S_v \iff v \in S\).
+
+A questo punto per verificare la copertura è sufficiente imporre 
+
+\[\phi_{cover} = \bigwedge_{(u,v) \in E} (S_v \lor S_u)\]
+
+Tale parte è banale poiché è banale individuare una copertura qualsiasi. Infatti \(V\) è banalmente una copertura di \(G\) per definizione. Non a caso tale formula è soddisfatta assegnando a tutte le variabili \(S_v\) il valore \(1\). Il vero problema è invece quello di imporre il vincolo che \(S\) abbia esattamente \(k\) elementi.
+
+Per fare ciò dovremmo innanzitutto usare le variabili predisposte per \(k\) per codificare una formula che sia vera se e solo se l'assegnazione di tali variabili corrisponda alla rappresentazione binaria di \(k\). Per fare ciò possiamo banalmente costruire l'insieme \(P_k\) delle posizioni della rappresentazione binaria di \(k\) che sono pari a \(1\) ed esprime il vincolo come segue:
+
+\[\phi_k = \bigwedge_{i \in P_k} K_i \land \bigwedge_{i \notin P_k} \neg K_i\]
+
+A questo punto per rappresentare \(\abs{S}\) abbiamo bisogno di un contatore che conti quanti elementi sono in \(S\). Per fare ciò però è sufficiente replicare la codifica dell'incrementatore visto per il ciclo hamiltoniano una volta per ogni vertice usando come carry iniziale la variabile che rappresenta la presenza del vertice nella soluzione \(S_v\), in modo da incrementare il contatore solo se il vertice è presente. A questo punto avendo lo stato del contatore fissato a zero, ottenibile richiedendo che le variabili del primo input siano tutte false usando la negazione, confrontando l'output di ogni incrementatore con l'input del successivo in modo che siano uguali e di confontare l'output dell'ultimo incrementatore con la rappresentazine di \(k\). Per questioni di brevità verrà omessa la rappresentazione in formule di questa costruzione, che è però facile da implementare.
