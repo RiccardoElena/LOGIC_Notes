@@ -266,7 +266,7 @@ Per fare ciò, andremo a mostrare che una formula è tautologica se e solo se è
 Facendo ciò, otterremo anche un modo per correlare \(m \models \phi\) e \(\Val{\alpha}[\phi] = 1\).
 Prima, però, definiamo il concetto di \keyword{tautologia}.
 
-\begin{definition}{}
+\begin{definition}{Tautologia}
   Una formula \(\phi\) è una \keyword{tautologia} (\(\Taut[\phi]\)) quando, per ogni assegnamento compatibile \(\alpha\), si ha \(\Val{\alpha}[\phi]=1\).
 \end{definition}
 
@@ -279,7 +279,7 @@ Per definizione di tautologia, si ha che
 \(\Taut[\phi]\iff\forall \alpha ,\Val{\alpha}[\phi] = 1\).
 In altre parole, per dimostrare il teorema, basta mostrare che \(\forall m, m \models \phi \iff \forall \alpha, \Val{\alpha}[\phi] =1\).
 
-\begin{lemma}{\infosymbol{} Estrapolato dalla dimostrazione del \Crefalt[yellow]{thm:validity-equals-taut}}
+\begin{lemma}[listtitle={Estrapolato dalla dimostrazione del \Cref{thm:validity-equals-taut}}]{\infosymbol{} Estrapolato dalla dimostrazione del \Crefalt[yellow]{thm:validity-equals-taut}}
   Per ogni \(m \in 2^{AP}\), esiste un \(\alpha \in Ass(\phi)\) tale per cui \(m \models \phi \iff \Val{\alpha}[\phi]=1\).
 \end{lemma}
 
@@ -309,7 +309,7 @@ In altre parole, per dimostrare il teorema, basta mostrare che \(\forall m, m \m
   \end{description}
 \end{proof}
 
-\begin{lemma}{\infosymbol{} Estrapolato dalla dimostrazione del \Crefalt[yellow]{thm:validity-equals-taut}}
+\begin{lemma}[listtitle={Estrapolato dalla dimostrazione del \Cref{thm:validity-equals-taut}}]{\infosymbol{} Estrapolato dalla dimostrazione del \Crefalt[yellow]{thm:validity-equals-taut}}
   Per ogni \(\alpha \in Ass(\phi)\), esiste un \(m \in 2^{AP}\) tale per cui \(m \models \phi \iff \Val{\alpha}[\phi]=1\).
 \end{lemma}
 
