@@ -103,7 +103,7 @@ Possiamo ora osservare una prima applicazione dell'induzione strutturale, dimost
   Infatti, data una stringa qualsiasi, il numero di sottostringhe è quadratico rispetto alla lunghezza della stringa\footnote{Si prenda ad esempio la formula \qi{ABC}, che non è ben formata. In essa, troviamo una sola sottostringa di lunghezza \(3\) (\qi{ABC}), due sottostringhe di lunghezza \(2\) (\qi{AB},\qi{BC}), tre sottostringhe di lunghezza \(1\) (\qi{A},\qi{B},\qi{C}). Si vede quindi che, per una stringa qualsiasi di lunghezza \(n\), il numero di sue sottoformule è \(n(n-1)/2=\mathcal{O}(n^{2})\).}, mentre, presa una WFF, il numero di sottoformule è solamente lineare rispetto alla lunghezza della formula.
 \end{note}
 
-\begin{proposition}{}
+\begin{proposition}{Limite superiore al numero di sottoformule}
   Sia \(\phi \in WFF\). Siano inoltre \(\abs{\phi}\) la lunghezza della formula \(\phi\) in numero di simboli (parentesi escluse) e \(\abs{\Sub{\phi}}\) la cardinalità dell'insieme delle sottoformule di \(\phi\). Allora
   \[\abs{\Sub{\phi}}\leq \abs{\phi}\]
 \end{proposition}
@@ -270,7 +270,7 @@ Prima, però, definiamo il concetto di \keyword{tautologia}.
   Una formula \(\phi\) è una \keyword{tautologia} (\(\Taut[\phi]\)) quando, per ogni assegnamento compatibile \(\alpha\), si ha \(\Val{\alpha}[\phi]=1\).
 \end{definition}
 
-\begin{theorem}[label=thm:validity-equals-taut]{}
+\begin{theorem}[label=thm:validity-equals-taut]{Equivalenza tra validità e tautologicità}
   Data \(\phi \in \PL\), \(\models \phi \) se e solo se \(\Taut[\phi]\).
 \end{theorem}
 
