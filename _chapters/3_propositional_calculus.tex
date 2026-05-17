@@ -97,7 +97,7 @@ Le regole di introduzione per \(\lor\) sono abbastanza intuitive, mentre la rego
 \end{equation*}
 
 Quest'ultima regola ci dice che, se abbiamo \(A \lor B\), e se assumendo \(A\) e \(B\) \textbf{separatamente} riusciamo a dedurre \(C\) in entrambi i casi, allora possiamo dedurre \(C\) senza più assumere \(A\) e \(B\), ovvero scaricando entrambe le assunzioni nelle rispettive deduzioni.
-Questa regola cattura il concetto di dimostrazione per casi, ovvero se si vuole dimostrare \(C\) a partire da \(A \lor B\), sarà mi è sufficiente dedurre \(C\) sia nel caso in cui sia vero \(A\), che nel caso in cui sia vero \(B\). In caso affermativo, si potrà concludere \(C\).
+Questa regola cattura il concetto di dimostrazione per casi, ovvero se si vuole dimostrare \(C\) a partire da \(A \lor B\), sarà sufficiente dedurre \(C\) sia nel caso in cui sia vero \(A\), che nel caso in cui sia vero \(B\). In caso affermativo, si potrà concludere \(C\).
  
 \paragraph{Regole per \(\neg\):}
 
@@ -282,7 +282,7 @@ Ci troviamo adesso a dover dimostrare un altra implicazione, e quindi possiamo p
   \UnaryInfC{\((P\to Q)\to((Q\to R) \to (P\to R))\)}
 \end{prooftree}
 
-Ancora una volta, ci troviamo a dover dimostrare un'altra implicazione, e quindi possiamo pensare di usare nuovamente \(\to I\) per ottenere \(P\to R\) a partire da\(R\) scaricando l'assunzione di \(P\).
+Ancora una volta, ci troviamo a dover dimostrare un'altra implicazione, e quindi possiamo pensare di usare nuovamente \(\to I\) per ottenere \(P\to R\) a partire da \(R\) scaricando l'assunzione di \(P\).
 
 \begin{prooftree}
   \AxiomC{\(R\)}

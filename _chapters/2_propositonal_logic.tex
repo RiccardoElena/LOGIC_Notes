@@ -103,7 +103,7 @@ Possiamo ora osservare una prima applicazione dell'induzione strutturale, dimost
   Infatti, data una stringa qualsiasi, il numero di sottostringhe è quadratico rispetto alla lunghezza della stringa\footnote{Si prenda ad esempio la formula \(ABC\), che non è ben formata. In essa, troviamo una sola sottostringa di lunghezza \(3\) (\(ABC\)), due sottostringhe di lunghezza \(2\) (\(AB,BC\)), tre sottostringhe di lunghezza \(1\) (\(A,B,C\)). Si vede quindi che, per una stringa qualsiasi di lunghezza \(n\), il numero di sue sottoformule è \(n(n-1)/2=\mathcal{O}(n^{2})\).}, mentre, presa una WFF, il numero di sottoformule è solamente lineare rispetto alla lunghezza della formula.
 \end{note}
 
-\begin{proposition}{}
+\begin{proposition}{Limite superiore al numero di sottoformule}
   Sia \(\phi \in WFF\). Siano inoltre \(\abs{\phi}\) la lunghezza della formula \(\phi\) in numero di simboli (parentesi escluse) e \(\abs{\Sub{\phi}}\) la cardinalità dell'insieme delle sottoformule di \(\phi\). Allora
   \[\abs{\Sub{\phi}}\leq \abs{\phi}\]
 \end{proposition}
@@ -270,7 +270,7 @@ Prima, però, definiamo il concetto di \keyword{tautologia}.
   Una formula \(\phi\) è una \keyword{tautologia} (\(\Taut[\phi]\)) quando, per ogni assegnamento compatibile \(\alpha\), si ha \(\Val{\alpha}[\phi]=1\).
 \end{definition}
 
-\begin{theorem}[label=thm:validity-equals-taut]{}
+\begin{theorem}[label=thm:validity-equals-taut]{Equivalenza tra validità e tautologicità}
   Data \(\phi \in \PL\), \(\models \phi \) se e solo se \(\Taut[\phi]\).
 \end{theorem}
 
@@ -488,7 +488,7 @@ Ad esempio, invece di dire \qi{Se piove e fa freddo, allora prendo l'ombrello e 
 
 \begin{proof}
   Dalla definizione di conseguenza logica, \(\Gamma,\phi \models \psi\) significa che
-  \[\forall m \in 2^{\AP}, m\models \Gamma \cup \set{\phi} \implies m\models \phi\]
+  \[\forall m \in 2^{\AP}, m\models \Gamma \cup \set{\phi} \implies m\models \psi\]
 
   L'argomento sinistro dell'implicazione è però equivalente a dire che \(m\models \Gamma\) e \(m\models \phi\). Quindi
   \[\forall m \in 2^{\AP}, m\models \Gamma \text{ e } m\models \phi \implies m\models \psi\]
@@ -549,7 +549,7 @@ Le due forme normali più importanti sono la \keyword{forma normale congiuntiva}
 
 \begin{definition}{Conjunctive Normal Form}
   Definiamo la \keyword{forma normale congiuntiva} (\(\CNF\)) come l'insieme di tutte le formule con la seguente struttura:
-  \[\phi = \bigwedge_{i=1}^k\left(\bigvee_{j=1}^{r_i} l_i^j\right)\]
+  \[\phi = \bigwedge_{i=1}^k\left(\bigvee_{j=1}^{r_i} l_{ij}\right)\]
   dove \(l_{ij} \in \mathcal{L}\) per ogni \(i\) e \(j\).
 \end{definition}
 
