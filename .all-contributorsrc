@@ -47,6 +47,16 @@
         "doc",
         "maintenance"
       ]
+    },
+    {
+      "login": "gyus-e",
+      "name": "Gyus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93407469?v=4",
+      "profile": "https://github.com/gyus-e",
+      "contributions": [
+        "doc",
+        "maintenance"
+      ]
     }
   ],
   "commitType": "docs"
