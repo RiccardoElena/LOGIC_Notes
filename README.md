@@ -25,11 +25,12 @@ Il corso fornisce una introduzione rigorosa alla logica formale e alle sue appli
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<table align="center" >
+<table>
   <tbody>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AngPao29"><img src="https://avatars.githubusercontent.com/u/54139598?v=4?s=100" width="100px;" alt="Angelo Paolella"/><br /><sub><b>Angelo Paolella</b></sub></a><br /><a href="https://github.com/RiccardoElena/LOGIC_Notes/commits?author=AngPao29" title="Documentation">📖</a> <a href="#maintenance-AngPao29" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RiccardoElena"><img src="https://avatars.githubusercontent.com/u/23059036?v=4?s=100" width="100px;" alt="Riccardo Elena"/><br /><sub><b>Riccardo Elena</b></sub></a><br /><a href="#content-RiccardoElena" title="Content">🖋</a> <a href="https://github.com/RiccardoElena/LOGIC_Notes/commits?author=RiccardoElena" title="Documentation">📖</a> <a href="#maintenance-RiccardoElena" title="Maintenance">🚧</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/riccardoregina"><img src="https://avatars.githubusercontent.com/u/126416822?v=4?s=100" width="100px;" alt="riccardoregina"/><br /><sub><b>riccardoregina</b></sub></a><br /><a href="#content-riccardoregina" title="Content">🖋</a> <a href="#maintenance-riccardoregina" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/riccardoregina"><img src="https://avatars.githubusercontent.com/u/126416822?v=4?s=100" width="100px;" alt="riccardoregina"/><br /><sub><b>riccardoregina</b></sub></a><br /><a href="https://github.com/RiccardoElena/LOGIC_Notes/commits?author=riccardoregina" title="Documentation">📖</a> <a href="#maintenance-riccardoregina" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
