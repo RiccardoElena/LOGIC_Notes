@@ -37,6 +37,16 @@
         "doc",
         "maintenance"
       ]
+    },
+    {
+      "login": "AngPao29",
+      "name": "Angelo Paolella",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54139598?v=4",
+      "profile": "https://github.com/AngPao29",
+      "contributions": [
+        "doc",
+        "maintenance"
+      ]
     }
   ],
   "commitType": "docs"
