@@ -35,7 +35,7 @@ Il primo calcolo che vedremo però non ha assiomi, ma solo regole di inferenza, 
 
 \section{Calcolo di deduzione naturale}
 
-Avendo già anticipato l'assenza di assiomi, il calcolo di deduzione naturale esclusivamente dalle regole di inferenza, che sono formulate in modo da catturare il significato semantico degli operatori logici, e quindi ci permettono di dedurre conseguenze logiche.\footnote{
+Avendo già anticipato l'assenza di assiomi, il calcolo di deduzione naturale è definito esclusivamente dalle regole di inferenza, che sono formulate in modo da catturare il significato semantico degli operatori logici, e quindi ci permettono di dedurre conseguenze logiche.\footnote{
   La versione del calcolo di deduzione naturale presentato qui non è la sua versione minimale, e conterrà delle regole che non sono strettamente necessarie, ma che rendono più semplice la deduzione di formule, e quindi più affine al ragionamento umano.}
 
 In particolare, per ogni operatore logico avremo una regola detta di \keyword{introduzione}, che ci permetterà di dedurre una formula che ha quell'operatore come connettivo principale, e una regola detta di \keyword{eliminazione}, che ci permetterà di dedurre formule che non hanno quell'operatore come connettivo principale, a partire da formule che invece lo hanno.
@@ -142,7 +142,7 @@ In altri termini, una derivazione conclude \(\Gamma \vdash \phi\) quando \(\phi\
 Vediamo quindi una formalizzazione più rigorosa di questo processo, e in particolare di come si costruisce un albero di deduzione.
 
 \begin{definition}{Albero di deduzione ben formato}
-  Un \keyword{albero di deduzione} è un albero finito in cui nodi sono etichettati con formule di \(\PL\).
+  Un \keyword{albero di deduzione} è un albero finito i cui nodi sono etichettati con formule di \(\PL\).
   
   Un tale albero è detto \keyword{ben formato} se ogni nodo interno è ottenuto dai suoi figli mediante un'istanza di una regola del calcolo naturale.
   
@@ -902,7 +902,7 @@ A questo punto, siamo finalmente in grado di dimostrare la completezza del calco
 
   A questo punto, possiamo dimostrare la proprietà di completezza per contrapposizione, ovvero che, preso un qualsiasi insieme \(\Gamma\), \(\Gamma\) consistente \(\implies\) \(\Gamma\)soddisfacibile.
 
-  Ma per fare ciò è sufficiente il \Namedonlyhref{lem:model-existence}, che ci dice che un insieme di formule consistente è soddisfacibile. Di conseguenza, se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile, allora è inconsistente, ovvero se \(\Gamma\models\phi\) allora \(\Gamma\vdash\phi\).
+  Ma per fare ciò è sufficiente il Lemma \Namedonlyhref{lem:model-existence}, che ci dice che un insieme di formule consistente è soddisfacibile. Di conseguenza, se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile, allora è inconsistente, ovvero se \(\Gamma\models\phi\) allora \(\Gamma\vdash\phi\).
 \end{proof}
 
 Esistono infine un ultimo paio di risultati importanti riguardo il calcolo di deduzione naturale della logica proposizionale, entrambi che in un certo qual senso semplificano la trattazione di questo calcolo, uno dal fronte semantico, riducendo la grandezza dello spazio dei modelli da considerare, e uno dal fronte sintattico, permettendo di \qi{modularizzare} le dimostrazioni, e quindi di semplificarle.
@@ -1043,7 +1043,7 @@ Andiamo dunque a formalizzare la fondatezza semantica di tale regola.
 
 \begin{proof}
   Formalmente, una regola di inferenza preserva la verità se ogni modello che soddisfa le premesse soddisfa anche la conclusione della regola.
-  Chiaramente, il preservare la verità implica il preservare anche la conseguenza logica.\footnote{Questa cosa risulta banale nella logica proposizionale, me non sarà scontata nel prim'ordine.}
+  Chiaramente, il preservare la verità implica il preservare anche la conseguenza logica.\footnote{Questa cosa risulta banale nella logica proposizionale, ma non sarà scontata nel prim'ordine.}
 
   Sia \(m\) un modello che soddisfa \(C_1\) e \(C_2\) che sono in clash su \(l\).
   Per definizione di \(l\) e \(\tilde{l}\), \(m\) soddisfa esattamente uno tra \(l\) e \(\tilde{l}\). Senza perdita di generalità, supponiamo che \(l\in C_1\) e \(\tilde{l}\in C_2\).
@@ -1099,7 +1099,7 @@ Avendo ora un insieme di regole di inferenza, in questo caso composto da una reg
 \end{definition}
 
 \begin{note}{}
-  Essendo che in risoluzione \(\Rules = \set{\Rule}\), con \(\Rule\) la regola di risoluzione, per distinguere tale calcolo da quello di deduzione naturale indicheremo le deduzioni di risoluzione con \(\vdash_{\Rule}\) invece che con \(\vdash\). Quando sarà necessario esplicitare l'utilizzo del calcolo di deduzione naturale invece, per dissipare ogni ambiguità, verrò utilizzato \(\vdash_{ND}\).
+  Essendo che in risoluzione \(\Rules = \set{\Rule}\), con \(\Rule\) la regola di risoluzione, per distinguere tale calcolo da quello di deduzione naturale indicheremo le deduzioni di risoluzione con \(\vdash_{\Rule}\) invece che con \(\vdash\). Quando sarà necessario esplicitare l'utilizzo del calcolo di deduzione naturale invece, per dissipare ogni ambiguità, verrà utilizzato \(\vdash_{ND}\).
 \end{note}
 
 Essendo che la regola di risoluzione preserva la verità, e quindi la conseguenza logica, è facile vedere per induzione strutturale la correttezza del calcolo, ovvero che date \(S,C\) forme clausali, \(S\vdash_{\Rule} C \implies S\models C\).
@@ -1295,7 +1295,7 @@ A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritm
         \end{prooftree}
       \end{minipage}
     \end{center}
-    In questo modo, abbiamo costruito una nuova deduzione di risoluzione che, a partire da \(S\) essendo tute le foglie etichettate con clausole in \(S\), deduce \(\set{P}\).
+    In questo modo, abbiamo costruito una nuova deduzione di risoluzione che, a partire da \(S\) essendo tutte le foglie etichettate con clausole in \(S\), deduce \(\set{P}\).
 
     Applicando il ragionamento duale a \(S_{\neg P}\) otteniamo da \(S\) anche una deduzione per \(\set{\neg P}\).
         \begin{center}
