@@ -28,8 +28,8 @@ A prescindere da ciò però, a partire da un calcolo inferenziale \((\Axi, \Rule
 
 Intuitivamente, l'obiettivo che vorremmo ottenere con un calcolo inferenziale, e quindi con la relazione di deducibilità, sarebbe quello di catturare, in maniera puramente sintattica, la conseguenza logica, ovvero vorremmo che:
 \[\Gamma \models \phi \iff \Gamma \vdash \phi\]
-
-Per quanto riguarda gli assiomi, sono un insieme minimale di tautologie dalle quali tramite il teorema di sostituzione varranno in diverse istanziazioni.\footnote{In un certo senso la regola di sostituzione fa parte di \(R\).}
+Per quanto riguarda gli assiomi, sono un insieme minimale di tautologie che potranno essere istanziate in diversi modi tramite il teorema di sostituzione.\footnote{In un certo senso la regola di sostituzione fa parte di (R).}
+Ad esempio, definendo (P \lor \neg P) come assioma, è immediato ottenere (\lnot P \lor \lnot \lnot P) come istanziazione in cui (P) è mappato in (\lnot P).
 
 Il primo calcolo che vedremo però non ha assiomi, ma solo regole di inferenza, e si chiama \keyword{calcolo di deduzione naturale}.
 
