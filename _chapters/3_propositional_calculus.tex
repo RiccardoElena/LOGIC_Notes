@@ -895,7 +895,7 @@ Un insieme di formule \(\Sigma\) è \keyword{soddisfacibile} quando esiste un mo
 \begin{proof}
   Per definizione di consistenza si ha che \(\Sigma \not\vdash \bot\), ovvero non esiste alcun albero di deduzione con radice \(\bot\) con foglie che sono o assunzioni scaricate o formule appartenenti a \(\Sigma\).
 
-  Per mostrare che se \(\Sigma\) consistente allora \(\Sigma\) è soddisfacibile, dobbiamo andare a costruire un modello \(m^*\) che soddisfa \(\Sigma\) sapendo che le formule di \(\Sigma\) sono consistenti.
+  Per mostrare che se \(\Sigma\) è consistente allora \(\Sigma\) è soddisfacibile, dobbiamo andare a costruire un modello \(m^*\) che soddisfa \(\Sigma\) sapendo che le formule di \(\Sigma\) sono consistenti.
 
   Ma a questo punto, se \(\Sigma\) è consistente, allora per il \Namedcref{lem:lindenbaum} è possibile costruire un insieme di formule \(\Sigma^*\) tale che \(\Sigma\subseteq\Sigma^*\) e \(\Sigma^*\) è massimalmente consistente.
   Dunque, per la \Cref{prop:max-consistent-set-are-theory}, esiste un modello \(m^*\) tale che \(\Sigma^* = \Th{m^*}\). Dunque, essendo \(\Sigma\subseteq\Sigma^*\), allora \(\Sigma\subseteq\Th{m^*}\), e quindi \(m^*\models\Sigma\), ovvero \(m^*\) soddisfa tutte le formule di \(\Sigma\), e quindi \(\Sigma\) è soddisfacibile.
