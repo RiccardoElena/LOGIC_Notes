@@ -326,7 +326,7 @@ Ad esempio, sempre considerando il termine \(t = f(g(x,y), h(z,x))\), applicando
 Definita l'applicazione di sostituzioni ai termini, possiamo facilmente definire l'estensione dell'applicazione di sostituzioni alle formule.
 
 \begin{definition}{Sostituzione di un termine a una variabile in una formula}
-  Sia \(x\in\VarSyms\), \(t\in\Terms\) e \(\phi\in\FOL\). Definiamo la sostituzione, in \(\phi\), di \(t\) con \(x\), denotata con \(\phi[t/x]\) o \(\subs{\phi}{x}{t}\), come segue:
+  Sia \(x\in\VarSyms\), \(t\in\Terms\) e \(\phi\in\FOL\). Definiamo la sostituzione, in \(\phi\), di \(x\) con \(t\), denotata con \(\phi[t/x]\) o \(\subs{\phi}{x}{t}\), come segue:
   \[\subs{\phi}{x}{t} = \begin{cases}
     \phi, & x \notin FV(\phi)\\
     P({(t_1)}^x_{t}, \ldots, {(t_n)}^x_{t}), & \phi = P(t_1,\ldots,t_n), P\in\PredSyms, \arty(P)=n, t_1,\ldots,t_n \in \Terms\\
