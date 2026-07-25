@@ -228,15 +228,15 @@ Si ha quindi \(\den{\phi_{DNS} \eqdef\phi_{lin} \land \phi''} = DNS\). Chiaramen
 
 È interessante notare che \(\phi'\not\equiv\neg \phi''\). Possiamo considerare ad esempio \(([0,1]\cup \set{2},<)\). Questo chiaramente non è denso poiché per \(x = 1\) e \(y = 2\) non esiste un elemento \(z\) tale che \(1 < z < 2\). D'altra parte però non è discreto poiché per qualsiasi elemento in \([0,1]\) non esiste un successore. 
 
-Passando a qualche risultato negativo, abbiamo che \((\Q,<)\) è indistinguibile da \((\R,<)\), ovvero non esiste una formula \(\phi\) tale che \((\Q,<)\models \phi\) e \((\R,<)\not\models \phi\). Questa è conseguenza diretta del teorema di Löwenhaim-Skolem che recita quanto segue.
-\begin{theorem}{Löwenhaim-Skolem}
+Passando a qualche risultato negativo, abbiamo che \((\Q,<)\) è indistinguibile da \((\R,<)\), ovvero non esiste una formula \(\phi\) tale che \((\Q,<)\models \phi\) e \((\R,<)\not\models \phi\). Questa è conseguenza diretta del teorema di Löwenheim-Skolem che recita quanto segue.
+\begin{theorem}{Löwenheim-Skolem}
   Se un insieme di formule chiuse \(\Gamma\) è al più numerabile e soddisfacibile, allora \(\Gamma\) ha un modello al più numerabile.
 \end{theorem}
 
-La proprietà \(\den{\phi_{DNS}}\) contiene sicuramente il modello \((\R,<)\), in quanto ordine lineare denso. Supponiamo che \((\R,<)\) soddisfi anche la formula \(\phi\). Pertanto, \(\Gamma = \set{\phi} \cup \phi_{DNS}\) è un insieme soddisfacibile ed al più numerabile di formule chiuse. Quindi, per il teorema di Löwenhaim-Skolem, esiste un modello \(M\) al più numerabile che soddisfa \(\Gamma\). Poichè \(M\models \phi_{DNS}\), \(M\) è un ordine lineare denso. Inoltre, \(M\) è al più numerabile. Tale modello non può essere \((\R,<)\) e si dimostra essere \((\Q, <)\).
+La proprietà \(\den{\phi_{DNS}}\) contiene sicuramente il modello \((\R,<)\), in quanto ordine lineare denso. Supponiamo che \((\R,<)\) soddisfi anche la formula \(\phi\). Pertanto, \(\Gamma = \set{\phi} \cup \phi_{DNS}\) è un insieme soddisfacibile ed al più numerabile di formule chiuse. Quindi, per il teorema di Löwenheim-Skolem, esiste un modello \(M\) al più numerabile che soddisfa \(\Gamma\). Poichè \(M\models \phi_{DNS}\), \(M\) è un ordine lineare denso. Inoltre, \(M\) è al più numerabile. Tale modello non può essere \((\R,<)\) e si dimostra essere \((\Q, <)\).
 Pertanto, \((\R, <)\models \phi \implies (\Q, <)\models \phi\) e si dimostra anche il verso contrario.
 
-Intuitivamente, il teorema di Löwenhaim-Skolem vale per la costruzione vista per il teorema di completezza, poiché la costruzione del modello dell'insieme soddisfacibile \(\Gamma^*\) portava ad avere un dominio al più numerabile, poiché abbiamo aggiunto un numero numerabile di insiemi numerabile di costanti, ottenendo ancora un insieme enumerabile, se lo era quello di partenza.
+Intuitivamente, il teorema di Löwenheim-Skolem vale per la costruzione vista per il teorema di completezza, poiché la costruzione del modello dell'insieme soddisfacibile \(\Gamma^*\) portava ad avere un dominio al più numerabile, poiché abbiamo aggiunto un numero numerabile di insiemi numerabile di costanti, ottenendo ancora un insieme enumerabile, se lo era quello di partenza.
 
 Questo ci dice che ci sono limiti in ciò che il prim'ordine può esprimere.
 
