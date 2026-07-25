@@ -12,7 +12,7 @@ In tal senso, questo tipo di computazione si discosta molto dai paradigmi più n
 
 \section{Applicazione della logica proposizionale}
 
-Una volta trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se troviamo una \keyword{riduzione}\footnote{Per riduzione si intende una codifica di un'istanza qualsiasi del problema in un'istanza di \(\Sat\) --- un'istanza di \(\Sat\) è una formula proposizionale --- tale per cui la soluzione di quest'ultima ci fornisca la soluzione per l'istanza del problema originale.} di un qualsiasi problema a \(\Sat\), allora troviamo un algoritmo per risolvere quel problema.
+Una volta trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se troviamo una \keyword{riduzione}\footnote{Per riduzione si intende una codifica di un'istanza qualsiasi del problema in un'istanza di \(\Sat\) (un'istanza di \(\Sat\) è una formula proposizionale) tale per cui la soluzione di quest'ultima ci fornisca la soluzione per l'istanza del problema originale.} di un qualsiasi problema a \(\Sat\), allora troviamo un algoritmo per risolvere quel problema.
 
 Tale codifica, per essere utile, deve essere efficiente, ovvero deve essere eseguibile in tempo polinomiale rispetto alla dimensione dell'istanza del problema originale. Questo, poiché, essendo \(\Sat\) un problema NP-completo, riduzioni inefficienti porterebbero, oltre che a poter rappresentare problemi che non sono in NP, a non avere un algoritmo efficiente per risolvere il problema originale, la cui complessità è nascosta proprio nella riduzione.
 
