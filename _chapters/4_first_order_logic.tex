@@ -528,7 +528,7 @@ e analizziamola in modo analogo.
 
 Il primo caso è rimasto identico, ma nel secondo i modelli che soddisfano \(\forall x\st B(x)\) sono tali che \(B^M = D\). Ma questo chiaramente soddisfa \(\forall x, (\neg A(x)\lor B(x))\) perché \(\forall x, (\neg A(x)) \lor \forall x, B(x) \implies \forall x, (\neg A(x)\lor B(x))\). Quindi non è possibile trovare un contromodello, e, di conseguenza, la formula è valida. Ovviamente, è anche soddisfacibile, poiché ogni formula valida è anche soddisfacibile.
 
-Consideriamo ora due formule, di cui la prima ha un albero sintattico che ha la radice etichettata con un simbolo logico unario.
+Consideriamo ora due formule, di cui la prima ha un albero sintattico che ha la radice etichettata con un simbolo logico unario, ma non booleano, ovvero un quantificatore.
 Con \(Hat\) predicato vero per individui che indossano un cappello, consideriamo le due formule
 \[\exists x, (Hat(x) \to \forall y, Hat(y))\]
 \[(\exists x, Hat(x))\to(\forall y, Hat(y))\]
