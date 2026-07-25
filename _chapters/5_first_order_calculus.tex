@@ -37,12 +37,6 @@ Iniziamo con le regole per il quantificatore universale. I vincoli di applicabil
   \infer[(\forall I), \text{ se } \substack{ y \text{ non occorre in } \phi, \\ y \text{ non occorre libera in assunzioni per } {\subs{\phi}{x}{y}} \text{ non scaricate}}]{\forall x, \phi}{\subs{\phi}{x}{y}}
 \end{equation*}
 
-Per quanto intuitiva, la regola \(\forall E\) presenta un dettaglio da notare sulla sostituzione. 
-Infatti, nella definizione di sostituzione di una variabile con un termine in una formula, è specificato che una variabile legata, nel contesto in cui la sostituzione avviene, non può essere sostituita --- altrimenti la semantica della formula risulterebbe inevitabilmente alterata.
-Quindi, verrebbe da pensare che la sostituzione \(\subs{\phi}{x}{t}\) risulti inefficace.
-Tuttavia, una volta rimosso, mediante la regola, il quantificatore che lega \(x\), quest'ultima diventa una variabile libera, rendendo la sostituzione possibile.
-La sostituzione che non è possibile fare è \(\subs{\forall x,\phi}{x}{t}\).
-
 Seppure i vincoli per \(\forall I\) possano risultare contorti, questi catturano esattamente il tipico ragionamento per dimostrare una proprietà universale: si prende un elemento generico \(y\) e si mostra che soddisfa la proprietà, da cui è possibile concludere che tutti gli elementi soddisfano la proprietà, non avendo fatto alcuna assunzione specifica su \(y\). Se \(y\) non fosse generico, non potremmo concludere niente su tutti gli elementi.
 Infatti, se \(y\) apparisse libera in un'assunzione non scaricata, allora la dimostrazione di \(\subs{\phi}{x}{y}\) dipenderebbe da un'assunzione specifica su \(y\), perdendo quindi la generalità di \(y\). 
 Inoltre, se \(y\) occorresse in \(\phi\), allora la sostituzione causerebbe una \keyword{cattura}\footnote{Un esempio di cattura è il seguente: consideriamo \(\phi = \forall y, A(y,x)\). Sostituendo \(x\) con \(y\), si ottiene la formula \(\forall y, A(y,y)\), dalla semantica chiaramente diversa. La \(y\) introdotta dalla sostituzione \emph{cattura} le proprietà della \(y\) già presente prima della sostituzione.}, alterando la semantica della formula, sfruttando le proprietà della variabile \(y\) che era già presente.
