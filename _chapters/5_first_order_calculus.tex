@@ -1411,7 +1411,7 @@ Intuitivamente, questo lemma ci sta dicendo che cambiare il nome di una variabil
 
   Se \(x \in FV(\phi)\) allora per il teorema di sostituzione abbiamo
   \[M,\sigma[y\mapsfrom d] \models \subs{\phi}{x}{y} \iff M,\sigma[y\mapsfrom d][x\mapsfrom \den{y}[M][\sigma[y\mapsfrom d]]] \models \phi\]
-  dal momento che \(y\notin \Var(\phi)\) e \(c \in FV(\phi)\) e quindi che \(y\) è libero per \(x\) in \(\phi\).
+  dal momento che \(y\notin \Var(\phi)\) e \(x \in FV(\phi)\) e quindi che \(y\) è libero per \(x\) in \(\phi\).
 
   Chiaramente, si ha che \(\den{y}[M][\sigma[y\mapsfrom d]] = d\), dunque
   \[M,\sigma[y\mapsfrom d][x\mapsfrom \den{y}[M][\sigma[y\mapsfrom d]]] \models \phi \iff M,\sigma[y\mapsfrom d][x\mapsfrom d] \models \phi\]
