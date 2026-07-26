@@ -454,7 +454,7 @@ Procederemo per contrapposizione, ovvero assumeremo che \(\phi\sigma \not\in \Ta
   Altrimenti, si otterrebbe una contraddizione.
 
   Invece, la sostituzione conserva l'insoddisfacibilità. Infatti,
-  \[\phi \in \Unsat \iff \neg \phi \in \Taut \implies (\neg\phi)\in \Taut\iff \]
+  \[\phi \in \Unsat \iff \neg \phi \in \Taut \implies (\neg\phi)\sigma \in \Taut\iff \]
   \[\iff \neg(\phi\sigma) \in \Taut \implies \phi\sigma \in \Unsat\]
 \end{observation}
 
@@ -520,7 +520,7 @@ In questo modo, possiamo definire una prima forma normale, chiamata \(\PNF\) (Po
 
 Per definire formalmente questa forma normale, introduciamo il concetto di letterale.
 
-\begin{definition}{Letterale}
+\begin{definition}[namedlabel={def:literal}{Letterale}]{Letterale}
   Una formula \(\phi\) è un \keyword{letterale} se \(\phi \in AP\) o \(\phi = \neg P \), con \(P \in AP\).
 \end{definition}
 
@@ -602,7 +602,7 @@ Per le \(\CNF\) il ragionamento è simile.
 In questo caso, però, poiché dobbiamo esprimere la formula come una congiunzione di clausole disgiuntive, non possiamo semplicemente elencare degli assegnamenti come in precedenza, poiché gli assegnamenti sono essenzialmente delle congiunzioni.
 Dunque, al posto di elencare gli assegnamenti che rendono vera la formula, elenchiamo in congiunzione la negazione di ogni assegnamento che la rende falsa. 
 In questo modo, ci troviamo con una formula della forma:
-\[\phi' = \neg(l_1^1 \land \ldots \land \ldots \land l_1^{r_1})\land\neg(l_2^{r_2}\land \ldots \land \ldots\land l_2^{r_2})\land\ldots\land \neg(l_k^1\land\ldots\land l_k^{r_k})\]
+\[\phi' = \neg(l_1^1 \land \ldots \land \ldots \land l_1^{r_1})\land\neg(l_2^{1}\land \ldots \land \ldots\land l_2^{r_2})\land\ldots\land \neg(l_k^1\land\ldots\land l_k^{r_k})\]
 A questo punto, applicando le leggi di De Morgan, possiamo ottenere una formula della forma:
 \[\phi'' = (\neg l_1^1 \lor \ldots \lor \neg l_1^{r_1})\land(\neg l_2^1 \lor \ldots \lor \neg l_2^{r_2})\land\ldots\land (\neg l_k^1 \lor \ldots \lor \neg l_k^{r_k})\]
 che è esattamente una formula in \(\CNF\).

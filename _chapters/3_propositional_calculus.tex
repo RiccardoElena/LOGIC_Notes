@@ -1,23 +1,25 @@
 \chapter{Calcolo deduttivo proposizionale}
 
-Nel capitolo precedente abbiamo definito una logica come una tripla \((\mathcal{L}, \models, \vdash)\), dove \(\mathcal{L}\) è un linguaggio, \(\models\) è la relazione di soddisfacibilità che ne esprime la semantica, e \(\vdash\) è un calcolo, che ci permette di dedurre formule a partire da altre, o verificare se una formula è valida o meno.
+Nel capitolo precedente abbiamo definito una logica come una tripla \((\mathcal{L}, \models, \vdash)\), dove \(\mathcal{L}\) è un linguaggio, \(\models\) è la relazione di soddisfacibilità che ne esprime la semantica, e \(\vdash\) è un calcolo, che ci permette di dedurre formule a partire da altre formule, o verificare se una formula è valida o meno.
 
-Per quanto concerne la logica proposizionale, abbiamo definito il linguaggio \(\PL\) e fornito ben due semantiche, ma nonostante abbiamo visto una forma di calcolo tramite le tabelle di verità, questo non è sufficiente.
+Per quanto concerne la logica proposizionale, abbiamo definito il linguaggio \(\PL\) e fornito due semantiche. 
+Abbiamo visto una forma di calcolo che fa uso delle tabelle di verità, ma ciò non è sufficiente.
 Infatti, questo tipo di calcolo non \qi{scala} a logiche più complesse ed espressive, poiché assume il potersi ridurre a un numero finito di casi, cosa che già per il prim'ordine non è possibile.
 
-Vedremo in questo capitolo due calcoli, un primo detto \keyword{calcolo di deduzione naturale} più affine al ragionamento umano, e un secondo detto \keyword{calcolo di risoluzione} più affine a un'implementazione automatica, e che è alla base di molti sistemi di dimostrazione automatica.
+Vedremo in questo capitolo due calcoli, un primo detto \keyword{calcolo di deduzione naturale}, più affine al ragionamento umano, ed un secondo, detto \keyword{calcolo di risoluzione}, più affine ad un'implementazione automatica, e che è alla base di molti sistemi di dimostrazione automatica.
 
-Entrambi questi calcoli sono di tipo puramente sintattico, e non fanno riferimento alla semantica, ma le regole di trasformazione che li caratterizzano sono formulate in modo da preservare le proprietà semantiche, e quindi ci permettono di dedurre conseguenze logiche, ovvero di ottenere la stessa relazione di deducibilità che abbiamo definito tramite la semantica, ma in maniera puramente sintattica.
+Entrambi questi calcoli sono puramente sintattici, e non fanno riferimento alla semantica. 
+Tuttavia, le regole di trasformazione che li caratterizzano sono formulate in modo da preservare le proprietà semantiche, e quindi ci permettono di dedurre conseguenze logiche, ovvero di ottenere la stessa relazione di deducibilità che abbiamo definito tramite la semantica, ma in maniera puramente sintattica.
 
 \begin{definition}{Calcolo inferenziale}
-  Definiamo un \keyword{calcolo inferenziale} come una coppia \((\Axi, \Rules)\) dove \(\Axi \subseteq \PL\) è un insieme di formule detto \keyword{assiomi}, e \(\Rules\) è un insieme di regole di trasformazione dette \keyword{regole di inferenza}.
+  Definiamo un \keyword{calcolo inferenziale} come una coppia \((\Axi, \Rules)\) dove \(\Axi \subseteq \PL\) è un insieme di formule dette \keyword{assiomi}, e \(\Rules\) è un insieme di regole di trasformazione dette \keyword{regole di inferenza}.
 
-  Le formule in \(\Axi\) sono proposizioni considerate vere a priori, e le regole in \(\Rules\) sono regole che ci permettono a partire da un numero finito di formule, dette \keyword{premesse}, di dedurre una nuova formula, detta \keyword{conclusione}.
+  Le formule in \(\Axi\) sono proposizioni considerate vere a priori, e le regole in \(\Rules\) sono regole che ci permettono, a partire da un numero finito di formule, dette \keyword{premesse}, di dedurre una nuova formula, detta \keyword{conclusione}.
 \end{definition}
 
-Ovviamente, come anticipato non tutte le regole di trasformazioni sono regole d'inferenza valide, poiché vorremmo che queste regole preservassero delle proprietà semantiche.
+Ovviamente, come anticipato, non tutte le regole di trasformazione sono regole valide d'inferenza, poiché vorremmo che queste regole preservassero delle proprietà semantiche.
 
-A prescindere da ciò però, a partire da un calcolo inferenziale \((\Axi, \Rules)\) possiamo definire una relazione di deducibilità.
+A prescindere da ciò, però, a partire da un calcolo inferenziale \((\Axi, \Rules)\), è possibile definire una relazione di deducibilità.
 
 \begin{definition}[namedlabel={def:deducibility}{Deducibilità}]{Deducibilità}
   Dati un calcolo inferenziale \((\Axi, \Rules)\) e un insieme di formule \(\Gamma\), diciamo che \(\Gamma\) deduce una formula \(\phi\) tramite \(\Rules\), e scriviamo \(\Gamma \vdash_{\Rules} \phi\), se è possibile dedurre come conclusione \(\phi\) a partire da un numero finito di formule in \(\Gamma\) e \(\Axi\), applicando un numero finito di regole in \(\Rules\).
@@ -28,10 +30,10 @@ A prescindere da ciò però, a partire da un calcolo inferenziale \((\Axi, \Rule
 
 Intuitivamente, l'obiettivo che vorremmo ottenere con un calcolo inferenziale, e quindi con la relazione di deducibilità, sarebbe quello di catturare, in maniera puramente sintattica, la conseguenza logica, ovvero vorremmo che:
 \[\Gamma \models \phi \iff \Gamma \vdash \phi\]
-Per quanto riguarda gli assiomi, è possibile usare un insieme minimale di tautologie che potranno essere istanziate in diversi modi tramite il teorema di sostituzione.\footnote{In un certo senso la regola di sostituzione fa parte di (R).}
+Per quanto riguarda gli assiomi, è possibile usare un insieme minimale di tautologie che potranno essere istanziate in diversi modi tramite il teorema di sostituzione.\footnote{In un certo senso la regola di sostituzione fa parte di \(\Rules\).}
 Ad esempio, definendo \(P \lor \neg P\) come assioma, è immediato ottenere \(\lnot P \lor \lnot \lnot P\) come istanziazione in cui \(P\) è mappato in \(\lnot P\).
 
-Il primo calcolo che vedremo però non ha assiomi, ma solo regole di inferenza, e si chiama \keyword{calcolo di deduzione naturale}.
+Il primo calcolo che vedremo, però, non ha assiomi, ma solo regole di inferenza, ed il cui nome è \keyword{calcolo di deduzione naturale}.
 
 \section{Calcolo di deduzione naturale}
 
@@ -45,7 +47,7 @@ Nel nostro caso, considereremo i seguenti operatori logici: \(\land\), \(\lor\),
 \begin{note}{}
   La notazione presentata è da intendersi come segue: sopra la linea ci sono le premesse, sotto la linea c'è la conclusione, e a destra della regola c'è il nome della regola, che è puramente indicativo, e serve solo a identificare la regola, ma non ha alcun significato formale.
 
-  Inoltre, quando ci sono delle assunzioni che è possibile scaricare, queste sono indicate tra parentesi quadre, mentre i puntini di sospensione indicano l'applicazione di un numero finito di regole da quelle assunzioni fino alla conclusione.
+  Inoltre, quando ci sono delle assunzioni che è possibile scaricare\footnote{Un'assunzione è una premessa temporanea che introduciamo per dimostrare qualcosa. \q{Scaricare un'assunzione} significa che, una volta raggiunta la conclusione desiderata sotto quella premessa, possiamo chiudere quella premessa e considerare la conclusione valida senza dover più dipendere da essa.}, queste sono indicate tra parentesi quadre, mentre i puntini di sospensione indicano l'applicazione di un numero finito di regole da quelle assunzioni fino alla conclusione.
 \end{note}
 
 \paragraph{Regole per \(\land\):}
@@ -56,9 +58,12 @@ Le regole di introduzione ed eliminazione per \(\land\) sono le più intuitive, 
   \infer[(\land I)]{A \land B}{A & B} \quad\quad\quad \infer[(\land E^l)]{A}{A \land B} \quad\quad\quad \infer[(\land E^r)]{B}{A \land B}
 \end{equation*}
 
+La regola di introduzione \(\land I\) ci dice che, a partire da due premesse \(A,B\), è possibile concludere \(A\land B\).
+Le regole di eliminazione ci dicono che, a partire da una premessa \(A\land B\), è possibile concludere \(A\) (\(\land E^l\)), così come \(B\) (\(\land E^r\)). 
+
 \paragraph{Regole per \(\to\):}
 
-Per quanto riguarda \(\to\), la regola di eliminazione è abbastanza intuitiva oltre che a essere molto conosciuta col nome di \textit{Modus Ponens}, mentre la regola di introduzione è un po' più complessa.
+Per quanto riguarda \(\to\), la regola di eliminazione \(\to E\) è abbastanza intuitiva ed è anche conosciuta col nome di \textit{Modus Ponens}, mentre la regola di introduzione \(\to I\) è un po' più complessa.
 
 \begin{equation*}
   \infer[(\to E)]{B}{A \to B & A} \quad\quad\quad
@@ -71,7 +76,7 @@ Per quanto riguarda \(\to\), la regola di eliminazione è abbastanza intuitiva o
     } 
 \end{equation*}
 
-Quello che ci dice è che, se assumendo \(A\) riusciamo a dedurre \(B\), allora possiamo dedurre \(A \to B\) senza più assumere \(A\) \keyword{scaricando l'assunzione}. Tale regola cattura il procedimento usuale di dimostrazione di un teorema che prevede un'implicazione, ovvero volendo dimostrare \(A \to B\), allora si assume \(A\) e si tenta di dedurre \(B\). In caso affermativo, si potrà concludere \(A \to B\).
+Quello che ci dice è che, se assumendo \(A\) riusciamo a dedurre \(B\), applicando regole di inferenza un numero finito di volte, allora possiamo dedurre \(A \to B\) senza più assumere \(A\), \keyword{scaricando l'assunzione}. Tale regola cattura il procedimento usuale di dimostrazione di un teorema che prevede un'implicazione, ovvero volendo dimostrare \(A \to B\), allora si assume \(A\) e si tenta di dedurre \(B\). In caso affermativo, si potrà concludere \(A \to B\).
 
 \paragraph{Regole per \(\lor\):}
 
@@ -96,8 +101,8 @@ Le regole di introduzione per \(\lor\) sono abbastanza intuitive, mentre la rego
   }
 \end{equation*}
 
-Quest'ultima regola ci dice che, se abbiamo \(A \lor B\), e se assumendo \(A\) e \(B\) \textbf{separatamente} riusciamo a dedurre \(C\) in entrambi i casi, allora possiamo dedurre \(C\) senza più assumere \(A\) e \(B\), ovvero scaricando entrambe le assunzioni nelle rispettive deduzioni.
-Questa regola cattura il concetto di dimostrazione per casi, ovvero se si vuole dimostrare \(C\) a partire da \(A \lor B\), sarà sufficiente dedurre \(C\) sia nel caso in cui sia vero \(A\), che nel caso in cui sia vero \(B\). In caso affermativo, si potrà concludere \(C\).
+Quest'ultima regola ci dice che, avendo \(A \lor B\), e se, assumendo \(A\) e \(B\) \textbf{separatamente}, riusciamo a dedurre \(C\) in entrambi i casi, allora possiamo dedurre \(C\) senza più assumere \(A\) e \(B\), ovvero scaricando entrambe le assunzioni nelle rispettive deduzioni.
+Questa regola cattura il concetto di dimostrazione per casi: se si vuole dimostrare \(C\) a partire da \(A \lor B\), sarà sufficiente dedurre \(C\) sia nel caso in cui sia vero \(A\) che nel caso in cui sia vero \(B\). In caso affermativo, si potrà concludere \(C\).
  
 \paragraph{Regole per \(\neg\):}
 
@@ -131,8 +136,8 @@ Infine, vediamo due regole che potremmo definire di eliminazione di \(\bot\), di
   }
 \end{equation*}
 
-La seconda regola è esattamente la \textit{Reductio ad Absurdum}, e ci dice che, se assumendo \(\neg A\) riusciamo a dedurre \(\bot\), allora possiamo dedurre \(A\) senza più assumere \(\neg A\) scaricando l'assunzione. Tale regola cattura il procedimento usuale di dimostrazione per assurdo, in cui negando la tesi si riesce a concludere una contraddizione. L'altra regola invece, che è una generalizzazione della seconda, cattura il concetto di implicazione da premesse false.
-Essenzialmente quello che esprime è che, a partire da premesse contraddittorie, è possibile dedurre qualsiasi formula, e quindi in particolare \(A\). Un analogia per avere più chiara una giustificazione intuitiva di questa regola è considerare la semantica usuale dell'implicazione, nella quale, con antecedente falso, non importa il valore di verità del conseguente, ovvero a partire da premesse false è vero tutto e il contrario di tutto.
+La seconda regola è esattamente la \textit{Reductio ad Absurdum}, e ci dice che, se assumendo \(\neg A\) riusciamo a dedurre \(\bot\), allora possiamo dedurre \(A\) senza più assumere \(\neg A\) scaricando l'assunzione. Tale regola cattura il procedimento usuale di dimostrazione per assurdo, in cui negando la tesi si riesce a concludere una contraddizione. La prima regola invece, che è una generalizzazione della seconda, cattura il concetto di implicazione da premesse false.
+Essenzialmente, ciò che esprime è che, a partire da premesse contraddittorie, è possibile dedurre qualsiasi formula, e quindi in particolare \(A\). Un'analogia per avere più chiara una giustificazione intuitiva di questa regola è considerare la semantica usuale dell'implicazione, nella quale, con antecedente falso, non importa il valore di verità del conseguente, ovvero, a partire da premesse false, è vero tutto e il contrario di tutto.
 
 Il processo di deduzione naturale può quindi essere visto come una costruzione incrementale: si parte da un insieme di assunzioni iniziali e, mediante passi atomici costituiti da applicazioni di regole di inferenza, si ottiene progressivamente la formula obiettivo.
 Durante tale processo, alcune assunzioni vengono scaricate tramite le regole che lo consentono (ad esempio \((\to I)\), \((\neg I)\), \((\lor E)\), \((\RAA)\)), mentre le altre restano attive fino alla fine della derivazione.
@@ -193,6 +198,7 @@ Andiamo ora a vedere un primo esempio di deduzione naturale, per poi procedere c
 \subsection{Applicazione del calcolo naturale proposizionale}
 
 In questa sezione andremo ad analizzare nel dettaglio alcuni esempi di deduzioni naturali che esploreranno tutte le regole di inferenza che abbiamo introdotto, in modo da avere un'idea più chiara di come funziona questo calcolo, e di come scegliere le regole da applicare per dedurre formule più complesse.
+In particolare, non procederemo \q{in avanti}, ovvero partendo da un insieme di premesse per poi arrivare a dimostrare la conclusione, bensì \q{a ritroso}: partiremo dalla conclusione e costruiremo l'albero di deduzione partendo dalla radice, ovvero la conclusione stessa, fino a raggiungere le foglie, ovvero le premesse, scaricando\footnote{In realtà, come precedentemente affermato, una premessa viene scaricata nel momento in cui può essere accantonata dopo aver dimostrato la conclusione. In questa costruzione a ritroso, invece, assumeremo di aver scaricato una premessa, che sarà poi esplicitata in una foglia dell'albero.} quest'ultime nel caso sia necessario.
 
 \subsubsection*{Dimostrazione di \(\vdash A \leftrightarrow \neg \neg A\).}
 
@@ -218,7 +224,7 @@ Ovviamente, \(A \to \neg \neg A\) è già stato dimostrato in \Cref{prtree:natur
   \BinaryInfC{\((A \to \neg \neg A) \land (\neg \neg A \to A)\)}
 \end{prooftree}
 
-Dobbiamo quindi dimostrare \(\neg \neg A \to A\). Per fare questo, possiamo andare a retroso, e pensare di usare la regola \(\to I\), che ci permette di dedurre un'implicazione a partire dal suo conseguente. Inoltre tale regola è particolarmente importante perché ci \qi{regala} un'assunzione scaricabile, ovvero ci permette di usare liberamente come assunzione il suo antecedente nel sottoalbero radicato in essa, avendo la possibilità di scaricarla alla fine della deduzione. Le assunzioni scaricabili possono essere da guida per la scelta dei passi successivi, poiché se abbiamo un'assunzione scaricabile di una formula \(A\), allora è ragionevole pensare di usare tale formula come premessa per dedurre altre formule, e quindi di usare regole di inferenza che hanno \(A\) come premessa.
+Dobbiamo quindi dimostrare \(\neg \neg A \to A\). Per fare questo, possiamo andare a ritroso e pensare di usare la regola \(\to I\), che ci permette di dedurre un'implicazione a partire dal suo conseguente. Inoltre, tale regola è particolarmente importante perché ci \qi{regala} un'assunzione scaricabile, ovvero ci permette di usare liberamente come assunzione il suo antecedente nel sottoalbero radicato in essa, avendo la possibilità di scaricarla alla fine della deduzione. Le assunzioni scaricabili possono essere da guida per la scelta dei passi successivi, poiché se abbiamo un'assunzione scaricabile di una formula \(A\), allora è ragionevole pensare di usare tale formula come premessa per dedurre altre formule, e quindi di usare regole di inferenza che hanno \(A\) come premessa.
 
 \begin{prooftree}
   \AxiomC{\Namedcref{ex:natural_deduction}}
@@ -244,7 +250,7 @@ A questo punto dobbiamo dimostrare \(A\), sapendo di poter usare liberamente \(\
   \BinaryInfC{\((A \to \neg \neg A) \land (\neg \neg A \to A)\)}
 \end{prooftree}
 
-A questo punto il gioco è fatto, poiché ci resta da dimostrare \(\bot\), ma abbiamo come assunzioni scaricabili sia \(\neg A\) che \(A\), e quindi possiamo trivialmente usare \(\neg E\).
+A questo punto il gioco è fatto, poiché ci resta da dimostrare \(\bot\), ma abbiamo come assunzioni scaricabili sia \(\neg A\) che \(A\), e quindi possiamo banalmente usare \(\neg E\).
 
 \begin{prooftree}
   \AxiomC{\Namedcref{ex:natural_deduction}}
@@ -272,7 +278,7 @@ Possiamo ragionevolmente iniziare con \(\to I\) per ottenere la nostra formula a
   \UnaryInfC{\((P\to Q)\to((Q\to R) \to (P\to R))\)}
 \end{prooftree}
 
-Ci troviamo adesso a dover dimostrare un altra implicazione, e quindi possiamo pensare di usare nuovamente \(\to I\) per ottenere \((Q\to R) \to (P\to R)\) a partire da \(P\to R\) scaricando l'assunzione di \(Q\to R\).
+Ci troviamo adesso a dover dimostrare un'altra implicazione, e quindi possiamo pensare di usare nuovamente \(\to I\) per ottenere \((Q\to R) \to (P\to R)\) a partire da \(P\to R\) scaricando l'assunzione di \(Q\to R\).
 
 \begin{prooftree}
   \AxiomC{\(P\to R\)}
@@ -370,7 +376,7 @@ Questo esempio ci mostra come un assunzione scaricabile possa essere usata più 
 \begin{note}{}
   Le deduzioni che abbiamo visto fino a ora sono tutte deduzioni di tautologie note. Un altro modo per farci guidare nella scelta delle regole da applicare è quello di pensare alla validità semantica della formula che vogliamo dimostrare o a eventuali equivalenze, per capire da quale assunzione \q{estrarre} l'informazione che ci manca per la dimostrazione.
 
-  Formalmente questo processo non è corretto, poiché assume che il nostro calcolo inferenziale catturi la conseguenza logica, ovvero abbia le proprietà di correttezza e completezza, le quali, senza una dimostrazione formale, non possiamo dare per scontate.
+  Formalmente questo processo non è corretto, poiché assume che il nostro calcolo inferenziale catturi la conseguenza logica, ovvero che abbia le proprietà di correttezza e completezza, le quali, senza una dimostrazione formale, non possono essere date per scontate.
 
   Per quanto riguarda il calcolo di deduzione naturale però, come dimostreremo in seguito, è possibile dimostrare che esso è corretto e completo, e quindi possiamo usare questo tipo di ragionamento per guidarci nella scelta delle regole da applicare, avendo la certezza che se una formula è valida, allora sarà dimostrabile, e viceversa.
 \end{note}
@@ -450,7 +456,7 @@ Questo ci mostra che nonostante la regola di deduzione finale sia \(\RAA\) anche
 
 Come abbiamo già visto nell'\Namedcref{ex:notable_tautologies}, \((P \to Q) \leftrightarrow (\neg P \lor Q)\) è una tautologia, quindi ci aspettiamo di poterla dimostrare. Come abbiamo già visto per dimostrare un equivalenza basta dimostrare entrambe le implicazioni che la compongono per poi concludere usando \(\land I\).
 
-Andiamo quindi a dimostrare separatamente \((P \to Q) \to (\neg P \lor Q)\) e \((\neg P \lor Q) \to (P \to Q)\). Banalmente però, sfruttando \(\to I\) possiamo passare al dover dimostrare i sequenti \(P \to Q \vdash \neg P \lor Q\) e \(\neg P \lor Q \vdash P \to Q\), il che ci permette di non doverci preoccupare di scaricare l'assunzione di \(P \to Q\) e \(\neg P \lor Q\) rispettivamente, e quindi di poterle usare liberamente come assunzioni.
+Andiamo quindi a dimostrare separatamente \((P \to Q) \to (\neg P \lor Q)\) e \((\neg P \lor Q) \to (P \to Q)\). Banalmente però, sfruttando \(\to I\), possiamo passare al dover dimostrare i sequenti \(P \to Q \vdash \neg P \lor Q\) e \(\neg P \lor Q \vdash P \to Q\), il che ci permette di non doverci preoccupare di scaricare l'assunzione di \(P \to Q\) e \(\neg P \lor Q\) rispettivamente, e quindi di poterle usare liberamente come assunzioni.
 
 \paragraph{Dimostrazione di \(P \to Q \vdash \neg P \lor Q\).}
 
@@ -495,7 +501,7 @@ Iniziamo con \(\neg Q\). Per poter introdurre una negazione, possiamo utilizzare
   \UnaryInfC{\(\neg P \lor Q\)}
 \end{prooftree}
 
-A questo punto per dimostrare questo \(\bot\) dobbiamo introdurre una contraddizione. Avendo a disposizione \(Q\) e \(\neg(\neg P \lor Q)\) possiamo pensare di questa seconda insieme a \(\neg P \lor Q\) per dedurre una contraddizione usando \(\neg E\).
+A questo punto per dimostrare questo \(\bot\) dobbiamo introdurre una contraddizione. Avendo a disposizione \(Q\) e \(\neg(\neg P \lor Q)\) possiamo pensare di usare quest'ultima assieme a \(\neg P \lor Q\) per dedurre una contraddizione usando \(\neg E\).
 
 \begin{prooftree}
   \AxiomC{\(P\)}
@@ -585,7 +591,7 @@ Ora però dobbiamo dimostrare \(Q\) avendo a disposizione \(\neg P \lor Q\) e \(
   \UnaryInfC{\(P \to Q\)}
 \end{prooftree}
 
-Per quanto riguarda dimostrare \(Q\) assumendo \(Q\), questo è immediato.
+Dimostrare \(Q\) assumendo \(Q\) è immediato scaricando l'assunzione di \(Q\).
 \begin{prooftree}
   \AxiomC{\(\neg P \lor Q\)}
   \AxiomC{\({[Q]}_2\)}
@@ -622,7 +628,7 @@ Ulteriori esempi ed esercizi di deduzioni naturali sono state riportate nell' ap
 
 Abbiamo visto come il calcolo di deduzione naturale sia un sistema formale che ci permette sintatticamente di ottenere nuove formule a partire da un insieme di premesse, ma per poterlo usare in modo efficace è necessario assicurarsi che esso sia in grado di catturare la conseguenza logica.
 
-In questo senso, andremo a dimostrare varie proprietà del calcolo di deduzione naturale, che lo mettono in relazione con la conseguenza logica, per fare in modo da garantire che questa tecnica di manipolazione sintattica riesca a mantenere valore semantico, e quindi che se una formula è dimostrabile, allora è anche valida, e viceversa.
+In questo senso, andremo a dimostrare varie proprietà del calcolo di deduzione naturale, che lo mettono in relazione con la conseguenza logica, per garantire che questa tecnica di manipolazione sintattica riesca a mantenere valore semantico, cioè che se una formula è dimostrabile, allora è anche valida, e viceversa.
 
 Iniziamo con una proprietà strettamente relativa al calcolo che ci permette di ampliare arbitrariamente l'insieme di premesse da cui dedurre una formula, senza perdere la possibilità di dedurla.
 
@@ -631,14 +637,14 @@ Iniziamo con una proprietà strettamente relativa al calcolo che ci permette di 
   \[\Gamma \vdash \phi \implies \Gamma \cup \{\psi\} \vdash \phi\]
 \end{theorem}
 
-È importante notare che questa proprietà risulta solo rafforzata nel caso vengano aggiunte formule che rendono \(\Gamma\) inconsistente, poiché in questo caso sarà possibile dedurre qualsiasi formula a partire da \(\Gamma\) mediante \(\bot E\). Questa è una caratteristica tipica della logica classica, e non è condivisa da tutte le logiche, come ad esempio le logiche paraconsistenti, in cui l'inconsistenza non porta alla trivialità, ma viene in qualche modo contenuta permettendo di parlare del resto dell'insieme di formule anche in presenza di contraddizioni.
+È importante notare che, anche nel caso in cui l'aggiunta di \(\psi\) renda \(\Gamma \cup \set{\psi}\) inconsistente, la proprietà risulta rafforzata: in questo caso sarà possibile dedurre qualsiasi formula a partire da \(\Gamma \cup \set{\psi}\) mediante \(\bot E\). Questa è una caratteristica tipica della logica classica, e non è condivisa da tutte le logiche, come ad esempio le logiche paraconsistenti, in cui l'inconsistenza non porta alla trivialità\footnote{Inteso come banalità. Un classico esempio di situazione triviale è \(A \to B\) con \(A\) falsa.}, ma viene in qualche modo contenuta permettendo di parlare del resto dell'insieme di formule anche in presenza di contraddizioni.
 
 \begin{note}{}
-  Questa proprietà si generalizza in \(\Gamma \vdash \phi \implies \Gamma \cup \Gamma' \vdash \phi\), applicandola più volte. La dimostrazione di questa versione più generale però segue direttamente da quella della versione più semplice, e quindi non è necessario farla esplicitamente.
+  Questa proprietà si generalizza in \(\Gamma \vdash \phi \implies \Gamma \cup \Gamma' \vdash \phi\), applicandola più volte. La dimostrazione di questa versione più generale, però, segue direttamente da quella della versione più semplice, e quindi non si ritiene necessario riportarla.
 \end{note}
 
 \begin{proof}
-  Per definizione di deduzione, \(\Gamma \vdash \phi\) se e solo se esiste un albero di derivazione ben formato radice etichettata con \(\phi\) e le cui foglie o sono etichettate con formule di \(\Gamma\) o sono assunzioni scaricabili. 
+  Per definizione di deduzione, \(\Gamma \vdash \phi\) se e solo se esiste un albero di derivazione ben formato avente radice etichettata con \(\phi\) e le cui foglie o sono etichettate con formule di \(\Gamma\) o sono assunzioni scaricabili. 
 
   In tale definizione non c'è alcun obbligo di usare ogni formula di \(\Gamma\) come etichetta di una foglia. Pertanto, aggiungendo all'insieme delle premesse \(\Gamma\) una nuova formula \(\psi\) non usata nell'albero di derivazione, lo stesso identico albero di derivazione rimane valido per dimostrare \(\Gamma \cup \{\psi\} \vdash \phi\).
 \end{proof}
@@ -668,8 +674,7 @@ Già da questi primi due teoremi è possibile notare un forte parallelismo tra l
   \[\Gamma \cup \Gamma' \vdash \phi\]
 \end{theorem}
 
-Intuitivamente, questa regola ci dice se abbiamo un albero di derivazione che dimostra un'assunzione, possiamo sostituire a ogni foglia etichettata con quell'assunzione l'albero di derivazione che dimostra quell'assunzione, mantenendo una derivazione valida.
-
+Intuitivamente, questa regola ci dice, se abbiamo un albero di derivazione che dimostra un'assunzione, possiamo sostituire a ogni foglia etichettata con quell'assunzione l'albero di derivazione che dimostra quell'assunzione, mantenendo una derivazione valida.
 
 \begin{proof}
   Possiamo formalmente dimostrare questa regola tramite il teorema di deduzione e la monotònicità di \(\vdash\).
@@ -720,32 +725,32 @@ Iniziamo col definire un concetto che ci aiuterà nella dimostrazione di corrett
   \[\den{\Gamma} = \set{m \in 2^{\AP}}[ m \models \Gamma] = \bigcap_{\phi \in \Gamma} \den{\phi}\]
 \end{definition}
 
-Possiamo dunque procedere alla dimostrazione della correttezza del calcolo di deduzione naturale, che intuitivamente ci dice che tutto ciò che è provabile è semanticamente fondato, e che quindi il calcolo di deduzione naturale ci permette di dedurre solo formule che sono conseguenza logica delle premesse.
+Possiamo dunque procedere alla dimostrazione della correttezza del calcolo di deduzione naturale, che, intuitivamente, ci dice che tutto ciò che è provabile è semanticamente fondato, e che quindi il calcolo di deduzione naturale ci permette di dedurre solo formule che sono conseguenza logica delle premesse.
 
 \begin{theorem}{Correttezza del calcolo di deduzione naturale}
   Per ogni insieme di formule \(\Gamma\) e ogni formula \(\phi\) si ha che:
   \[\Gamma \vdash \phi \implies \Gamma \models \phi\]
 \end{theorem}
 
+Per definizione di \(\Gamma\vdash\phi\), esiste un albero di deduzione con radice \(\phi\) e con foglie che sono o assunzioni scaricate o formule di \(\Gamma\).
+
+Dunque, dimostrare la tesi equivale a dimostrare che, per ogni albero di deduzione con conclusione \(\phi\) e premesse \(\Gamma\), si ha \(\Gamma\models\phi\).
+Possiamo facilmente vederlo per induzione sulla struttura (o altezza) dell'albero di deduzione.
+
 \begin{proof}
-
-  Per definizione di \(\Gamma\vdash\phi\), esiste un albero di deduzione con radice \(\phi\) e con foglie che sono o assunzioni scaricate o formule di \(\Gamma\).
-
-  Dunque dimostrare la tesi equivale a dimostrare che, per ogni albero di deduzione in deduzione naturale per \(\phi\) da \(\Gamma\), \(\Gamma\models\phi\).
-
-  Possiamo facilmente vederlo per induzione sulla struttura (o altezza) dell'albero di deduzione.
+  Procediamo per induzione sull'altezza dell'albero di deduzione.
   
   Il caso base è una deduzione di altezza \(0\), ovvero \(\phi \in \Gamma\). In questo caso, \(\Gamma\models\phi\) è ovviamente verificato.
 
-  A questo punto sia l'altezza maggiore di \(0\). In questo caso avremo che l'albero avrà in radice \(\phi\) dedotta da una certa regola \(\Rule \in \Rules\) e con figli \(\psi_1,\ldots,\psi_k \in \PL\), ognuno di questi a sua volta radice di un sottoalbero di altezza strettamente minore di quella dell'albero di deduzione di \(\phi\). Per ipotesi induttiva, \(\Gamma\models\psi_i\) per ogni \(i=1,\ldots,k\).
+  A questo punto sia l'altezza maggiore di \(0\). In questo caso avremo che l'albero avrà in radice \(\phi\), dedotta da una certa regola \(\Rule \in \Rules\), con figli \(\psi_1,\ldots,\psi_k \in \PL\), ognuno di questi a sua volta radice di un sottoalbero di altezza strettamente minore di quella dell'albero di deduzione di \(\phi\). Per ipotesi induttiva, \(\Gamma\models\psi_i\) per ogni \(i=1,\ldots,k\).
 
-  A questo punto quindi ci basta mostrare con un analisi per casi che, per ogni regola di deduzione naturale, se \(\set{\psi_1,\ldots,\psi_k} \vdash_{\Rule} \phi\) allora \(\set{\psi_1,\ldots,\psi_k} \models_{\Rule} \phi\).
+  A questo punto, quindi, ci basta mostrare per casi che, per ogni regola di deduzione naturale, se \(\set{\psi_1,\ldots,\psi_k} \vdash_{\Rule} \phi\) allora \(\set{\psi_1,\ldots,\psi_k} \models_{\Rule} \phi\).
 
   \begin{description}
-    \item[\(\to E\).] Abbiamo da ipotesi induttiva che \(\Gamma\models\psi\) e \(\Gamma\models\psi\to\phi\).
-      Ovvero, ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\psi\) e \(\psi\to\phi\).
+    \item[\(\to E\).] Abbiamo \(\Gamma\models\psi\), per ipotesi induttiva, e \(\Gamma\models\psi\to\phi\), per ipotesi induttiva in modo specifico per questa regola.
+    In altre parole, ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\psi\) e \(\psi\to\phi\).
       
-      Dalla semantica dell'implicazione, abbiamo che, se un modello \(m\) soddisfa \(\psi\to\phi\) allora o non soddisfa \(\psi\) o, se la soddisfa, allora soddisfa \(\phi\). Ma essendo che \(m\) soddisfa \(\psi\), allora \(m\) deve soddisfare anche \(\phi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\phi\), e quindi \(\Gamma\models\phi\).
+    Dalla semantica dell'implicazione, abbiamo che, se un modello \(m\) soddisfa \(\psi\to\phi\) allora o non soddisfa \(\psi\) o, se la soddisfa, allora soddisfa \(\phi\). Ma poiché \(m\) soddisfa \(\psi\), allora \(m\) deve soddisfare anche \(\phi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\phi\), e quindi \(\Gamma\models\phi\).
     \item[\(\neg E\).] Abbiamo da ipotesi induttiva che \(\Gamma\models\neg\psi\) e \(\Gamma\models\psi\). Dunque ogni modello che soddisfa \(\Gamma\) soddisfa anche \(\neg\psi\) e \(\psi\). Per semantica del \(\neg\), allora \(m\) non soddisfa \(\psi\), ma abbiamo detto che \(m\) soddisfa \(\psi\), assurdo. Dunque non esiste alcun modello che soddisfa \(\Gamma\), e dunque \(\Gamma\) è insoddisfacibile.
 
     Una definizione alternativa di conseguenza logica che avevamo dato era che \(\Gamma\models\phi\) se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile. Ma allora \(\Gamma\models\bot\) se \(\Gamma\cup\set{\neg \bot}\) è insoddisfacibile. Ma \(\neg\bot\) è tautologicamente vero, dunque \(\Gamma\cup\set{\neg \bot}\) è insoddisfacibile se e solo se \(\Gamma\) è insoddisfacibile. Cosa che abbiamo appena dimostrato nel caso in cui \(\Gamma\models\neg\psi\) e \(\Gamma\models\psi\). Dunque \(\Gamma\models\bot\).
@@ -767,11 +772,11 @@ Possiamo dunque procedere alla dimostrazione della correttezza del calcolo di de
   \end{description}
 \end{proof}
 
-Conclusa la dimostrazione di correttezza, possiamo passare al verso più interessante, ovvero quello di completezza, che ci dice che tutto ciò che è conseguenza logica è anche deducibile, e quindi che il calcolo di deduzione naturale è in grado di catturare tutta la conseguenza logica.
+Conclusa la dimostrazione di correttezza, possiamo passare al verso più interessante, ovvero quello di completezza, che ci dice che tutto ciò che è conseguenza logica è anche deducibile, e che quindi il calcolo di deduzione naturale è in grado di catturare tutta la conseguenza logica.
 
 Questo risulta un po' più complesso da dimostrare, poiché, a differenza della correttezza che chiedeva semplicemente di verificare che le prove generate dal calcolo esibissero una certa proprietà, ovvero l'essere conseguenze logiche delle premesse, la completezza ci chiede di verificare che l'intero spazio delle conseguenze logiche sia coperto dal calcolo, e quindi non sarà più sufficiente verificare in maniera strutturale le prove.
 
-Per dimostrare il teorema di correttezza infatti faremo uso di un paio di risultati intermedi, che ci permetteranno di dimostrare la completezza in modo più semplice.
+Per dimostrare il teorema di correttezza, infatti, faremo uso di un paio di risultati intermedi, che ci permetteranno di dimostrare la completezza in modo più semplice.
 
 \begin{lemma}[namedlabel={lem:lindenbaum}{Lindenbaum}]{Lindenbaum}
   Sia \(\Sigma\subseteq\PL\) un insieme consistente di formule. Allora è possibile costruire un insieme di formule \(\Sigma^*\) tale che \(\Sigma\subseteq\Sigma^*\) e \(\Sigma^*\) è massimalmente consistente, ovvero per ogni formula \(\psi\), o \(\psi\in\Sigma^*\) o \(\neg\psi\in\Sigma^*\).
@@ -812,13 +817,13 @@ Per dimostrare il teorema di correttezza infatti faremo uso di un paio di risult
   Si ha anche però che \(\psi_k\notin\Sigma^*\). Dunque
   \[\psi_k \notin \Sigma_k \iff \Sigma_{k-1}\cup\set{\neg\phi}\vdash \bot\]
 
-  A questo punto abbiamo che \(\Sigma_{k-1}\cup\set{\phi}\vdash\bot\) e \(\Sigma_{k-1}\cup\set{\neg\phi}\vdash\bot\). Utilizzando quindi una volta \(\RAA\) e una volta \(\neg I\), si può dedurre \(\Sigma_{k-1}\vdash\neg\phi\) e \(\Sigma_{k-1}\vdash\phi\), e quindi \(\Sigma_{k-1}\vdash\bot\) usando \(\neg E\), assurdo.\footnote{È possibile dare una dimostrazione alternativa della massimalità \(\Sigma^*\) usando la formulazione di massimalità equivalente per cui \(\Sigma^*\) è massimalmente consistente se, \(\forall \phi \in \PL\setminus\Sigma^*, \Sigma^*\cup\set{\phi}\vdash\bot\).
+  A questo punto, abbiamo \(\Sigma_{k-1}\cup\set{\phi}\vdash\bot\) e \(\Sigma_{k-1}\cup\set{\neg\phi}\vdash\bot\). Utilizzando quindi una volta \(\RAA\) e una volta \(\neg I\), si può dedurre \(\Sigma_{k-1}\vdash\neg\phi\) e \(\Sigma_{k-1}\vdash\phi\), e quindi \(\Sigma_{k-1}\vdash\bot\) usando \(\neg E\), assurdo.\footnote{È possibile dare una dimostrazione alternativa della massimalità \(\Sigma^*\) usando la formulazione di massimalità equivalente per cui \(\Sigma^*\) è massimalmente consistente se, \(\forall \phi \in \PL\setminus\Sigma^*, \Sigma^*\cup\set{\phi}\vdash\bot\).
   Per tale dimostrazione è sufficiente mostrare per assurdo che se c'è un \(\phi=\psi_i\) che non appartiene a \(\Sigma^*\) e che non rompe la consistenza, questo porta ad avere \(\Sigma_i\cup\set{\phi}\vdash\bot\), che per monotònicità implica \(\Sigma^*\cup\set{\phi}\vdash\bot\), assurdo.}
 \end{proof}
 
 A questo punto, possiamo a dimostrare una proprietà più generale, che ci permetterà di dimostrare la completezza del calcolo di deduzione naturale in modo più semplice, ovvero che un insieme di formule consistente è soddisfacibile.
 
-Per fare ciò pero, dobbiamo andare a introdurre un concetto simile a quello di denotazione, ma in un certo senso duale, ovvero la \keyword{teoria} di un modello.
+Per fare ciò, però, dobbiamo introdurre un concetto simile a quello di denotazione, ed in un certo senso duale, ovvero la \keyword{teoria} di un modello.
 
 \begin{definition}{Teoria di un Modello}
   Dato un modello \(m\), la \keyword{teoria di \(m\)} è l'insieme di tutte le formule che sono soddisfatte da \(m\), ovvero:
@@ -848,17 +853,17 @@ Andiamo dunque a vedere qualche proprietà delle teorie di modelli, che ci perme
   Per fare ciò, basta definire \(m^* = \Sigma^*\cap\AP\), poiché essendo \(\Sigma^*\) massimalmente consistente, contiene tutte e sole le proposizioni atomiche che non portano a inconsistenza.
   Infatti le uniche proposizioni atomiche che non possono essere contenute in \(\Sigma^*\) sono quelle che, se aggiunte a \(\Sigma^*\), rendono \(\Sigma^*\) inconsistente, ovvero appaiono in qualche formula che è già presente in \(\Sigma^*\) e che le richiede con assegnamento falso per essere soddisfatte.
 
-  A questo punto, dobbiamo mostrare che \(\Sigma^* = \Th{m^*}\), ovvero che per ogni formula \(\phi\), \(\phi \in \Sigma^* \iff m^* \models \phi\).
+  A questo punto, dobbiamo mostrare che \(\Sigma^* = \Th{m^*}\), ovvero che per ogni formula \(\phi\), si abbia \(\phi \in \Sigma^* \iff m^* \models \phi\).
+  Possiamo procedere per induzione sulla struttura di \(\phi\) per mostrare che \(\phi \in \Sigma^*\) se e solo se \(m^*\models\phi\).
 
-  Per fare ciò possiamo mostrare che \(\Sigma^*\) è chiuso per deduzione, ovvero che se \(\Sigma^*\vdash\phi\) allora \(\phi\in\Sigma^*\).
+  Per fare ciò, possiamo mostrare che \(\Sigma^*\) è chiuso per deduzione, ovvero che se \(\Sigma^*\vdash\phi\) allora \(\phi\in\Sigma^*\).
   Sia infatti per assurdo \(\phi\not\in\Sigma^*\) tale che \(\Sigma^*\vdash\phi\). Dalla massimalità di \(\Sigma^*\) si ha che \(\neg\phi\in\Sigma^*\). Dunque \(\Sigma^*\vdash\neg\phi\) banalmente, e quindi \(\Sigma^*\vdash\bot\) usando \(\neg E\), assurdo.
-
-  A questo punto, possiamo procedere per induzione sulla struttura di \(\phi\) per mostrare che \(\phi \in \Sigma^*\) se e solo se \(m^*\models\phi\).
-
+  
+  Adesso, possiamo procedere con la dimostrazione per induzione strutturale.
   Il caso base è una formula atomica \(p\). Se \(p\in\Sigma^*\), allora \(p\in m^*\) per costruzione, e quindi \(m^*\models p\) e viceversa.
-  A questo punto, sia \(\phi\) una formula non atomica. In questo caso, \(\phi\) è costruita a partire da formule di lunghezza minore tramite l'applicazione di una regola di formazione. L'ipotesi induttiva è dunque che per ogni \(\psi\) di lunghezza minore di \(\phi\),\(\psi \in \Sigma^*\) se e solo se \(m^*\models\psi\).
+  A questo punto, sia \(\phi\) una formula non atomica. In questo caso, \(\phi\) è costruita a partire da formule di lunghezza minore tramite l'applicazione di una regola di formazione. L'ipotesi induttiva è dunque che per ogni \(\psi\) di lunghezza minore di \(\phi\), si abbia \(\psi \in \Sigma^*\) se e solo se \(m^*\models\psi\).
   \begin{description}
-    \item[\(\phi = \neg\psi_1\):] Dalla semantica della negazione, \(m^*\models \phi \iff m^* \not\models \psi\), e per ipotesi induttiva \(m^*\not\models \psi\iff \psi \notin\Sigma^*\). Dalla definizione di massimalità di \(\Sigma^*\) si ha che \(\psi\notin\Sigma^*\) se e solo se \(\neg\psi\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\).
+    \item[\(\phi = \neg\psi\):] Dalla semantica della negazione, \(m^*\models \phi \iff m^* \not\models \psi\), e per ipotesi induttiva \(m^*\not\models \psi\iff \psi \notin\Sigma^*\). Dalla definizione di massimalità di \(\Sigma^*\) si ha che \(\psi\notin\Sigma^*\) se e solo se \(\neg\psi\in\Sigma^*\), ovvero \(\phi\in\Sigma^*\).
     \item[\(\phi = \psi_1 \land \psi_2\):]
         Dalla semantica della congiunzione, \(m^*\models \phi\) se e solo se \(m^*\models \psi_1\) e \(m^*\models \psi_2\). Per ipotesi induttiva, \(m^*\models \psi_1\) se e solo se \(\psi_1\in\Sigma^*\), e \(m^*\models \psi_2\) se e solo se \(\psi_2\in\Sigma^*\). Ci basta quindi mostrare che \(\psi_1,\psi_2 \in \Sigma^*\iff \psi_1\land\psi_2\in\Sigma^*\).
         Ma essendo che 
@@ -872,10 +877,10 @@ Andiamo dunque a vedere qualche proprietà delle teorie di modelli, che ci perme
         \[\psi_1 \vdash_{\lor I} \psi_1\lor\psi_2 \text{ e } \psi_2 \vdash_{\lor I} \psi_1\lor\psi_2\]
         e dunque dalla chiusura di \(\Sigma^*\) per deduzione si \(\psi_1\lor\psi_2\in\Sigma^*\).
         Per la direzione \(\impliedby\) è sufficiente che una tra \(\psi_1\) e \(\psi_2\) sia in \(\Sigma^*\). Se per assurdo nessuna delle due fosse in \(\Sigma^*\) però, per massimalità di \(\Sigma^*\) si avrebbe che sia \(\neg\psi_1\) che \(\neg\psi_2\) sono in \(\Sigma^*\). Ma allora 
-        \[\psi_1\lor\psi_2,\neg\psi_1,\neg\psi_2 \vdash_{\lor E} \bot \implies \Sigma^*\implies \bot\]
+        \[\psi_1\lor\psi_2,\neg\psi_1,\neg\psi_2 \vdash_{\lor E} \bot \implies \Sigma^*\vdash \bot\]
         assurdo per consistenza di \(\Sigma^*\).
       \item[\(\phi = \psi_1 \to \psi_2\):]
-        Questo caso può essere facilmente ricostruito a partire dai casi già trattati, utilizzando la semantica di \(\to\) e le regole di deduzione a esso associate.
+        Questo caso può essere facilmente ricostruito a partire dai casi già trattati, utilizzando la semantica di \(\to\) e le regole di deduzione ad esso associate.
   \end{description}
 \end{proof}
 
@@ -885,11 +890,12 @@ Andiamo dunque a vedere qualche proprietà delle teorie di modelli, che ci perme
   \(\Sigma\) è consistente \(\iff\Sigma\) è soddisfacibile.
 \end{theorem}
 
-\begin{proof}
-  Per definizione di consistenza si ha che \(\Sigma \not\vdash \bot\), ovvero non esiste alcun albero di deduzione con radice \(\bot\) con foglie che sono o assunzioni scaricate o appartengono a \(\Sigma\).
-  Essere soddisfacibile significa che esiste un modello \(m^*\) tale che \(m^*\models\Sigma\).
+Un insieme di formule \(\Sigma\) è \keyword{soddisfacibile} quando esiste un modello \(m^*\) tale che \(m^*\models\Sigma\).
 
-  Dunque per mostrare che \(\Sigma\) consistente implica che \(\Sigma\) è soddisfacibile, dobbiamo andare a costruire un modello \(m^*\) che soddisfa \(\Sigma\) sapendo che le formule di \(\Sigma\) sono consistenti.
+\begin{proof}
+  Per definizione di consistenza si ha che \(\Sigma \not\vdash \bot\), ovvero non esiste alcun albero di deduzione con radice \(\bot\) con foglie che sono o assunzioni scaricate o formule appartenenti a \(\Sigma\).
+
+  Per mostrare che se \(\Sigma\) è consistente allora \(\Sigma\) è soddisfacibile, dobbiamo andare a costruire un modello \(m^*\) che soddisfa \(\Sigma\) sapendo che le formule di \(\Sigma\) sono consistenti.
 
   Ma a questo punto, se \(\Sigma\) è consistente, allora per il \Namedcref{lem:lindenbaum} è possibile costruire un insieme di formule \(\Sigma^*\) tale che \(\Sigma\subseteq\Sigma^*\) e \(\Sigma^*\) è massimalmente consistente.
   Dunque, per la \Cref{prop:max-consistent-set-are-theory}, esiste un modello \(m^*\) tale che \(\Sigma^* = \Th{m^*}\). Dunque, essendo \(\Sigma\subseteq\Sigma^*\), allora \(\Sigma\subseteq\Th{m^*}\), e quindi \(m^*\models\Sigma\), ovvero \(m^*\) soddisfa tutte le formule di \(\Sigma\), e quindi \(\Sigma\) è soddisfacibile.
@@ -909,19 +915,18 @@ A questo punto, siamo finalmente in grado di dimostrare la completezza del calco
   Come già visto precedentemente, abbiamo che \(\Gamma\models\phi \iff \Gamma \cup \set{\neg\phi}\) è insoddisfacibile.
 
   Inoltre, possiamo facilmente vedere che \(\Gamma\vdash \phi \iff \Gamma \cup \set{\neg\phi}\) è inconsistente.
-
   Infatti, se \(\Gamma \cup \set{\neg\phi}\) è inconsistente allora \(\Gamma \cup \set{\neg\phi}\vdash \bot\), ovvero esiste un albero di deduzione per \(\bot\) da \(\Gamma \cup \set{\neg\phi}\). Dunque, se scarichiamo l'assunzione \(\neg\phi\) con \(\RAA\), otteniamo un albero di deduzione per \(\phi\) da \(\Gamma\), ovvero \(\Gamma\vdash\phi\).
 
   Viceversa, se \(\Gamma\vdash\phi\) allora esiste un albero di deduzione per \(\phi\) da \(\Gamma\). Se aggiungiamo a questo albero di deduzione un'assunzione \(\neg\phi\) e applichiamo \(\neg E\), allora otteniamo un albero di deduzione per \(\bot\) da \(\Gamma \cup \set{\neg\phi}\), ovvero \(\Gamma \cup \set{\neg\phi}\vdash\bot\), e quindi \(\Gamma \cup \set{\neg\phi}\) è inconsistente.
 
-  Di conseguenza, \(\Gamma\models\phi \implies \Gamma\vdash\phi\) è equivalente a \(\Gamma \cup \set{\neg\phi}\) è insoddisfacibile \(\implies\) \(\Gamma \cup \set{\neg\phi}\) è inconsistente.
+  Di conseguenza, la proposizione \(\Gamma\models\phi \implies \Gamma\vdash\phi\) equivale alla proposizione \(\Gamma \cup \set{\neg\phi}\) è insoddisfacibile \(\implies\) \(\Gamma \cup \set{\neg\phi}\) è inconsistente.
 
-  A questo punto, possiamo dimostrare la proprietà di completezza per contrapposizione, ovvero che, preso un qualsiasi insieme \(\Gamma\), \(\Gamma\) consistente \(\implies\) \(\Gamma\)soddisfacibile.
-
-  Ma per fare ciò è sufficiente il Teorema di \Namedonlyhref{thm:coherence_and_model-existence}, che ci dice che un insieme di formule consistente è soddisfacibile. Di conseguenza, se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile, allora è inconsistente, ovvero se \(\Gamma\models\phi\) allora \(\Gamma\vdash\phi\).
+  A questo punto, dimostriamo quest'ultima proposizione per contrapposizione, ovvero che, preso un qualsiasi insieme \(\Gamma\), si osserva \(\Gamma\) consistente \(\implies\) \(\Gamma\)soddisfacibile.
+  Per fare ciò, è sufficiente il Teorema di \Namedonlyhref{thm:coherence_and_model-existence}, che ci dice che un insieme di formule consistente è soddisfacibile. Di conseguenza, se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile, allora è inconsistente, ovvero se \(\Gamma\models\phi\) allora \(\Gamma\vdash\phi\).
 \end{proof}
 
-Esistono infine un ultimo paio di risultati importanti riguardo il calcolo di deduzione naturale della logica proposizionale, entrambi che in un certo qual senso semplificano la trattazione di questo calcolo, uno dal fronte semantico, riducendo la grandezza dello spazio dei modelli da considerare, e uno dal fronte sintattico, permettendo di \qi{modularizzare} le dimostrazioni, e quindi di semplificarle.
+Esistono infine un ultimo paio di importanti risultati riguardo al calcolo di deduzione naturale della logica proposizionale. 
+Entrambi semplificano, in un certo senso, la trattazione di questo calcolo: il primo sul fronte semantico, riducendo la grandezza dello spazio dei modelli da considerare; il secondo sul fronte sintattico, permettendo di \qi{modularizzare} le dimostrazioni, rendendole più generali ed astratte, nonché di più ampio utilizzo.
 
 \begin{theorem}{Compattezza}
   Sia \(\Gamma \subseteq \PL\) e \(\phi \in \PL\). Allora \(\Gamma \models \phi\) se e solo se esiste un sottoinsieme finito \(\Gamma_0 \subseteq \Gamma\) tale che \(\Gamma_0 \models \phi\).
@@ -944,7 +949,7 @@ Tale teorema è di particolare importanza, poiché ci garantisce che nella verif
   \[\Gamma_0\models\phi\overset{\text{comp}}{\implies}\Gamma_0\vdash\phi\overset{\text{mon}}{\implies}\Gamma\vdash\phi\overset{\text{corr}}{\implies}\Gamma\models\phi\]
 \end{proof}
 
-Arriviamo infine a un teorema che generalizza il \Namedcref{thm:substitution}, che riguarda la sostituzione nella conseguenza logica invece che nella validità
+Arriviamo infine a un teorema che generalizza il \Namedcref{thm:substitution}, che riguarda la sostituzione nella conseguenza logica invece che nella validità.
 
 \begin{theorem}{Invarianza della Conseguenza Logica rispetto alla Sostituzione}
   Sia \(\Gamma \subseteq \PL\), \(\phi \in \PL\) e \(\sigma:\AP \to \PL\) sostituzione. Allora,
@@ -955,11 +960,11 @@ Arriviamo infine a un teorema che generalizza il \Namedcref{thm:substitution}, c
 \begin{proof}
   Abbiamo già visto nel teorema di sostituzione che \(\models\phi \implies \models\phi\sigma\) per ogni \(\sigma\).
 
-  Possiamo usare in questo caso il teorema di compattezza. Infatti da \(\Gamma\models\phi\) segue che esiste un sottoinsieme finito \(\Gamma_0 \subseteq \Gamma\) tale che \(\Gamma_0\models\phi\).
-  Essendo \(\Gamma_0\) finito sappiamo che \(\Gamma_0\models\phi\iff\models(\bigwedge\Gamma_0)\to\phi\), e quindi \(\models((\bigwedge_{\phi\in\Gamma_0}\phi)\to\phi)\sigma\) per il teorema di sostituzione.
+  Possiamo usare in questo caso il teorema di compattezza. Infatti, da \(\Gamma\models\phi\) segue che esiste un sottoinsieme finito \(\Gamma_0 \subseteq \Gamma\) tale che \(\Gamma_0\models\phi\).
+  Essendo \(\Gamma_0\) finito, sappiamo che \(\Gamma_0\models\phi\iff\models(\bigwedge\Gamma_0)\to\phi\), e quindi \(\models((\bigwedge_{\phi\in\Gamma_0}\phi)\to\phi)\sigma\) per il teorema di sostituzione.
 
-  Per la definizione di applicazione di una sostituzione \(\sigma\) si ha che \(((\bigwedge\Gamma_0)\to\phi)\sigma\) è equivalente a \((\bigwedge_{\phi\in\Gamma_0}\phi\sigma)\to\phi\sigma\).
-  Quindi \(\Gamma_0\sigma\models\phi\sigma\) per il teorema di deduzione semantica e quindi \(\Gamma\sigma\models\phi\sigma\) per monotònicità.
+  Per la definizione di applicazione di una sostituzione \(\sigma\), si ha che \(((\bigwedge\Gamma_0)\to\phi)\sigma\) è equivalente a \((\bigwedge_{\phi\in\Gamma_0}\phi\sigma)\to\phi\sigma\).
+  Dunque \(\Gamma_0\sigma\models\phi\sigma\) per il teorema di deduzione semantica e quindi \(\Gamma\sigma\models\phi\sigma\) per monotònicità.
 \end{proof}
 
 \begin{corollary}{Sostituzione per la Deducibilità}
@@ -973,13 +978,13 @@ Grazie a questo teorema, è possibile generare nuove deduzioni a partire da dedu
 
 \section{Calcolo di Risoluzione proposizionale}
 
-Il calcolo di deduzione naturale è un calcolo di deduzione molto potente, che come da nome suggerisce, risulta naturale per la dimostrazione di teoremi, poiché le regole di deduzione si allineano molto bene con le tecniche di dimostrazione che siamo abituati a utilizzare.
+Il calcolo di deduzione naturale è un calcolo molto potente, che, come il nome suggerisce, risulta naturale per la dimostrazione di teoremi, poiché le regole di deduzione si allineano molto bene con le tecniche di dimostrazione che siamo abituati ad utilizzare.
 
-Tuttavia, nonostante sia molto naturale per il ragionamento umano, il calcolo di deduzione naturale non è particolarmente adatto per l'automatizzazione, poiché la ricerca di una deduzione per una formula con un numero elevato di regole da poter applicare risulta difficile da gestire algoritmicamente.
+Tuttavia, il calcolo naturale non si presta bene all'automatizzazione, poiché la ricerca di una deduzione per una formula con un numero elevato di regole da poter applicare risulta difficile da gestire in modo algoritmico.
 
-Andiamo quindi a introdurre un calcolo di deduzione alternativo, che risulta più adatto per l'automatizzazione, poiché composto da un'unica regola di deduzione, il \keyword{calcolo di risoluzione}. La presenza di un unica regola di deduzione elimina la necessità di dover scegliere quale regola applicare, lasciando come unica scelta da fare quella di quali formule utilizzare per applicare la regola, e quindi semplificando notevolmente la ricerca di una deduzione.
+Introduciamo, quindi, un calcolo di deduzione alternativo, più adatto all'automatizzazione, poiché composto da un'unica regola di deduzione, il \keyword{calcolo di risoluzione}. La presenza di un unica regola di deduzione elimina la necessità di dover scegliere quale regola applicare, \q{sostituendola} con la scelta delle formule da utilizzare per applicare la regola, comportando una semplificazione significativa per la ricerca di una deduzione.
 
-Una prima versione fu proposta da J. A. Robinson nel 1965, e da allora è stata oggetto di numerose estensioni e miglioramenti.
+La prima versione del calcolo di risoluzione fu proposta da J. A. Robinson nel 1965 e da allora è stata oggetto di numerose estensioni e miglioramenti.
 
 Tale calcolo non si concentra sulla conseguenza logica, ma sull'inconsistenza. 
 Nonostante ciò, e possibile decidere \(\Gamma\models\phi\) decidendo se \(\Gamma\cup\set{\neg\phi}\) è insoddisfacibile.
@@ -990,26 +995,23 @@ Inoltre, tale calcolo non si applica direttamente a formule proposizionali, ma s
 \begin{definition}{Forma clausale}
   Una formula \(\phi\) è in forma clausale se \(\phi \in 2^{2^\mathcal{L}}\), dove \(\mathcal{L}\) è un insieme di letterali.
 
-  In altre parole, una formula è in forma clausale se è un insieme di insiemi di letterali.
+  In altre parole, una formula è in forma clausale se è un insieme di insiemi di letterali.\footnote{Abbiamo dato la definizione di \Namedcref{def:literal} quando abbiamo introdotto le forme normali, nel secondo capitolo.}
 \end{definition}
 
-Ovviamente, essendo insiemi, l'ordine degli elementi non conta, ogni insieme \qi{interno} non può contenere due volte lo stesso letterale, e l'insieme esterno non può contenere due volte lo stesso insieme di letterali.
+Ovviamente, essendo insiemi, l'ordine degli elementi non conta. 
+Ogni insieme interno non può contenere due volte lo stesso letterale, e l'insieme esterno non può contenere due volte lo stesso insieme di letterali.
 
-Esiste inoltre una corrispondenza biunivoca tra formule in forma clausale e formule proposizionali in forma normale congiuntiva.
+Esiste una corrispondenza biunivoca tra formule in forma clausale e formule proposizionali in forma normale congiuntiva (\(\CNF\)). 
 È possibile infatti interpretare ogni insieme interno come una disgiunzione di letterali, e l'insieme esterno come una congiunzione di tali disgiunzioni.
 
-Inoltre possiamo notare che dato un insieme di formule in \(\CNF\) la congiunzione di tutte le formule è una formula in \(\CNF\) equivalente a tutte le formule dell'insieme, e quindi possiamo sempre rappresentare un insieme di formule \(\Gamma\subseteq\CNF\) con la formula \(\bigwedge_{\phi\in\Gamma}\phi\). E per la forma clausale chiaramente questo equivale a fare l'unione tra formule in forma clausale.
+Inoltre, dato un insieme di formule \(\Gamma\subseteq\CNF\), è possibile unirle in un'unica formula \(\bigwedge_{\phi\in\Gamma}\phi \in \CNF\) applicando una congiunzione. Analogamente, è possibile unire più forme clausali in un'unica forma clausale applicando l'unione. 
 
-Ovviamente quindi per ogni \(\Sigma\subseteq\PL\) esiste un \(F_\Sigma\) in forma clausale equivalente a \(\Sigma\).
-Questo si riduce a dire che \(\forall\phi\in\PL\) esiste un \(F_\phi\) in forma clausale equivalente a \(\phi\), e questo è vero poiché ogni formula è equivalente a una formula in \(\CNF\) e ogni formula in \(\CNF\) è equivalente a una formula in forma clausale.
+Notiamo che una forma clausale \(F\) è soddisfatta da un modello \(m\), ovvero \(m\models F\), se e soltanto se, per ogni insieme di letterali \(C \in F\), \(m\models C\) ovvero \(m\models l\) per qualche \(l \in C\).
+In breve, \(m\models F \iff \forall C \in F ,\exists l \in C\st m\models l\). 
 
-Quando \(F = \emptyset\) è detta forma clausale banale ed è valida.
-
-Questo poiché, intuitivamente, \(m\models F\) se e soltanto se \(\forall C \in F\) insieme di letterali, \(m\models C\) cioè \(m\models l\) per qualche \(l \in C\) per ogni \(C\in F\).
-Quindi \(m\models F \iff \forall C \in F ,\exists l \in C\st m\models l\). Ovviamente se \(F =\emptyset\) qualsiasi \(m\) soddisfa \(F\) poiché non c'è nessuna clausola da poter non soddisfare.
-
-
-È importante notare che la forma clausale vuota \(F=\emptyset\) non coincide con la clausola vuota \(C=\emptyset\), tipicamente indicata con \(\square\). Per la definizione di soddisfacibilità, \(m\not\models \square\) per ogni \(m\), e quindi \(\square\) è insoddisfacibile, con conseguente insoddisfacibilità di qualsiasi \(F\) che contenga \(\square\), mentre \(F=\emptyset\) è soddisfatta da ogni \(m\).
+\(F = \emptyset\) è detta \keyword{forma clausale banale} ed è valida, poiché non c'è nessuna clausola che un modello possa non soddisfare.
+È importante notare che la forma clausale vuota \(F=\emptyset\) non coincide con la \keyword{clausola vuota} \(C=\emptyset\), tipicamente indicata con \(\square\). 
+Infatti, per la definizione di soddisfacibilità, \(m\not\models \square\) per ogni \(m\), e quindi \(\square\) è insoddisfacibile, con conseguente insoddisfacibilità di qualsiasi \(F\) che contenga \(\square\), al contrario di \(F=\emptyset\), che è soddisfatta da ogni \(m\).
 
 Essendo \(\square\) insoddisfacibile, per valutare l'insoddisfacibilità di un insieme di formule in forma clausale, è sufficiente verificare se è possibile dedurre \(\square\) da quell'insieme di formule.
 
@@ -1023,10 +1025,11 @@ Essendo \(\square\) insoddisfacibile, per valutare l'insoddisfacibilità di un i
   \[F_\phi = \set{\set{\neg P, Q},\set{\neg P, R},\set{Q, \neg Q, P},\set{P, Q, R}}\]
   Ogni clausola che contiene \(P\) e \(\neg P\) per un qualche \(P \in AP\) è tautologica, ed essendo \(\phi\land\top\equiv\phi\) è possibile rimuovere la clausola \(\set{Q, \neg Q, P}\) da \(F_\phi\) senza alterare la soddisfacibilità di \(F_\phi\).
 
-  Da ora in poi quindi assumeremo che le forme clausali non contengano clausole banali.
+  D'ora in poi, assumeremo che le forme clausali non contengano clausole banali.
 \end{example}
 
-Per andare a definire formalmente il calcolo di risoluzione, ovvero definire la sua unica regola di deduzione, anch'essa chiamata risoluzione, è necessario prima definire una proprietà di clausole che sarà la condizione di applicabilità della regola di risoluzione, ovvero la proprietà di essere in \keyword{contrasto} o in \keyword{clash}.
+Per definire formalmente il calcolo di risoluzione, ovvero definire la sua unica regola di deduzione, anch'essa chiamata risoluzione, è necessario prima introdurre una proprietà delle clausole, che sarà la condizione di applicabilità della regola di risoluzione. 
+Stiamo parlando del \keyword{contrasto} (o \keyword{clash}).
 
 \begin{definition}{Clausole in contrasto}
   Siano \(C_1\) e \(C_2\) due clausole. Diremo che \(C_1\) e \(C_2\) sono in \keyword{contrasto}, o in \keyword{clash}, se esiste un \(l \in \mathcal{L}\) tale che \(l \in C_1\) e \(\tilde{l} \in C_2\) con
@@ -1038,16 +1041,26 @@ Per andare a definire formalmente il calcolo di risoluzione, ovvero definire la 
   \]
 \end{definition}
 
-In altre parole, due clausole sono in clash se contengono un letterale su cui non sono concordi. Intuitivamente, per soddisfarle entrambe, è necessario che almeno una delle due \qi{rinunci} ad avere ragione su quel letterale, dovendo aver soddisfatto un letterale diverso da quello di clash. Non potendo però sapere a priori quale delle due clausole rinuncerà ad avere quel letterale soddisfatto, l'unica cosa che possiamo intuitivamente dedurre è che almeno uno dei letterali della prima clausola o almeno uno della seconda dovrà essere soddisfatto. Tale ragionamento è proprio ciò che caratterizza la regola di risoluzione
+In altre parole, due clausole sono in clash se contengono un letterale su cui non sono concordi, ovvero se una clausola ha un letterale e l'altra ha il suo complementare. 
+Intuitivamente, per soddisfare entrambe le clausole, è necessario che almeno una delle due \qi{rinunci} ad avere ragione su quel letterale: non è permesso che il modello soddisfi un letterale e il suo complementare ed è quindi necessario scegliere una sola versione di questo.
+Non sappiamo a priori quale delle due clausole rinuncerà al letterale in clash, ma sappiamo che almeno un altro letterale (diverso da quello in clash) in una delle due clausole deve essere soddisfatto.
+Tale ragionamento è proprio ciò che caratterizza la regola di risoluzione.
 
 \begin{definition}{Regola di risoluzione}
   Siano \(C_1\) e \(C_2\) due clausole in contrasto su un letterale \(l\), con \(l \in C_1\) e \(\tilde{l} \in C_2\). Allora, è possibile dedurre la clausola \(R\) detta \keyword{risolvente} di \(C_1\) e \(C_2\) su \(l\), definita come:
 
-  \[\infer[\text{Risoluzione}]{R = (C_1 \cup C_2)\setminus\set{l, \hat{l}}}{C_1 \quad C_2}\]
+  \[\infer[\text{Risoluzione}]{R = (C_1 \cup C_2)\setminus\set{l, \tilde{l}}}{C_1 \quad C_2}\]
 
 \end{definition}
 
-Tale regola di deduzione segue esattamente il ragionamento intuitivo fatto in precedenza applicato alle forme clausali, in cui le clausole sono considerate in congiunzione, ovvero da soddisfare entrambe, e i letterali al loro interno in disgiunzione. L'insieme \((C_1 \cup C_2)\setminus\set{l, \hat{l}}\) è esattamente l'insieme contenente tutti i letterali delle due clausole tranne quelli in clash. Interpretandoli in disgiunzione, tale insieme corrisponde semanticamente esattamente al richiedere che ne sia soddisfatto almeno uno, che intuitivamente dovrà appartenere alla clausola che non avrà il letterale di clash soddisfatto.
+La regola di risoluzione risolve il clash eliminando i letterali di clash, \(l\) e \(\tilde{l}\), dalle due clausole \(C_1\) e \(C_2\) e, successivamente, unendo le due clausole in un'unica clausola \(R\), detta risolvente.
+Quindi, il risolvente \(R\) sarà una clausola avente tutti i letterali delle due clausole iniziali tranne i letterali in clash. 
+Poiché esso è una clausola disgiuntiva di letterali, il risolvente corrisponde semanticamente al richiedere che sia soddisfatto almeno un letterale, escludendo quelli di clash, tra le due clausole in clash, che, intuitivamente, dovrà appartenere alla clausola che non avrà il letterale di clash soddisfatto.
+
+\begin{warning}{}
+  La regola di risoluzione elimina solo un clash alla volta: se sono presenti più letterali in clash tra due clausole, un'applicazione della regola di risoluzione risolverà un solo clash. 
+  Se così non fosse, come vedremo, la regola di risoluzione non preserverebbe la verità.
+\end{warning}
 
 Andiamo dunque a formalizzare la fondatezza semantica di tale regola.
 
@@ -1055,10 +1068,10 @@ Andiamo dunque a formalizzare la fondatezza semantica di tale regola.
   La regola di risoluzione preserva la verità
 \end{proposition}
 
-\begin{proof}
-  Formalmente, una regola di inferenza preserva la verità se ogni modello che soddisfa le premesse soddisfa anche la conclusione della regola.
-  Chiaramente, il preservare la verità implica il preservare anche la conseguenza logica.\footnote{Questa cosa risulta banale nella logica proposizionale, ma non sarà scontata nel prim'ordine.}
+Formalmente, una regola di inferenza preserva la verità se ogni modello che soddisfa le premesse soddisfa anche la conclusione della regola.
+Chiaramente, il preservare la verità implica il preservare anche la conseguenza logica.\footnote{Questa cosa risulta banale nella logica proposizionale, ma non sarà scontata nel prim'ordine.}
 
+\begin{proof}
   Sia \(m\) un modello che soddisfa \(C_1\) e \(C_2\) che sono in clash su \(l\).
   Per definizione di \(l\) e \(\tilde{l}\), \(m\) soddisfa esattamente uno tra \(l\) e \(\tilde{l}\). Senza perdita di generalità, supponiamo che \(l\in C_1\) e \(\tilde{l}\in C_2\).
 
@@ -1066,9 +1079,11 @@ Andiamo dunque a formalizzare la fondatezza semantica di tale regola.
   Nel caso in cui \(m \models \tilde{l}\), essendo che \(m\models C_1\), allora \(\exists l' \in C_1\setminus\set{l}\) tale che \(m\models l'\). Dunque \(l' \in R\), ovvero \(m\models R\).
 \end{proof}
 
-Per quanto riguarda il verso opposto invece, l'unica proprietà che è preservata è la soddisfacibilità, ovvero se \(R\) risolvente di \(C_1\) e \(C_2\) su \(l\) è soddisfacibile, allora anche \(C_1\) e \(C_2\) sono soddisfacibili. Tale proprietà è ovviamente più debole della preservazione della verità, poiché l'unica garanzia che fornisce è che se esiste un modello in cui \(R\) è soddisfatto ne esiste uno, potenzialmente diverso, in cui \(C_1\) e \(C_2\) sono congiuntamente soddisfatte.
+Per quanto riguarda il verso opposto, ovvero il passaggio dal risolvente alle clausole in clash, l'unica proprietà che è preservata è la soddisfacibilità, ovvero se \(R\) risolvente di \(C_1\) e \(C_2\) su \(l\) è soddisfacibile, allora anche \(C_1\) e \(C_2\) sono soddisfacibili. Tale proprietà è ovviamente più debole della preservazione della verità, poiché l'unica garanzia che fornisce è che, se esiste un modello in cui \(R\) è soddisfatto, allora ne esiste uno, potenzialmente diverso, in cui \(C_1\) e \(C_2\) sono congiuntamente soddisfatte.
 
-Non è possibile richiedere di più poiché \(R\) contiene un numero di proposizioni atomiche potenzialmente strettamente inferiore sia di \(C_1\) che di \(C_2\), e di conseguenza gli assegnamenti che soddisfano \(R\) non sono assegnamenti validi per soddisfare \(C_1\) e \(C_2\). Andiamo però a mostrare che dato \(\alpha\in \set{0,1}^{\AP[R]}\) tale che \(\Val{\alpha}[R] = 1\), esiste un assegnamento \(\alpha'\in\set{0,1}^{\AP[C_1]\cup\AP[C_2]}\) tale che \(\Val{\alpha'}[C_1] = 1\) e \(\Val{\alpha'}[C_2] = 1\).
+Non è possibile richiedere di più, poiché \(R\) contiene un numero di proposizioni atomiche potenzialmente inferiore (strettamente) sia di \(C_1\) che di \(C_2\)\footnote{Ad esempio, si considerino le clausole \(C_1 = \set{A, \neg A, B, C}\) e \(\set{A, B, C}\) in clash su \(A, \neg A\). Il risolvente è \(R=\set{A,B,C}\) e contiene tutte le proposizioni atomiche presenti nelle clausole di partenza. In questo esempio, il risultante conserva tutte le proposizioni atomiche delle clausole in clash. D'altra parte, un caso più comune potrebbe essere \(C_1'=\set{A, B, C}\) e \(C_2'=\set{\neg A, B, C}\) in clash su \(A\), con risolvente \(R=\set{B, C}\), mancante della proposizione atomica \(A\).}, e di conseguenza gli assegnamenti che soddisfano \(R\) potrebbero essere assegnamenti non validi per \(C_1\cup C_2\). 
+
+Adesso, mostreremo che, dato \(\alpha\in \set{0,1}^{\AP[R]}\) tale che \(\Val{\alpha}[R] = 1\), esiste un assegnamento \(\alpha'\in\set{0,1}^{\AP[C_1]\cup\AP[C_2]}\) tale che \(\Val{\alpha'}[C_1] = 1\) e \(\Val{\alpha'}[C_2] = 1\), ovvero che, se \(R\) è soddisfacibile, allora lo sono anche \(C_1\) e \(C_2\), contemporaneamente.
 
 \begin{proposition}{Soddisfacibilità per la regola di risoluzione}
   Sia \(R\) risolvente di \(C_1\) e \(C_2\) in clash su \(l\). Allora, se \(R\) è soddisfacibile, allora anche \(C_1\) e \(C_2\) sono soddisfacibili.
@@ -1076,6 +1091,7 @@ Non è possibile richiedere di più poiché \(R\) contiene un numero di proposiz
 
 \begin{proof}
   Sia \(\alpha: \AP[R] \to \set{0,1}\) tale che \(\Val{\alpha}[R] = 1\).
+  Senza perdita di generalità, supponiamo \(l \in C_1\) e \(\tilde{l} \in C_2\).
 
   Dato che \(\Val{\alpha}[R] = 1\), per la semantica della forma clausale, \(\exists l' \in R\) tale che \(\Val{\alpha}[l'] = 1\).
   Per costruzione di \(R\), \(l'\) è un letterale che appartiene a \(C_1\) o a \(C_2\) o a entrambe.
@@ -1094,7 +1110,7 @@ Non è possibile richiedere di più poiché \(R\) contiene un numero di proposiz
                 1 & \text{se } \tilde{l} = P
               \end{cases}
   \]
-  soddisfa ancora entrambe, poiché \(C_1\) sarà soddisfatta da \(l'\), mentre \(C_2\) sarà soddisfatta da \(\tilde{l}\), poiché il suo assegnamento è costruito per essere soddisfatto qualunque sia la sua polarità.
+  soddisfa ancora entrambe, poiché \(C_1\) sarà soddisfatta da \(l'\), mentre \(C_2\) sarà soddisfatta da \(\tilde{l}\), poiché il suo assegnamento è costruito per essere soddisfatto qualunque sia la sua \q{polarità}.\footnote{L'assegnamento è costruito in modo tale da soddisfare la clausola che contiene \(\tilde{l}\) a prescindere dalla valutazione di \(\tilde{l}\). Per \q{polarità} si intende il valore binario della valutazione.}
 
   Analogamente, se \(l'\) appartiene a \(C_2\) ma non a \(C_1\), allora l'assegnamento \(\alpha': \AP[C_1\cup C_2]\to\set{0,1}\) definito come
   \[\alpha'(P) = \begin{cases}
@@ -1106,26 +1122,30 @@ Non è possibile richiedere di più poiché \(R\) contiene un numero di proposiz
   soddisfa ancora entrambe, per un ragionamento duale rispetto al caso precedente.
 \end{proof}
 
-Avendo ora un insieme di regole di inferenza, in questo caso composto da una regola sola, e un insieme di assunzioni, in questo caso la forma clausale, possiamo andare a definire il calcolo di deduzione di risoluzione attraverso la definizione di una deduzione.
+Avendo ora un insieme di regole di inferenza, in questo caso composto da una regola sola, e un insieme di assunzioni, in questo caso la forma clausale, possiamo andare a definire il calcolo di deduzione di risoluzione attraverso la definizione di deduzione.
 
 \begin{definition}{Deduzione di risoluzione}
   Sia \(F\) una forma clausale e \(C\) una clausola. Una deduzione di risoluzione \(F\vdash_{\Rule }C\) è un albero binario finito, la cui radice è etichettata con \(C\), tutte le foglie sono etichettate con clausole di \(F\) e ogni nodo interno è etichettato con il risolvente dei suoi figli.
 \end{definition}
 
 \begin{note}{}
-  Essendo che in risoluzione \(\Rules = \set{\Rule}\), con \(\Rule\) la regola di risoluzione, per distinguere tale calcolo da quello di deduzione naturale indicheremo le deduzioni di risoluzione con \(\vdash_{\Rule}\) invece che con \(\vdash\). Quando sarà necessario esplicitare l'utilizzo del calcolo di deduzione naturale invece, per dissipare ogni ambiguità, verrà utilizzato \(\vdash_{ND}\).
+  Poiché il calcolo di risoluzione possiede una sola regola di inferenza, \(\Rules = \set{\Rule}\), ovvero la regola di risoluzione, indicheremo le deduzioni di risoluzione semplicemente con \(\vdash_{\Rule}\) e le deduzioni naturali con \(\vdash_{ND}\).
 \end{note}
 
-Essendo che la regola di risoluzione preserva la verità, e quindi la conseguenza logica, è facile vedere per induzione strutturale la correttezza del calcolo, ovvero che dato \(S\) forma clausale e \(C\) clausola, \(S\vdash_{\Rule} C \implies S\models C\).
+Poiché abbiamo dimostrato che la regola di risoluzione preserva la verità, e quindi la conseguenza logica, è facile dimostrare, per induzione strutturale (induzione sull'altezza dell'albero di deduzione di risoluzione), la correttezza del calcolo, ovvero che data \(S\) forma clausale e \(C\) clausola, allora \(S\vdash_{\Rule} C \implies S\models C\).
 
-Sarà possibile dimostrare anche una forma più debole della completezza, legata alla soddisfacibilità, ovvero che \(S\not\vdash_R \square \implies \Sat[S]\), o equivalentemente \(\Unsat[S] \implies S\vdash_R \square\). Come già anticipato, non è possibile dimostrare la totale completezza, perché esistono conseguenze logiche di clausole che non sono in alcun modo generabili dal calcolo.
+Sarà possibile dimostrare anche una forma più debole della completezza, legata alla soddisfacibilità, ovvero che \(S\not\vdash_R \square \implies \Sat[S]\), oppure, equivalentemente, \(\Unsat[S] \implies S\vdash_R \square\). Come già anticipato, non sarà possibile dimostrare la totale completezza, perché esistono conseguenze logiche di clausole che non sono in alcun modo generabili dal calcolo.
 
-Consideriamo infatti la forma clausale \(F = \set{\set{A},\set{B}}\). Dall'interpretazione semantica data, è ovvio che \(R=\set{A,B}\) sia conseguenza logica di \(F\). Essendo però che non esistono letterali in clash in \(F\), non è possibile applicare la regola di risoluzione, impedendo di derivare alcunché.
+\begin{example}{}
+  Consideriamo infatti la forma clausale \(F = \set{\set{A},\set{B}}\). Dall'interpretazione semantica data, è ovvio che \(R=\set{A,B}\) sia conseguenza logica di \(F\). Tuttavia, poiché non vi sono letterali in clash in \(F\), non è possibile applicare la regola di risoluzione, impedendo di derivare alcunché.
 
-È possibile però in parte aggirare questo problema utilizzando la definizione alternativa di conseguenza logica, notando che \(S\models C \iff S\cup\set{\neg C} \in \Unsat\).
-Applicando tale riformulazione all'esempio di prima, potremo dimostrare che \(F\models R\) cercando di mostrare che \(F' = \set{\set{A}, \set{B}, \set{\neg A, \neg B}}\) è insoddisfacibile. In questo caso, essendo che \(C_1 = \set{A}\) e \(C_2 = \set{\neg A, \neg B}\) sono in clash su \(A\), è possibile applicare la regola di risoluzione per dedurre \(C_3 = \set{\neg B}\), da cui è possibile dedurre \(C_4 = \square\) con \(C_2\), che è in clash con \(C_3\) su \(B\). Dunque, \(F'\) è insoddisfacibile per correttezza, e quindi \(F\models R\) per la definizione di conseguenza logica.
+  È possibile però in parte aggirare questo problema utilizzando la definizione alternativa di conseguenza logica, ovvero \(S\models C \iff S\cup\set{\neg C} \in \Unsat\).
 
-Utilizzando questo tipo di riformulazione, e questa completezza \qi{debole}, è possibile risolvere il problema di conseguenza logica usando risoluzione, passando per il problema di soddisfacibilità.
+  Applicando tale riformulazione all'esempio di prima, potremo dimostrare \(F\models R\) cercando di mostrare che \(F' = \set{\set{A}, \set{B}, \set{\neg A, \neg B}}\) è insoddisfacibile. In questo caso, giacché \(C_1 = \set{A}\) e \(C_2 = \set{\neg A, \neg B}\) sono in clash su \(A\), è possibile applicare la regola di risoluzione per dedurre \(C_3 = \set{\neg B}\), da cui è possibile dedurre \(C_4 = \square\) con \(C_2\), che è in clash con \(C_3\) su \(B\). 
+  Dunque, per la correttezza del calcolo, \(F'\) è insoddisfacibile, e quindi \(F\models R\) per la definizione alternativa di conseguenza logica.
+\end{example}
+
+Utilizzando la riformulazione presentata nell'esempio, e questa completezza debole, è possibile risolvere il problema di conseguenza logica usando la risoluzione, passando per il problema di soddisfacibilità.
 
 Prima della dimostrazione formale di questa forma di completezza debole però, andiamo a vedere come automatizzare il calcolo di risoluzione tramite un algoritmo.
 
@@ -1139,11 +1159,11 @@ Prima della dimostrazione formale di questa forma di completezza debole però, a
           \Repeat{}
             \State{} Pick \((C_1, C_2) \in (S_0 \times S_0)\setminus E \st \operatorname{clash}(C_1, C_2)\)
             \State{} \(R \gets \operatorname{resolve}(C_1, C_2)\)
-            \If{\(R\) non banale}
+            \If{\(R \not\equiv \top\)}
               \State{} \(S_0 = S_0 \cup \set{R}\)
             \EndIf{}
             \State{} \(E \gets E \cup \set{(C_1, C_2)}\)
-          \Until{\(R = \square \lor E = S_0 \times S_0 \cap \set{(C_1,C_2) \in S_0\times S_0}[\operatorname{clash}(C_1, C_2)] \)}
+          \Until{\((R = \square) \lor (E = S_0 \times S_0 \cap \set{(C_1,C_2) \in S_0\times S_0}[\operatorname{clash}(C_1, C_2)]) \)}
           \If{\(R = \square\)}
             \State{} \Return{\(\Unsat\)}
           \Else{}
@@ -1153,9 +1173,16 @@ Prima della dimostrazione formale di questa forma di completezza debole però, a
     \end{algorithmic}
 \end{algorithmdesc}
 
-Per quanto riguarda la correttezza dell'algoritmo, questa risulta quasi scontata dal fatto che è l'esatta trasposizione di una deduzione di risoluzione. Riguardo alla terminazione invece, la cosa è meno scontata. Questo poiché la condizione di terminazione è e dev'essere valutata sull'insieme \(S_0\), il quale non è statico, ma cresce dinamicamente durante l'esecuzione. In linea di principio quindi, senza mostrare che esista un limite superiore al numero di clausole che è possibile generare mediante risoluzione, non è possibile garantire la terminazione di questo algoritmo. Chiaramente il numero di iterazioni massimo sarà pari a \(\abs{S_0}^2\), ma è necessario mostrare che \(\abs{S_0}\) è limitato, e quindi che esiste un limite superiore al numero di iterazioni.
+L'algoritmo di risoluzione prende in input una forma clausale \(S\) e restituisce \(\Unsat\), se \(S\) è insoddisfacibile, \(\Sat\) se è soddisfacibile.
+L'algoritmo si serve di due insiemi: \(S_0\), ovvero l'insieme, in evoluzione, delle clausole; \(E\), l'insieme delle coppie in clash già considerate. 
 
-Fortunatamente, tale limite superiore esiste, e ne vedremo dimostrazione formale dopo un esempio di applicazione di tale algoritmo.
+L'algoritmo prende una coppia di clausole in clash \((C_1,C_2)\in (S_0 \times S_0)\setminus E\), le risolve, aggiunge il risolvente (se esso non è banalmente vero e.g. \(R=\set{Q, \neg Q}\)) a \(S_0\) e la coppia ad \(E\), fino al momento in cui non si verifica \(R=\square\) (in tal caso, la forma clausale è necessariamente insoddisfacibile e ci si può fermare) oppure sono state considerate tutte le coppie in clash. 
+
+Al termine del ciclo, se \(R=\square\), allora l'algoritmo restituisce \(\Unsat\), altrimenti \(\Sat\).
+
+Per quanto riguarda la correttezza dell'algoritmo, questa risulta quasi scontata dal fatto che è l'esatta trasposizione di una deduzione di risoluzione. 
+Riguardo alla terminazione, invece, la cosa è meno scontata, in quanto è e dev'essere valutata sull'insieme \(S_0\), il quale non è statico, ma cresce dinamicamente durante l'esecuzione. In linea di principio quindi, senza mostrare che esista un limite superiore al numero di clausole che è possibile generare mediante risoluzione, non è possibile garantire la terminazione di questo algoritmo. Chiaramente, il numero massimo di iterazioni sarà pari a \(\abs{S_0}^2\), ma è necessario mostrare che \(\abs{S_0}\) è limitato, e quindi che esiste un limite superiore al numero di iterazioni.
+Fortunatamente, tale limite superiore esiste, e ne vedremo la dimostrazione formale dopo un esempio di applicazione dell'algoritmo descritto finora.
 
 \begin{example}{}
   Consideriamo l'\Cref{ex:logical_consequence} visto nel primo capitolo, formalizzato usando proposizioni atomiche per rappresentare le affermazioni legate al nome della persona coinvolta in ognuna di esse. In particolare sia:
@@ -1188,24 +1215,22 @@ Fortunatamente, tale limite superiore esiste, e ne vedremo dimostrazione formale
 
   Dobbiamo allora vedere se da queste \(5\) clausole è possibile derivare la clausola vuota \(\square\) tramite risoluzione.
 
-  In primo luogo ho diverse scelte, prendiamo ad esempio le clausole \(2\) e \(4\) che fanno clash su \(G\). Il risolvente è \(\set{\neg R, L}\), chiamiamo questo risolvente \(6\)
-
-  Da \(1\) e \(4\) che fanno clash su \(G\) ottengo \(\set{\neg C, R}\), chiamiamo questo risolvente \(7\).
-  Da \(3\) e \(7\) otteniamo \(\set{L, R}\), chiamiamo questo risolvente \(8\).
-  Da \(6\) e \(8\) otteniamo \(\set{L}\), chiamiamo questo risolvente \(9\).
+  In primo luogo, abbiamo diverse scelte. Prendiamo, ad esempio, le clausole \(2\) e \(4\) in clash su \(G\). Il risolvente è \(\set{\neg R, L}\) e lo indichiamo con \(6\).
+  Da \(1\) e \(4\) in clash su \(G\), otteniamo \(\set{\neg C, R}\), che indichiamo con \(7\).
+  Da \(3\) e \(7\) otteniamo \(\set{L, R}\), che indichiamo con \(8\).
+  Da \(6\) e \(8\) otteniamo \(\set{L}\), che indichiamo con \(9\).
   Da \(5\) e \(9\) otteniamo \(\square\).
 
-  Ovviamente tale esecuzione non è unica. Ad esempio, si può iniziare da \(1\) e \(2\) in clash su \(R\) per ottenere \(\set{\neg C, G, L}\), che chiamiamo \(6\).
-
-  Possiamo quindi risolvere \(6\) con \(3\) ottenendo \(\set{G, L}\), che chiamiamo \(7\).
-  A questo punto risolvendo prima con \(4\), e poi il risolvente con \(5\) otteniamo \(\square\).
+  Ovviamente l'esecuzione descritta non è l'unica possibile, avendo avuto libera scelta sulle risoluzioni. Ad esempio, avremmo potuto iniziare da \(1\) e \(2\) in clash su \(R\) per ottenere \(\set{\neg C, G, L}\), che adesso indichiamo con \(6\).
+  È possibile risolvere \(6\) con \(3\) ottenendo \(\set{G, L}\), che indichiamo con \(7\).
+  A questo punto, risolvendo prima con \(4\), e poi il risolvente con \(5\), otteniamo \(\square\).
 \end{example}
 
-È fondamentale notare che l'applicazione della regola di risoluzione richiede la selezione di due clausole in clash su uno specifico letterale, e che quindi una singola applicazione della regola porti all'eliminazione di un solo letterale alla volta.
+Come già menzionato precedentemente, una singola applicazione della regola di risoluzione porta all'eliminazione di un solo letterale alla volta.
 
 Non è possibile estendere banalmente la regola per permettere la risoluzione di più letterali contemporaneamente, poiché in tal caso è facile costruire controesempi in cui non è preservata la verità. Prendiamo infatti le clausole \(C_1 = \set{A, B}\) e \(C_2 = \set{\neg A, \neg B}\). Se fosse possibile risolvere entrambe le coppie di letterali in clash contemporaneamente, allora sarebbe possibile dedurre la clausola vuota \(\square\) da \(C_1\) e \(C_2\), che è insoddisfacibile, mentre invece \(C_1\) e \(C_2\) sono congiuntamente soddisfacibili da un assegnamento che assegna \(1\) ad \(A\) e \(0\) a \(B\), o viceversa. Andando ad applicare la regola di risoluzione in modo corretto, è possibile dedurre \(\set{A,\neg A}\) da \(C_1\) e \(C_2\) risolvendo su \(B\), ottenendo una clausola banalmente soddisfacibile \(\set{A, \neg A}\), essendo tautologica.
 
-Fatte queste precisazioni, possiamo ora dimostrare la terminazione dell'algoritmo di risoluzione, mostrando che esiste un limite superiore al numero di clausole che tale algoritmo può generare, limitando quindi la grandezza dell'insieme \(S_0\) su cui viene valutata la condizione di terminazione.
+Fatte queste precisazioni, possiamo ora dimostrare la terminazione dell'algoritmo di risoluzione, mostrando che esiste un limite superiore al numero di clausole che il calcolo di risoluzione può generare, limitando quindi la grandezza dell'insieme \(S_0\) su cui viene valutata la condizione di terminazione.
 
 \begin{theorem}{Terminazione dell'algoritmo di risoluzione}
   \(\textsc{Resolution}(S)\) termina sempre e l'insieme di saturazione \(S_0\) avrà al più \(3^{\abs{\AP[S]}}\) clausole.
@@ -1222,7 +1247,7 @@ Fatte queste precisazioni, possiamo ora dimostrare la terminazione dell'algoritm
   Dunque, il numero di clausole che è possibile generare con le proposizioni atomiche in \(\AP[S]\) è al più il numero di funzioni da \(\AP[S]\) a \(\set{-1,0,1}\), che è \(3^{\abs{\AP[S]}}\).
 \end{proof}
 
-A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritmo di risoluzione, rimane da dimostrarne solo la completezza. Essendo che l'algoritmo per com'è definito genera ogni formula che il calcolo di risoluzione è in grado di generare, è sufficiente dimostrare la completezza del calcolo di risoluzione, ovvero che se \(S\) è insoddisfacibile allora \(S\vdash_R \square\).
+A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritmo di risoluzione, rimane da dimostrarne solo la completezza. Essendo che l'algoritmo, per com'è definito, genera ogni formula che il calcolo di risoluzione è in grado di generare, è sufficiente dimostrare la completezza del calcolo di risoluzione, ovvero che se \(S\) è insoddisfacibile allora \(S\vdash_R \square\).
 
 \begin{theorem}{Completezza debole del calcolo di risoluzione}
   Se \(S\) è insoddisfacibile, allora \(S\vdash_R \square\).
@@ -1241,10 +1266,10 @@ A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritm
   \[S_P = \set{C\setminus P}[C\in S \text{ e } \neg P \not\in C]\]
   \[S_{\neg P} =  \set{C\setminus \neg P}[C\in S \text{ e }  P \not\in C]\]
 
-  In altre parole, \(S_P\) è l'insieme di clausole che non contengono il letterale negativo di \(P\), a cui se presente è stato rimosso il letterale positivo di \(P\) e viceversa per \(S_{\neg P}\). In questo modo è chiaro che \(P\) non è presente in \(S_P\) e \(\neg P\) non è presente in \(S_{\neg P}\), e che inoltre \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\) poiché non sono state aggiunte nuove proposizioni atomiche, ma solo eventualmente rimosse.
+  In altre parole, \(S_P\) è l'insieme di clausole che non contengono il letterale negativo di \(P\), a cui se presente è stato rimosso il letterale positivo di \(P\) e viceversa per \(S_{\neg P}\). In questo modo è chiaro che \(P\) non è presente in \(S_P\) e \(\neg P\) non è presente in \(S_{\neg P}\), e che inoltre \(\AP[S_P] \subset \AP[S]\) e \(\AP[S_{\neg P}]\subset \AP[S]\) poiché non sono state aggiunte nuove proposizioni atomiche, ma solo eventualmente rimosse.\footnote{\emph{Eventualmente}, perché \(P\) potrebbe non comparire affatto in \(S\), così come \(\neg P\) potrebbe non comparire affatto in \(S\).}
 
   Di conseguenza \(\abs{\AP[S_P]}<\abs{\AP[S]}\) e \(\abs{\AP[S_{\neg P}]}<\abs{\AP[S]}\).
-  Inoltre questi due insiemi non sono necessariamente disgiunti. In particolare infatti, ogni clausola in \(S\) che non conteneva ne \(P\) ne \(\neg P\) è presente sia in \(S_P\) che in \(S_{\neg P}\). In ogni caso, tutte le clausole dell'intersezione tra \(S_P\) e \(S_{\neg P}\) erano già presenti in \(S\), poiché se una clausola è stata ottenuta da \(S\) rimuovendo \(P\) o \(\neg P\), può essere ottenuta in tal modo solo in uno dei due insiemi, e quindi se è presente in entrambi, allora era già presente in \(S\) senza bisogno di rimuovere \(P\) o \(\neg P\).
+  Inoltre questi due insiemi non sono necessariamente disgiunti. In particolare infatti, ogni clausola in \(S\) che non conteneva né \(P\) né \(\neg P\) è presente sia in \(S_P\) che in \(S_{\neg P}\). In ogni caso, tutte le clausole dell'intersezione tra \(S_P\) e \(S_{\neg P}\) erano già presenti in \(S\), poiché una clausola, se ottenuta da \(S\) rimuovendo \(P\) o \(\neg P\), può essere ottenuta in tal modo solo in uno dei due insiemi, e quindi se è presente in entrambi, allora era già presente in \(S\) senza bisogno di rimuovere \(P\) o \(\neg P\).
 
   In aggiunta, tali insiemi sono anche certamente non vuoti. Supponiamo infatti per assurdo che \(S_P = \emptyset\). Allora, necessariamente, ogni clausola di \(S\) contiene \(\neg P\). Essendo però che per soddisfare una clausola è sufficiente soddisfare un suo letterale, allora ogni assegnamento che assegna \(0\) a \(P\) soddisfa tutte le clausole di \(S\), rendendo \(S\) soddisfacibile, in contraddizione con l'ipotesi che \(S\) sia insoddisfacibile. Vale ovviamente un ragionamento duale per \(S_{\neg P}\).
 
@@ -1263,7 +1288,7 @@ A questo punto, avendo dimostrato la correttezza e la terminazione dell'algoritm
 
   In particolare quindi esistono due alberi di derivazione del calcolo di risoluzione che hanno uno dei due insiemi come foglie e \(\square\) in radice. Chiamiamoli \(\pi_P\) e \(\pi_{\neg P}\) e valutiamo i diversi casi:
   \begin{itemize}
-    \item Se vale \(S_P\subseteq S\) o \(S_{\neg P}\subseteq S\), ovvero una tra \(P\) e \(\neg P\) non è presente in nessuna clausola di \(S\), allora \(S\vdash_R \square\) banalmente per monotònicità.
+    \item Se vale \(S_P\subseteq S\)\footnote{\(S,S_P\) sono forme clausali. Pertanto, \(S_P \subseteq S\) vuol dire che \(S_P\) contiene alcune clausole (o tutte) di \(S\) e non ne contiene nessuna che non sia in \(S\).} o \(S_{\neg P}\subseteq S\), cioè, rispettivamente, \(P\) non appare in nessuna clausola di \(S\) oppure \(\neg P\) non appare in nessuna clausola di \(S\), allora \(S\vdash_R \square\) banalmente per monotònicità.
     \item Alternativamente, esiste almeno una foglia in \(\pi_P\) etichettata con una clausola \(C_P\) e una in \(\pi_{\neg P}\) etichettata con una clausola \(C_{\neg P}\) tali che \(C_P\) e \(C_{\neg P}\) non sono in \(S\).
     In altre parole c'è almeno una foglia per albero di deduzione che è stata ottenuta dalla sottrazione del letterale.
     Consideriamo quindi un'applicazione di risoluzione tra \(C_P\) e una qualsiasi clausola \(D \in S_P\) in clash con \(C_P\).
@@ -1410,13 +1435,12 @@ Per concludere, andiamo a mostrare un esempio della costruzione presente in ques
     \BinaryInfC{\(\square\)}
   \end{prooftree}
 
-  Per queste deduzioni abbiamo che \(\set{\neg R}\) in \(S_{\neg P}\) non apparteneva a \(S\), così come \(\set{\neg Q, \neg R}\).
-  Aggiungiamo quindi alle deduzioni \(P\) e \(\neg P\), e propaghiamole.
+  Dobbiamo adesso aggiungere \(P\) (\(\neg P\)) a tutte le clausole di \(S_P\) ottenute mediante sottrazione di \(P\) (\(\neg P\)) da clausole di \(S\), e propagare le aggiunte nei risolventi.
 
   \begin{prooftree}
     \tiny
-    \AxiomC{\(\set{Q}\)}
-    \AxiomC{\(\set{\neg Q, \neg R,P}\)}
+    \AxiomC{\(\set{P, Q}\)}
+    \AxiomC{\(\set{P, \neg Q, \neg R}\)}
     \BinaryInfC{\(\set{\neg R,P}\)}
     \AxiomC{\(\set{R}\)}
     \BinaryInfC{\(\set{P}\)}
@@ -1425,21 +1449,21 @@ Per concludere, andiamo a mostrare un esempio della costruzione presente in ques
   \begin{prooftree}
   \tiny
     \AxiomC{\(\set{R}\)}
-    \AxiomC{\(\set{\neg R,\neg P}\)}
+    \AxiomC{\(\set{\neg P,\neg R}\)}
     \BinaryInfC{\(\set{\neg P}\)}
   \end{prooftree}
 
-  A questo punto possiamo dedurre \(\square\) facilmente col clash di \(P\) e \(\neg P\).
+  A questo punto possiamo dedurre \(\square\) facilmente col clash di \(P\) e \(\neg P\), ottenendo un albero di deduzione con radice \(\square\) e foglie in \(\AP{S}\), dimostrando, con questo procedimento, che \(S\) è \(\Unsat\).
 
   \begin{prooftree}
     \tiny
-    \AxiomC{\(\set{Q}\)}
-    \AxiomC{\(\set{\neg Q, \neg R,P}\)}
+    \AxiomC{\(\set{P, Q}\)}
+    \AxiomC{\(\set{P, \neg Q, \neg R}\)}
     \BinaryInfC{\(\set{\neg R,P}\)}
     \AxiomC{\(\set{R}\)}
     \BinaryInfC{\(\set{P}\)}
     \AxiomC{\(\set{R}\)}
-    \AxiomC{\(\set{\neg R,\neg P}\)}
+    \AxiomC{\(\set{\neg P,\neg R}\)}
     \BinaryInfC{\(\set{\neg P}\)}
     \BinaryInfC{\(\square\)}
   \end{prooftree}

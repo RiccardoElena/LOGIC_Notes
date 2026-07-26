@@ -1,22 +1,20 @@
 \chapter{Applicazioni ed Espressività della logica}
 
-Infine, andiamo ad analizzare come i linguaggi logici e i sistemi di deduzione possano essere applicati nell'informatica nella risoluzione di problemi. Una logica col suo calcolo di deduzione infatti fornisce un sistema formale di rappresentazione dei problemi oltre che una sistema di inferenza per risolverli. 
+Infine, andiamo ad analizzare come i linguaggi logici e i sistemi di deduzione possano essere applicati nell'informatica nella risoluzione di problemi. Una logica col suo calcolo di deduzione, infatti, fornisce un sistema formale di rappresentazione dei problemi, oltre che un sistema di inferenza per risolverli. 
 In tal senso, non si è molto distanti da un modello di calcolo computazionale.
 Infatti, esistono linguaggi di programmazione logica, come Prolog, che si basano su questi principi per esprimere programmi e risolvere problemi.
 
-Tra le varie applicazioni, quella su cui ci concentreremo è la specifica di problemi decisionali, ovvero problemi che possono essere risolti con una risposta sì o no.
+Tra le varie applicazioni, quella su cui ci concentreremo è la specifica di problemi decisionali, ovvero problemi che possono essere risolti con una risposta binaria: sì o no.
 
-In particolare, andremo a vedere come le sintassi e le semantiche dei linguaggi logici possano essere utilizzate per rappresentare gli input, gli output e una relazione tra di essi, in modo tale che la congiunzione delle formule risultanti sia soddisfacibile se e solo se esiste il problema da risolvere ha risposta affermativa.
+In particolare, andremo a vedere come le sintassi e le semantiche dei linguaggi logici possano essere utilizzate per rappresentare gli input, gli output e una relazione tra di essi, in modo tale che la congiunzione delle formule risultanti sia soddisfacibile se e solo se il problema da risolvere ha risposta affermativa.
 
-In tal senso questo tipo di computazione si discosta molto dai paradigmi più noti, poiché puramente dichiarativa. Infatti, ciò che ci permette di risolvere un problema non è una serie di operazioni o manipolazioni da eseguire, ma la verifica di alcune condizioni e vincoli che legano input e output.
+In tal senso, questo tipo di computazione si discosta molto dai paradigmi più noti, poiché puramente dichiarativa. Infatti, ciò che ci permette di risolvere un problema non è una serie di operazioni o manipolazioni da eseguire, ma la verifica di alcune condizioni e vincoli che legano input e output.
 
 \section{Applicazione della logica proposizionale}
 
-Avendo trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se è possibile riuscire a trovare una \keyword{riduzione} di un qualsiasi problema a \(\Sat\) possiamo avere un algoritmo per risolvere quel problema.
+Una volta trovato un algoritmo corretto, completo e terminante per risolvere la soddisfacibilità di formule proposizionali, se troviamo una \keyword{riduzione}\footnote{Per riduzione si intende una codifica di un'istanza qualsiasi del problema in un'istanza di \(\Sat\) (un'istanza di \(\Sat\) è una formula proposizionale) tale per cui la soluzione di quest'ultima ci fornisca la soluzione per l'istanza del problema originale.} di un qualsiasi problema a \(\Sat\), allora troviamo un algoritmo per risolvere quel problema.
 
-Per riduzione si intende una codifica di un'istanza qualsiasi del problema in un'istanza di \(\Sat\), ovvero una formula proposizionale, tale che la soluzione dell'istanza di \(\Sat\) ci fornisca la soluzione dell'istanza del problema originale.
-
-Tale codifica per essere utile deve essere efficiente, ovvero deve essere eseguibile in tempo polinomiale rispetto alla dimensione dell'istanza del problema originale. Questo poiché essendo \(\Sat\) un problema NP-completo, riduzioni inefficienti porterebbero, oltre che a poter rappresentare problemi che non sono in NP, a non avere un algoritmo efficiente per risolvere il problema originale, la cui complessità è nascosta proprio nella riduzione.
+Tale codifica, per essere utile, deve essere efficiente, ovvero deve essere eseguibile in tempo polinomiale rispetto alla dimensione dell'istanza del problema originale. Questo, poiché, essendo \(\Sat\) un problema NP-completo, riduzioni inefficienti porterebbero, oltre che a poter rappresentare problemi che non sono in NP, a non avere un algoritmo efficiente per risolvere il problema originale, la cui complessità è nascosta proprio nella riduzione.
 
 Consideriamo qualche esempio semplice di riduzione a \(\Sat\), concentrandoci principalmente su problemi su grafi, che sono tra i più comuni.
 
@@ -33,20 +31,21 @@ Per la rappresentazione del grafo è necessario andare a rappresentare i vertici
 
 Tale formula intuitivamente rappresenta un assegnamento di verità alle variabili \(X_{u,v}\) che è vero se e solo se rappresenta correttamente il grafo \(G\). Di conseguenza, andando a congiungere questa formula con altre che rappresentano i vincoli che legano l'input all'output, possiamo essere certi che qualunque assegnamento soddisfi la formula risultante questo corrisponda a proprietà del grafo \(G\) in input.
 
-Per quanto riguarda l'output, un modo alternativo alla sequenza di vertici per descrivere un ciclo è quello di rappresentarlo come sequenza di archi. Vorremo dunque mostrare che esista un \(S\subseteq E\) tale che \(S\) contiene un ciclo. Partiamo da definire le variabili per l'output come \(Y_{u,v}\) per ogni \(u,v \in V\). Dunque possiamo definire 
+Per quanto riguarda l'output, un modo alternativo alla sequenza di vertici per descrivere un ciclo è quello di rappresentarlo come sequenza di archi. Vorremo dunque mostrare che esista un \(S\subseteq E\) tale che \(S\) contiene un ciclo. Partiamo dal definire le variabili per l'output come \(Y_{u,v}\) per ogni \(u,v \in V\). Dunque possiamo definire 
 \[\phi_S \eqdef \bigwedge_{u,v \in V} Y_{u,v}\to X_{u,v}\]
-Tale formula ci dice che ogni elemento di \(S\) deve stare in \(E\). Inoltre, per far si che \(S\) contenga un ciclo non può essere vuoto, e questo è esprimibile con
+Tale formula ci dice che ogni elemento di \(S\) deve stare in \(E\), in quanto sarà falsa solo se l'output conterrà qualche arco \(Y_{u,v}\in S\) che non corrisponde a nessun arco \(X_{u,v}\in E\). Inoltre, per far sì che \(S\) contenga un ciclo, \(S\) non può essere vuoto, e questo è esprimibile con
 \[\phi_{\neq \emptyset} \eqdef \bigvee_{u,v\in V} Y_{u,v} \]
 
-Ci manca solo da definire i vincoli che legano \(S\) al fatto che contenga un ciclo. Seppur in modo non estremamente intuitivo, la formula che ci permette di esprimere questo vincolo è la seguente:
-\[\phi_{cyc} \eqdef \bigwedge_{u,v} (Y_{u,v \in V}\to \bigvee_{z \in V} Y_{v,z})\]
+Ci manca solo da definire i vincoli che legano \(S\) al fatto che contenga un ciclo. La formula che ci permette di esprimere questo vincolo è la seguente:
+\[\phi_{cyc} \eqdef \bigwedge_{u,v} (Y_{u,v}\to \bigvee_{z \in V} Y_{v,z})\]
 
-Riflettendoci, essendo che \(\phi_{\neq \emptyset}\) ci dice che esiste almeno un \(Y_{u,v}\) vero, \(\phi_{cycle}\) porta ad avere una catena di \(Y_{u,v}\) veri, che può chiudersi solo se esiste un ciclo. Infatti, l'unico modo per far si che la catena di \(Y_{u,v}\) veri non si chiuda è poter scegliere ogni volta un \(Y_{v,z}\) diverso da soddisfare, ma essendo che \(V\) è finito, prima o poi si sarà costretti a chiudere la catena, e dunque ad avere un ciclo. Equivalentemente, il percorso indotto dalle variabili di output vere per non contenere un ciclo dovrebbe essere infinito, ma essendo che \(V\) è finito, questo non è possibile. Viceversa, se esiste un ciclo, allora esiste un assegnamento che soddisfa \(\phi_{cycle}\) e \(\phi_{\not \emptyset}\) che è quello che rende vere le variabili \(Y_{u,v}\) corrispondenti agli archi del ciclo.
+che ci dice che, affinchè vi sia un ciclo nell'output \(S\), ogni arco di output \(Y_{u,v}\) deve avere almeno un arco \(Y_{v,z}\) che parte dal vertice \(v\) e arriva in un altro vertice \(z\), che potrebbe essere anche lo stesso \(u\) o lo stesso \(v\).
+Se questa formula è vera, allora, se \(V\) è finito, nell'output \(S\) vi sarà necessariamente una catena chiusa di archi. Infatti, se \(V\) fosse infinito, allora \(S\) potrebbe anche non contenere un ciclo.
 
 Dunque, concludendo, la formula che rappresenta l'istanza di \(\Sat\) a cui ridurre il problema della ciclicità è la seguente:
 \[\phi \eqdef \phi_E \land \phi_S \land \phi_{\neq \emptyset} \land \phi_{cyc}\]
 
-Per tale problema sono noti anche algoritmi polinomiali, dunque questa riduzione non è particolarmente utile, ma è un esempio semplice di come si possa rappresentare un problema con una formula proposizionale.
+Per questo problema sono noti anche algoritmi polinomiali, dunque questa riduzione non è particolarmente utile, ma è un esempio semplice di come si possa rappresentare un problema con una formula proposizionale.
 
 Passiamo ora a un altro problema, più complesso, per cui non sono noti algoritmi polinomiali, ovvero il problema della colorazione di grafi.
 
@@ -180,29 +179,31 @@ A questo punto per rappresentare \(\abs{S}\) abbiamo bisogno di un contatore che
 
 Passando al prim'ordine, per quanto sia possibile rappresentare problemi decisionali come nella logica proposizionale, andremo a vedere che i problemi decisionali della logica, ovvero VALIDITY e SATISFIABILITY, sono tutti indecidibili in principio.
 
-In particolare VALIDITY è RE (ricorsivamente enumerabile) e SATISFIABILITY è coRE (il suo complemento è ricorsivamente enumerabile), ma nessuno dei due è ricorsivo. Dunque, come vedremo successivamente, esistono algoritmi che terminano in tempo finito per l'accettazione di formule valide ma possono divergere per formule non valide, e algoritmi che terminano in tempo finito per l'accettazione di formule insoddisfacibili ma possono divergere per formule soddisfacibili.
+In particolare, VALIDITY è RE (ricorsivamente enumerabile) e SATISFIABILITY è coRE (il suo complemento è ricorsivamente enumerabile), ma nessuno dei due è ricorsivo. Dunque, come vedremo successivamente, esistono algoritmi che terminano in tempo finito per l'accettazione di formule valide ma possono divergere per formule non valide, e algoritmi che terminano in tempo finito per l'accettazione di formule insoddisfacibili ma possono divergere per formule soddisfacibili.
 
-Piuttosto che approfondire quindi come ridurre problemi decisionali a VALIDITY o SATISFIABILITY, prima di mostrare come questi siano indecidibili riducendo il problema della fermata di una macchina di Turing a VALIDITY, ci concentreremo su un altro aspetto pratico interessante, ovvero la rappresentazione della conoscenza e di conseguenza l'espressività della logica del primo ordine come linguaggio.
+Invece di approfondire come ridurre problemi decisionali a VALIDITY o SATISFIABILITY, prima di mostrare come questi siano indecidibili riducendo il problema della fermata di una macchina di Turing a VALIDITY, ci concentreremo su un altro aspetto pratico interessante, ovvero la rappresentazione della conoscenza e, di conseguenza, l'espressività della logica del primo ordine come linguaggio.
 
-Abbiamo già visto per la logica proposizionale alcuni problemi che potevano essere espressi usando la logica proposizionale su un input finito. In particolare tutte le proprietà finitarie erano in qualche modo esprimibili. Al prim'ordine invece possiamo esprimere proprietà con una granularità molto fine avendo a che fare con domini potenzialmente infiniti. 
+Abbiamo già visto alcuni problemi che potevano essere espressi usando la logica proposizionale su un input finito. In particolare, tutte le proprietà finitarie erano in qualche modo esprimibili. Al prim'ordine, invece, possiamo esprimere proprietà con una granularità molto fine, avendo a che fare con domini potenzialmente infiniti. 
 
-Andiamo a vedere quindi alcuni esempi e tecniche molto rudimentali per dimostrare caratteristiche di espressività della logica del primo ordine. In particolare, saremo interessati a descrivere alcune proprietà di oggetti del discorso e capire se tali proprietà sono esprimibili o meno in logica del primo ordine, ovvero se è possibile trovare una formula del primo ordine che sia soddisfatta esclusivamente dai domini che soddisfano quella proprietà.
+Andiamo a vedere, quindi, alcuni esempi e tecniche molto rudimentali per dimostrare caratteristiche di espressività della logica del primo ordine. In particolare, saremo interessati a descrivere alcune proprietà di oggetti del discorso e capire se tali proprietà sono esprimibili o meno in logica del primo ordine, ovvero se è possibile trovare una formula del primo ordine che sia soddisfatta esclusivamente dai domini che soddisfano quella proprietà.
 
-Ovviamente quest'analisi dipenderà dal linguaggio che stiamo utilizzando, ovvero dalle costanti, funzioni e predicati di cui disponiamo. 
+Ovviamente, quest'analisi dipenderà dal linguaggio che stiamo utilizzando, ovvero dalle costanti, funzioni e predicati di cui disponiamo. 
 
 Iniziamo definendo propriamente il concetto di proprietà e di espressibilità.
 
 \begin{definition}{Proprietà}
-  Sia \(L\) un linguaggio di \(\FOL\) e sia \(\mathcal{M}\) la classe delle strutture con \(M \in \mathcal{M}\) se \(M = \langle D,\Interp\rangle\) per \(L\). Una \textbf{proprietà} \(P\) è un qualsiasi un sott'insieme di \(\mathcal{M}\).
+  Sia \(L\) un linguaggio di \(\FOL\) e sia \(\mathcal{M}\) la classe delle strutture con \(M \in \mathcal{M}\) se \(M = \langle D,\Interp\rangle\) per \(L\). Una \keyword{proprietà} \(P\) è un qualsiasi un sottoinsieme di \(\mathcal{M}\).
 \end{definition}
 
+Una proprietà è quindi un insieme di strutture accomunate da un qualcosa.
 Intuitivamente, in ottica descrittivista del linguaggio, una proprietà non è altro che l'insieme degli oggetti del discorso che la rispettano. Ad esempio, se stiamo parlando di persone, la proprietà di essere un uomo è l'insieme di tutte le persone che sono uomini.
 
 \begin{definition}{Espressibilità}
-  Sia \(L\) un linguaggio di \(\FOL\) e sia \(\mathcal{M}\) la classe delle strutture con \(M \in \mathcal{M}\) se \(M = \langle D,\Interp\rangle\) per \(L\). Una proprietà \(P\) è \textbf{esprimibile} in \(L\) se esiste una formula \(\phi \in \FOL\) tale che \(P=\den{\phi}=\set{M \in \mathcal{M} \mid M \models \phi}\)
+  Sia \(L\) un linguaggio di \(\FOL\) e sia \(\mathcal{M}\) la classe delle strutture con \(M \in \mathcal{M}\) se \(M = \langle D,\Interp\rangle\) per \(L\). Una proprietà \(P\) è \keyword{esprimibile} in \(L\) se esiste una formula \(\phi \in \FOL\) tale che \(P=\den{\phi}=\set{M \in \mathcal{M} \mid M \models \phi}\)
 \end{definition}
 
-Questo problema è particolarmente interessante per l'informatica poiché ci permette di capire quanto potere espressivo sia necessario per esprimere determinate proprietà nella modellazione di basi di conoscenza. Intuitivamente l'espressività di un linguaggio è inversamente proporzionale alla complessità computazionale dei problemi di decisione di tale linguaggio, quindi è importante capire quali sono le proprietà che possiamo esprimere con un linguaggio e quali no per trovare un giusto equilibrio tra potere espressivo e complessità computazionale.
+Una proprietà è quindi esprimibile se esiste una formula che è soddisfatta da tutte le strutture della proprietà.
+Questo problema è particolarmente interessante per l'informatica poiché ci permette di capire quanto potere espressivo sia necessario per esprimere determinate proprietà nella modellazione di basi di conoscenza. Intuitivamente, l'espressività di un linguaggio è inversamente proporzionale alla complessità computazionale dei problemi di decisione di tale linguaggio, quindi è importante capire quali siano le proprietà che possiamo esprimere con un linguaggio per trovare un giusto equilibrio tra potere espressivo e complessità computazionale.
 
 Un modo molto semplice per capire se una proprietà è esprimibile o meno è quello di cercare di costruire una formula che la esprima. 
 
@@ -210,9 +211,9 @@ Un esempio l'abbiamo già visto, ovvero la proprietà di essere un ordinamento l
 \[\phi_{lin}\eqdef\forall x, \neg (x=x) \land \forall x,y (x=y\lor x<y \lor y<x) \land \forall x,y,z ((x<y \land y<z) \to x<z)\]
 con chiaramente un linguaggio che abbia come minimo un simbolo di relazione binaria \(<\) e un simbolo di uguaglianza \(=\).
 
-Chiaramente quindi \(\den{\phi_{lin}}\) è proprio la proprietà di essere linearmente ordinato.
+Chiaramente quindi \(\den{\phi_{lin}}\), ovvero la denotazione di \(\phi_{lin}\) è proprio la proprietà di essere linearmente ordinato.
 
-Sempre sullo stesso linguaggio si può pensare anche di esprimere la proprietà \(DSC = \set{M\in\mathcal{M}}[ M \text{ è ordinamento lineare discreto}]\). Sicuramente \(\phi_{lin}\) sarà parte della formula che esprime \(DSC\) ma non è sufficiente. Dovremo congiungere a \(\phi_{lin}\) anche una proprietà che esprima la discretezza. Intuitivamente quello che differenzia insiemi discreti e non discreti è il concetto di successore. Bisogna però stare attenti al fatto che un insieme discreto può ammettere massimo, e che dunque non è richiesto che ogni elemento abbia un successore. Si dovranno dunque trattare come casi particolari anche gli elementi che non hanno successore. Intuitivamente quindi quello che dovremo esprimere è che ogni elemento che ha degli elementi successivi ha un minimo elemento successivo, che è proprio il successore. La formula che esprime tutto ciò è la seguente:
+Sempre sullo stesso linguaggio, si può pensare anche di esprimere la proprietà \(DSC = \set{M\in\mathcal{M}}[ M \text{ è ordinamento lineare discreto}]\). Sicuramente \(\phi_{lin}\) sarà parte della formula che esprime \(DSC\), ma non è sufficiente. Dovremo congiungere a \(\phi_{lin}\) anche una proprietà che esprima la discretezza. Intuitivamente, quello che differenzia insiemi discreti e non discreti è il concetto di successore. Bisogna però stare attenti al fatto che un insieme discreto può ammettere massimo, e che dunque non è richiesto che ogni elemento abbia un successore. Si dovranno dunque trattare come casi particolari anche gli elementi che non hanno successore. Intuitivamente quindi quello che dovremo esprimere è che ogni elemento che ha degli elementi successivi ha un minimo elemento successivo, che è proprio il successore. La formula che esprime tutto ciò è la seguente:
 \[\phi' \eqdef \forall x, ((\exists y \st x< y) \to \exists z \st(x<z \land \forall w, (x<w \to \neg(w<z))))\]
 E quindi avremo che \(\den{\phi_{lin} \land \phi'} = DSC\).
 
@@ -223,21 +224,21 @@ Questa \(\phi_{lin} \land \phi'\) però chiaramente non caratterizza \((\N,<)\) 
 Passiamo invece alla proprietà \(DNS = \set{M\in\mathcal{M}}[ M \text{ è ordinamento lineare denso}]\). Anche in questo caso \(\phi_{lin}\) è parte della formula che esprime \(DNS\) ma non è sufficiente. Dovremo congiungere a \(\phi_{lin}\) anche
 \[\phi''\eqdef \forall x,y (x<y \to \exists z (x<z \land z<y))\]
 
-Si ha quindi \(\den{\phi_{DNS} \eqdef\phi_{lin} \land \phi'} = DNS\). Chiaramente \((\Q,<)\models \phi_{DNS}\) e \((\R,<)\models \phi_{DNS}\).
+Si ha quindi \(\den{\phi_{DNS} \eqdef\phi_{lin} \land \phi''} = DNS\). Chiaramente \((\Q,<)\models \phi_{DNS}\) e \((\R,<)\models \phi_{DNS}\).
 
 È interessante notare che \(\phi'\not\equiv\neg \phi''\). Possiamo considerare ad esempio \(([0,1]\cup \set{2},<)\). Questo chiaramente non è denso poiché per \(x = 1\) e \(y = 2\) non esiste un elemento \(z\) tale che \(1 < z < 2\). D'altra parte però non è discreto poiché per qualsiasi elemento in \([0,1]\) non esiste un successore. 
 
-Passando a qualche risultato negativo, abbiamo che \((\Q,<)\) è indistinguibile da \((\R,<)\), ovvero non esiste una formula \(\phi\) tale che \((\Q,<)\models \phi\) e \((\R,<)\not\models \phi\). Questa è conseguenza diretta del teorema di Löwenheim-Skolem che recita quanto segue:
+Passando a qualche risultato negativo, abbiamo che \((\Q,<)\) è indistinguibile da \((\R,<)\), ovvero non esiste una formula \(\phi\) tale che \((\Q,<)\models \phi\) e \((\R,<)\not\models \phi\). Questa è conseguenza diretta del teorema di Löwenheim-Skolem che recita quanto segue.
 \begin{theorem}{Löwenheim-Skolem}
-  Se \(\Gamma\) è un insieme di formule chiuse al più numerabile e soddisfacibile, allora \(\Gamma\) ha un modello al più numerabile.
+  Se un insieme di formule chiuse \(\Gamma\) è al più numerabile e soddisfacibile, allora \(\Gamma\) ha un modello al più numerabile.
 \end{theorem}
 
-Sia infatti \(\phi\) la potenziale formula che distingue \((\Q,<)\) da \((\R,<)\). Dunque \((\Q,<)\models \phi\) e \((\R,<)\not\models \phi\). 
-Equivalentemente, \((\R,<)\models \neg \phi\) e \((\Q,<)\not\models \neg \phi\). Dunque \(\set{\neg \phi, \phi_{DNS}}\) è un insieme di formule chiuse al più numerabile e soddisfatto da \((\R,<)\). Dal teorema di Löwenhaim-Skolem esiste però un modello al più numerabile che soddisfa \(\set{\neg \phi, \phi_{DNS}}\). Tale modello non può essere \((\R,<)\) poiché non è al più numerabile, quindi deve essere \((\Q,<)\). Dunque \((\Q,<)\models \neg \phi\) e \((\Q,<)\not\models \neg \phi\), il che è assurdo. 
+La proprietà \(\den{\phi_{DNS}}\) contiene sicuramente il modello \((\R,<)\), in quanto ordine lineare denso. Supponiamo che \((\R,<)\) soddisfi anche la formula \(\phi\). Pertanto, \(\Gamma = \set{\phi} \cup \phi_{DNS}\) è un insieme soddisfacibile ed al più numerabile di formule chiuse. Quindi, per il teorema di Löwenheim-Skolem, esiste un modello \(M\) al più numerabile che soddisfa \(\Gamma\). Poichè \(M\models \phi_{DNS}\), \(M\) è un ordine lineare denso. Inoltre, \(M\) è al più numerabile. Tale modello non può essere \((\R,<)\) e si dimostra essere \((\Q, <)\).
+Pertanto, \((\R, <)\models \phi \implies (\Q, <)\models \phi\) e si dimostra anche il verso contrario.
 
-Intuitivamente il teorema di Löwenhaim-Skolem vale per la costruzione vista per il teorema di completezza, poiché la costruzione del modello dell'insieme soddisfacibile \(\Gamma\) portava ad avere un dominio al più numerabile, poiché abbiamo aggiunto un numero enumerabile di insiemi enumerabile di costanti che è ancora un insieme enumerabile se lo era quello di partenza.
+Intuitivamente, il teorema di Löwenheim-Skolem vale per la costruzione vista per il teorema di completezza, poiché la costruzione del modello dell'insieme soddisfacibile \(\Gamma^*\) portava ad avere un dominio al più numerabile, poiché abbiamo aggiunto un numero numerabile di insiemi numerabile di costanti, ottenendo ancora un insieme enumerabile, se lo era quello di partenza.
 
-Questo quindi ci dice che ci sono limiti in ciò che il prim'ordine può esprimere.
+Questo ci dice che ci sono limiti in ciò che il prim'ordine può esprimere.
 
 \begin{theorem}{Compattezza}
   Per ogni \(\Gamma\subseteq\FOL\) (formule chiuse) e per ogni formula \(\phi\) (chiusa), vale che
@@ -251,28 +252,26 @@ Questo quindi ci dice che ci sono limiti in ciò che il prim'ordine può esprime
   L'altra direzione è banale per monotònicità
 \end{proof}
 
-Una formulazione alternativa della compattezza è la seguente:
+Una formulazione alternativa della compattezza è la seguente.
 \begin{theorem}{Compattezza Alternativa}
   Per ogni \(\Gamma\subseteq\FOL\) (formule chiuse),
 
   \[\Gamma \in\Unsat \iff \text{ esiste } \Gamma_0 \subseteq \Gamma \text{ finito tale che } \Gamma_0 \in\Unsat\]
-  o equivalentemente se
+  o, equivalentemente, 
   \[\Gamma \in\Sat \iff \text{ per ogni } \Gamma_0 \subseteq \Gamma \text{ finito, } \Gamma_0 \in\Sat\]
 \end{theorem}
 
-Il teorema di compattezza è uno strumento particolarmente usato, soprattutto in logica matematica, per dimostrare risultati di espressività. Ad esempio \(FIN = \set{M \in \mathcal{M}}[\abs{M} < \infty]\) non è esprimibile in \(\FOL\) semplice, ovvero su linguaggio \(L = (\emptyset, \emptyset, \set{=})\). Supponiamo per assurdo che esista una formula \(\phi_{FIN}\) tale che \(\den{\phi_{FIN}} = FIN\). Consideriamo ora l'insieme parametrico di formule al variare di \(n\) definite come
-\[\exists x_1, \ldots, x_n \bigwedge_{\substack{1 \leq i \leq n \\ 1 \leq j \leq n \\ i \neq j}} \neg(x_i = x_j)\]
-Intuitivamente ognuna di queste formule esprime che esistono almeno \(n\) elementi distinti.
+Il teorema di compattezza è uno strumento particolarmente usato, soprattutto in logica matematica, per dimostrare risultati di espressività. Ad esempio, \(FIN = \set{m \in \mathcal{M}}[\abs{m} < \infty]\) non è esprimibile in \(\FOL\) semplice, ovvero su linguaggio \(L = (\emptyset, \emptyset, \set{=})\). Supponiamo, per assurdo, che esista una formula \(\phi_{FIN}\) tale che \(\den{\phi_{FIN}} = FIN\). Consideriamo ora l'insieme parametrico di formule al variare di \(n\) definite come
+\[\phi_n \eqdef \exists x_1, \ldots, x_n \bigwedge_{\substack{1 \leq i \leq n \\ 1 \leq j \leq n \\ i \neq j}} \neg(x_i = x_j)\]
+Intuitivamente, ognuna di queste formule esprime che esistono almeno \(n\) elementi distinti.
 
-Consideriamo quindi \(\Gamma = \set{\phi_n}[n\in\N^*]\). Chiaramente questo insieme è numerabile. Sia ora \(\Sigma = \Gamma \cup \set{\phi_{FIN}}\). Ora se esiste un \(m\) che soddisfa \(\Gamma\) necessariamente deve essere infinito, poiché deve avere almeno \(n\) elementi distinti per ogni \(n\in \N\). Dunque \(\Sigma\) è insoddisfacibile perché qualsiasi modello di \(\Sigma\) dovrebbe essere sia finito che infinito. Ma ora considerando qualsiasi sott'insieme finito \(\Sigma_0\) di \(\Sigma\).
+Consideriamo quindi \(\Gamma = \set{\phi_n}[n\in\N^*]\). Chiaramente, questo insieme è numerabile. Sia ora \(\Sigma = \Gamma \cup \set{\phi_{FIN}}\). Se esiste un \(m\) che soddisfa \(\Gamma\), allora \(m\) deve necessariamente essere infinito, poiché deve avere almeno \(n\) elementi distinti per ogni \(n\in \N\). Dunque, \(\Sigma\) è insoddisfacibile perché qualsiasi modello di \(\Sigma\) dovrebbe essere sia finito che infinito. Ma, considerando qualsiasi sottoinsieme finito \(\Sigma_0\) di \(\Sigma\), si osserva che \(\Sigma_0\) è soddisfacibile, poiché basta un dominio finito di cardinalità maggiore o uguale al massimo indice \(n\) che compare in \(\Sigma_0\) per soddisfare tutte le formule di \(\Sigma_0\). Quindi, abbiamo un insieme insoddisfacibile che però non ha nessun sottoinsieme finito insoddisfacibile, il che è assurdo per il teorema di compattezza.
 
-Chiaramente \(\Sigma_0\) è soddisfacibile, poiché basta un dominio finito di cardinalità maggiore o uguale al massimo indice \(n\) che compare in \(\Sigma_0\) per soddisfare tutte le formule di \(\Sigma_0\). Quindi abbiamo un insieme insoddisfacibile che però non ha nessun sottoinsieme finito insoddisfacibile, il che è assurdo per il teorema di compattezza.
+Un altro esempio di particolare interesse per gli informatici è quello della non esistenza di una formula che caratterizza esattamente la classe dei grafi connessi. Chiaramente, ciò non vuol dire che, dato uno specifico grafo connesso, non esista una formula che lo caratterizza o che esprima se quello specifico sia connesso, ma semplicemente che non esiste una formula che caratterizza tutti e soli i grafi connessi.
 
-Un altro esempio di particolare interesse per gli informatici è quello della non esistenza di una formula che caratterizza esattamente la classe dei grafi connessi. Chiaramente ciò non vuol dire che dato uno specifico grafo connesso non esista una formula che lo caratterizza o che esprima se quello specifico sia connesso, ma semplicemente che non esiste una formula che caratterizza tutti i grafi connessi e solo quelli.
-
-Sia \(CONN = \set{M\in\mathcal{M}}[ M \text{ è un grafo connesso}]\). Supponiamo per assurdo che esista una formula \(\phi_{CONN}\) tale che \(\den{\phi_{CONN}} = CONN\). Per essere un grafo mi è sufficiente avere un linguaggio con un simbolo di relazione binaria \(E\) che rappresenta l'adiacenza tra i nodi con \(D\) che rappresenta i nodi. Per comodità aggiungiamo al linguaggio due costanti \(s\) e \(t\). Costruiamo quindi l'insieme di formule \(\Gamma = \set{\phi_n}[n\in\N \land n > 1]\) con
+Sia \(CONN = \set{m\in\mathcal{M}}[ m \text{ è un grafo connesso}]\). Supponiamo per assurdo che esista una formula \(\phi_{CONN}\) tale che \(\den{\phi_{CONN}} = CONN\). Per essere un grafo è sufficiente avere un linguaggio con un simbolo di relazione binaria \(E\) che rappresenta l'adiacenza tra i nodi, con \(D\) che rappresenta i nodi. Per comodità, aggiungiamo al linguaggio due costanti \(s\), source, e \(t\), target. Costruiamo l'insieme di formule \(\Gamma = \set{\phi_n}[n\in\N^*]\) con
 \[\phi_n \eqdef \neg\exists x_1, \ldots, x_n ( x_1 = s \land x_n = t \land \bigwedge_{1 \leq i < n} E(x_i, x_{i+1}))\]
-Costruiamo quindi \(\Gamma' \eqdef \Gamma \cup \set{\forall x, \neg E(x,x)}\). Ogni formula \(\phi_n\) ci dice che non esiste un cammino di lunghezza \(n-1\) tra \(s\) e \(t\). Chiaramente preso \(M\) tale che \(M\models\Gamma'\) si ha che \(t^M\) non sarà raggiungibile da \(s^M\) e quindi \(M\) non sarà connesso. Dunque \(\Sigma \eqdef \Gamma' \cup \set{\phi_{CONN}}\) è insoddisfacibile. Ma ora se prendo un qualsiasi sottoinsieme finito \(\Sigma_0\) di \(\Sigma\) se questo non contiene \(\phi_{CONN}\) allora è banalmente soddisfacibile da qualsiasi grafo non connesso. Se invece \(\Sigma_0\) contiene \(\phi_{CONN}\) allora dalla finitezza esiste un indice massimo di formule di \(\Gamma\) che compare in \(\Sigma_0\), ovvero esiste \(n\) tale che \(\phi_n \in \Sigma_0\) e per ogni \(m > n\) si ha che \(\phi_m \not\in \Sigma_0\). A questo punto basta prendere un qualsiasi grafo in cui \(s\) e \(t\) sono connessi da un cammino di lunghezza strettamente maggiore di \(n\) per soddisfare tutte le formule di \(\Sigma_0\). Quindi anche in questo caso abbiamo un insieme insoddisfacibile che però non ha nessun sottoinsieme finito insoddisfacibile, il che è assurdo per il teorema di compattezza.
+Ogni formula \(\phi_n\) ci dice che non esiste un cammino di lunghezza \(n-1\) tra \(s\) e \(t\). Costruiamo, quindi, \(\Gamma' \eqdef \Gamma \cup \set{\forall x, \neg E(x,x)}\). Chiaramente, preso \(m\) tale che \(m\models\Gamma'\), si ha che \(t^m\) non sarà raggiungibile da \(s^m\) e quindi \(m\) non sarà connesso. Dunque \(\Sigma \eqdef \Gamma' \cup \set{\phi_{CONN}}\) è insoddisfacibile. Ma, prendendo un qualsiasi sottoinsieme finito \(\Sigma_0\) di \(\Sigma\), se questo non contiene \(\phi_{CONN}\), allora è banalmente soddisfacibile da qualsiasi grafo non connesso. Se invece \(\Sigma_0\) contiene \(\phi_{CONN}\), allora dalla finitezza esiste un indice massimo di formule di \(\Gamma\) che compare in \(\Sigma_0\), ovvero esiste \(n\) tale che \(\phi_n \in \Sigma_0\) e per ogni \(m > n\) si ha che \(\phi_m \not\in \Sigma_0\). A questo punto, basta prendere un qualsiasi grafo in cui \(s\) e \(t\) sono connessi da un cammino di lunghezza strettamente maggiore di \(n\) per soddisfare tutte le formule di \(\Sigma_0\). Quindi, anche in questo caso, abbiamo un insieme insoddisfacibile che però non ha nessun sottoinsieme finito insoddisfacibile, il che è assurdo per il teorema di compattezza.
 
 \subsection{Indecidibilità del prim'ordine}
 

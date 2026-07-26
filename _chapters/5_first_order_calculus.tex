@@ -10,7 +10,7 @@ Di conseguenza, le regole per i simboli proposizionali rimangono invariate, come
 
 Essendo i quantificatori operatori unari, avremo per ognuno due regole, una di introduzione e una di eliminazione. Abbiamo inoltre già osservato come i quantificatori siano generalizzazioni di congiunzione e disgiunzione, e quindi è naturale aspettarsi che le regole di introduzione ed eliminazione per i quantificatori siano generalizzazioni di quelle per la congiunzione e la disgiunzione. In particolare, ci aspettiamo che le regole per il quantificatore universale siano generalizzazioni di quelle per la congiunzione, e che le regole per il quantificatore esistenziale siano generalizzazioni di quelle per la disgiunzione.
 
-Inoltre, abbiamo già osservato nel capitolo sul calcolo proposizionale di come il calcolo funga in un certo senso tra \textit{ponte} tra sintassi e semantica, nel senso che, tramite operazioni di pura manipolazione sintattica, si tenta di catturare la semantica della conseguenza logica. Di conseguenza, non sorprenderà che, essendo che la semantica dei quantificatori è definita istanziando le variabili quantificate tramite sostituzioni semantiche, le regole a loro associate faranno uso delle sostituzioni sintattiche e sfrutteranno le proprietà che le collegano a quelle semantiche viste nel capitolo precedente. 
+Inoltre, abbiamo già osservato, nel capitolo sul calcolo proposizionale, di come il calcolo funga, in un certo senso, tra \textit{ponte} tra sintassi e semantica, nel senso che, tramite operazioni di pura manipolazione sintattica, si tenta di catturare la semantica della conseguenza logica. Di conseguenza, non sorprenderà che, poiché la semantica dei quantificatori è definita istanziando le variabili quantificate tramite sostituzioni semantiche, le regole a loro associate faranno uso delle sostituzioni sintattiche e sfrutteranno le proprietà, che le collegano a quelle semantiche, viste nel capitolo precedente. 
 
 Di fatto, ciò è quello che accade in una possibile dimostrazione di uno dei primi esempi di ragionamento deduttivo che abbiamo visto, ovvero \q{Tutti gli uomini sono mortali, Socrate è un uomo, quindi Socrate è mortale}. In questo caso, la formalizzazione di queste affermazioni è la seguente:
 \begin{itemize}
@@ -21,24 +21,25 @@ Di fatto, ciò è quello che accade in una possibile dimostrazione di uno dei pr
 
 Chiaramente, per dimostrare \(M(S)\) a partire da \(\forall x, (U(x)\to M(x))\) e \(U(S)\), è necessario in qualche modo istanziare la variabile \(x\) con il termine \(S\) per poter applicare \(\to I\).
 
-In particolare, tali proprietà valevano sotto opportune condizioni, che per le regole rappresenteranno dei vincoli di applicabilità. A differenza di quanto accadeva per i connettivi proposizionali quindi, le regole che andremo a vedere non saranno sempre applicabili quando si presenta un certo pattern di struttura dell'albero di dimostrazione, ma andranno verificate tali condizioni.
-Nella definizione di tali regole saranno ovviamente fondamentali le sostituzioni, che siano sintattiche o semantiche, e le loro proprietà viste nei capitoli precedenti. 
+In particolare, tali proprietà valevano sotto opportune condizioni, che per le regole rappresenteranno dei vincoli di applicabilità. A differenza di quanto accadeva per i connettivi proposizionali, quindi, le regole che andremo a vedere non saranno sempre applicabili al presentarsi di un certo pattern di struttura dell'albero di dimostrazione, in quanto andranno verificati tali vincoli.
+Nella definizione delle regole di calcolo, saranno ovviamente fondamentali le sostituzioni, sintattiche o semantiche, e le loro proprietà viste nei capitoli precedenti. 
 
-Vediamo dunque tali regole.
+Vediamo, dunque, tali regole.
 
 \paragraph{Regole per \(\forall\):}
 
-Iniziamo con le regole per il quantificatore universale. I vincoli di applicabilità per queste regole sono riportati di fianco a ogni regole. Verificheremo in seguito che tali vincoli sono necessari e sufficienti per garantire la correttezza del calcolo.
+Iniziamo con le regole per il quantificatore universale. I vincoli di applicabilità per queste regole sono riportati di fianco a ogni regola. Verificheremo in seguito che tali vincoli sono necessari e sufficienti per garantire la correttezza del calcolo.
 
 \begin{equation*}
   \infer[(\forall E), \text{ se } t \text{ è libero per } x \text{ in } \phi]{\subs{\phi}{x}{t}}{\forall x, \phi}
 \end{equation*}
 \begin{equation*}
-  \infer[(\forall I), \text{ se } \substack{ y \text{ non occorre in } \phi, \\ y \text{ non occorre libera in assunzioni non scaricate per } {\subs{\phi}{x}{y}}}]{\forall x, \phi}{\subs{\phi}{x}{y}}
+  \infer[(\forall I), \text{ se } \substack{ y \text{ non occorre in } \phi, \\ y \text{ non occorre libera in assunzioni per } {\subs{\phi}{x}{y}} \text{ non scaricate}}]{\forall x, \phi}{\subs{\phi}{x}{y}}
 \end{equation*}
 
-
-Seppure i vincoli per \(\forall I\) possano risultare contorti, questi catturano esattamente il tipico ragionamento per dimostrare una proprietà universale, ovvero si prende un elemento generico \(y\) e si mostra che soddisfa la proprietà, da cui è possibile concludere che tutti gli elementi soddisfano la proprietà, non avendo fatto alcuna assunzione specifica su \(y\). Se \(y\) non fosse generico, non potremmo concludere niente su tutti gli elementi.
+Seppure i vincoli per \(\forall I\) possano risultare contorti, questi catturano esattamente il tipico ragionamento per dimostrare una proprietà universale: si prende un elemento generico \(y\) e si mostra che soddisfa la proprietà, da cui è possibile concludere che tutti gli elementi soddisfano la proprietà, non avendo fatto alcuna assunzione specifica su \(y\). Se \(y\) non fosse generico, non potremmo concludere niente su tutti gli elementi.
+Infatti, se \(y\) apparisse libera in un'assunzione non scaricata, allora la dimostrazione di \(\subs{\phi}{x}{y}\) dipenderebbe da un'assunzione specifica su \(y\), perdendo quindi la generalità di \(y\). 
+Inoltre, se \(y\) occorresse in \(\phi\), allora la sostituzione causerebbe una \keyword{cattura}\footnote{Un esempio di cattura è il seguente: consideriamo \(\phi = \forall y, A(y,x)\). Sostituendo \(x\) con \(y\), si ottiene la formula \(\forall y, A(y,y)\), dalla semantica chiaramente diversa. La \(y\) introdotta dalla sostituzione \emph{cattura} le proprietà della \(y\) già presente prima della sostituzione.}, alterando la semantica della formula, sfruttando le proprietà della variabile \(y\) che era già presente.
 
 L'analogia con le regole per la congiunzione è abbastanza chiara. Infatti, considerando sempre \(\forall\) come congiunzione infinita su tutte le istanziazioni della variabile, la regola di eliminazione seleziona un congiunto specifico, proprio come \(\land E\), mentre quella di introduzione, mediante i vincoli, pretende che sia dimostrato un congiunto generico, ovvero tutti i congiunti, proprio come \(\land I\) pretende che siano dimostrati due congiunti specifici.
 
@@ -52,7 +53,7 @@ Le regole per il quantificatore esistenziale sono le seguenti:
 \begin{equation*}
   \infer[(\exists E ), \text{ se }
           \substack{  y \text{ non occorre in }\phi, \\
-            y \text{ non occorre libera in assunzioni non scaricate per } \psi\\
+            y \text{ non occorre libera in assunzioni per } \psi \text{ non scaricate}\\
             y \text{ non occorre libera in } \psi            
             }
         ]{\psi}{
@@ -60,7 +61,7 @@ Le regole per il quantificatore esistenziale sono le seguenti:
             \exists x\st \phi
             \end{array} &
             \begin{array}[b]{c}
-            {[\subs{\phi}{x}{y}]}_1 \\
+            {[\subs{\phi}{x}{y}]} \\
             \vdots \\
             \psi
           \end{array} 
@@ -68,10 +69,12 @@ Le regole per il quantificatore esistenziale sono le seguenti:
 \end{equation*}
 
 Qui l'analogia con le regole per la disgiunzione è ancora più chiara. Infatti, considerando sempre \(\exists\) come disgiunzione infinita su tutte le istanziazioni della variabile, la regola di introduzione ci permette di dedurre un esistenziale a partire da un qualsiasi disgiunto, proprio come \(\lor I\), mentre quella di eliminazione, mediante i vincoli e la struttura dell'albero di dimostrazione che ricorda \(\lor E\), richiede di dimostrare la conclusione assumendo uno alla volta ogni disgiunto, facendo di fatto un ragionamento per casi infinitario.
+Per quanto riguarda i vincoli della regola di eliminazione, il terzo (i primi due sono già stati motivati, discutendo le regole per \(\forall\)) è necessario, poiché, se \(y\) occorresse libera in \(\psi\), allora \(\psi\) dipenderebbe da \(y\), quando invece dovrebbe esserne indipendente.
 
-Introdotte le regole, andiamo ad analizzare perché i vincoli di applicabilità associati a esse sono necessari. Per la sufficienza invece, delegheremo la dimostrazione alla dimostrazione di correttezza del calcolo in toto, che vedremo in seguito.
+\vspace{1cm}\noindent
+Introdotte le regole, andiamo a mostrare, con degli opportuni controesempi, perché i vincoli di applicabilità associati a esse sono necessari. Dimostreremo la loro sufficienza in concomitanza con la correttezza del calcolo in toto.
 
-Per verificare la necessità dei vincoli, sarà sufficiente trovare dei controesempi, in questo caso applicazioni di regole con un singolo vincolo violato, che portano a dedurre conclusioni che non sono conseguenze logiche delle premesse. In questi casi, l'unico motivo per cui la deduzione è errata è proprio la violazione del vincolo, e quindi si avrà che il vincolo è necessario.
+I controesempi conterranno applicazioni di regole con un singolo vincolo violatoe e che portano a dedurre conclusioni errate. In questi casi, l'unico motivo per cui la deduzione è errata è proprio la violazione del vincolo, e quindi si avrà che il vincolo è necessario.
 
 Iniziamo con applicazioni errate di \(\forall E\). Consideriamo \(\forall x, \exists y\st x < y\). Ora, per \(t=y\) si ha \(\subs{\exists y\st x < y}{x}{y} = \exists y\st y < y\).
 
@@ -235,9 +238,9 @@ Ora, tramite \(\RAA\), potremmo scaricare \(\neq (z=5)\) deducendo \(z=5\) e, co
   \UnaryInfC{\(\forall x, x=5\)}
 \end{prooftree}
 
-Si è dunque dimostrato che, assumendo \(\exists x\st x=5\), si può dedurre che \(\forall x, x = 5\). Tale deduzione è chiaramente errata, essendo la premessa vera e la conclusione falsa in \(\N\) con interpretazione usuale. Qui notare la violazione del vincolo è più sottile, poiché a deduzione conclusa a una prima occhiata tutte le assunzioni sembrano essere state scaricate. È importante notare però che per l'applicabilità di una regola, è necessario che i vincoli siano soddisfatti già al momento dell'applicazione della regola, ovvero nel sottoalbero di deduzione radicato nella regola. Come si può vedere chiaramente nel secondo albero di deduzione di questo caso, al momento dell'applicazione di \(\exists E\), \(\neg (z = 5)\) non è ancora stata scaricata da \(\RAA\) ed è quindi ancora presente come assunzione non scaricata, contenendo \(z\) libera. Dunque è violato l'ultimo vincolo di applicabilità di \(\exists E\), e rendendo la deduzione è errata.
+Si è dunque dimostrato che, assumendo \(\exists x\st x=5\), si può dedurre che \(\forall x, x = 5\). Tale deduzione è chiaramente errata, essendo la premessa vera e la conclusione falsa in \(\N\) con interpretazione usuale. Qui notare la violazione del vincolo è più sottile, poiché a deduzione conclusa a una prima occhiata tutte le assunzioni sembrano essere state scaricate. È importante notare però che per l'applicabilità di una regola, è necessario che i vincoli siano soddisfatti già al momento dell'applicazione della regola, ovvero nel sottoalbero di deduzione radicato nella regola. Come si può vedere chiaramente nel secondo albero di deduzione di questo caso, al momento dell'applicazione di \(\exists E\), \(\neg (z = 5)\) non è ancora stata scaricata da \(\RAA\) ed è quindi ancora presente come assunzione non scaricata, contenendo \(z\) libera. Dunque è violato il secondo vincolo di applicabilità di \(\exists E\), rendendo la deduzione errata.
 
-Mostrati dunque esempi errati di deduzione naturale in prim'ordine, per evidenziare la necessità dei vincoli di applicabilità delle regole per i quantificatori, passiamo ora a mostrare esempi di deduzioni corrette.
+Mostrati dunque esempi errati di deduzione naturale in prim'ordine, per evidenziare la necessità dei vincoli di applicabilità delle regole per i quantificatori, passiamo ora mostrare esempi di deduzioni corrette.
 
 
 \begin{example}{Deduzione naturale per \(\FOL\) 1}
@@ -889,7 +892,7 @@ Ci manca solo da scaricare \(\neg \exists x \st (C(x) \to \forall y, C(y))\). Pe
 
 È importante ricordare, come abbiamo già visto per la logica proposizionale, che il fatto che una regola permetta di scaricare un assunzione non ci obbliga a usarla per scaricarla.
 
-Analizziamo ora invece una differenza importante tra le deduzioni in logica proposizionale e in logica del prim'ordine, dovuta dai vincoli di applicabilità delle regole per i quantificatori. Consideriamo di avere una deduzione \(\pi_1\) per una formula \(\psi\) a partire da un assunzione \(P\), e un altra deduzione indipendente \(\pi_2\) che dimostra sempre \(\psi\) a partire da un assunzione \( \neg P\). In logica proposizionale, è sempre possibile combinare queste due deduzioni in una deduzione di \(\psi\) senza assunzioni, semplicemente applicando \(\lor E\) a \(P \lor \neg P\), che abbiamo dimostrato in precedenza (\ref{subsubsec:excluded_middle_dem}).
+Analizziamo ora invece una differenza importante tra le deduzioni in logica proposizionale e in logica del prim'ordine, dovuta ai vincoli di applicabilità delle regole per i quantificatori. Consideriamo di avere una deduzione \(\pi_1\) per una formula \(\psi\) a partire da un assunzione \(P\), e un'altra deduzione indipendente \(\pi_2\) che dimostra sempre \(\psi\) a partire da un assunzione \( \neg P\). In logica proposizionale, è sempre possibile combinare queste due deduzioni in una deduzione di \(\psi\) senza assunzioni, semplicemente applicando \(\lor E\) a \(P \lor \neg P\), che abbiamo dimostrato in precedenza (\ref{subsubsec:excluded_middle_dem}).
 
 \begin{prooftree}
   \AxiomC{\({[P]}_1\)}
@@ -1038,13 +1041,13 @@ Come abbiamo già osservato però \(\pi_2\) è legittima nel secondo schema poic
 
 \subsection{Regole di deduzione per la logica del prim'ordine con uguaglianza}
 
-Come già accennato numerose volte, spesso \(=\) è considerato un simbolo logico, e quindi come tale sarà necessario introdurre delle regole di deduzione per poterlo usare nelle dimostrazioni. L'alternativa sarebbe quella di considerare \(=\) come un simbolo non logico, assiomatizzando il suo comportamento.
+Come già accennato numerose volte, \(=\) è considerato spesso come un simbolo logico, e quindi, come tale, sarà necessario introdurre delle regole di deduzione per poterlo usare nelle dimostrazioni. L'alternativa sarebbe quella di considerare \(=\) come un simbolo non logico, assiomatizzando il suo comportamento.
 
-Formalmente, va arricchito il linguaggio con un concetto di \keyword{teoria}, ovvero un insieme di formule vere in ogni interpretazione. Tale teoria è rappresentabile se esiste un insieme di formule dette \keyword{assiomi} assunte come vere, da cui ogni altra formula della teoria è dimostrabile. Nonostante abbiamo sempre considerato l'insieme di assiomi \(\Axi\) vuoto, nella \Namedcref{def:deducibility} abbiamo già definito il concetto di deducibilità a partire da un insieme di assiomi, e quindi non è necessario modificare la definizione di deducibilità per poter considerare teorie con assiomi.
+Formalmente, va arricchito il linguaggio con un concetto di \keyword{teoria}, ovvero un insieme di formule vere in ogni interpretazione. Tale teoria è rappresentabile se esiste un insieme di formule, dette \keyword{assiomi}, assunte come vere, da cui ogni altra formula della teoria è dimostrabile. Nonostante abbiamo sempre considerato l'insieme di assiomi \(\Axi\) vuoto, nella \Namedcref{def:deducibility} abbiamo già definito il concetto di deducibilità a partire da un insieme di assiomi, e quindi non è necessario modificare la definizione di deducibilità per poter considerare teorie con assiomi.
 
-In particolare, per la deduzione naturale, la differenza principale sarà nel poter lasciare come assunzioni non scaricate oltre alle dell'insieme delle premesse \(\Gamma\) anche quelle presenti in \(\Axi\).
+In particolare, per la deduzione naturale, la differenza principale sarà nel poter lasciare come assunzioni non scaricate le premesse presenti in \(\Axi\), oltre che a quelle in \(\Gamma\).
 
-Tratteremo più nel dettaglio successivamente il concetto di teoria, ma possiamo iniziare subito con un esempio di teoria semplice, ovvero la teoria dell'uguaglianza.
+Più in avanti, tratteremo più nel dettaglio il concetto di teoria. Per ora, introduciamo una teoria semplice, ovvero quella dell'uguaglianza.
 
 \subsubsection{Regole di deduzione per \(=\) tramite assiomatizzazione}
 
@@ -1056,15 +1059,16 @@ In particolare, l'insieme degli assiomi necessari per la teoria dell'uguaglianza
   \item \(\forall x_1,\ldots, \forall x_n, \forall y_1, \ldots, \forall y_n, (\bigwedge_{i=1}^n x_i = y_i) \to (P(x_1, \ldots, x_n) \to P(y_1, \ldots, y_n))\) per ogni \(P \in \PredSyms\) con \(\arty(P) = n\).
 \end{enumerate}
 
+L'insieme descritto contiene un assioma (la prima formula) e due \keyword{schemi di assiomi} (la seconda e la terza formula).\footnote{uno schema di assiomi (o schema assiomatico) è una formula logica che contiene delle variabili meta-linguistiche (come \(f\in\FuncSyms\) nella seconda formula e \(P\in\PredSyms\) nella terza) e che viene usata per generare un insieme infinito di assiomi veri e propri, detti istanze dello schema. A partire da uno schema di assioma, è possibile istanziare un assioma scegliendo assegnando variabili del linguaggio (quelle che vengono assegnate a oggetti del dominio) e variabili meta-linguistiche, ovvero, ad esempio, \(\P \eqdef =\).}
 Tale insieme è sufficiente per garantire che \(=\) si comporti come una relazione di equivalenza, e che sia rispettata la sostituzione di termini uguali in ogni formula.
 
-In particolare ci si aspetterebbe che valgano simmetria, transitività e che l'ultimo assioma presenti una doppia implicazione. Andiamo a vedere uno alla volta come queste tre proprietà siano dimostrabili.
+In particolare, ci si aspetterebbe che valgano simmetria, transitività e che l'ultimo assioma presenti una doppia implicazione. Andiamo a vedere uno alla volta come queste tre proprietà siano dimostrabili.
 
 \paragraph{Simmetria}
 
-Per dimostrare la simmetria vorremmo mostrare che vale \(\vdash \forall x, \forall y, x=y \to y=x\). È importante notare che, avendo assiomatizzato l'uguaglianza, si ha che \(=\in\PredSyms\) e di conseguenza il terzo schema di assiomi è applicabile anche a \(P\eqdef =\) e quindi in particolare \(P(x_1,x_2)\eqdef x_1=x_2\).
+Per dimostrare la simmetria, vorremmo mostrare che vale \(\vdash \forall x, \forall y, x=y \to y=x\). È importante notare che, avendo assiomatizzato l'uguaglianza, si ha che \(=\in\PredSyms\) e di conseguenza il terzo schema\footnote{Si intende \emph{schema di assioma}.} è applicabile anche a \(P\eqdef =\) e quindi in particolare \(P(x_1,x_2)\eqdef x_1=x_2\).
 
-Allora dal terzo assioma istanziato con \(x_1\eqdef x\), \(y_1\eqdef y\), \(x_2 \eqdef x\) \(y_2 \eqdef x\) abbiamo:
+Allora, dal terzo schema istanziato con \(x_1\eqdef x\), \(y_1\eqdef y\), \(x_2 \eqdef x\) \(y_2 \eqdef x\), abbiamo:
 \begin{prooftree}
   \tiny
   \AxiomC{\(\forall x_1, x_2, y_1, y_2, (x_1 = y_1 \land x_2 = y_2) \to (P(x_1, x_2) \to P(y_1, y_2))\)}
@@ -1163,13 +1167,13 @@ Ancora una volta mostreremo il caso più semplice, ovvero con \(n=1\), che risul
 
 \subsubsection{Regole di deduzione per \(=\) come simbolo logico}
 
-Passando quindi all'utilizzo di \(=\) come simbolo logico, è chiaro per la natura del calcolo di deduzione naturale vorremmo avere una regola di deduzione per ogni assioma descritto precedentemente, dovendo le regole catturare la semantica dei simboli a cui si applicano. Di conseguenza, con \(t_i, s_i \in \Terms\) le regole di inferenza per \(=\) sono le seguenti:
+Passando quindi all'utilizzo di \(=\) come simbolo logico, è chiaro che, per la natura del calcolo di deduzione naturale, vorremmo avere una regola di deduzione per ogni assioma descritto precedentemente, dovendo le regole catturare la semantica dei simboli a cui si applicano. Di conseguenza, con \(t_i, s_i \in \Terms\), le regole di inferenza per \(=\) sono le seguenti:
 
 \[\infer[Refl]{t=t}{}\]
 \[\infer[Sub_f]{\subs{f(x_1, \ldots, x_n)}{x_1,\ldots,x_n}{t_1,\ldots, t_n} = \subs{f(x_1, \ldots, x_n)}{x_1,\ldots,x_n}{s_1,\ldots,s_n}}{t_1 = s_1 & \ldots & t_n = s_n}\]
 \[\infer[Sub_P]{\subs{P(x_1, \ldots, x_n)}{x_1,\ldots,x_n}{t_1,\ldots,t_n}\to\subs{P(x_1, \ldots, x_n)}{x_1,\ldots,x_n}{s_1,\ldots, s_n}}{t_1 = s_1 & \ldots & t_n = s_n}\]
 
-È facile vedere come, applicando queste regole di deduzione dove sono stati usati gli assiomi nelle dimostrazioni precedente, è possibile dimostrare simmetria, transitività e direzione inversa della terza regola. Chiaramente, tali dimostrazioni sono decisamente più succinte non dovendo passare dall'eliminazione dei quantificatori dagli assiomi. Avremo infatti per \(x=y\vdash y = x\):
+È facile vedere come, applicando queste regole di deduzione dove sono stati usati gli assiomi nelle dimostrazioni precedente, è possibile dimostrare simmetria, transitività e direzione inversa della terza regola. Chiaramente, tali dimostrazioni sono decisamente più succinte, non dovendo passare dall'eliminazione dei quantificatori dagli assiomi. Avremo infatti per \(x=y\vdash y = x\):
 
 \begin{prooftree}\label{prtree:symmetry}
   \AxiomC{\(x=y\)}
@@ -1247,7 +1251,7 @@ Inoltre, le regole di sostituzione \(Sub_f\) e \(Sub_P\) possono essere generali
   che sono entrambe dimostrabili con \(Refl\).
 
   Venendo infine al caso induttivo, ovvero \(t=f(t_1,\ldots, t_k)\) con \(f \in \FuncSyms\) di \(\arty(f)=k\) e \(t_1, \ldots, t_k \in \Terms\).
-  Per ipotesi induttiva sappiamo che per ogni sottotermine \(t_i\) con \(i \in \set{1,\ldots,k}\) vale che \(\Gamma \vdash \subs{t_i}{x_1,\ldots,x_n}{s_1,\ldots,s_n} = \subs{t_i}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\).
+  Per ipotesi induttiva (IH) sappiamo che per ogni sottotermine \(t_i\) con \(i \in \set{1,\ldots,k}\) vale che \(\Gamma \vdash \subs{t_i}{x_1,\ldots,x_n}{s_1,\ldots,s_n} = \subs{t_i}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\).
 
   Per definizione di applicazione di sostituzione a un termine funzionale, si ha che
   \[\subs{f(t_1,\ldots,t_k)}{x_1,\ldots,x_n}{s_1,\ldots,s_n} \eqdef f(\subs{t_1}{x_1,\ldots,x_n}{s_1,\ldots,s_n},\ldots,\subs{t_k}{x_1,\ldots,x_n}{s_1,\ldots,s_n}) \eqdef \subs{f(y_1,\ldots,y_k)}{y_1,\ldots,y_k}{\subs{t_1}{x_1,\ldots,x_n}{s_1,\ldots,s_n},\ldots,\subs{t_k}{x_1,\ldots,x_n}{s_1,\ldots,s_n}}\]
@@ -1281,11 +1285,28 @@ Inoltre, le regole di sostituzione \(Sub_f\) e \(Sub_P\) possono essere generali
 \begin{proof}
   Procediamo per induzione strutturale su \(\phi\).
 
-  Per il caso base \(\phi = P(t_1,\ldots,t_k)\) con \(P \in \PredSyms\) di \(\arty(P) = k\) e \(t_1, \ldots, t_k \in \Terms\). In questo caso, analogamente al caso induttivo di \(Sub_t\) è sufficiente usare \(Sub_t\) per ogni \(t_i\) con \(i \in \set{1,\ldots,k}\) e infine applicare \(Sub_P\).
+  Per il caso base \(\phi = P(t_1,\ldots,t_k)\) con \(P \in \PredSyms\) di \(\arty(P) = k\) e \(t_1, \ldots, t_k \in \Terms\). In questo caso, analogamente al caso induttivo di \(Sub_t\), è sufficiente usare \(Sub_t\) per ogni \(t_i\) con \(i \in \set{1,\ldots,k}\) e infine applicare \(Sub_P\).
 
-  I casi induttivi saranno uno per ogni simbolo logico. La struttura di dimostrazione resta sempre bene o male la stessa, di conseguenza ci concentreremo solo su i più interessanti.
+  \begin{prooftree}
+    \AxiomC{\(\Gamma\)}
+    \UnaryInfC{\(\vdots\)}
+    \RuleLabel{\(Sub_t\)}
+    \UnaryInfC{\(\subs{t_1}{x_1,\ldots,x_n}{s_1,\ldots,s_n} = \subs{t_1}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\)}
 
-  Sia \(\phi \eqdef \neg \psi\) con \(\psi \in \FOL\). Per ipotesi induttiva, si ha che \(\Gamma \vdash \subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n} \to \subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\). Ma ovviamente, sfruttando \(Refl\) è possibile anche mostrare \(\Gamma \vdash \subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n} = \subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n}\).  A questo punto, tramite \(\to E\) assumendo \(\subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\) è possibile ottenere \(\subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n}\).
+    \AxiomC{\(\ldots\)}
+
+    \AxiomC{\(\Gamma\)}
+    \UnaryInfC{\(\vdots\)}
+    \RuleLabel{\(Sub_t\)}
+    \UnaryInfC{\(\subs{t_k}{x_1,\ldots,x_n}{s_1,\ldots,s_n} = \subs{t_k}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\)}
+
+    \RuleLabel{\(Sub_P\)}
+    \TrinaryInfC{\(\subs{P(y_1,\ldots,y_k)}{y_1,\ldots,y_k}{\subs{t_1}{x_1,\ldots,x_n}{s_1,\ldots,s_n},\ldots,\subs{t_k}{x_1,\ldots,x_n}{s_1,\ldots,s_n}} \to \subs{P(y_1,\ldots,y_k)}{y_1,\ldots,y_k}{\subs{t_1}{x_1,\ldots,x_n}{r_1,\ldots,r_n},\ldots,\subs{t_k}{x_1,\ldots,x_n}{r_1,\ldots,r_n}}\)}
+  \end{prooftree}
+
+  I casi induttivi saranno uno per ogni simbolo logico. La struttura di dimostrazione resta sempre, bene o male, la stessa, di conseguenza ci concentreremo solo su i più interessanti.
+
+  Sia \(\phi \eqdef \neg \psi\) con \(\psi \in \FOL\). Per ipotesi induttiva, si ha che \(\Gamma \vdash \subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n} \to \subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\). Ma ovviamente, sfruttando \(Refl\) è possibile anche mostrare \(\Gamma \vdash \subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n} \to \subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n}\).  A questo punto, tramite \(\to E\) assumendo \(\subs{\psi}{x_1,\ldots,x_n}{r_1,\ldots,r_n}\) è possibile ottenere \(\subs{\psi}{x_1,\ldots,x_n}{s_1,\ldots,s_n}\).
 
 
   \begin{prooftree}
@@ -1365,11 +1386,12 @@ Inoltre, le regole di sostituzione \(Sub_f\) e \(Sub_P\) possono essere generali
 
 \subsection{Proprietà del calcolo di deduzione naturale per il prim'ordine}
 
-Definite propriamente le regole di deduzione per la logica del prim'ordine, è possibile andare a dimostrare alcune proprietà interessanti riguardo al calcolo di deduzione naturale, in particolare riguardo alla correttezza e alla completezza del calcolo, molte delle quali saranno un analogo o una generalizzazione di quelle viste per la deduzione naturale nella logica proposizionale.
+Definite propriamente le regole di deduzione per la logica del prim'ordine, è possibile andare a dimostrare alcune proprietà interessanti riguardo al calcolo di deduzione naturale, in particolare riguardo alla correttezza e alla completezza del calcolo. 
+Molte di queste proprietà saranno un analogo o una generalizzazione di quelle viste per la deduzione naturale nella logica proposizionale.
 
-Iniziamo dal teorema di correttezza che, come per la logica proposizionale, ci dice che tutte le formule dimostrabili tramite il calcolo di deduzione naturale sono anche semanticamente conseguenze logiche delle assunzioni, ovvero che se, presi \(\Gamma\subseteq \FOL\) e \(\phi \in \FOL\) si ha che \(\Gamma \vdash \phi \implies \Gamma \models \phi\).
+Iniziamo dal teorema di correttezza, che, come per la logica proposizionale, ci dice che tutte le formule dimostrabili tramite il calcolo di deduzione naturale sono anche semanticamente conseguenze logiche delle assunzioni, ovvero che, se presi \(\Gamma\subseteq \FOL\) e \(\phi \in \FOL\), si ha che \(\Gamma \vdash \phi \implies \Gamma \models \phi\).
 
-Tale dimostrazione giustificherà anche il perché i vincoli di applicabilità per le regole dei quantificatori oltre a essere necessari sono sufficienti. Questo perché vedremo che sarà per l'appunto sufficiente assumere tali vincoli nell'applicazione delle regole per mostrare che le regole preservano la conseguenza logica.
+Tale dimostrazione giustificherà anche perché i vincoli di applicabilità per le regole dei quantificatori, oltre a essere necessari, sono sufficienti. Difatti, vedremo che sarà, per l'appunto, sufficiente assumere tali vincoli nell'applicazione delle regole per mostrare che le regole preservano la conseguenza logica.
 
 Per facilitare la dimostrazione della correttezza del calcolo, andiamo a dimostrare prima un lemma intermedio sulle sostituzioni per variabili non presenti, che ci sarà utile per dimostrare la correttezza delle regole di \(\forall I\) e \(\exists E\).
 
@@ -1378,28 +1400,29 @@ Per facilitare la dimostrazione della correttezza del calcolo, andiamo a dimostr
   \[M,\sigma[y\mapsfrom d] \models \subs{\phi}{x}{y} \iff M,\sigma[x\mapsfrom d] \models\phi\]
 \end{lemma}
 
-Da un punto di vista intuitivo, questo lemma ci sta dicendo cambiare il nome di una variabile in tutte le occorrenze con un altra variabile che non compare nella formula non cambia il significato della formula stessa, e quindi la soddisfacibilità della formula è invariata. Passiamo alla dimostrazione per andare più nel dettaglio.
+Intuitivamente, questo lemma ci sta dicendo che cambiare il nome di una variabile in tutte le sue occorrenze con un'altra variabile, che non compare nella formula, non cambia il significato della formula stessa, e quindi la soddisfacibilità della formula è invariata. Passiamo alla dimostrazione per andare più nel dettaglio.
 
 \begin{proof}
   È possibile dividere la dimostrazione in due casi, a seconda se \(x\) è una variabile libera in \(\phi\) o meno.
   Se \(x \notin FV(\phi)\) allora
   \[M,\sigma[x\mapsfrom d] \models \phi \iff M,\sigma\models \phi \iff M,\sigma[y\mapsfrom d]\models \phi \iff M,\sigma[y\mapsfrom d] \models \subs{\phi}{x}{y}\]
-  grazie alla \Namedcref{prop:satisfaction_independence}. Infatti essendo sia \(x\) che \(y\) non in \(FV(\phi)\) ogni assegnamento che differisce solo per \(x\) e \(y\) è equivalente per \(\phi\).
+  grazie alla \Namedcref{prop:satisfaction_independence}. Infatti, essendo sia \(x\) che \(y\) non in \(FV(\phi)\), ogni assegnamento che differisce solo per \(x\) e \(y\) è equivalente per \(\phi\).
+  Si noti che, in questo caso, la sostituzione \(\subs{\phi}{x}{y}\) è inefficace.
 
   Se \(x \in FV(\phi)\) allora per il teorema di sostituzione abbiamo
   \[M,\sigma[y\mapsfrom d] \models \subs{\phi}{x}{y} \iff M,\sigma[y\mapsfrom d][x\mapsfrom \den{y}[M][\sigma[y\mapsfrom d]]] \models \phi\]
-  Essendo che \(y\notin \Var(\phi)\implies y\) libero per \(x\) in \(\phi\).
+  dal momento che \(y\notin \Var(\phi)\) e \(x \in FV(\phi)\) e quindi che \(y\) è libero per \(x\) in \(\phi\).
 
-  Chiaramente si ha che \(\den{y}[M][\sigma[y\mapsfrom d]] = d\), dunque
+  Chiaramente, si ha che \(\den{y}[M][\sigma[y\mapsfrom d]] = d\), dunque
   \[M,\sigma[y\mapsfrom d][x\mapsfrom \den{y}[M][\sigma[y\mapsfrom d]]] \models \phi \iff M,\sigma[y\mapsfrom d][x\mapsfrom d] \models \phi\]
 
-  Essendo che \(y\notin \Var(\phi)\) il suo valore nell'assegnamento non è rilevante, sempre per la \Namedcref{prop:satisfaction_independence}, dunque
+  Poichè \(y\notin \Var(\phi)\), il suo valore nell'assegnamento non è rilevante, sempre per la \Namedcref{prop:satisfaction_independence}, dunque
   \[M,\sigma[y\mapsfrom d][x\mapsfrom d] \models \phi \iff M,\sigma[x\mapsfrom d] \models \phi\]
 
-  Essendo che tutte le relazioni sono equivalenze, è mostrata la tesi.
+  Tutte le relazioni trovate valgono in entrambi i sensi. Pertanto, anche questo caso è dimostrato, il che ci porta alla tesi.
 \end{proof}
 
-A questo punto possiamo passare alla dimostrazione del teorema di correttezza vero e proprio.
+A questo punto, possiamo passare alla dimostrazione del teorema di correttezza vero e proprio.
 
 \begin{theorem}{Correttezza del calcolo di deduzione naturale nel prim'ordine}
   Dati \(\phi \in \FOL\) e \(\Gamma \subseteq \FOL\) si ha che
@@ -1420,7 +1443,7 @@ A questo punto possiamo passare alla dimostrazione del teorema di correttezza ve
     \AxiomC{\(\vdots\)}
     \AxiomC{\(\Gamma\)}
     \UnaryInfC{\(\vdots\)}
-    \UnaryInfC{\(\psi_1\)}
+    \UnaryInfC{\(\psi_n\)}
     \RuleLabel{\(\Rule \in \Rules\)}
     \TrinaryInfC{\(\phi\)}
   \end{prooftree}
@@ -1518,24 +1541,27 @@ A questo punto possiamo passare alla dimostrazione del teorema di correttezza ve
 
 Concluso il teorema di correttezza, vorremmo ora dimostrare l'implicazione inversa, ovvero che \(\Gamma \models \phi \implies \Gamma \vdash \phi\), per mostrare come il calcolo di deduzione naturale per il prim'ordine sia completo, ovvero catturi tutta e sola la relazione di conseguenza logica.
 
-Per la logica proposizionale abbiamo dimostrato questo teorema passando alla condizione equivalente \(\Gamma \cup \set{\neg \phi} \subseteq \Unsat \implies \Gamma \cup \set{\neg \phi} \vdash \bot\), che per contrapposizione equivale a \(\Gamma \cup \set{\neg \phi}\not\vdash \bot \implies \Gamma \cup \set{\neg \phi} \subseteq \Sat\). Quindi se dimostrando che dato \(\Gamma\) consistente si ha \(\Gamma \subseteq \Sat\) per un qualsiasi \(\Gamma\) abbiamo la tesi. Sempre nella logica proposizionale il procedimento seguito è stato quello di  costruire un sovrainsieme di \(\Gamma\) massimalmente consistente, che corrispondeva alla teoria di un modello, il quale soddisfacendo il sovrainsieme massimale, soddisfaceva anche \(\Gamma\). La costruzione avveniva mediante enumerazione delle formule, aggiungendo ogni formula all'insieme se l'insieme risultante rimaneva consistente, e analizzando il limite di questa successione notando che era massimalmente consistente.
+Abbiamo dimostrato la completezza della logica proposizionale passando prima alla condizione equivalente \(\Gamma \cup \set{\neg \phi} \subseteq \Unsat \implies \Gamma \cup \set{\neg \phi} \vdash \bot\) per poi dimostrarla per contrapposizione (abbiamo dimostrato \(\Gamma \cup \set{\neg \phi}\not\vdash \bot \implies \Gamma \cup \set{\neg \phi} \subseteq \Sat\)). Quindi, se dimostrando che, dato \(\Gamma\) consistente, si ha \(\Gamma \subseteq \Sat\) per un qualsiasi \(\Gamma\), abbiamo la tesi. 
+Per la logica proposizionale, il procedimento seguito è stato quello di costruire un sovrainsieme massimalmente consistente di \(\Gamma\), sovrainsieme che corrispondeva alla teoria di un modello, il quale, soddisfacendo il sovrainsieme massimale, soddisfaceva anche \(\Gamma\). La costruzione avveniva mediante enumerazione delle formule, aggiungendo ogni formula all'insieme se l'insieme risultante rimaneva consistente, analizzando il limite di questa successione e verificando che tale limite era massimalmente consistente.
 
-Per la logica del prim'ordine però il concetto di modello è più complesso, poiché a differenza della logica del prim'ordine in cui un modello non è altro che un insieme di proposizioni atomiche assunti come vere, ma bensì una struttura con un dominio e una funzione di interpretazione. Di conseguenza, la costruzione del modello dall'insieme massimale di formule non è più così immediata, essendo due oggetti fondamentalmente diversi. Per ovviare a questo problema, essendo che dalla prospettiva della logica gli oggetti in cui i simboli sono interpretati sono irrilevanti, è possibile pensare di costruire un modello partendo da un insieme di formule banalizzando al massimo la funzione di interpretazione, ovvero facendo si che il dominio del modello contenga un oggetto per ogni termine ground e interpretando ognuno di questi termini in tale oggetto.
+Per la logica del prim'ordine, però, il concetto di modello è più complesso, poiché non è più un insieme di proposizioni atomiche assunte come vere, bensì una struttura con un dominio e una funzione di interpretazione. Di conseguenza, la costruzione del modello dall'insieme massimale di formule non è più così immediata, essendo i due modelli fondamentalmente diversi. Per ovviare a questo problema, poiché alla logica in sé non interessa l'interpretazione specifica, possiamo scegliere il dominio e l'interpretazione nel modo più semplice possibile: il dominio contiene un oggetto per ogni termine ground (un termine che non contiene variabili) e l'intepretazione di un termine ground è proprio tale oggetto del dominio.
 
-Questa costruzione è però non banale, e non può essere applicata in automatico a qualsiasi linguaggio poiché potrebbe accadere che la signature che stiamo utilizzando non contenga sufficienti simboli per popolare il dominio del modello, costringendoci a usare lo stesso oggetto per interpretare più termini, con il rischio di non riuscire a soddisfare tutte le formule del sovrainsieme massimale. Consideriamo ad esempio il linguaggio \(L=\langle \set{c}, \emptyset, \set{P}\rangle\) e la teoria \(\Gamma = \set{\neg P(c), \exists x\st P(x)}\). Chiaramente esiste un modello di \(\Gamma\), ad esempio \(M = \langle \set{d,d'}, \Interp\rangle\) con \(\Interp(c) = d\) e \(\Interp(P) = \set{d'}\). Tuttavia, essendo che tutti il linguaggio contiene un solo simbolo per formare termini sarà possibile costruire da esso solo domini con un solo elemento, che non potranno mai essere sufficienti a soddisfare \(\Gamma\).
+Questo approccio, però, ha un problema fondamentale: il linguaggio di partenza potrebbe avere un vocabolario troppo povero per soddisfare tutte le formule del sovrainsieme massimale. Infatti, consideriamo il linguaggio \(L=\langle \set{c}, \emptyset, \set{P}\rangle\) e la teoria \(\Gamma = \set{\neg P(c),\: \exists x, P(x)}\). Chiaramente, \(\Gamma\) è soddisfacibile: è possibile trovare un modello che la soddisfa, come, ad esempio, \(M = \langle \set{d,d'}, I\rangle\) con \(\Interp(c) = d\) e \(\Interp(P) = \set{d'}\). Tuttavia, con il nostro metodo attuale per creare il dominio, ovvero con i soli termini ground, si avrebbe \(D=\set{c}\), che, avendo un solo oggetto, non può soddisfare \(\Gamma\). 
 
-Intuitivamente, il problema deriva dalle formule esistenziali, o equivalentemente dalla negazione di universali, poiché queste richiedono un testimone nel dominio per essere soddisfatte senza usare termini per riferirsi a tali testimoni.
-Dobbiamo quindi avere modo di arricchire il linguaggio in modo da poter rappresentare i testimoni necessari a soddisfare le formule esistenziali. Quello che faremo è quindi aggiungere costanti al linguaggio che fungeranno da testimoni, aggiungendo alla teoria degli assiomi che leghino le formule esistenziali precedenti a tali costanti, in modo da poter costruire un modello con un dominio sufficientemente popolato da soddisfare tutte le formule del sovrainsieme massimale. Nell'esempio precedente, aggiungendo una costante \(c'\) al linguaggio e l'assioma \(\exists x\st P(x) \to P(c')\) è possibile costruire un modello con un dominio con due elementi, che soddisfa \(\Gamma\).
+Il problema nasce dalle formule esistenziali (o dalla negazione di universali): esse affermano l'esistenza di un \q{testimone} con una certa proprietà, ma senza nominarlo direttamente con un termine ground.
 
-Iniziando con la formalizzazione di questa idea, dato \(\Gamma \subseteq \FOL\) su un linguaggio \(L\) consistente, dovremo costruire un modello \(M\) di \(\Gamma\). Come da definizione di modello, \(M\) sarà una struttura \(M = \langle D, \Interp\rangle\) con \(D = \set{t \in \Terms(L')}[\Var(t) = \emptyset]\), con \(L\subseteq L'\) estensione del linguaggio \(L\) ottenuta aggiungendo nomi aggiuntivi per evitare i conflitti. Tale \(L'\) è costruito mediante un'espansione di \(L\) e di \(\Gamma\) in due sequenze \(\set{L_n}_{n\in\N}\) e \(\set{\Gamma_n}_{n\in\N}\) con \(L_0 = L\) e \(\Gamma_0 = \Gamma\), in cui a ogni passo \(n\) si aggiungono a \(L_{n-1}\) un numero infinito numerabili di nomi di costanti \(c^n_{i}\) con \(i \in \N\), e si aggiungono alla teoria i cosiddetti assiomi di Henkin, ovvero le formule \(\exists x\st \phi(x) \to \subs{\phi}{x}{c^n_{i}}\) per le formule esistenziali \(\exists x\st \phi(x)\) etichettata da un enumerazione come \(i\)-esima in \(\Gamma_{n-1}\).
+Dobbiamo quindi estendere il linguaggio dimodoché ciascun \q{testimone} abbia una costante. Inoltre, aggiungeremo alla teoria degli assiomi, ovvero gli assiomi di Henkin, che leghino ciascuna formula esistenziale alla costante introdotta per il \q{testimone} di cui la formula parla.
+In questo modo, potremo costruire un modello con un dominio sufficientemente popolato da soddisfare tutte le formule del sovrainsieme massimale da costruire.
+
+Nell'esempio precedente, aggiungendo una costante \(c'\) al linguaggio e l'assioma \(\exists x, P(x) \to P(c')\) alla teoria, è possibile costruire un modello con un dominio con due elementi che soddisfa \(\Gamma\).
 
 \begin{definition}{Insieme di Henkin}
   \(\Theta \subseteq \FOL\) su linguaggio \(L\) è un insieme di Henkin se, per ogni formula \(\theta\) costruibile in \(L\) della forma \(\theta = \exists x\st \phi(x)\) esiste un termine ground \(t \in L\) tale che \(\exists x\st \phi(x) \to \subs{\phi}{x}{t} \in \Theta\).
 \end{definition}
 
-Intuitivamente questi insiemi, detti di Henkin dal nome del logico Leon Henkin che per primo li ha introdotti, sono insiemi che contengono un testimone per ogni formula esistenziale. È importante notare che gli assiomi di Henkin, ovvero le formule della forma \(\exists x\st \phi(x) \to \subs{\phi}{x}{t}\), devono essere presenti in \(\Theta\) per ogni formula esistenziale \(\exists x\st \phi(x)\) costruibile in \(L\), anche se non presente effettivamente in \(\Theta\). Ciò sarà fondamentale nella seconda fase della costruzione poiché, quando andremo a espandere la teoria alla sua chiusura consistente, potranno essere introdotte formule esistenziali costruibili in \(L\) ma completamente \q{ortogonali} a quelle nella teoria originale che, parlando di tutt'altro, saranno chiaramente consistenti ma necessiteranno di testimoni ad hoc. Richiedendo testimoni e assiomi di Henkin solo per le formule presenti originariamente nella teoria si rischia di incorrere nuovamente nel problema citato precedentemente. Se consideriamo ad esempio il linguaggio \(L\) di prima a cui aggiungiamo un nuovo predicato unario \(Q\), ottenendo \(L' = \langle \set{c}, \emptyset, \set{P,Q}\rangle\) e la teoria \(\Gamma' = \set{\neg P(x), \exists x\st P(x), \neg Q(x) \land P(x), \neg Q(x) \land \neg P(x)}\), si ha chiaramente che la formula \(\exists x\st Q(x)\) è costruibile in \(L'\), non presente in \(\Gamma'\) e consistente con \(\Gamma'\).\footnote{Ancora una volta basta che ci siano nel dominio due elementi distinti, uno per cui vale \(Q\) e uno no.} Se andassimo ad aggiungere costanti e assiomi solo per gli esistenziali presenti in \(\Gamma'\) andremmo ad aggiungere un solo simbolo di costante, ottenendo così come dominio \(D=\set{c,c'}\) il quale è sufficiente a soddisfare \(\Gamma'\), ma non è sufficiente a soddisfare \(\Gamma' \cup \set{\exists x\st Q(x)}\), che essendo consistente con \(\Gamma'\) sarà aggiunta alla chiusura consistente di \(\Gamma'\).
+Intuitivamente questi insiemi, detti di Henkin\footnote{Leon Henkin è stato il logico che per primo ha introdotto questi insiemi.}, sono insiemi che contengono un testimone per ogni formula esistenziale. È importante notare che gli assiomi di Henkin, ovvero le formule della forma \(\exists x, \phi(x) \to \subs{\phi}{x}{t}\), devono essere presenti in \(\Theta\) per ogni formula esistenziale \(\exists x, \phi(x)\) costruibile in \(L\), anche se non presente effettivamente in \(\Theta\).\footnote{È anche importante notare che le formule esistenziali costruibili in \(L\) sono infinite, a meno di avere \(\PredSyms = \emptyset\).} Ciò sarà fondamentale nella seconda fase della costruzione poiché, quando andremo a espandere la teoria alla sua chiusura consistente, potranno essere introdotte formule esistenziali, costruibili in \(L\) ma completamente \q{ortogonali} a quelle nella teoria originale, e che, parlando di tutt'altro, saranno chiaramente consistenti ma necessiteranno di testimoni ad hoc. Richiedendo testimoni e assiomi di Henkin solo per le formule presenti originariamente nella teoria, si rischia di incorrere nuovamente nel problema citato precedentemente. Se consideriamo ad esempio il linguaggio \(L\) di prima a cui aggiungiamo un nuovo predicato unario \(Q\), ottenendo \(L' = \langle \set{c}, \emptyset, \set{P,Q}\rangle\), e la teoria \(\Gamma' = \set{\neg P(x),\: \exists x, P(x), \neg Q(x) \land P(x), \neg Q(x) \land \neg P(x)}\) si ha chiaramente che la formula \(\exists x, Q(x)\) è costruibile in \(L'\), non presente in \(\Gamma'\) e consistente con \(\Gamma'\).\footnote{Ancora una volta, basta che ci siano nel dominio due elementi distinti, uno per cui vale \(Q\) e uno no.} Se andassimo ad aggiungere costanti e assiomi solo per gli esistenziali presenti in \(\Gamma'\), andremmo ad aggiungere un solo simbolo di costante, ottenendo così come dominio \(D=\set{c,c'}\), il quale è sufficiente a soddisfare \(\Gamma'\), ma non è sufficiente a soddisfare \(\Gamma' \cup \set{\exists x, Q(x)}\). Ciò è un problema, poiché la formula \(\exists x, Q(x)\), essendo consistente con \(\Gamma'\), farà parte della chiusura consistente di \(\Gamma'\).
 
-Capiamo quindi come costruire correttamente un insieme di Henkin a partire da un qualsiasi insieme consistente \(\Gamma\subseteq\FOL\) su un linguaggio \(L\).
+Capiamo, quindi, come costruire correttamente un insieme di Henkin a partire da un qualsiasi insieme consistente \(\Gamma\subseteq\FOL\) su un linguaggio \(L\).
 
 \begin{definition}{Espansione di Henkin}
   Sia \(\Gamma \subseteq \FOL\) su un linguaggio \(L\). Un'espansione di Henkin di \(\Gamma\) è una coppia di sequenze \(\set{L_n}_{n\in\N}\) e \(\set{\Gamma_n}_{n\in\N}\) con \(L_0 = L\) e \(\Gamma_0 = \Gamma\) e tali che per ogni \(n\in\N\) si ha che:
@@ -1547,7 +1573,9 @@ Capiamo quindi come costruire correttamente un insieme di Henkin a partire da un
   Il limite di un'espansione di Henkin è la coppia \((L',\Gamma')\) con \(L' = \bigcup_{n\in\N} L_n\) e \(\Gamma' = \bigcup_{n\in\N} \Gamma_n\).
 \end{definition}
 
-Il procedimento di espansione ricorda in qualche modo quello visto per la logica proposizionale nel senso che si costruisce una successione di insiemi tramite un enumerazione di tutte le formule, che in questo caso però non è fissata a priori ma dipende dal linguaggio, che a sua volta dipende dalla successione stessa. Andremo quindi a ogni passo ad aggiungere a ogni insieme una quantità numerabile di oggetti. La coppia \((L',\Gamma')\) sarà quella che poi faranno da punto di partenza per il \namecref{lem:lindenbaum} per costruire un sovrainsieme massimale di \(\Gamma'\), che sarà la teoria di un modello il cui dominio è costituito dai termini ground di \(L'\).
+Il procedimento di espansione ricorda, in qualche modo, quello visto per la logica proposizionale, in quanto si costruisce una successione di insiemi tramite un'enumerazione di tutte le formule, enumerazione che, in questo caso, non è fissata a priori ma dipende dal linguaggio, che dipende a sua volta dalla successione stessa. 
+Ad ogni passo, viene aggiunto, ad ognuno dei due insiemi, una quantità infinita numerabile di oggetti.
+La coppia \((L',\Gamma')\) sarà poi il punto di partenza per il \namecref{lem:lindenbaum} per costruire un sovrainsieme massimale di \(\Gamma'\), che sarà la teoria di un modello il cui dominio è costituito dai termini ground di \(L'\).
 
 \begin{example}{}
   Vediamo un esempio di questa costruzione. Consideriamo \(L_0 = L = (\emptyset, \emptyset,\set{P,R})\) con \(\arty(P) = 2\) e \(\arty(R) = 1\).
@@ -1559,24 +1587,24 @@ Il procedimento di espansione ricorda in qualche modo quello visto per la logica
 
   Dunque al passo successivo avremo \(L_1 = L_0 \cup \set{c_j^1}[j \in \N \text{ e } c_j^1 \notin L_0]\), e quindi aggiungeremo una costante per ogni formula esistenziale, in particolare \(c_j^1\) per la formula \(\exists x: \phi_j(x)\). Dunque avremo \(\Gamma_1 = \Gamma_0 \cup \set{\exists x: \exists y (P(x,y) \land R(y)) \to \exists y (P(c_j^1,y) \land R(y)), \ldots} \).
 
-  Possiamo notare che abbiamo aggiunto una formula che non apparteneva a \(L_0\), poiché \(\exists y (P(c_j^1,y) \land R(y))\) contiene la costante \(c_j^1\) che è stata aggiunta al passo \(1\). Dunque questa nuova formula introdotta al passo uno in \(\Gamma_1\) è aggiunta anche in \(L_1\) poiché la sola aggiunta della costante \(c_j^1\) al linguaggio ci permette di costruire la formula \(\exists y (P(c_j^1,y) \land R(y))\). Questa non ha però un testimone per \(y\). Dobbiamo quindi continuare a iterare.
+  Possiamo notare che abbiamo aggiunto una formula che non apparteneva a \(L_0\), poiché \(\exists y (P(c_j^1,y) \land R(y))\) contiene la costante \(c_j^1\) che è stata aggiunta al passo \(1\). Dunque, questa nuova formula, introdotta al passo uno in \(\Gamma_1\), è aggiunta anche in \(L_1\), poiché la sola aggiunta della costante \(c_j^1\) al linguaggio ci permette di costruire la formula \(\exists y (P(c_j^1,y) \land R(y))\). Questa non ha, però, un testimone per \(y\). Dobbiamo quindi continuare a iterare.
 
   \[L_2 = L_1 \cup \set{c_j^2}[j \in \N \text{ e } c_j^2 \notin L_1]\]
   \[\Gamma_2 = \Gamma_1 \cup \set{\exists y (P(c_j^1,y) \land R(y)) \to (P(c_j^1,c_k^2) \land R(c_k^2)), \ldots}\]
 
-  Assumendo che \(\exists y (P(c_j^1,y) \land R(y))\) sia la \(k\)-esima formula nella nuova enumerazione.
+  assumendo che \(\exists y (P(c_j^1,y) \land R(y))\) sia la \(k\)-esima formula nella nuova enumerazione.
 
-  Possiamo notare che ogni passo della sequenza si \textit{occupa} di un livello di annidamento di quantificatori esistenziali, ed essendo che non c'è un limite a priori al numero di livelli di annidamento, avremo bisogno di iterare un numero infinito di volte per ottenere un linguaggio che contenga testimoni per tutte le formule esistenziali.
+  Possiamo notare che ogni passo della sequenza si \textit{occupa} di un livello di annidamento di quantificatori esistenziali. Poiché non vi è un limite a priori sul numero di livelli di annidamento, avremo bisogno di iterare un numero infinito di volte per ottenere un linguaggio che contenga testimoni per tutte le formule esistenziali.
 \end{example}
 
-Questa procedura garantisce anche che se \(\Gamma\) è consistente, allora anche \(\Gamma'\) è consistente. L'intuizione è che ogni formula aggiunta non interferisce ne con altre formule aggiunte ne con quelle già presenti, poiché ogni formula aggiunta aggiunge informazione solo su un termine completamente nuovo ed esclusivo, e che quindi non può introdurre conflitti. Le uniche possibili fonti di inconsistenza potrebbero dunque essere solo formule universali che in qualche modo entrano in conflitto sullo specifico nuovo testimone aggiunto ma, in tal caso, essendo che le formule aggiunte sono condizionali, l'unico modo per cui tali formule universali possano mai creare conflitto è la presenza a priori dell'antecedente esistenziale di un assioma, implicando la presenza di un conflitto già presente in \(\Gamma\), ovvero la sua inconsistenza.
+Questa procedura garantisce anche che, se \(\Gamma\) è consistente, allora anche \(\Gamma'\) è consistente. L'intuizione è che ogni formula aggiunta non interferisce né con altre formule aggiunte né con quelle già presenti, poiché ogni formula aggiunta aggiunge informazione solo su un termine completamente nuovo ed esclusivo, ovvero la costante per il \q{testimone} della formula esistenziale, e quindi tale formula non può introdurre conflitti. Le uniche possibili fonti di inconsistenza potrebbero provenire da formule universali in conflitto sullo specifico nuovo testimone aggiunto. Tuttavia, in tal caso, poiché le formule aggiunte sono condizionali, l'unico modo per cui tali formule universali possono creare conflitto è la presenza a priori dell'antecedente, implicando la presenza di un conflitto già presente in \(\Gamma\), ovvero la sua inconsistenza.
 
-Se infatti ad esempio \(\Gamma\) contiene la formula \(\forall x, \neg P(x)\) e aggiungiamo l'assioma di Henkin \(\exists x\st P(x) \to P(c_j^1)\) queste due formule non portano di per sé a nessuna inconsistenza poiché l'assioma può ancora essere soddisfatto per \(\exists x\st P(x)\) e \(P(c_j^1)\) false. L'unico modo per cui queste due formule possono creare un conflitto è se \(\Gamma\) contiene la formula \(\exists x\st P(x)\), che porta necessariamente \(P(c_j^1)\) a essere vera, ottenendo una contraddizione con \(\forall x, \neg P(x)\).
-La formula \(\exists x\st P(x)\) però non rispetta la forma di un assioma di Henkin, e quindi se è presente in \(\Gamma\) è presente già prima dell'espansione, e quindi è presente già in \(\Gamma_0\). Dunque, se \(\Gamma\) è consistente, non può contenere sia \(\exists x\st P(x)\) che \(\forall x, \neg P(x)\).
+Ad esempio, supponiamo che \(\Gamma\) contenga la formula \(\forall x, \neg P(x)\) e che si aggiunga l'assioma di Henkin \(\exists x, P(x) \to P(c_j^1)\). Queste due formule, se prese da sole, non portano ad alcuna inconsistenza, poiché l'assioma può ancora essere soddisfatto per \(\exists x, P(x)\) e \(P(c_j^1)\) false. L'unico modo per cui queste due formule possono creare un conflitto è se \(\Gamma\) contiene la formula \(\exists x, P(x)\), (l'antecedente dell'assioma), che porta \(P(c_j^1)\) ad essere vera, ottenendo una contraddizione con \(\forall x, \neg P(x)\).
+Tuttavia, la formula \(\exists x, P(x)\) non può essere un assioma di Henkin, in quanto non ne rispetta la forma, e quindi, se è presente in \(\Gamma\), allora era già presente prima dell'espansione ed in particolare era già presente in \(\Gamma_0\). Dunque, se \(\Gamma\) è consistente, non può contenere sia \(\exists x, P(x)\) che \(\forall x, \neg P(x)\).
 
-Per una dimostrazione più formale di ciò si può procedere ragionando sul fatto che l'inconsistenza, essendo deduzione di \(\bot\) è una proprietà finita poiché finito è l'albero di deduzione, di conseguenza l'inconsistenza dev'essere stata introdotta per la prima volta in un certo passaggio della costruzione. A quel punto è sufficiente verificare per induzione che ogni passaggio se parte da un insieme consistente produce un insieme ancora consistente ottenendo l'assurdo che prova la consistenza del limite dell'espansione di Henkin. Non vederemo formalmente questa dimostrazione poiché è molto simile alla dimostrazione di consistenza dell'espansione di Lindenbaum che abbiamo già visto per la logica proposizionale e rivedremo ora per la costruzione dell'sovrainsieme massimalmente consistente.
+Per una dimostrazione più formale di ciò, si può procedere ragionando sul fatto che l'inconsistenza, essendo deduzione di \(\bot\), è una proprietà finita poiché finito è l'albero di deduzione. Di conseguenza, l'inconsistenza dev'essere stata introdotta per la prima volta in un certo passaggio della costruzione. A quel punto è sufficiente verificare per induzione che ogni passaggio, se parte da un insieme consistente, produce un insieme ancora consistente, ottenendo l'assurdo che prova la consistenza del limite dell'espansione di Henkin. Non vedremo formalmente questa dimostrazione poiché molto simile alla dimostrazione di consistenza dell'espansione di Lindenbaum, che abbiamo già visto per la logica proposizionale e che rivedremo ora per la costruzione dell'sovrainsieme massimalmente consistente.
 
-Ottenuto infatti \(\Gamma'\) dell'espansione di Henkin possiamo, allo stesso modo di come visto nel \namecref{lem:lindenbaum}, possiamo andare a costruire la sua chiusura consistente \(\Gamma^*\), ovvero tramite una sequenza di insiemi basata su un enumerazione delle formule di \(L'\) della forma:
+Infatti, ottenuto \(\Gamma'\) dell'espansione di Henkin, possiamo, allo stesso modo di come visto nel \namecref{lem:lindenbaum}, costruire la sua chiusura consistente \(\Gamma^*\), tramite una sequenza di insiemi basata su un'enumerazione delle formule di \(L'\) della forma:
 
 \[\Gamma_{i+1}' \begin{cases}
                   \Gamma_i' \cup \set{\phi_j} & \text{ se } \Gamma_i' \cup \set{\phi_j} \text{ è consistente}\\
@@ -1589,6 +1617,29 @@ Ovviamente si otterrà \(\Gamma^* = \cup_{i\geq 0} \Gamma_i'\). Dobbiamo verific
 \begin{proof}
   Per dimostrare che \(\Gamma^*\) è massimalmente consistente, assumiamo per assurdo che \(\Gamma^* \vdash \bot\). Per definizione di deducibilità dunque esiste una deduzione \(\pi\) finita che, da un insieme finito di assunzioni in \(\Gamma^*\), deduce \(\bot\). Come già detto solo un sott'insieme finito di \(\Gamma^*\) è coinvolto in questa deduzione, dunque per \(k\) massimo indice di formule in questo sott'insieme finito, si ha che \(\Gamma_k' \vdash \bot\). A questo punto procediamo per induzione per mostrare che, se \(\Gamma'\) è consistente, lo è anche \(\Gamma_i'\) per ogni \(i\in\N\). Chiaramente come caso base si ha \(\Gamma_0' = \Gamma'\) consistente per ipotesi. Passando al caso induttivo, supponiamo che \(\Gamma_i'\) sia consistente. Se \(\Gamma_{i+1}' = \Gamma_i' \cup \set{\phi_j}\) allora, per definizione, \(\Gamma_i' \cup \set{\phi_j}\) è consistente, e quindi \(\Gamma_{i+1}'\) è consistente. Nel caso invece \(\Gamma_{i+1}' = \Gamma_i' \cup \set{\neg \phi_j}\) allora, per definizione, \(\Gamma_i' \cup \set{\phi_j}\) è inconsistente. In tal caso per definizione è possibile dedurre \(\bot\) da \(\Gamma_i' \cup \set{\phi_j}\) e per \(\neg I\) è possibile dedurre \(\neg \phi_j\) da \(\Gamma_i'\). A questo punto se anche \(\Gamma_i' \cup \set{\neg \phi_j}\) fosse inconsistente, allora tramite \(\RAA\) sarebbe possibile dedurre da \(\Gamma_i'\) anche \(\phi_j\), potendo quindi dedurre \(\bot\) tramite \(\neg E\) dal solo \(\Gamma_i'\), assurdo per ipotesi induttiva.
 
+  \begin{prooftree}
+    \AxiomC{\(\Gamma'_i\)}
+    \AxiomC{\([\phi_j]_1\)}
+    \RuleLabel{\(\land E\)}
+    \BinaryInfC{\(\phi_j\)}
+    \RuleLabel{\(\bot I\)}
+    \UnaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_1\)}
+    \UnaryInfC{\(\neg\phi_j\)}
+
+    \AxiomC{\(\Gamma'_i\)}
+    \AxiomC{\([\neg\phi_j]_2\)}
+    \RuleLabel{\(\land E\)}
+    \BinaryInfC{\(\neg\phi_j\)}
+    \RuleLabel{\(\bot I\)}
+    \UnaryInfC{\(\bot\)}
+    \RuleLabel{\(\RAA_2\)}
+    \UnaryInfC{\(\phi_j\)}
+
+    \RuleLabel{\(\bot I\)}
+    \BinaryInfC{\(\bot\)}
+  \end{prooftree}
+
   Dunque per ogni \(i\in\N\) si ha che \(\Gamma_i'\) è consistente, e quindi \(\Gamma_k'\) è consistente, assurdo per quanto visto all'inizio. Di conseguenza \(\Gamma^*\) è consistente.
 
 \end{proof}
@@ -1600,23 +1651,24 @@ Il primo verso è ovvio, poiché se \(\phi \in \Gamma^*\) allora è possibile de
 
 Una proprietà più interessante è invece \(\Gamma \vdash \phi \implies \phi \in \Gamma^*\), ovvero tutto ciò che era deducibile originariamente da \(\Gamma\) è ora presente nel sovrainsieme massimale. Ovviamente non vale il viceversa. Per dimostrare questa proprietà supponiamo che \(\Gamma \vdash \phi\) ma \(\phi \notin \Gamma^*\). Dunque, per massimalità di \(\Gamma^*\) si ha che \(\neg \phi \in \Gamma^*\). Essendo \(\Gamma\subset\Gamma^*\) per costruzione, si ha che \(\Gamma^* \vdash \phi\). Dunque, da \(\Gamma^* \vdash \phi\) e da \(\Gamma^* \vdash \neg \phi\) è possibile dedurre \(\bot\) da \(\Gamma^*\), assurdo per consistenza di \(\Gamma^*\).
 
-A questo punto ci manca solo costruire finalmente questo \(M^* = \langle D, \Interp\rangle\) la cui teoria \(\Th{M^*} = \set{\phi \in \FOL}[M^* \models \phi] = \Gamma^*\).
+\vspace{1cm}
+A questo punto, costruiamo, finalmente, il modello \(M^* = \langle D, \Interp\rangle\) la cui teoria \(\Th{M^*} = \set{\phi \in \FOL}[M^* \models \phi] = \Gamma^*\).
 
-Il dominio \(D\) come anticipato sarà
+Il dominio \(D\), come anticipato, sarà
 \[D = \set{t\in \Terms(L')}[\Var(t) = \emptyset]\]
 ovvero l'insieme dei termini ground di \(L'\).
 
-Per quanto riguarda la funzione di interpretazione \(\Interp\) questa sarà definita come segue:
+Per quanto riguarda la funzione di interpretazione \(\Interp\), questa sarà definita come segue:
 
 \begin{itemize}
   \item Per ogni costante \(c\in \ConstSyms(L')\), \(\Interp(c) = c^{M^*} = c\)
-  \item Per ogni simbolo di funzione \(f\in \FuncSyms(L') = \FuncSyms(L)\) con \(\arty(f) = n\), \(\Interp(f) = f^{M^*} \in D^{D^n}\) tale che \(f^{M^*}(t_1^{M^*}, \ldots, t_n^{M^*}) = f(t_1, \ldots, t_n)\) per ogni \(t_1^{M^*}, \ldots, t_n^{M^*} \in D\). Dunque per qualsiasi termine ground \(t\) si ha che \(\Interp(t) = t\).
-  \item Per ogni simbolo di predicato \(P\in \PredSyms(L') = \PredSyms(L)\) con \(\arty(P) = n\), \(\Interp(P) = P^{M^*} =\set{(t_1, \ldots, t_n) \in D^n}[P(t_1, \ldots, t_n) \in \Gamma^*]\).
+  \item Per ogni simbolo di funzione \(f\in \FuncSyms(L') = \FuncSyms(L)\)\footnote{L'estensione non aggiunge funzioni.} con \(\arty(f) = n\), \(\Interp(f) = f^{M^*} \in D^{D^n}\) tale che \(f^{M^*}(t_1^{M^*}, \ldots, t_n^{M^*}) = f(t_1, \ldots, t_n)\) per ogni \(t_1^{M^*}, \ldots, t_n^{M^*} \in D\). Dunque per qualsiasi termine ground \(t\) si ha che \(\Interp(t) = t\).
+  \item Per ogni simbolo di predicato \(P\in \PredSyms(L') = \PredSyms(L)\)\footnote{L'estensione non aggiunge predicati.} con \(\arty(P) = n\), \(\Interp(P) = P^{M^*} =\set{(t_1, \ldots, t_n) \in D^n}[P(t_1, \ldots, t_n) \in \Gamma^*]\).
 \end{itemize}
 
 L'interpretazione dei termini è analoga al passaggio fatto nella logica proposizionale, in cui definivamo \(M = \AP\cap\Gamma'\). Anche in questo caso prendiamo tutte le formule atomiche che sono vere in \(\Gamma^*\) e le aggiungiamo al modello.
 
-Ora dobbiamo mostrare solo che \(M^*\) è un modello di \(\Gamma^*\), il che implicherebbe che \(M^*\models \Gamma\) essendo sottoinsieme di \(\Gamma^*\), il che ci darebbe che \(\Gamma\) è soddisfacibile chiudendo la dimostrazione della completezza.
+Ora dobbiamo mostrare solo che \(M^*\) è un modello di \(\Gamma^*\), il che implicherebbe \(M^*\models \Gamma\), essendo \(\Gamma\) sottoinsieme di \(\Gamma^*\), il che ci darebbe che \(\Gamma\) è soddisfacibile, chiudendo la dimostrazione della completezza.
 
 \begin{theorem}{}
   \(M^* \models \phi\) per ogni \(\phi \in \Gamma^*\) con \(FV(\phi) = \emptyset\).
@@ -1634,9 +1686,9 @@ Ora dobbiamo mostrare solo che \(M^*\) è un modello di \(\Gamma^*\), il che imp
   \[P(t_1, \ldots, t_n) \in \Gamma^* \iff M^* \models P(t_1, \ldots, t_n) \iff (t_1, \ldots, t_n) \in P^{M^*}\]
   che è vero per costruzione di \(M^*\).
 
-  Se \(\phi = \neg \psi\) allora, se \(\phi\) è chiusa lo è anche \(\psi\). Dunque per ipotesi induttiva \(M^* \models \psi \iff \psi \in \Gamma^*\). Equivalentemente \(\psi \notin \Gamma^* \iff M^* \not\models \psi\). Ma per massimalità di \(\Gamma^*\) si ha che \(\psi \notin \Gamma^* \iff \neg \psi \in \Gamma^*\). Dunque \(M^* \models \neg \psi \iff M^* \not\models \psi\) e \(M^* \models \neg \psi \iff \neg \psi \in \Gamma^*\), ottenendo la tesi.
+  Se \(\phi = \neg \psi\), allora, se \(\phi\) è chiusa, lo è anche \(\psi\). Dunque, per ipotesi induttiva, \(M^* \models \psi \iff \psi \in \Gamma^*\). Equivalentemente, \(\psi \notin \Gamma^* \iff M^* \not\models \psi\). Per massimalità di \(\Gamma^*\), si ha che \(\psi \notin \Gamma^* \iff \neg \psi \in \Gamma^*\). Per semantica, vale \(M^* \models \neg \psi \iff M^* \not\models \psi\). Sfruttando le doppie implicazioni fin qui trovate, si ottiene \(M^* \models \neg \psi \iff \neg \psi \in \Gamma^*\), ovvero la tesi.
 
-  Se \(\phi = \psi_1 \lor \psi_2\) allora, se \(\phi\) è chiusa, lo sono anche \(\psi_1\) e \(\psi_2\). Dunque per ipotesi induttiva \(M^* \models \psi_i \iff \psi_i \in \Gamma^*\) per \(i = 1,2\). Se almeno una delle due appartiene a \(\Gamma^*\) essendo chiuso per deduzione, appartiene anche \(\psi_1 \lor \psi_2\) e per semantica di \(\lor\) \(M^* \models \psi_1 \lor \psi_2\). Se invece nessuna delle due appartiene a \(\Gamma^*\) allora, per massimalità di \(\Gamma^*\), appartengono entrambe le negazioni, e quindi per chiusura per deduzione appartiene anche \(\neg \psi_1 \land \neg \psi_2\). Si ha dunque che \(\psi_1 \lor \psi_2 \notin \Gamma^*\) poiché insieme a \(\neg \psi_1 \land \neg \psi_2\) porterebbe a una contraddizione. Possiamo vederlo con la seguente dimostrazione:
+  Se \(\phi = \psi_1 \lor \psi_2\) allora, se \(\phi\) è chiusa, lo sono anche \(\psi_1\) e \(\psi_2\). Dunque, per ipotesi induttiva, \(M^* \models \psi_i \iff \psi_i \in \Gamma^*\) per \(i = 1,2\). Adesso, se almeno una delle due appartiene a \(\Gamma^*\) (supponiamo \(\psi_1\), senza perdita di generalità), allora, si ha \(M^* \models \psi_1\). Per semantica di \(\lor\), si ha \(M^* \models \psi_1 \lor \psi_2\). Invece, se nessuna delle due appartiene a \(\Gamma^*\) allora, per massimalità di \(\Gamma^*\), appartengono entrambe le negazioni, ovvero \(\neg\psi_1, \neg\psi_2 \in \Gamma^*\). Per chiusura di \(\Gamma^{*}\) per deduzione, si ha \(\Gamma^* \vdash \neg\psi_i\), per \(i = 1,2\), e dunque \(\Gamma^* \vdash \neg\psi_1 \land \neg\psi_2\), e quindi, sempre per chiusura per deduzione, si ha \(\neg \psi_1 \land \neg \psi_2 \in \Gamma^*\). Allora, deve verificarsi \(\psi_1 \lor \psi_2 \notin \Gamma^*\), poiché, insieme a \(\neg \psi_1 \land \neg \psi_2\), porterebbe ad una contraddizione. Possiamo vederlo con la seguente dimostrazione:
 
   \begin{prooftree}
     \AxiomC{\(\neg \psi_1 \land \neg \psi_2\)}
@@ -1658,32 +1710,36 @@ Ora dobbiamo mostrare solo che \(M^*\) è un modello di \(\Gamma^*\), il che imp
     \TrinaryInfC{\(\bot\)}
   \end{prooftree}
 
-  Dopo l'albero di deduzione mostrato, chiudiamo il passaggio con il collegamento semantico: per ipotesi induttiva abbiamo \(M^* \not\models \psi_1\) e \(M^* \not\models \psi_2\); dalla semantica classica della disgiunzione segue immediatamente che \(M^* \not\models \psi_1 \lor \psi_2\). Questo completa il caso della disgiunzione.
+  Dopo l'albero di deduzione mostrato, chiudiamo il passaggio con il collegamento semantico. Poiché \(\psi_1,\psi_2 \notin \Gamma^*\), per ipotesi induttiva, abbiamo \(M^* \not\models \psi_1\) e \(M^* \not\models \psi_2\). Per la semantica di \(\lor\), si ha \(M^* \not\models \psi_1 \lor \psi_2\). Poichè tutte i passaggi sono doppiamente implicati, abbia ottenuto \(\psi_1 \lor \psi_2 \notin \Gamma^* \iff M^* \not\models \psi_1 \lor \psi_2\), ovvero la tesi.
 
   I casi di \(\phi = \psi_1 \land \psi_2\) e \(\phi = \psi_1 \to \psi_2\) possono essere riformulati utilizzando \(\neg\) e \(\lor\) e quindi la dimostrazione per questi casi segue da quelli già visti.
 
-  Analogamente, avendo già dimostrato il caso di \(\neg\), per i quantificatori sarà sufficiente dimostrarne uno solo per avere la dimostrazione anche dell'altro. Tra i due consideriamo il caso di \(\phi = \forall x, \psi\).
+  Analogamente, avendo già dimostrato il caso di \(\neg\), per i quantificatori sarà sufficiente dimostrarne uno solo per avere la dimostrazione anche dell'altro. Tra i due, consideriamo il caso di \(\phi = \forall x, \psi\).
 
-  Essendo per ipotesi \(\phi\) chiusa si ha \(FV(\psi)\subseteq \set{x}\). Non essendo \(\psi\) necessariamente chiusa non è possibile applicare immediatamente l'ipotesi induttiva. Andiamo quindi a dimostrare l'equivalenza vedendo un'implicazione per volta. Iniziamo con \(M^* \models \phi \implies \phi \in \Gamma^*\).
+  Per ipotesi, \(\phi\) chiusa, ovvero non ha variabili libere, ma solo una legata, ossia \(x\). Pertanto, si ha \(FV(\psi)\subseteq \set{x}\). Non essendo \(\psi\) necessariamente chiusa, non è possibile applicare immediatamente l'ipotesi induttiva. Andiamo quindi a dimostrare l'equivalenza vedendo un'implicazione per volta. Iniziamo con \(M^* \models \phi \implies \phi \in \Gamma^*\).
 
-  Per definizione della semantica di \(\forall\) si ha, per ogni \(d \in D\):
+  Per definizione della semantica di \(\forall\) si ha, per ogni \(d \in D\),
   \[M^* \models \forall x, \psi \iff M^* ,\sigma \models \forall x, \psi \iff M^* ,\sigma[x\mapsfrom d] \models \psi\]
   
-  Per il teorema di sostituzione, si ha inoltre
+  Poiché ciascun \(d\in D\) è un termine ground e quindi libero per \(x\) in \(\psi\), è possibile applicare il teorema di sostituzione, ottenendo
   
-  \[M^* \models \forall x, \psi \iff M^* ,\sigma[x\mapsfrom d] \models \psi \iff M^*,\sigma[x \mapsfrom \den{d}[M^*][\sigma]] \models \psi  \iff M^*,\sigma \models \subs{\psi}{x}{d}\]
-  essendo che gli elementi del dominio sono termini ground, e quindi \(\den{d}[M^*][\sigma] = d\). Inoltre essendo \(d\) ground è sicuramente libero per \(\psi\).
+  \[M^*,\sigma \models \subs{\psi}{x}{d} \iff  M^*,\sigma[x \mapsfrom \den{d}[M^*][\sigma]] \models \psi\]
 
-  A questo punto avendo sostituito tutte le occorrenze dell'unica potenziale variabile libera \(x\) con un termine ground \(d\), si ha che \(\subs{\psi}{x}{d}\) è una formula chiusa di \(L'\). Dunque per ipotesi induttiva \(M^* \models \subs{\psi}{x}{d} \iff \subs{\psi}{x}{d} \in \Gamma^*\) per ogni \(d\in D\).
+  Sempre perché ciascun oggetto del dominio è un termine ground, si ha \(\den{d}[M^*][\sigma] = d\), per ogni \(d \in D\), e, pertanto, è possibile unire le doppie implicazioni trovate, ottenendo
 
-  Ora ipotizziamo per assurdo che \(\forall x, \psi \notin \Gamma^*\). Dunque per massimalità di \(\Gamma^*\) si ha che \(\neg \forall x, \psi \in \Gamma^*\). Si ha però che \(\neg \forall x, \psi\vdash \exists x\st \neg \psi\), e dunque anche \(\exists x\st \neg \psi \in \Gamma^*\) poiché \(\Gamma^*\) è chiuso per deduzione. Essendo che \(\Gamma^*\) è un'espansione di Henkin, esiste un termine ground \(c\) di \(L'\) tale che \(\exists x\st \neg \psi \to \neg \subs{\psi}{x}{c} \in \Gamma^*\). Dunque per modus ponens si ha che \(\neg \subs{\psi}{x}{c} \in \Gamma^*\). Ma allora posso dedurre \(\bot\) da \(\Gamma^*\) tramite \(\neg E\) usando \(\subs{\psi}{x}{c}\) e \(\neg \subs{\psi}{x}{c}\), che è assurdo perché per ipotesi \(\Gamma^*\) è consistente. Dunque \(\forall x, \psi \in \Gamma^*\).
+  \[M^* \models \forall x, \psi \iff M^*,\sigma \models \subs{\psi}{x}{d}\]
+  per ogni \(d \in D\).
 
-  L'altro verso è molto simile. Dobbiamo dimostrare \(\forall x, \psi \in \Gamma^*\implies M^* \models \forall x, \psi\).
-  Essendo che \(\Gamma^*\) è chiuso rispetto alla deduzione, si ha che \(\Gamma \models \subs{\phi}{x}{t}\) per ogni \(t\) ground di \(L'\) mediante \(\forall E\) e quindi \(\subs{\psi}{x}{t} \in \Gamma^*\) per ogni \(t\) ground di \(L'\). Dunque per ipotesi induttiva \(M^* \models \subs{\psi}{x}{t}\) per ogni \(t\) ground di \(L'\). Essendo che tutti i termini ground di \(L'\) sono elementi del dominio \(D\) di \(M^*\), si ha \(M^* \models \subs{\psi}{x}{t}\) per ogni \(t\in D\). Allora se per assurdo \(M^* \not\models \forall x, \psi\) si ha che:
+  A questo punto, avendo sostituito tutte le occorrenze dell'unica potenziale variabile libera \(x\) con un termine ground \(d \in D\), si ha che \(\subs{\psi}{x}{d}\) è una formula chiusa di \(L'\). Dunque, per ipotesi induttiva, \(M^* \models \subs{\psi}{x}{d} \iff \subs{\psi}{x}{d} \in \Gamma^*\) per ogni \(d\in D\).
+
+  Ora, ipotizziamo per assurdo che \(\forall x, \psi \notin \Gamma^*\). Dunque per massimalità di \(\Gamma^*\) si ha che \(\neg \forall x, \psi \in \Gamma^*\). Si ha, però, che \(\neg \forall x, \psi\vdash \exists x, \neg \psi\), e dunque anche \(\exists x, \neg \psi \in \Gamma^*\), poiché \(\Gamma^*\) è chiuso per deduzione. Essendo \(\Gamma^*\) un'espansione di Henkin, esiste un termine ground \(c\) di \(L'\) tale che \(\exists x, \neg \psi \to \neg \subs{\psi}{x}{c} \in \Gamma^*\). Dunque, applicando il modus ponens (\(\to E\)) a \(\exists x, \neg \subs{\psi}{x}{c}\) (abbiamo dimostrato che \(\subs{\psi}{x}{d} \in \Gamma^*\) per ogni \(d\in D\) e ciò sarà vero, in particolare, per \(c \in D\)\footnote{\(c \in D\) poiché \(\Interp(c)=c\), per come abbiamo costruito \(M^*\).}) e \(\exists x, \neg \psi \to \neg \subs{\psi}{x}{c} \in \Gamma^*\), si ottiene \(\neg \subs{\psi}{x}{c} \in \Gamma^*\). Ma allora posso dedurre \(\bot\) da \(\Gamma^*\) tramite \(\neg E\) usando \(\subs{\psi}{x}{c}\) e \(\neg \subs{\psi}{x}{c}\). Ciò significa che \(\Gamma^*\) è inconsistente, il che è assurdo. Dunque, \(\forall x, \psi \in \Gamma^*\).
+
+  Adesso, dobbiamo dimostrare il verso opposto, ovvero \(\forall x, \psi \in \Gamma^*\implies M^* \models \forall x, \psi\). La dimostrazione è molto simile.
+  Poiché \(\Gamma^*\) è chiuso rispetto alla deduzione, si ha che \(\Gamma^* \vdash \subs{\phi}{x}{t}\), per ogni \(t\) ground di \(L'\), mediante \(\forall E\) e quindi \(\subs{\psi}{x}{t} \in \Gamma^*\), per ogni \(t\) ground di \(L'\). Dunque, per ipotesi induttiva, \(M^* \models \subs{\psi}{x}{t}\), per ogni \(t\) ground di \(L'\). Essendo che tutti i termini ground di \(L'\) sono elementi del dominio \(D\) di \(M^*\), si ha \(M^* \models \subs{\psi}{x}{t}\) per ogni \(t\in D\). Allora, se, per assurdo, \(M^* \not\models \forall x, \psi\), si ha che:
   \[M^* \not\models \forall x, \psi \iff M^* ,\sigma \not\models \forall x, \psi \iff M^*,\sigma[x\mapsfrom d] \not\models \psi\]
   per ogni \(d \in D\).
 
-  Ancora una volta essendo gli elementi del dominio termini ground, si ha che
+  Ancora una volta, essendo gli elementi del dominio termini ground, si ha che
   \[M^* ,\sigma[x\mapsfrom d] \not\models \psi \iff M^* ,\sigma[x \mapsfrom \den{d}[M^*][\sigma]] \not\models \psi  \iff M^*,\sigma \not\models \subs{\psi}{x}{d}\]
   per ogni \(d\in D\). Ma questo è assurdo poiché abbiamo già visto che \(M^* \models \subs{\psi}{x}{t}\) per ogni \(t\in D\). Dunque \(M^* \models \forall x, \psi\).
 \end{proof}
@@ -1696,8 +1752,8 @@ A questo punto, possiamo finalmente andare a dimostrare il teorema di completezz
 \end{theorem}
 
 \begin{proof}
-  Per definizione di conseguenza logica e deduzione si ha che \(\Gamma \models \phi \implies \Gamma \vdash \phi\) è equivalente a \(\Gamma \cup \set{\neg \phi} \in \Unsat \implies \Gamma \cup \set{\neg \phi} \vdash \bot\). Dunque, per contrapposizione, equivale anche a \(\Gamma \cup \set{\neg \phi} \not\vdash \bot \implies \Gamma \cup \set{\neg \phi} \in \Sat\).
+  Per definizione di conseguenza logica e deduzione, si ha che \(\Gamma \models \phi \implies \Gamma \vdash \phi\) è equivalente a \(\Gamma \cup \set{\neg \phi} \in \Unsat \implies \Gamma \cup \set{\neg \phi} \vdash \bot\). Dunque, per contrapposizione, equivale anche a \(\Gamma \cup \set{\neg \phi} \not\vdash \bot \implies \Gamma \cup \set{\neg \phi} \in \Sat\).
 
-  Sia \(\overline{\Gamma} = \Gamma \cup \set{\neg \phi}\). Essendo \(\overline{\Gamma}\) consistente per ipotesi la sua estensione di Henkin \(\overline{\Gamma}'\) è ancora consistente, e dunque lo è anche la sua chiusura massimalmente consistente di Lindenbaum \(\overline{\Gamma}^*\). Dal teorema precedente dunque è possibile costruire \(M^*\) tale che \(M^* \models \overline{\Gamma}^*\). Per definizione di soddisfazione di un insieme di formule si ha che \(M^* \models \phi\) per ogni \(\phi \in \overline{\Gamma}^*\). Essendo che \(\overline{\Gamma}\subset\overline{\Gamma}^*\) si ha che \(M^* \models \overline{\Gamma} \iff M^* \models \Gamma \cup \set{\neg \phi} \iff \Gamma \cup \set{\neg \phi} \in \Sat\).
+  Sia \(\overline{\Gamma} = \Gamma \cup \set{\neg \phi}\). Essendo \(\overline{\Gamma}\) consistente per ipotesi, la sua estensione di Henkin \(\overline{\Gamma}'\) è ancora consistente, e dunque lo è anche la sua chiusura massimalmente consistente di Lindenbaum \(\overline{\Gamma}^*\). Dal teorema precedente, è possibile costruire \(M^*\) tale che \(M^* \models \overline{\Gamma}^*\). Per definizione di soddisfazione di un insieme di formule, si ha che \(M^* \models \phi\) per ogni \(\phi \in \overline{\Gamma}^*\). Essendo che \(\overline{\Gamma}\subset\overline{\Gamma}^*\), si ha che \(M^* \models \overline{\Gamma} \iff M^* \models \Gamma \cup \set{\neg \phi} \iff \Gamma \cup \set{\neg \phi} \in \Sat\).
 
 \end{proof}
