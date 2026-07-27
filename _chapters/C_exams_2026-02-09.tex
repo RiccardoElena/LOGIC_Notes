@@ -1,0 +1,341 @@
+\chapter{Tema d'esame del 9 Febbraio 2026}
+% Inizio del file da includere
+
+\section*{Esercizio 1}
+
+\textbf{Traccia:} Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione, di funzione e di costante aggiuntivi indicati di seguito. 
+Simboli di relazione: $G(\cdot) = $ ``è un grafo''; $V(\cdot, \cdot) = $ ``è un vertice di''; $E(\cdot, \cdot, \cdot) = $ ``è adiacente a in''. 
+Simboli di funzione: $c(\cdot) = $ ``il colore di''. 
+Simboli di costante: $B = $ ``bianco''; $N = $ ``nero''.
+\begin{enumerate}
+    \item[(a)] I vertici di un grafo sono di colore nero solo se i loro adiacenti nel grafo sono di colore bianco.
+    \item[(b)] I vertici neri in un grafo non hanno come adiacenti vertici dello stesso colore.
+    \item[(c)] In ogni grafo, alcuni vertici hanno come adiacenti solo vertici di colore bianco.
+    \item[(d)] Vi sono grafi nei quali i vertici di colore nero hanno, tra i loro adiacenti, almeno due vertici di colore bianco che non sono adiacenti tra di loro.
+    \item[(e)] In un arbitrario grafo, almeno un vertice di colore bianco ha meno di 3 vertici neri tra i suoi adiacenti.
+\end{enumerate}
+
+\textbf{Svolgimento:}
+\begin{enumerate}
+    \item[(a)] $\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))$
+    \item[(b)] $\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow \neg(c(v)=c(u)))))$
+    \item[(c)] $\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))$
+    \item[(d)] $\exists g\st (G(g) \land \forall v((V(v,g) \land c(v)=N) \rightarrow \exists u_1\st \exists u_2\st (V(u_1,g) \land V(u_2,g) \land E(u_1,v,g) \land E(u_2,v,g) \land c(u_1)=B \land c(u_2)=B \land \neg E(u_1,u_2,g) \land \neg(u_1=u_2))))$
+    \item[(e)] $\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land c(v)=B \land \forall u_1 \forall u_2 \forall u_3 ((V(u_1,g) \land V(u_2,g) \land V(u_3,g) \land E(v,u_1,g) \land E(v,u_2,g) \land E(v,u_3,g) \land c(u_1)=N \land c(u_2)=N \land c(u_3)=N) \rightarrow (u_1=u_2 \lor u_2=u_3 \lor u_1=u_3))))$
+\end{enumerate}
+
+\section*{Esercizio 2}
+
+\textbf{Traccia:} Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
+\begin{enumerate}
+    \item[(a)] $(\neg P\vee\neg Q)\wedge(P\wedge Q)$
+    \item[(b)] $\neg(P\rightarrow Q)\rightarrow\neg(\neg P\vee Q)$
+    \item[(c)] $((P\vee Q)\wedge\neg(P\wedge Q)\wedge(Q\rightarrow P)\wedge(P\rightarrow Q))\rightarrow R$
+    \item[(d)] $\neg(P\rightarrow Q)\vee\neg(Q\wedge R)\vee P$
+    \item[(e)] $\neg(P\rightarrow Q)\vee(\neg P\vee Q)$
+\end{enumerate}
+
+\textbf{Svolgimento:}
+\begin{enumerate}
+    \item[(a)] La formula $(\neg P \lor \neg Q) \land (P \land Q)$ equivale a $\neg(P \land Q) \land (P \land Q)$, pertanto risulta insoddisfacibile. Dimostrazione della sua negazione:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[(\neg P\lor\neg Q)\land(P\land Q)]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg P\lor\neg Q\)}
+      
+      \AxiomC{\({[(\neg P\lor\neg Q)\land(P\land Q)]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(P\land Q\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(P\)}
+      \AxiomC{\({[\neg P]}_2\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      
+      \AxiomC{\({[(\neg P\lor\neg Q)\land(P\land Q)]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(P\land Q\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(Q\)}
+      \AxiomC{\({[\neg Q]}_3\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      
+      \RuleLabel{\(\lor E\)}[2,3]
+      \TrinaryInfC{\(\bot\)}
+      \RuleLabel{\(\neg I\)}[1]
+      \UnaryInfC{\(\neg ((\neg P\lor\neg Q)\land(P\land Q))\)}
+    \end{prooftree}
+
+    \item[(b)] La formula è equivalente a $\neg(P \to Q) \to \neg(P \to Q)$, dunque è valida. Dimostrazione:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\neg P \lor Q]}_2\)}
+      \AxiomC{\({[P]}_5\)}
+      \AxiomC{\({[\neg P]}_3\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}
+      \UnaryInfC{\(Q\)}
+      
+      \AxiomC{\({[Q]}_4\)}
+      
+      \RuleLabel{\(\lor E\)}[3,4]
+      \TrinaryInfC{\(Q\)}
+      \RuleLabel{\(\to I\)}[5]
+      \UnaryInfC{\(P \to Q\)}
+      
+      \AxiomC{\({[\neg(P \to Q)]}_1\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\neg I\)}[2]
+      \UnaryInfC{\(\neg(\neg P \lor Q)\)}
+      \RuleLabel{\(\to I\)}[1]
+      \UnaryInfC{\(\neg(P \to Q) \to \neg(\neg P \lor Q)\)}
+    \end{prooftree}
+
+    \item[(c)] L'antecedente della formula, espanso, include contraddizioni logiche che lo rendono sempre falso, per cui l'implicazione è vacuamente valida. Si definisce $\Psi := ((P\vee Q)\wedge\neg(P\wedge Q)\wedge(Q\rightarrow P)\wedge(P\rightarrow Q))$. Dimostrazione:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(P \lor Q\)}
+      
+      \AxiomC{\({[P]}_2\)}
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(P \to Q\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(Q\)}
+      \AxiomC{\({[P]}_2\)}
+      \RuleLabel{\(\land I\)}
+      \BinaryInfC{\(P \land Q\)}
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg(P \land Q)\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      
+      \AxiomC{\({[Q]}_3\)}
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(Q \to P\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(P\)}
+      \AxiomC{\({[Q]}_3\)}
+      \RuleLabel{\(\land I\)}
+      \BinaryInfC{\(P \land Q\)}
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg(P \land Q)\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      
+      \RuleLabel{\(\lor E\)}[2,3]
+      \TrinaryInfC{\(\bot\)}
+      \RuleLabel{\(\bot E\)}
+      \UnaryInfC{\(R\)}
+      \RuleLabel{\(\to I\)}[1]
+      \UnaryInfC{\(\Psi \to R\)}
+    \end{prooftree}
+
+    \item[(d)] La formula equivale a $(P \land \neg Q) \lor P \lor \neg Q \lor \neg R$, che è soddisfacibile (ad esempio per $P=1$) ma non valida (non soddisfatta per $P=0, Q=1, R=1$). Non essendoci validità né insoddisfacibilità, la deduzione non è richiesta.
+
+    \item[(e)] La formula è equivalente a $\neg(P\rightarrow Q)\vee(P\rightarrow Q)$, ed è pertanto valida. Posto $\Psi := \neg(P\rightarrow Q)\vee(\neg P\vee Q)$:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\neg \Psi]}_1\)}
+      \AxiomC{\({[Q]}_4\)}
+      \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\(\neg P \lor Q\)}
+      \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\(\Psi\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[4]
+      \UnaryInfC{\(\neg Q\)}
+      
+      \AxiomC{\({[\neg \Psi]}_1\)}
+      \AxiomC{\({[\neg P]}_3\)}
+      \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\(\neg P \lor Q\)}
+      \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\(\Psi\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[3]
+      \UnaryInfC{\(P\)}
+      
+      \AxiomC{\({[P \to Q]}_2\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(Q\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\neg I\)}[2]
+      \UnaryInfC{\(\neg(P \to Q)\)}
+      \RuleLabel{\(\lor I\)}
+      \UnaryInfC{\(\Psi\)}
+      
+      \AxiomC{\({[\neg \Psi]}_1\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[1]
+      \UnaryInfC{\(\neg(P\rightarrow Q)\vee(\neg P\vee Q)\)}
+    \end{prooftree}
+\end{enumerate}
+
+\section*{Esercizio 3}
+
+\textbf{Traccia:} Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. Motivare semanticamente ed esibire una deduzione in Natural Deduction per formule valide o per la negazione di quelle insoddisfacibili.
+\begin{enumerate}
+    \item[(a)] $\exists x\st (A(x)\rightarrow B(y))\rightarrow(\forall x\st A(x)\rightarrow B(y))$
+    \item[(b)] $\neg\forall x\st A(x)\wedge\neg\exists x\st \neg A(x)$
+    \item[(c)] $\forall x\st (A(x)\rightarrow B(x))\rightarrow(\exists x\st A(x)\rightarrow\forall x\st B(x))$
+    \item[(d)] $\exists x\st \exists y\st \exists z\st (A(1,x)\wedge x=y\wedge\neg A(1,z)\wedge y=z)$
+    \item[(e)] $(\forall x\st A(x)\rightarrow B(y))\rightarrow\exists x\st (A(x)\rightarrow B(y))$
+\end{enumerate}
+
+\textbf{Svolgimento:}
+\begin{enumerate}
+    \item[(a)] È logicamente equivalente a $\forall x\st A(x) \to B(y)$, pertanto è valida. Dimostrazione:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\forall x\st A(x)]}_3\)}
+      \RuleLabel{\(\forall E\)}
+      \UnaryInfC{\(A(z)\)}
+      
+      \AxiomC{\({[A(z) \to B(y)]}_2\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(B(y)\)}
+      
+      \AxiomC{\({[\exists x\st (A(x) \to B(y))]}_1\)}
+      \RuleLabel{\(\exists E\)}[2]
+      \BinaryInfC{\(B(y)\)}
+      \RuleLabel{\(\to I\)}[3]
+      \UnaryInfC{\(\forall x\st A(x) \to B(y)\)}
+      \RuleLabel{\(\to I\)}[1]
+      \UnaryInfC{\(\exists x\st (A(x)\rightarrow B(y))\rightarrow(\forall x\st A(x)\rightarrow B(y))\)}
+    \end{prooftree}
+
+    \item[(b)] La formula si riscrive come $\exists x\st \neg A(x) \land \neg \exists x\st \neg A(x)$, dunque è insoddisfacibile. Dimostrazione della sua negazione: Posto $\Psi := \neg\forall x\st A(x)\wedge\neg\exists x\st \neg A(x)$.
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\neg A(z)]}_2\)}
+      \RuleLabel{\(\exists I\)}
+      \UnaryInfC{\(\exists x\st \neg A(x)\)}
+      
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg \exists x\st \neg A(x)\)}
+      
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[2]
+      \UnaryInfC{\(A(z)\)}
+      \RuleLabel{\(\forall I\)}
+      \UnaryInfC{\(\forall x\st A(x)\)}
+      
+      \AxiomC{\({[\Psi]}_1\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg \forall x\st A(x)\)}
+      
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\neg I\)}[1]
+      \UnaryInfC{\(\neg(\neg\forall x\st A(x)\wedge\neg\exists x\st \neg A(x))\)}
+    \end{prooftree}
+
+    \item[(c)] Soddisfacibile ma non valida. Un controesempio: modello $D^M=\{1, 2\}$, $A^M=\{1\}$, $B^M=\{1\}$. L'antecedente è vero ma il conseguente è falso.
+
+    \item[(d)] La formula include $A(1,x) \land x=y \land y=z$, da cui $x=z$, che si scontra con $\neg A(1,z)$. Insoddisfacibile. Posto $\Psi^{IV} := A(1,\overline{x}) \land \overline{x}=\overline{y} \land \neg A(1,\overline{z}) \land \overline{y}=\overline{z}$. Dimostrazione della negazione:
+    
+    \begin{prooftree}
+      \tiny
+      \AxiomC{\({[\Psi^{IV}]}_4\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\overline{x}=\overline{y}\)}
+      \AxiomC{\({[\Psi^{IV}]}_4\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\overline{y}=\overline{z}\)}
+      \RuleLabel{\(Trans\)}
+      \BinaryInfC{\(\overline{x}=\overline{z}\)}
+      \RuleLabel{\(Sub_\phi\)}
+      \UnaryInfC{\(A(1,\overline{x}) \to A(1,\overline{z})\)}
+      
+      \AxiomC{\({[\Psi^{IV}]}_4\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(A(1,\overline{x})\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(A(1,\overline{z})\)}
+      
+      \AxiomC{\({[\Psi^{IV}]}_4\)}
+      \RuleLabel{\(\land E\)}
+      \UnaryInfC{\(\neg A(1,\overline{z})\)}
+      
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      
+      \AxiomC{\({[\exists z\st (\dots)]}_3\)}
+      \RuleLabel{\(\exists E\)}[4]
+      \BinaryInfC{\(\bot\)}
+      
+      \AxiomC{\({[\exists y\st \exists z\st (\dots)]}_2\)}
+      \RuleLabel{\(\exists E\)}[3]
+      \BinaryInfC{\(\bot\)}
+      
+      \AxiomC{\({[\exists x\st \exists y\st \exists z\st (\dots)]}_1\)}
+      \RuleLabel{\(\exists E\)}[2]
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\neg I\)}[1]
+      \UnaryInfC{\(\neg \exists x\st \exists y\st \exists z\st (A(1,x)\wedge x=y\wedge\neg A(1,z)\wedge y=z)\)}
+    \end{prooftree}
+
+    \item[(e)] Equivalente logicamente alla premessa, dunque valida. Dimostrazione:
+    
+    \begin{prooftree}
+      \small
+      \AxiomC{\({[\neg A(t)]}_3\)}
+      \AxiomC{\({[A(t)]}_4\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\bot E\)}
+      \UnaryInfC{\(B(y)\)}
+      \RuleLabel{\(\to I\)}[4]
+      \UnaryInfC{\(A(t) \to B(y)\)}
+      \RuleLabel{\(\exists I\)}
+      \UnaryInfC{\(\exists x\st (A(x) \to B(y))\)}
+      
+      \AxiomC{\({[\neg \exists x\st (A(x) \to B(y))]}_2\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[3]
+      \UnaryInfC{\(A(t)\)}
+      \RuleLabel{\(\forall I\)}
+      \UnaryInfC{\(\forall x\st A(x)\)}
+      
+      \AxiomC{\({[\forall x\st A(x) \to B(y)]}_1\)}
+      \RuleLabel{\(\to E\)}
+      \BinaryInfC{\(B(y)\)}
+      
+      \AxiomC{\({[A(z)]}_5\)}
+      \RuleLabel{\(\bot E\)}
+      \BinaryInfC{\(A(z) \to B(y)\)}
+      \RuleLabel{\(\exists I\)}
+      \UnaryInfC{\(\exists x\st (A(x) \to B(y))\)}
+      
+      \AxiomC{\({[\neg \exists x\st (A(x) \to B(y))]}_2\)}
+      \RuleLabel{\(\neg E\)}
+      \BinaryInfC{\(\bot\)}
+      \RuleLabel{\(\RAA\)}[2]
+      \UnaryInfC{\(\exists x\st (A(x) \to B(y))\)}
+      \RuleLabel{\(\to I\)}[1]
+      \UnaryInfC{\((\forall x\st A(x)\rightarrow B(y))\rightarrow\exists x\st (A(x)\rightarrow B(y))\)}
+    \end{prooftree}
+\end{enumerate}

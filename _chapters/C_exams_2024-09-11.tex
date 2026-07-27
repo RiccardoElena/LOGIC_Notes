@@ -1,0 +1,402 @@
+\chapter{Tema d'esame del 11 Settembre 2024}
+\section*{Esercizio 1}
+Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
+
+\subsection*{Traccia (a)}
+\((A\rightarrow B)\rightarrow((\neg B\rightarrow A)\rightarrow B)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Valida}. 
+Motivazione semantica tramite equivalenze logiche:
+\begin{align*}
+(A\rightarrow B)\rightarrow((\neg B\rightarrow A)\rightarrow B) &\equiv \\
+\equiv (A\rightarrow B)\rightarrow((B\vee A)\rightarrow B) &\equiv \\
+\equiv (A\rightarrow B)\rightarrow((\neg B\wedge\neg A)\vee B) &\equiv \\
+\equiv (A\rightarrow B)\rightarrow((\neg B\vee B)\wedge(\neg A\vee B)) &\equiv \\
+\equiv (A\rightarrow B)\rightarrow(A\rightarrow B) &\equiv \top
+\end{align*}
+
+Deduzione naturale:
+\begin{prooftree}
+  \AxiomC{\({[A \to B]}_1\)}
+  \AxiomC{\({[\neg B \to A]}_2\)}
+  \AxiomC{\({[\neg B]}_3\)}
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(A\)}
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(B\)}
+  \AxiomC{\({[\neg B]}_3\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_3\)}[\(\neg B\)]
+  \UnaryInfC{\(B\)}
+  \RuleLabel{\(\to I_2\)}[\(\neg B \to A\)]
+  \UnaryInfC{\((\neg B \to A) \to B\)}
+  \RuleLabel{\(\to I_1\)}[\(A \to B\)]
+  \UnaryInfC{\((A \to B) \to ((\neg B \to A) \to B)\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (b)}
+\((\neg C\rightarrow(\neg A\wedge B))\rightarrow((A\wedge B)\rightarrow C)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Valida}.
+Semanticamente, l'implicazione principale è falsa se e solo se l'antecedente è vero e il conseguente è falso. Il conseguente \((A\wedge B)\rightarrow C\) è falso unicamente quando \(A=1\), \(B=1\) e \(C=0\). 
+Tuttavia, sostituendo questi valori di verità nell'antecedente otteniamo \(\neg 0 \rightarrow (\neg 1 \land 1) \equiv 1 \rightarrow (0 \land 1) \equiv 0\). Non è quindi possibile falsificare l'implicazione, rendendola una tautologia.
+
+Deduzione naturale:
+\begin{prooftree}
+  \AxiomC{\({[\neg C \to (\neg A \land B)]}_1\)}
+  \AxiomC{\({[\neg C]}_2\)}
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(\neg A \land B\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg A\)}
+  \AxiomC{\({[A \land B]}_3\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_2\)}[\(\neg C\)]
+  \UnaryInfC{\(C\)}
+  \RuleLabel{\(\to I_3\)}[\(A \land B\)]
+  \UnaryInfC{\((A \land B) \to C\)}
+  \RuleLabel{\(\to I_1\)}[\(\neg C \to (\neg A \land B)\)]
+  \UnaryInfC{\((\neg C \to (\neg A \land B)) \to ((A \land B) \to C)\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (c)}
+\((\neg(A\vee C)\rightarrow(A\wedge B))\rightarrow(C\rightarrow A)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Soddisfacibile ma non valida}.
+Il conseguente \(C\rightarrow A\) risulta falso se \(C=1\) e \(A=0\). In tal caso, l'antecedente diventa \((\neg(0\vee 1)\rightarrow(0\wedge B)) \equiv (0 \rightarrow 0) \equiv 1\). Avendo vero implica falso, l'intera formula è falsa. Esistendo almeno una configurazione di verità per cui è falsa e una per cui è vera, essa è meramente soddisfacibile. (Non è richiesto alcun albero di deduzione).
+
+
+\subsection*{Traccia (d)}
+\(\neg(A\wedge B)\wedge\neg(\neg A\vee\neg B)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Insoddisfacibile}.
+Infatti, applicando De Morgan:
+\[ \neg(A\wedge B)\wedge\neg(\neg A\vee\neg B) \equiv (\neg A\vee\neg B)\wedge\neg(\neg A\vee\neg B) \equiv \bot \]
+
+Poiché la formula è insoddisfacibile, proviamo la sua negazione con un albero di deduzione naturale:
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\neg(A \land B) \land \neg(\neg A \lor \neg B)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg(A \land B)\)}
+  
+  \AxiomC{\({[A]}_2\)}
+  \AxiomC{\({[B]}_3\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(A \land B\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_3\)}[\(B\)]
+  \UnaryInfC{\(\neg B\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(\neg A \lor \neg B\)}
+
+  \AxiomC{\({[\neg(A \land B) \land \neg(\neg A \lor \neg B)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg(\neg A \lor \neg B)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_2\)}[\(A\)]
+  \UnaryInfC{\(\neg A\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(\neg A \lor \neg B\)}
+  
+  \AxiomC{\({[\neg(A \land B) \land \neg(\neg A \lor \neg B)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg(\neg A \lor \neg B)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_1\)}[\(\neg(A \land B) \land \neg(\neg A \lor \neg B)\)]
+  \UnaryInfC{\(\neg(\neg(A \land B) \land \neg(\neg A \lor \neg B))\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (e)}
+\(((A\wedge B)\vee(A\vee C))\rightarrow(\neg A\rightarrow C)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Valida}.
+Motivazione semantica tramite equivalenze logiche e riduzione ai minimi termini:
+\[ ((A\wedge B)\vee(A\vee C))\rightarrow(\neg A\rightarrow C) \equiv ((A\wedge B)\vee(A\vee C))\rightarrow(A\vee C) \]
+L'implicazione è falsa se e solo se \(A=0\) e \(C=0\), ma in tal caso anche l'antecedente diventa falso (\(0 \rightarrow 0 \equiv 1\)). Dunque, è sempre vera.
+
+Deduzione naturale:
+\begin{prooftree}
+  \small
+  \AxiomC{\({[(A \land B) \lor (A \lor C)]}_1\)}
+  
+  \AxiomC{\({[A \land B]}_3\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(A\)}
+  \AxiomC{\({[\neg A]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\bot E\)}
+  \UnaryInfC{\(C\)}
+  
+  \AxiomC{\({[A \lor C]}_3\)}
+  
+  \AxiomC{\({[A]}_4\)}
+  \AxiomC{\({[\neg A]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\bot E\)}
+  \UnaryInfC{\(C\)}
+  
+  \AxiomC{\({[C]}_4\)}
+  
+  \RuleLabel{\(\lor E_4\)}[\(A\), \(C\)]
+  \TrinaryInfC{\(C\)}
+  
+  \RuleLabel{\(\lor E_3\)}[\(A \land B\), \(A \lor C\)]
+  \TrinaryInfC{\(C\)}
+  
+  \RuleLabel{\(\to I_2\)}[\(\neg A\)]
+  \UnaryInfC{\(\neg A \to C\)}
+  
+  \RuleLabel{\(\to I_1\)}[\((A \land B) \lor (A \lor C)\)]
+  \UnaryInfC{\(((A \land B) \lor (A \lor C)) \to (\neg A \to C)\)}
+\end{prooftree}
+
+\vspace{1cm}
+
+\section*{Esercizio 2}
+Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale.
+
+\begin{enumerate}
+    \item[(a)] \textbf{Traccia:} Nessuna persona vive su Marte o Venere. \\
+    \textbf{Svolgimento:}
+    \[ \neg\exists p \st (P(p)\wedge (In(p,\text{Marte})\vee In(p,\text{Venere}))) \]
+
+    \item[(b)] \textbf{Traccia:} Tutte le persone sono vicine a qualche persona ma nessuna persona è vicina a tutte le persone. \\
+    \textbf{Svolgimento:}
+    \[ \forall p (P(p)\rightarrow \exists q \st (P(q)\wedge V(p,q))) \wedge \neg\exists p \st (P(p)\wedge \forall q (P(q)\rightarrow V(p,q))) \]
+
+    \item[(c)] \textbf{Traccia:} La persona più alta del mondo vive in Marocco. \\
+    \textbf{Svolgimento:}
+    \[ \exists x \st (P(x)\wedge \forall p ((P(p)\wedge \neg(p=x))\rightarrow p<x) \wedge In(x,\text{Marocco})) \]
+
+    \item[(d)] \textbf{Traccia:} Ci sono solo tre persone più alte di Filippo. \\
+    \textbf{Svolgimento:}
+    \begin{align*} 
+        \exists p_1 \exists p_2 \exists p_3 \st (&P(p_1) \wedge P(p_2) \wedge P(p_3) \wedge \text{Filippo} < p_1 \wedge \text{Filippo} < p_2 \wedge \text{Filippo} < p_3 \wedge \\
+        & \neg(p_1=p_2) \wedge \neg(p_2=p_3) \wedge \neg(p_1=p_3) \wedge \\
+        & \forall q ((P(q) \wedge \text{Filippo} < q) \rightarrow (q=p_1 \vee q=p_2 \vee q=p_3))) 
+    \end{align*}
+
+    \item[(e)] \textbf{Traccia:} La fila è un ordine discreto di persone. \\
+    \textbf{Svolgimento:} (Suddiviso in sotto-formule per chiarezza)
+    \begin{align*}
+        \phi_{\text{RIFL}} &:= \forall p (F(p) \rightarrow \neg(p<p)) \\
+        \phi_{\text{TRICOTOMIA}} &:= \forall p_1 \forall p_2 ((F(p_1)\wedge F(p_2)) \rightarrow (p_1<p_2 \vee p_2<p_1 \vee p_1=p_2)) \\
+        \phi_{\text{TRANS}} &:= \forall p_1 \forall p_2 \forall p_3 ((F(p_1)\wedge F(p_2)\wedge F(p_3) \wedge p_1<p_2 \wedge p_2<p_3) \rightarrow p_1<p_3) \\
+        \phi_{\text{LIN}} &:= \phi_{\text{RIFL}} \wedge \phi_{\text{TRICOTOMIA}} \wedge \phi_{\text{TRANS}} \\
+        \phi_{\text{SUCC}} &:= \forall p ((F(p) \wedge \exists x \st (F(x) \wedge p<x)) \rightarrow \\
+        & \qquad \exists x \st (F(x) \wedge p<x \wedge \forall y ((F(y) \wedge p<y) \rightarrow (x=y \vee x<y)))) \\
+        \phi_{\text{PREC}} &:= \forall p ((F(p) \wedge \exists x \st (F(x) \wedge x<p)) \rightarrow \\
+        & \qquad \exists x \st (F(x) \wedge x<p \wedge \forall y ((F(y) \wedge y<p) \rightarrow (x=y \vee y<x)))) \\
+        \phi_{\text{PERS}} &:= \forall x (F(x) \rightarrow P(x)) \\
+        \phi_{\text{DISC}} &:= \phi_{\text{PERS}} \wedge \phi_{\text{LIN}} \wedge \phi_{\text{SUCC}} \wedge \phi_{\text{PREC}}
+    \end{align*}
+\end{enumerate}
+
+\vspace{1cm}
+
+\section*{Esercizio 3}
+Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili.
+
+\subsection*{Traccia (a)}
+\(\forall x P(x)\wedge\neg\neg\exists x \st \neg P(x)\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Insoddisfacibile}.
+Semanticamente: \(\forall x P(x)\wedge\neg\neg\exists x \st \neg P(x) \equiv \forall x P(x)\wedge\exists x \st \neg P(x) \equiv \bot\).
+Essendo insoddisfacibile, proviamo la sua negazione in deduzione naturale:
+
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\forall x P(x) \land \neg\neg\exists x \st \neg P(x)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\forall x P(x)\)}
+  \RuleLabel{\(\forall E\)}
+  \UnaryInfC{\(P(z)\)}
+  
+  \AxiomC{\({[\neg P(z)]}_3\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \AxiomC{\({[\exists x \st \neg P(x)]}_2\)}
+  \RuleLabel{\(\exists E_3\)}[\(\neg P(z)\)]
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_2\)}[\(\exists x \st \neg P(x)\)]
+  \UnaryInfC{\(\neg \exists x \st \neg P(x)\)}
+  
+  \AxiomC{\({[\forall x P(x) \land \neg\neg\exists x \st \neg P(x)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg\neg\exists x \st \neg P(x)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_1\)}[\(\forall x P(x) \land \neg\neg\exists x \st \neg P(x)\)]
+  \UnaryInfC{\(\neg(\forall x P(x) \land \neg\neg\exists x \st \neg P(x))\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (b)}
+\(((\forall y R(a,y))\rightarrow P(a))\rightarrow((\exists y \st R(a,y))\rightarrow P(a))\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Soddisfacibile ma non valida}.
+Controesempio semantico: Sia dato un modello con Dominio \(D=\{a,b\}\), con la relazione \(R^M=\{(a,b)\}\) e l'insieme \(P^M=\emptyset\). 
+Valutando le formule su questo modello:
+- \(\forall y R(a,y)\) è falso, quindi l'antecedente \((\forall y R(a,y))\rightarrow P(a)\) è vero.
+- \(\exists y \st R(a,y)\) è vero (esiste l'elemento \(b\)), ma \(P(a)\) è falso, quindi il conseguente \((\exists y \st R(a,y))\rightarrow P(a)\) è falso.
+L'implicazione finale (Vero \(\rightarrow\) Falso) risulta falsa. (Albero di deduzione non richiesto).
+
+
+\subsection*{Traccia (c)}
+\(\neg\exists x \st \neg P(x) \wedge \neg\forall x P(x)\) 
+\emph{(N.B. Sulla base dell'albero di risoluzione e della semplificazione presentata, la formula trattata presenta questa esatta forma, che è insoddisfacibile).}
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Insoddisfacibile}.
+Infatti si riduce a: \(\forall x P(x) \wedge \neg\forall x P(x) \equiv \bot\).
+Essendo insoddisfacibile, se ne dimostra la negazione in deduzione naturale:
+
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\neg\exists x \st \neg P(x) \land \neg\forall x P(x)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg\exists x \st \neg P(x)\)}
+  
+  \AxiomC{\({[\neg P(z)]}_3\)}
+  \RuleLabel{\(\exists I\)}
+  \UnaryInfC{\(\exists x \st \neg P(x)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+  \UnaryInfC{\(P(z)\)}
+  \RuleLabel{\(\forall I\)}
+  \UnaryInfC{\(\forall x P(x)\)}
+  
+  \AxiomC{\({[\neg\exists x \st \neg P(x) \land \neg\forall x P(x)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg\forall x P(x)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_1\)}[\(\neg\exists x \st \neg P(x) \land \neg\forall x P(x)\)]
+  \UnaryInfC{\(\neg(\neg\exists x \st \neg P(x) \land \neg\forall x P(x))\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (d)}
+\((\neg\forall x P(x))\rightarrow\neg\forall x \forall y \neg(\neg P(x)\vee\neg P(y))\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Valida}.
+Le equivalenze semantiche ci portano a:
+\begin{align*}
+(\neg\forall x P(x))\rightarrow\neg\forall x \forall y \neg(\neg P(x)\vee\neg P(y)) &\equiv \\
+\equiv (\neg\forall x P(x))\rightarrow\neg\forall x \forall y (P(x)\wedge P(y)) &\equiv \\
+\equiv (\neg\forall x P(x))\rightarrow\exists x (\neg P(x)\vee\exists y \st \neg P(y)) &\equiv \\
+\equiv \exists x \st \neg P(x)\rightarrow (\exists x \st \neg P(x)\vee\exists x \st \neg P(x)) &\equiv \\
+\equiv \exists x \st \neg P(x)\rightarrow\exists x \st \neg P(x) &\equiv \top
+\end{align*}
+
+Deduzione naturale:
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\forall x \forall y \neg(\neg P(x) \lor \neg P(y))]}_2\)}
+  \RuleLabel{\(\forall E\)}
+  \UnaryInfC{\(\forall y \neg(\neg P(z) \lor \neg P(y))\)}
+  \RuleLabel{\(\forall E\)}
+  \UnaryInfC{\(\neg(\neg P(z) \lor \neg P(t))\)}
+  
+  \AxiomC{\({[\neg P(z)]}_3\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\(\neg P(z) \lor \neg P(t)\)}
+  
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+  \UnaryInfC{\(P(z)\)}
+  
+  \RuleLabel{\(\forall I\)}
+  \UnaryInfC{\(\forall x P(x)\)}
+  
+  \AxiomC{\({[\neg\forall x P(x)]}_1\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  
+  \RuleLabel{\(\neg I_2\)}[\(\forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)]
+  \UnaryInfC{\(\neg \forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)}
+  
+  \RuleLabel{\(\to I_1\)}[\(\neg\forall x P(x)\)]
+  \UnaryInfC{\((\neg\forall x P(x)) \to \neg \forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)}
+\end{prooftree}
+
+
+\subsection*{Traccia (e)}
+\((a=b)\rightarrow((c=b)\rightarrow((\exists x \st R(a,x))\rightarrow(\exists x \st R(c,x))))\)
+
+\subsubsection*{Svolgimento}
+La formula è \textbf{Valida}.
+Dalle premesse otteniamo per simmetria \(b=c\); applicando la proprietà transitiva su \(a=b\) e \(b=c\) ricaviamo l'uguaglianza \(a=c\). Da questa è lecito sostituire in ogni predicato la costante \(a\) con \(c\), derivando così la conclusione finale.
+
+Deduzione naturale:
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\exists x \st R(a,x)]}_3\)}
+  
+  \AxiomC{\({[a=b]}_2\)}
+  \AxiomC{\({[c=b]}_1\)}
+  \RuleLabel{\(Symm\)}
+  \UnaryInfC{\(b=c\)}
+  \RuleLabel{\(Trans\)}
+  \BinaryInfC{\(a=c\)}
+  
+  \RuleLabel{\(Sub_\phi\)}
+  \UnaryInfC{\(R(a,x) \to R(c,x)\)}
+  
+  \AxiomC{\({[R(a,x)]}_4\)}
+  
+  \RuleLabel{\(\to E\)}
+  \BinaryInfC{\(R(c,x)\)}
+  \RuleLabel{\(\exists I\)}
+  \UnaryInfC{\(\exists x \st R(c,x)\)}
+  
+  \RuleLabel{\(\exists E_4\)}[\(R(a,x)\)]
+  \BinaryInfC{\(\exists x \st R(c,x)\)}
+  
+  \RuleLabel{\(\to I_3\)}[\(\exists x \st R(a,x)\)]
+  \UnaryInfC{\((\exists x \st R(a,x)) \to (\exists x \st R(c,x))\)}
+  
+  \RuleLabel{\(\to I_1\)}[\(c=b\)]
+  \UnaryInfC{\((c=b) \to ((\exists x \st R(a,x)) \to (\exists x \st R(c,x)))\)}
+  
+  \RuleLabel{\(\to I_2\)}[\(a=b\)]
+  \UnaryInfC{\((a=b) \to ((c=b) \to ((\exists x \st R(a,x)) \to (\exists x \st R(c,x))))\)}
+\end{prooftree}
