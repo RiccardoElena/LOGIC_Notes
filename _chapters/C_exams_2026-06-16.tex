@@ -1,0 +1,189 @@
+\chapter{Tema d'esame del 16 Giugno 2026}
+\section*{Esercizio 1}
+\textbf{Traccia:}
+Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli costanti presenti nelle frasi e i simboli di costante e di predicato indicati di seguito. Simboli di costante: 1 e 2. Simboli di predicato: $N(\cdot)="\cdot \text{ è un numero}"$; $Pr(\cdot)="\cdot \text{ è un numero primo}"$; $Succ(\cdot,\circ)="\cdot \text{ è successore di } \circ"$; $Div(\cdot,\circ)="\cdot \text{ è divisibile per } \circ"$; $(\cdot < \circ)="\cdot \text{ minore di } \circ"$.
+\begin{enumerate}
+    \item[(a)] I numeri primi non formano un insieme denso.
+    \item[(b)] I numeri primi maggiori di 2 hanno successore pari;
+    \item[(c)] Un numero primo è divisibile solo da 1 e da sé stesso;
+    \item[(d)] I numeri primi formano un insieme discreto.
+\end{enumerate}
+
+\textbf{Svolgimento:}
+Definiamo innanzitutto l'abbreviazione $NP(x) := N(x) \land Pr(x)$.
+
+\begin{itemize}
+    \item[(a)] \textbf{I numeri primi non formano un insieme denso.}
+    Proprietà dell'ordine lineare:
+    \[ \phi_{ANTIRIFL} := \forall x (NP(x) \to \neg(x < x)) \]
+    \[ \phi_{TRICO} := \forall x \forall y ((NP(x) \land NP(y)) \to ((x < y) \lor (y < x) \lor (y = x))) \]
+    \[ \phi_{TRANS} := \forall x \forall y \forall z ((NP(x) \land NP(y) \land NP(z) \land x < y \land y < z) \to (x < z)) \]
+    \[ \phi_{LIN} := \phi_{ANTIRIFL} \land \phi_{TRICO} \land \phi_{TRANS} \]
+    Proprietà di densità:
+    \[ \phi' := \forall x \forall y ((NP(x) \land NP(y) \land (x < y)) \to \exists z \st (NP(z) \land (x < z) \land (z < y))) \]
+    Soluzione:
+    \[ \Phi_{NON\_DENSO} := \neg(\phi_{LIN} \land \phi') \]
+
+    \item[(b)] \textbf{I numeri primi maggiori di 2 hanno successore pari.}
+    \[ \forall x ((NP(x) \land (2 < x)) \to \exists s \st (N(s) \land Succ(s, x) \land Div(s, 2))) \]
+
+    \item[(c)] \textbf{Un numero primo è divisibile solo da 1 e da sé stesso.}
+    \[ \forall x (NP(x) \to \forall d (N(d) \land Div(x, d) \to ((d = 1) \lor (d = x)))) \]
+
+    \item[(d)] \textbf{I numeri primi formano un insieme discreto.}
+    \[ \phi'' := \forall x ((NP(x) \land \exists m \st (NP(m) \land (x < m))) \to \exists s \st (NP(s) \land (x < s) \land \forall t (NP(t) \land (x < t) \to \neg(t < s)))) \]
+    Soluzione:
+    \[ \phi_{DISC} := \phi_{LIN} \land \phi'' \]
+\end{itemize}
+
+\section*{Esercizio 2}
+\textbf{Traccia:}
+Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data.
+Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
+\begin{enumerate}
+    \item[(a)] $(A \lor B) \to (\neg A \to B)$
+    \item[(b)] $(A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C)$
+    \item[(c)] $\neg(A \land B) \land \neg(A \to \neg B)$
+\end{enumerate}
+
+\textbf{Svolgimento:}
+
+\subsection*{(a) $(A \lor B) \to (\neg A \to B)$}
+Semanticamente, la formula è equivalente a $(A \lor B) \to (A \lor B)$, che è una tautologia. Dunque è \textbf{Valida}.
+
+\begin{prooftree}
+  \AxiomC{\({[A \lor B]}_3\)}
+  \AxiomC{\({[A]}_1\)}
+  \AxiomC{\({[\neg A]}_2\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA\)}
+  \UnaryInfC{\(B\)}
+  \AxiomC{\({[B]}_1\)}
+  \RuleLabel{\(\lor E_1\)}[\(A\), \(B\)]
+  \TrinaryInfC{\(B\)}
+  \RuleLabel{\(\to I_2\)}[\(\neg A\)]
+  \UnaryInfC{\(\neg A \to B\)}
+  \RuleLabel{\(\to I_3\)}[\(A \lor B\)]
+  \UnaryInfC{\((A \lor B) \to (\neg A \to B)\)}
+\end{prooftree}
+
+\subsection*{(b) $(A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C)$}
+Sviluppando le implicazioni, otteniamo:
+$(\neg A \lor B \lor \neg C) \lor ((A \lor B) \lor \neg C) \equiv (\neg A \lor A) \lor (B \lor B) \lor (\neg C \lor \neg C)$, che è banalmente vera in quanto contiene il terzo escluso $\neg A \lor A$. È \textbf{Valida}.
+
+\begin{prooftree}
+  \small
+  \AxiomC{\({[\neg ((A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C))]}_1\)}
+  \AxiomC{\({[\neg A \land \neg B]}_3\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg A\)}
+  \AxiomC{\({[A]}_4\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_4\)}
+  \UnaryInfC{\(B \lor \neg C\)}
+  \RuleLabel{\(\to I\)}
+  \UnaryInfC{\(A \to (B \lor \neg C)\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C)\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_3\)}
+  \UnaryInfC{\(\neg C\)}
+  \RuleLabel{\(\to I\)}
+  \UnaryInfC{\((\neg A \land \neg B) \to \neg C\)}
+  \RuleLabel{\(\lor I\)}
+  \UnaryInfC{\((A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C)\)}
+  \AxiomC{\({[\neg ((A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C))]}_1\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\RAA_1\)}
+  \UnaryInfC{\((A \to (B \lor \neg C)) \lor ((\neg A \land \neg B) \to \neg C)\)}
+\end{prooftree}
+
+\subsection*{(c) $\neg(A \land B) \land \neg(A \to \neg B)$}
+Sviluppando $\neg(A \to \neg B)$ si ottiene $\neg(\neg A \lor \neg B) \equiv A \land B$. La formula è quindi equivalente a $\neg(A \land B) \land (A \land B)$, che è una contraddizione. La formula è \textbf{Insoddisfacibile}.
+Dimostriamo quindi la sua negazione $\neg(\neg(A \land B) \land \neg(A \to \neg B))$.
+
+\begin{prooftree}
+  \AxiomC{\({[\neg(A \land B) \land \neg(A \to \neg B)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg(A \to \neg B)\)}
+  \AxiomC{\({[A]}_3\)}
+  \AxiomC{\({[B]}_2\)}
+  \RuleLabel{\(\land I\)}
+  \BinaryInfC{\(A \land B\)}
+  \AxiomC{\({[\neg(A \land B) \land \neg(A \to \neg B)]}_1\)}
+  \RuleLabel{\(\land E\)}
+  \UnaryInfC{\(\neg(A \land B)\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\to I_2\)}[\(B\)]
+  \UnaryInfC{\(\neg B\)}
+  \RuleLabel{\(\to I_3\)}[\(A\)]
+  \UnaryInfC{\(A \to \neg B\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg(\neg(A \land B) \land \neg(A \to \neg B))\)}
+\end{prooftree}
+
+\section*{Esercizio 4}
+\textbf{Traccia:}
+Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili.
+\begin{enumerate}
+    \item[(a)] $\neg \exists x \st (A(x) \lor B(x)) \to \neg\neg \forall x \st \neg(A(x) \lor B(x))$
+    \item[(b)] $(a=b) \to ((c=b) \to ((\forall x \st C(a,x)) \to (\exists x \st C(c,x))))$
+\end{enumerate}
+
+\textbf{Svolgimento:}
+
+\subsection*{(a) $\neg \exists x \st (A(x) \lor B(x)) \to \neg\neg \forall x \st \neg(A(x) \lor B(x))$}
+La formula è \textbf{Valida}. 
+
+\begin{prooftree}
+  \AxiomC{\({[\neg \forall x \st \neg(A(x) \lor B(x))]}_1\)}
+  \AxiomC{\({[\neg \exists x \st (A(x) \lor B(x))]}_2\)}
+  \AxiomC{\({[A(y) \lor B(y)]}_3\)}
+  \RuleLabel{\(\exists I\)}
+  \UnaryInfC{\(\exists x \st (A(x) \lor B(x))\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_3\)}
+  \UnaryInfC{\(\neg(A(y) \lor B(y))\)}
+  \RuleLabel{\(\forall I\)}
+  \UnaryInfC{\(\forall x \st \neg(A(x) \lor B(x))\)}
+  \RuleLabel{\(\neg E\)}
+  \BinaryInfC{\(\bot\)}
+  \RuleLabel{\(\neg I_1\)}
+  \UnaryInfC{\(\neg\neg \forall x \st \neg(A(x) \lor B(x))\)}
+  \RuleLabel{\(\to I_2\)}
+  \UnaryInfC{\(\neg \exists x \st (A(x) \lor B(x)) \to \neg\neg \forall x \st \neg(A(x) \lor B(x))\)}
+\end{prooftree}
+
+\subsection*{(b) $(a=b) \to ((c=b) \to ((\forall x \st C(a,x)) \to (\exists x \st C(c,x))))$}
+Da $a=b$ e $c=b$ ricaviamo per simmetria e transitività $a=c$. Quindi $\forall x \st C(a,x)$ implica $\forall x \st C(c,x)$, da cui si deduce $\exists x \st C(c,x)$. La formula è \textbf{Valida}.
+
+\begin{prooftree}
+  \small
+  \AxiomC{\({[a=b]}_3\)}
+  \AxiomC{\({[c=b]}_2\)}
+  \RuleLabel{\(Symm\)}
+  \UnaryInfC{\(b=c\)}
+  \RuleLabel{\(Trans\)}
+  \BinaryInfC{\(a=c\)}
+  \AxiomC{\({[\forall x \st C(a,x)]}_1\)}
+  \RuleLabel{\(\forall E\)}
+  \UnaryInfC{\(C(a,c)\)}
+  \RuleLabel{\(Sub_\phi\)}
+  \BinaryInfC{\(C(c,c)\)}
+  \RuleLabel{\(\exists I\)}
+  \UnaryInfC{\(\exists x \st C(c,x)\)}
+  \RuleLabel{\(\to I_1\)}
+  \UnaryInfC{\(\forall x \st C(a,x) \to \exists x \st C(c,x)\)}
+  \RuleLabel{\(\to I_2\)}
+  \UnaryInfC{\((c=b) \to (\forall x \st C(a,x) \to \exists x \st C(c,x))\)}
+  \RuleLabel{\(\to I_3\)}
+  \UnaryInfC{\((a=b) \to ((c=b) \to ((\forall x \st C(a,x)) \to (\exists x \st C(c,x))))\)}
+\end{prooftree}
