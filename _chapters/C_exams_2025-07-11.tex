@@ -1,0 +1,263 @@
+\chapter{Tema d'esame del 11 Luglio 2025}
+\section*{Esercizio 1}
+\subsection*{Traccia}
+Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili, motivando semanticamente la risposta. Esibire una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se insoddisfacibile.
+\begin{enumerate}
+    \item[(a)] \((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)
+    \item[(b)] \(((p \lor r) \lor (p \land q)) \to (\neg r \lor p)\)
+    \item[(c)] \((p \to q) \land \neg(\neg p \lor q)\)
+    \item[(d)] \(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)
+    \item[(e)] \(\neg(\neg(p \to q) \land \neg(p \lor q))\)
+\end{enumerate}
+
+\subsection*{Svolgimento}
+\subsubsection*{(a) \((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)}
+La formula è \textbf{valida}. Semanticamente, l'antecedente implica il conseguente poiché \((p \land (\neg p \lor q)) \equiv p \land q\), e questo contraddice \((p \land \neg q)\).
+
+\begin{prooftree}
+    \small
+    \AxiomC{\({[p \land (\neg p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg p \lor q\)}
+    \AxiomC{\({[p \land (\neg p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(p\)}
+    \AxiomC{\({[\neg p]}_2\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \AxiomC{\({[p \land \neg q]}_3\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg q\)}
+    \AxiomC{\({[q]}_2\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\lor E_{2}\)}[\(\neg p, q\)]
+    \TrinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_3\)}[\(p \land \neg q\)]
+    \UnaryInfC{\(\neg(p \land \neg q)\)}
+    \RuleLabel{\(\to I_1\)}[\(p \land (\neg p \lor q)\)]
+    \UnaryInfC{\((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)}
+\end{prooftree}
+
+\subsubsection*{(b) \(((p \lor r) \lor (p \land q)) \to (\neg r \lor p)\)}
+La formula è \textbf{soddisfacibile ma non valida}. La formula è falsa per \(r=1\) e \(p=0\), ma è vera per \(r=0\) o \(p=1\).
+
+\subsubsection*{(c) \((p \to q) \land \neg(\neg p \lor q)\)}
+La formula è \textbf{insoddisfacibile}. Esibiamo la deduzione per la sua negazione.
+
+\begin{prooftree}
+    \small
+    \AxiomC{\({[(p \to q) \land \neg(\neg p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(p \to q\)}
+    \AxiomC{\({[(p \to q) \land \neg(\neg p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg(\neg p \lor q)\)}
+    \AxiomC{\({[\neg p]}_3\)}
+    \RuleLabel{\(\lor I\)}
+    \UnaryInfC{\(\neg p \lor q\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\RAA_3\)}[\(\neg p\)]
+    \UnaryInfC{\(p\)}
+    \RuleLabel{\(\to E\)}
+    \BinaryInfC{\(q\)}
+    \RuleLabel{\(\lor I\)}
+    \UnaryInfC{\(\neg p \lor q\)}
+    \AxiomC{\({[(p \to q) \land \neg(\neg p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg(\neg p \lor q)\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_1\)}[\((p \to q) \land \neg(\neg p \lor q)\)]
+    \UnaryInfC{\(\neg((p \to q) \land \neg(\neg p \lor q))\)}
+\end{prooftree}
+
+\subsubsection*{(d) \(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)}
+La formula è \textbf{valida}.
+
+\begin{prooftree}
+    \small
+    \AxiomC{\({[\neg\neg(\neg p \lor q)]}_1\)}
+    \AxiomC{\({[\neg p \lor q]}_3\)}
+    \AxiomC{\({[p \land \neg q]}_2\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(p\)}
+    \AxiomC{\({[\neg p]}_4\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \AxiomC{\({[p \land \neg q]}_2\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg q\)}
+    \AxiomC{\({[q]}_4\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\lor E_4\)}[\(\neg p, q\)]
+    \TrinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_3\)}[\(\neg p \lor q\)]
+    \UnaryInfC{\(\neg(\neg p \lor q)\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_2\)}[\(p \land \neg q\)]
+    \UnaryInfC{\(\neg(p \land \neg q)\)}
+    \RuleLabel{\(\to I_1\)}[\(\neg\neg(\neg p \lor q)\)]
+    \UnaryInfC{\(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)}
+\end{prooftree}
+
+\subsubsection*{(e) \(\neg(\neg(p \to q) \land \neg(p \lor q))\)}
+La formula è \textbf{valida}.
+
+\begin{prooftree}
+    \small
+    \AxiomC{\({[\neg(p \to q) \land \neg(p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg(p \lor q)\)}
+    \AxiomC{\({[p]}_2\)}
+    \RuleLabel{\(\lor I\)}
+    \UnaryInfC{\(p \lor q\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\bot E\)}
+    \UnaryInfC{\(q\)}
+    \RuleLabel{\(\to I_2\)}[\(p\)]
+    \UnaryInfC{\(p \to q\)}
+    \AxiomC{\({[\neg(p \to q) \land \neg(p \lor q)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg(p \to q)\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_1\)}[\(\neg(p \to q) \land \neg(p \lor q)\)]
+    \UnaryInfC{\(\neg(\neg(p \to q) \land \neg(p \lor q))\)}
+\end{prooftree}
+
+\section*{Esercizio 2}
+\subsection*{Traccia}
+Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni...
+\subsection*{Svolgimento}
+\begin{enumerate}
+    \item[(a)] \(\forall c (C(c) \to \forall p ((P(p) \land PR(p,c)) \to F(c,p)))\)
+    \item[(b)] \(\exists c (C(c) \land \exists p (P(p) \land PR(p,c) \land F(c,p) \land \forall q ((P(q) \land PR(q,c) \land F(c,q)) \to q = p)))\)
+    \item[(c)] \(\neg \exists c (C(c) \land \forall p ((P(p) \land PR(p,c)) \to \neg F(c,p)))\)
+    \item[(d)] \(\forall p ((P(p) \land \forall c (C(c) \to A(p,c))) \to \exists c_1 \exists c_2 (C(c_1) \land C(c_2) \land PR(p,c_1) \land PR(p,c_2) \land \neg(c_1 = c_2)))\)
+    \item[(e)] \(\forall p (P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))\)
+\end{enumerate}
+
+\section*{Esercizio 3}
+\subsection*{Traccia}
+Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili...
+\subsection*{Svolgimento}
+
+\subsubsection*{(a) \(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)\)}
+\textbf{Insoddisfacibile}. Dimostriamo la sua negazione.
+\begin{prooftree}
+    \small
+    \AxiomC{\({[\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\exists x \st \neg P(x)\)}
+    \AxiomC{\({[\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)]}_1\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg\neg\forall x \st P(x)\)}
+    \RuleLabel{\(\RAA\)}
+    \UnaryInfC{\(\forall x \st P(x)\)}
+    \RuleLabel{\(\forall E\)}
+    \UnaryInfC{\(P(z)\)}
+    \AxiomC{\({[\neg P(z)]}_2\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\exists E_2\)}[\(\neg P(z)\)]
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_1\)}[\(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)\)]
+    \UnaryInfC{\(\neg(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x))\)}
+\end{prooftree}
+
+\subsubsection*{(b) \((\exists y \st (\forall x \st P(x,y) \to B(y))) \to (\exists y \st (\exists x \st P(x,y) \to B(y)))\)}
+\textbf{Soddisfacibile ma non valida}. Falsificabile con \(D=\{1,2\}\), \(B=\{1\}\), \(P=\{(1,1), (2,2)\}\).
+
+\subsubsection*{(c) \((a=b) \to ((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x))))\)}
+\textbf{Valida}. Assumendo dimostrati \(Symm\) e \(Trans\):
+\begin{prooftree}
+    \small
+    \AxiomC{\({[\forall x \st B(a,x)]}_3\)}
+    \RuleLabel{\(\forall E\)}
+    \UnaryInfC{\(B(a,a)\)}
+    \AxiomC{\({[a=b]}_1\)}
+    \AxiomC{\({[c=b]}_2\)}
+    \RuleLabel{\(Symm\)}
+    \UnaryInfC{\(b=c\)}
+    \RuleLabel{\(Trans\)}
+    \BinaryInfC{\(a=c\)}
+    \RuleLabel{\(Sub_\phi\)}
+    \BinaryInfC{\(B(c,a)\)}
+    \RuleLabel{\(\exists I\)}
+    \UnaryInfC{\(\exists x \st B(c,x)\)}
+    \RuleLabel{\(\to I_3\)}[\(\forall x \st B(a,x)\)]
+    \UnaryInfC{\((\forall x \st B(a,x)) \to (\exists x \st B(c,x))\)}
+    \RuleLabel{\(\to I_2\)}[\(c=b\)]
+    \UnaryInfC{\((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x)))\)}
+    \RuleLabel{\(\to I_1\)}[\(a=b\)]
+    \UnaryInfC{\((a=b) \to ((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x))))\)}
+\end{prooftree}
+
+\subsubsection*{(d) \(\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y))\)}
+\textbf{Insoddisfacibile}.
+\begin{prooftree}
+    \small
+    \AxiomC{\({[\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y))]}_1\)}
+    \AxiomC{\({[P(k,x) \land x=y \land \neg P(k,y)]}_2\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(P(k,x)\)}
+    \AxiomC{\({[P(k,x) \land x=y \land \neg P(k,y)]}_2\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(x=y\)}
+    \RuleLabel{\(Sub_\phi\)}
+    \BinaryInfC{\(P(k,y)\)}
+    \AxiomC{\({[P(k,x) \land x=y \land \neg P(k,y)]}_2\)}
+    \RuleLabel{\(\land E\)}
+    \UnaryInfC{\(\neg P(k,y)\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\exists E_2\)}[\(P(k,x) \land x=y \land \neg P(k,y)\)]
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\neg I_1\)}
+    \UnaryInfC{\(\neg(\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y)))\)}
+\end{prooftree}
+
+\subsubsection*{(e) \((\forall x \st P(x) \to \exists x \st Q(x)) \to \exists x \st (P(x) \to Q(x))\)}
+\textbf{Valida}.
+\begin{prooftree}
+    \tiny
+    \AxiomC{\({[\forall x \st P(x) \to \exists x \st Q(x)]}_5\)}
+    \AxiomC{\({[\neg \exists x \st (P(x) \to Q(x))]}_1\)}
+    \AxiomC{\({[\neg P(z)]}_3\)}
+    \AxiomC{\({[P(z)]}_4\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\bot E\)}
+    \UnaryInfC{\(Q(z)\)}
+    \RuleLabel{\(\to I_4\)}[\(P(z)\)]
+    \UnaryInfC{\(P(z) \to Q(z)\)}
+    \RuleLabel{\(\exists I\)}
+    \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+    \UnaryInfC{\(P(z)\)}
+    \RuleLabel{\(\forall I\)}
+    \UnaryInfC{\(\forall x \st P(x)\)}
+    \RuleLabel{\(\to E\)}
+    \BinaryInfC{\(\exists x \st Q(x)\)}
+    \AxiomC{\({[\neg \exists x \st (P(x) \to Q(x))]}_1\)}
+    \AxiomC{\({[Q(w)]}_2\)}
+    \RuleLabel{\(\to I\)}
+    \UnaryInfC{\(P(w) \to Q(w)\)}
+    \RuleLabel{\(\exists I\)}
+    \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
+    \RuleLabel{\(\neg E\)}
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\exists E_2\)}[\(Q(w)\)]
+    \BinaryInfC{\(\bot\)}
+    \RuleLabel{\(\RAA_1\)}[\(\neg \exists x \st (P(x) \to Q(x))\)]
+    \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
+    \RuleLabel{\(\to I_5\)}[\(\forall x \st P(x) \to \exists x \st Q(x)\)]
+    \UnaryInfC{\((\forall x \st P(x) \to \exists x \st Q(x)) \to \exists x \st (P(x) \to Q(x))\)}
+\end{prooftree}
