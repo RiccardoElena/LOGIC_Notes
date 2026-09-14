@@ -26,11 +26,11 @@ Deduzione naturale:
   \AxiomC{\({[\neg B]}_3\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_3\)}[\(\neg B\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(B\)}
-  \RuleLabel{\(\to I_2\)}[\(\neg B \to A\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\((\neg B \to A) \to B\)}
-  \RuleLabel{\(\to I_1\)}[\(A \to B\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((A \to B) \to ((\neg B \to A) \to B)\)}
 \end{prooftree}
 
@@ -55,11 +55,11 @@ Deduzione naturale:
   \UnaryInfC{\(A\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg C\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(C\)}
-  \RuleLabel{\(\to I_3\)}[\(A \land B\)]
+  \RuleLabel{\(\to I_3\)}
   \UnaryInfC{\((A \land B) \to C\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg C \to (\neg A \land B)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\neg C \to (\neg A \land B)) \to ((A \land B) \to C)\)}
 \end{prooftree}
 
@@ -92,7 +92,7 @@ Poiché la formula è insoddisfacibile, proviamo la sua negazione con un albero 
   
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_3\)}[\(B\)]
+  \RuleLabel{\(\neg I_3\)}
   \UnaryInfC{\(\neg B\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\(\neg A \lor \neg B\)}
@@ -104,7 +104,7 @@ Poiché la formula è insoddisfacibile, proviamo la sua negazione con un albero 
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_2\)}[\(A\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg A\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\(\neg A \lor \neg B\)}
@@ -116,7 +116,7 @@ Poiché la formula è insoddisfacibile, proviamo la sua negazione con un albero 
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_1\)}[\(\neg(A \land B) \land \neg(\neg A \lor \neg B)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\neg(A \land B) \land \neg(\neg A \lor \neg B))\)}
 \end{prooftree}
 
@@ -154,16 +154,16 @@ Deduzione naturale:
   
   \AxiomC{\({[C]}_4\)}
   
-  \RuleLabel{\(\lor E_4\)}[\(A\), \(C\)]
+  \RuleLabel{\(\lor E_4\)}
   \TrinaryInfC{\(C\)}
   
-  \RuleLabel{\(\lor E_3\)}[\(A \land B\), \(A \lor C\)]
+  \RuleLabel{\(\lor E_3\)}
   \TrinaryInfC{\(C\)}
   
-  \RuleLabel{\(\to I_2\)}[\(\neg A\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(\neg A \to C\)}
   
-  \RuleLabel{\(\to I_1\)}[\((A \land B) \lor (A \lor C)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(((A \land B) \lor (A \lor C)) \to (\neg A \to C)\)}
 \end{prooftree}
 
@@ -207,7 +207,7 @@ Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni 
 \vspace{1cm}
 
 \subsection*{Esercizio 3}
-Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili.
+Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 
 \subsubsection*{(a) \(\forall x P(x)\wedge\neg\neg\exists x \st \neg P(x)\)}
 
@@ -230,10 +230,10 @@ Essendo insoddisfacibile, proviamo la sua negazione in deduzione naturale:
   \BinaryInfC{\(\bot\)}
   
   \AxiomC{\({[\exists x \st \neg P(x)]}_2\)}
-  \RuleLabel{\(\exists E_3\)}[\(\neg P(z)\)]
+  \RuleLabel{\(\exists E_3\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_2\)}[\(\exists x \st \neg P(x)\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg \exists x \st \neg P(x)\)}
   
   \AxiomC{\({[\forall x P(x) \land \neg\neg\exists x \st \neg P(x)]}_1\)}
@@ -243,7 +243,7 @@ Essendo insoddisfacibile, proviamo la sua negazione in deduzione naturale:
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_1\)}[\(\forall x P(x) \land \neg\neg\exists x \st \neg P(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\forall x P(x) \land \neg\neg\exists x \st \neg P(x))\)}
 \end{prooftree}
 
@@ -280,7 +280,7 @@ Essendo insoddisfacibile, se ne dimostra la negazione in deduzione naturale:
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(P(z)\)}
   \RuleLabel{\(\forall I\)}
   \UnaryInfC{\(\forall x P(x)\)}
@@ -292,7 +292,7 @@ Essendo insoddisfacibile, se ne dimostra la negazione in deduzione naturale:
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_1\)}[\(\neg\exists x \st \neg P(x) \land \neg\forall x P(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\neg\exists x \st \neg P(x) \land \neg\forall x P(x))\)}
 \end{prooftree}
 
@@ -326,7 +326,7 @@ Deduzione naturale:
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(P(z)\)}
   
   \RuleLabel{\(\forall I\)}
@@ -336,10 +336,10 @@ Deduzione naturale:
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_2\)}[\(\forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg \forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)}
   
-  \RuleLabel{\(\to I_1\)}[\(\neg\forall x P(x)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\neg\forall x P(x)) \to \neg \forall x \forall y \neg(\neg P(x) \lor \neg P(y))\)}
 \end{prooftree}
 
@@ -372,15 +372,15 @@ Deduzione naturale:
   \RuleLabel{\(\exists I\)}
   \UnaryInfC{\(\exists x \st R(c,x)\)}
   
-  \RuleLabel{\(\exists E_4\)}[\(R(a,x)\)]
+  \RuleLabel{\(\exists E_4\)}
   \BinaryInfC{\(\exists x \st R(c,x)\)}
   
-  \RuleLabel{\(\to I_3\)}[\(\exists x \st R(a,x)\)]
+  \RuleLabel{\(\to I_3\)}
   \UnaryInfC{\((\exists x \st R(a,x)) \to (\exists x \st R(c,x))\)}
   
-  \RuleLabel{\(\to I_1\)}[\(c=b\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((c=b) \to ((\exists x \st R(a,x)) \to (\exists x \st R(c,x)))\)}
   
-  \RuleLabel{\(\to I_2\)}[\(a=b\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\((a=b) \to ((c=b) \to ((\exists x \st R(a,x)) \to (\exists x \st R(c,x))))\)}
 \end{prooftree}

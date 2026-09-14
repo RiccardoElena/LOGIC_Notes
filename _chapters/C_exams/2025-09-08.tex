@@ -1,19 +1,12 @@
 \section{Tema d'esame del 8 Settembre 2025}
 \subsection*{Esercizio 1}
 
-\textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
-\begin{enumerate}
-    \item[(a)] \((P\vee Q)\vee\neg(P\vee Q)\)
-    \item[(b)] \((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)
-    \item[(c)] \((P\vee Q)\rightarrow\neg(\neg P\vee\neg Q)\)
-    \item[(d)] \(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)
-    \item[(e)] \((\neg P\vee\neg Q)\vee(P\wedge Q)\)
-\end{enumerate}
 
 \paragraph{Svolgimento:}
 
 \subsubsection*{(a) \((P\vee Q)\vee\neg(P\vee Q)\)}
+\paragraph{Svolgimento:}
 La formula è valida perché equivalente alla forma tautologica \((A\vee\neg A)\) applicando la sostituzione \(\sigma=\{A\mapsto P\vee Q\}\).
 
 \begin{prooftree}
@@ -23,18 +16,19 @@ La formula è valida perché equivalente alla forma tautologica \((A\vee\neg A)\
   \UnaryInfC{\((P\vee Q)\vee\neg(P\vee Q)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_2\)}[\(P\vee Q\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg(P\vee Q)\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\((P\vee Q)\vee\neg(P\vee Q)\)}
   \AxiomC{\({[\neg ((P\vee Q)\vee\neg(P\vee Q))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_1\)}[\(\neg ((P\vee Q)\vee\neg(P\vee Q))\)]
+  \RuleLabel{\(\RAA_1\)}
   \UnaryInfC{\((P\vee Q)\vee\neg(P\vee Q)\)}
 \end{prooftree}
 
 \subsubsection*{(b) \((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)}
+\paragraph{Svolgimento:}
 La formula è valida, in quanto equivalente, per de Morgan, a \((P\wedge\neg Q)\rightarrow(P\wedge\neg Q)\).
 
 \begin{prooftree}
@@ -54,18 +48,20 @@ La formula è valida, in quanto equivalente, per de Morgan, a \((P\wedge\neg Q)\
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\lor E_2\)}[\(\neg P\), \(Q\)]
+  \RuleLabel{\(\lor E_2\)}
   \TrinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_3\)}[\(\neg P\vee Q\)]
+  \RuleLabel{\(\neg I_3\)}
   \UnaryInfC{\(\neg(\neg P\vee Q)\)}
-  \RuleLabel{\(\to I_1\)}[\(P\wedge\neg Q\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)}
 \end{prooftree}
 
 \subsubsection*{(c) \((P\vee Q)\rightarrow\neg(\neg P\vee\neg Q)\)}
+\paragraph{Svolgimento:}
 La formula è solo soddisfacibile, ma non valida. Si osserva che è equivalente a \((P\vee Q)\rightarrow(P\wedge Q)\). È vera se \(P = Q\), ma è falsa per \(P \neq Q\).
 
 \subsubsection*{(d) \(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)}
+\paragraph{Svolgimento:}
 La formula è valida: l'antecedente è equivalente a \((P\wedge Q)\), il che implica banalmente il conseguente \((P\vee Q)\). È falsa se e solo se \(P=0\) e \(Q=0\), ma in tal caso l'antecedente è già falso.
 
 \begin{prooftree}
@@ -75,15 +71,16 @@ La formula è valida: l'antecedente è equivalente a \((P\wedge Q)\), il che imp
   \UnaryInfC{\(\neg P\vee\neg Q\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\(P\vee Q\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg(\neg P\vee\neg Q)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)}
 \end{prooftree}
 
 \subsubsection*{(e) \((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
+\paragraph{Svolgimento:}
 La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\vee(P\wedge Q)\), ossia un'istanza del terzo escluso.
 
 \begin{prooftree}
@@ -96,7 +93,7 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \UnaryInfC{\((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
 
   \AxiomC{\({[\neg((\neg P\vee\neg Q)\vee(P\wedge Q))]}_1\)}
@@ -107,7 +104,7 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \UnaryInfC{\((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_3\)}[\(\neg Q\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(Q\)}
 
   \RuleLabel{\(\land I\)}
@@ -118,7 +115,7 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \AxiomC{\({[\neg((\neg P\vee\neg Q)\vee(P\wedge Q))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_1\)}[\(\neg((\neg P\vee\neg Q)\vee(P\wedge Q))\)]
+  \RuleLabel{\(\RAA_1\)}
   \UnaryInfC{\((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
 \end{prooftree}
 
@@ -128,24 +125,25 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
 
 \subsection*{Esercizio 2}
 
-\textbf{Traccia:}
-Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio naturale, utilizzando solo i predicati indicati di seguito: \(P(\cdot) =\) \q{è una persona}; \(E(\cdot) =\) \q{è un esame}; \(Sc(\cdot) =\) \q{è una disciplina scientifica}; \(Um(\cdot) =\) \q{è una disciplina umanistica}; \(S(\cdot, \cdot) =\) \q{sostiene}; \(St(\cdot, \cdot) =\) \q{studia}; \(M(\cdot) =\) \q{è MATEMATICA}; \(L(\cdot) =\) \q{è LETTERE}.
-\begin{enumerate}
-    \item[(a)] Le persone che studiano discipline scientifiche sostengono tutti lo stesso esame di matematica.
-    \item[(b)] Le persone che studiano discipline umanistiche sostengono almeno un esame di lettere.
-    \item[(c)] Le discipline scientifiche vengono studiate da alcune persone che sostengono almeno tre esami di matematica.
-    \item[(d)] Le persone che studiano discipline scientifiche sostengono gli stessi esami di matematica.
-    \item[(e)] Le persone che studiano discipline scientifiche sostengono al massimo due esami di matematica.
-\end{enumerate}
 
+Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio naturale, utilizzando solo i predicati indicati di seguito: \(P(\cdot) =\) \q{è una persona}; \(E(\cdot) =\) \q{è un esame}; \(Sc(\cdot) =\) \q{è una disciplina scientifica}; \(Um(\cdot) =\) \q{è una disciplina umanistica}; \(S(\cdot, \cdot) =\) \q{sostiene}; \(St(\cdot, \cdot) =\) \q{studia}; \(M(\cdot) =\) \q{è MATEMATICA}; \(L(\cdot) =\) \q{è LETTERE}.
 \paragraph{Svolgimento:}
-\begin{enumerate}
-    \item[(a)] \(\exists e\st (E(e) \wedge M(e) \wedge \forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow S(p,e)))\).
-    \item[(b)] \(\forall p((P(p) \wedge \exists d\st (Um(d) \wedge St(p,d))) \rightarrow \exists e\st (E(e) \wedge L(e) \wedge S(p,e)))\).
-    \item[(c)] \(\forall d(Sc(d) \rightarrow \exists p\st (P(p) \wedge St(p,d) \wedge \exists e_1, e_2, e_3\st (E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge \neg(e_1=e_2) \wedge \neg(e_2=e_3) \wedge \neg(e_3=e_1))))\).
-    \item[(d)] (Soluzione 1): \(\forall p_1 \forall p_2 ((P(p_1) \wedge P(p_2) \wedge \exists d\st (Sc(d) \wedge St(p_1,d)) \wedge \exists d\st (Sc(d) \wedge St(p_2,d))) \rightarrow \forall e\st ((E(e) \wedge M(e)) \rightarrow (S(p_1,e) \leftrightarrow S(p_2,e))))\).
-    \item[(e)] \(\forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow \forall e_1 \forall e_2 \forall e_3 ((E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3)) \rightarrow (e_1=e_2 \vee e_2=e_3 \vee e_1=e_3)))\).
-\end{enumerate}
+\begin{itemize}
+  \item \textbf{(a)} Le persone che studiano discipline scientifiche sostengono tutti lo stesso esame di matematica.
+  \[\exists e\st (E(e) \wedge M(e) \wedge \forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow S(p,e)))\]
+
+  \item \textbf{(b)} Le persone che studiano discipline umanistiche sostengono almeno un esame di lettere.
+  \[\forall p((P(p) \wedge \exists d\st (Um(d) \wedge St(p,d))) \rightarrow \exists e\st (E(e) \wedge L(e) \wedge S(p,e)))\]
+
+  \item \textbf{(c)} Le discipline scientifiche vengono studiate da alcune persone che sostengono almeno tre esami di matematica.
+  \[\forall d(Sc(d) \rightarrow \exists p\st (P(p) \wedge St(p,d) \wedge \exists e_1, e_2, e_3\st (E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge \neg(e_1=e_2) \wedge \neg(e_2=e_3) \wedge \neg(e_3=e_1))))\]
+
+  \item \textbf{(d)} Le persone che studiano discipline scientifiche sostengono gli stessi esami di matematica. (Soluzione 1)
+  \[\forall p_1 \forall p_2 ((P(p_1) \wedge P(p_2) \wedge \exists d\st (Sc(d) \wedge St(p_1,d)) \wedge \exists d\st (Sc(d) \wedge St(p_2,d))) \rightarrow \forall e\st ((E(e) \wedge M(e)) \rightarrow (S(p_1,e) \leftrightarrow S(p_2,e))))\]
+
+  \item \textbf{(e)} Le persone che studiano discipline scientifiche sostengono al massimo due esami di matematica.
+  \[\forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow \forall e_1 \forall e_2 \forall e_3 ((E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3)) \rightarrow (e_1=e_2 \vee e_2=e_3 \vee e_1=e_3)))\]
+\end{itemize}
 
 \vspace{1em}
 \hrule
@@ -153,22 +151,16 @@ Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio na
 
 \subsection*{Esercizio 3}
 
-\textbf{Traccia:}
-Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
-\begin{enumerate}
-    \item[(a)] \(\forall x.P(x)\rightarrow\neg\neg\exists x.\neg P(x)\)
-    \item[(b)] \(\forall x.R(x,x)\vee\neg\forall x.\forall y.R(x,y)\)
-    \item[(c)] \(\forall x.(\exists y.C(x,y)\rightarrow A(x))\rightarrow\forall x.\exists y.(C(x,y)\rightarrow A(x))\)
-    \item[(d)] \(\exists x.\forall y.((R(x,y)\rightarrow R(y,x))\wedge(R(y,x)\rightarrow R(x,y)))\)
-    \item[(e)] \((\exists y.P(c,y)\wedge(d=c))\rightarrow\exists y.P(d,y)\) (dove \(c\) e \(d\) sono costanti del linguaggio)
-\end{enumerate}
 
-\paragraph{Svolgimento:}
+Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
+
 
 \subsubsection*{(a) \(\forall x\st P(x)\rightarrow\neg\neg\exists x\st \neg P(x)\)}
+\paragraph{Svolgimento:}
 La formula è equivalente a \(\forall x\st P(x) \rightarrow \exists x\st \neg P(x)\) e conseguentemente a \(\neg\forall x\st P(x) \vee \exists x\st \neg P(x)\), che collassa a \(\neg\forall x\st P(x)\). È dunque una formula soddisfacibile ma non valida.
 
 \subsubsection*{(b) \(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
+\paragraph{Svolgimento:}
 La formula è valida. Si motiva osservando che se la relazione è vera per ogni coppia \((x,y)\), allora è necessariamente vera anche per le coppie riflessive \((x,x)\).
 
 \begin{prooftree}
@@ -185,18 +177,19 @@ La formula è valida. Si motiva osservando che se la relazione è vera per ogni 
   \UnaryInfC{\(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_2\)}[\(\forall x\st \forall y\st R(x,y)\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg\forall x\st \forall y\st R(x,y)\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
   \AxiomC{\({[\neg(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_1\)}[\(\neg(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y))\)]
+  \RuleLabel{\(\RAA_1\)}
   \UnaryInfC{\(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
 \end{prooftree}
 
 \subsubsection*{(c) \(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\rightarrow\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
+\paragraph{Svolgimento:}
 La formula è valida: \(\forall x\st (\neg\exists y\st C(x,y) \vee A(x))\) equivale a \(\forall x\st \forall y\st (\neg C(x,y) \vee A(x))\) e quindi \(\forall x\st \forall y\st (C(x,y) \rightarrow A(x))\). Se vale per tutte le coppie, allora vale che per ogni \(x\) trovo un \(y\) che la soddisfa.
 
 \begin{prooftree}
@@ -208,20 +201,22 @@ La formula è valida: \(\forall x\st (\neg\exists y\st C(x,y) \vee A(x))\) equiv
   \UnaryInfC{\(\exists y\st C(z,y)\)}
   \RuleLabel{\(\to E\)}
   \BinaryInfC{\(A(z)\)}
-  \RuleLabel{\(\to I_2\)}[\(C(z,t)\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(C(z,t)\rightarrow A(z)\)}
   \RuleLabel{\(\exists I\)}
   \UnaryInfC{\(\exists y\st (C(z,y)\rightarrow A(z))\)}
   \RuleLabel{\(\forall I\)}
   \UnaryInfC{\(\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
-  \RuleLabel{\(\to I_1\)}[\(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\rightarrow\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
 \end{prooftree}
 
 \subsubsection*{(d) \(\exists x\st \forall y\st ((R(x,y)\rightarrow R(y,x))\wedge(R(y,x)\rightarrow R(x,y)))\)}
+\paragraph{Svolgimento:}
 La formula è soddisfacibile. Si può avere un modello \(M\) dove \(D=\{1\}\) e \(R^M=\{(1,1)\}\) che la soddisfa, mentre un modello \(M'\) con \(D=\{1,2\}\) e \(R^{M'}=\{(1,2)\}\) non la soddisfa. 
 
 \subsubsection*{(e) \((\exists y\st P(c,y)\wedge(d=c))\rightarrow\exists y\st P(d,y)\)}
+\paragraph{Svolgimento:}
 La formula è valida perché, per la simmetria dell'uguaglianza, \((d=c)\) equivale a \((c=d)\), per cui possiamo operare una sostituzione. 
 
 \begin{prooftree}
@@ -249,6 +244,6 @@ La formula è valida perché, per la simmetria dell'uguaglianza, \((d=c)\) equiv
 
   \RuleLabel{\(\to E\)}
   \BinaryInfC{\(\exists y\st P(d,y)\)}
-  \RuleLabel{\(\to I_1\)}[\(\exists y\st P(c,y) \wedge d=c\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\exists y\st P(c,y)\wedge d=c)\rightarrow\exists y\st P(d,y)\)}
 \end{prooftree}

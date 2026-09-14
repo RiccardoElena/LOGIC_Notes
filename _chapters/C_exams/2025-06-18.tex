@@ -26,9 +26,9 @@ Assumiamo \(\neg P \lor Q\) e dimostriamo una contraddizione eliminando la disgi
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\lor E_{2,3}\)}[\(\neg P, Q\)]
+  \RuleLabel{\(\lor E_{2,3}\)}
   \TrinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\neg P \lor Q\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\neg P \lor Q)\)}
 \end{prooftree}
 
@@ -44,7 +44,7 @@ Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tr
   \AxiomC{\(\neg(\neg P \lor Q)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_1\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_1\)}
   \UnaryInfC{\(P\)}
 
   \AxiomC{\({[Q]}_2\)}
@@ -53,7 +53,7 @@ Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tr
   \AxiomC{\(\neg(\neg P \lor Q)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_2\)}[\(Q\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg Q\)}
 
   \RuleLabel{\(\land I\)}
@@ -67,12 +67,6 @@ Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tr
 \subsection*{Esercizio 2}
 
 Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili, motivando semanticamente la risposta. Esibire una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se insoddisfacibile.
-\begin{enumerate}
-    \item[(a)] \(((P \land \neg Q) \lor (\neg R \lor Q)) \rightarrow (R \rightarrow Q)\)
-    \item[(b)] \((P \land \neg \neg Q) \land (\neg P \lor \neg Q)\)
-    \item[(c)] \((\neg P \lor Q) \lor (P \land \neg Q)\)
-\end{enumerate}
-
 
 \subsubsection*{(a) \(((P \land \neg Q) \lor (\neg R \lor Q)) \rightarrow (R \rightarrow Q)\)}
 
@@ -110,10 +104,10 @@ La formula è logicamente equivalente a \((P \land Q) \land \neg(P \land Q)\), p
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\lor E_{2,3}\)}[\(\neg P, \neg Q\)]
+  \RuleLabel{\(\lor E_{2,3}\)}
   \TrinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\neg I_1\)}[\((P \land \neg \neg Q) \land (\neg P \lor \neg Q)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg ((P \land \neg \neg Q) \land (\neg P \lor \neg Q))\)}
 \end{prooftree}
 
@@ -131,7 +125,7 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \AxiomC{\({[\neg ((\neg P \lor Q) \lor (P \land \neg Q))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
 
   \AxiomC{\({[Q]}_3\)}
@@ -142,7 +136,7 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \AxiomC{\({[\neg ((\neg P \lor Q) \lor (P \land \neg Q))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_3\)}[\(Q\)]
+  \RuleLabel{\(\neg I_3\)}
   \UnaryInfC{\(\neg Q\)}
 
   \RuleLabel{\(\land I\)}
@@ -153,7 +147,7 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \AxiomC{\({[\neg ((\neg P \lor Q) \lor (P \land \neg Q))]}_1\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_1\)}[\(\neg ((\neg P \lor Q) \lor (P \land \neg Q))\)]
+  \RuleLabel{\(\RAA_1\)}
   \UnaryInfC{\((\neg P \lor Q) \lor (P \land \neg Q)\)}
 \end{prooftree}
 
@@ -217,9 +211,9 @@ La formula è equivalente a \(\neg(\forall x\, R(x) \land \neg \forall x\, R(x))
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\exists E_2\)}[\(\neg R(z)\)]
+  \RuleLabel{\(\exists E_2\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\forall x\, R(x) \land \exists x\st \neg R(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\forall x\, R(x) \land \exists x\st \neg R(x))\)}
 \end{prooftree}
 
@@ -235,7 +229,7 @@ Equivalente a \(\forall x\, P(x,x) \land \forall x\, \neg P(x,x) \equiv \forall 
   \UnaryInfC{\(\neg\neg\forall x\, P(x,x)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg\forall x\, P(x,x)\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(\forall x\, P(x,x)\)}
   \RuleLabel{\(\forall E\)}
   \UnaryInfC{\(P(z,z)\)}
@@ -248,7 +242,7 @@ Equivalente a \(\forall x\, P(x,x) \land \forall x\, \neg P(x,x) \equiv \forall 
 
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\neg\neg\forall x\, P(x,x) \land \neg\exists x\st P(x,x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\neg\neg\forall x\, P(x,x) \land \neg\exists x\st P(x,x))\)}
 \end{prooftree}
 
@@ -277,16 +271,16 @@ La formula equivale a \(\neg\forall x\, Q(x) \land \forall x\, Q(x)\). È \textb
   \UnaryInfC{\(\neg\neg\forall x\, Q(x)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg\forall x\, Q(x)\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(\forall x\, Q(x)\)}
   \RuleLabel{\(\forall E\)}
   \UnaryInfC{\(Q(z)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\exists E_3\)}[\(\neg Q(z)\)]
+  \RuleLabel{\(\exists E_3\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\exists x\st \neg Q(x) \land \neg\neg\forall x\, Q(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\exists x\st \neg Q(x) \land \neg\neg\forall x\, Q(x))\)}
 \end{prooftree}
 
@@ -329,10 +323,10 @@ Il conseguente equivale a \(\exists x\st P(g(x))\). Sostituendo si ottiene la ve
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\exists E_3\)}[\(P(f(z))\)]
+  \RuleLabel{\(\exists E_3\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_2\)}[\(\forall x\, \neg P(g(x))\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg \forall x\, \neg P(g(x))\)}
-  \RuleLabel{\(\to I_1\)}[\(\forall x\, (f(x)=g(x)) \land \exists z\st P(f(z))\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\forall x\, (f(x)=g(x)) \land \exists z\st P(f(z))) \to \neg\forall x\, \neg P(g(x))\)}
 \end{prooftree}

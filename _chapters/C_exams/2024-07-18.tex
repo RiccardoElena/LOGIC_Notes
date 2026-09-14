@@ -39,9 +39,9 @@ La formula è \textbf{insoddisfacibile}. Ne dimostriamo dunque la negazione tram
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\lor E_2\)}[\(P\wedge\neg P\), \(Q\wedge\neg Q\)]
+  \RuleLabel{\(\lor E_2\)}
   \TrinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\((P\wedge\neg P)\vee(Q\wedge\neg Q)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg ((P\wedge\neg P)\vee(Q\wedge\neg Q))\)}
 \end{prooftree}
 
@@ -76,7 +76,7 @@ Procediamo con la deduzione naturale per la sua negazione.
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\neg I_1\)}[\((P\wedge Q)\wedge(Q\rightarrow\neg P)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg ((P\wedge Q)\wedge(Q\rightarrow\neg P))\)}
 \end{prooftree}
 
@@ -94,7 +94,7 @@ La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\righta
   \UnaryInfC{\(\neg P\vee\neg Q\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
 
   \AxiomC{\({[\neg(\neg P\vee\neg Q)]}_1\)}
@@ -104,12 +104,12 @@ La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\righta
   \UnaryInfC{\(\neg P\vee\neg Q\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_3\)}[\(\neg Q\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(Q\)}
 
   \RuleLabel{\(\land I\)}
   \BinaryInfC{\(P\wedge Q\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg(\neg P\vee\neg Q)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\neg(\neg P\vee\neg Q)\rightarrow(P\wedge Q)\)}
 \end{prooftree}
 
@@ -131,12 +131,12 @@ La formula è \textbf{valida}. Scrivendo l'implicazione materiale, risulta equiv
   
   \AxiomC{\({[Q]}_3\)}
   
-  \RuleLabel{\(\lor E_3\)}[\(\neg P\), \(Q\)]
+  \RuleLabel{\(\lor E_3\)}
   \TrinaryInfC{\(Q\)}
   
-  \RuleLabel{\(\to I_2\)}[\(P\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(P\rightarrow Q\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg P\vee Q\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\neg P\vee Q)\rightarrow(P\rightarrow Q)\)}
 \end{prooftree}
 
@@ -199,12 +199,12 @@ Se invece \(\exists x\st P(x)\) è falsa, allora \(\beta\) è vera (ex falso quo
   \RuleLabel{\(\exists I\)}
   \UnaryInfC{\(\exists y\st Q(y)\)}
   
-  \RuleLabel{\(\exists E_3\)}[\(P(z)\)]
+  \RuleLabel{\(\exists E_3\)}
   \BinaryInfC{\(\exists y\st Q(y)\)}
   
-  \RuleLabel{\(\to I_2\)}[\(\exists x\st P(x)\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(\exists x\st P(x)\rightarrow\exists y\st Q(y)\)}
-  \RuleLabel{\(\to I_1\)}[\(\forall x (P(x)\rightarrow Q(x))\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\forall x (P(x)\rightarrow Q(x))\rightarrow(\exists x\st P(x)\rightarrow\exists y\st Q(y))\)}
 \end{prooftree}
 
@@ -231,9 +231,9 @@ Dimostriamo quindi la sua negazione.
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\exists E_2\)}[\(P(z)\)]
+  \RuleLabel{\(\exists E_2\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\exists x\st P(x)\wedge\forall x \neg P(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\exists x\st P(x)\wedge\forall x \neg P(x))\)}
 \end{prooftree}
 
@@ -257,9 +257,9 @@ La formula è \textbf{valida}. Per contronominale è equivalente a \(\forall x\f
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_2\)}[\(\forall x \forall y R(x,y)\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg\forall x \forall y R(x,y)\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg\forall x R(x,x)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\neg\forall x R(x,x)\rightarrow\neg\forall x \forall y R(x,y)\)}
 \end{prooftree}
 
@@ -292,6 +292,6 @@ La formula è \textbf{valida}. L'uguaglianza \(c=d\) ci permette di sostituire i
   \RuleLabel{\(\to E\)}
   \BinaryInfC{\(\exists y\st P(d,y)\)}
   
-  \RuleLabel{\(\to I_1\)}[\(\exists y\st P(c,y)\wedge c=d\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\exists y\st P(c,y)\wedge c=d)\rightarrow\exists y\st P(d,y)\)}
 \end{prooftree}

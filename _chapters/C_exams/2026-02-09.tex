@@ -2,26 +2,27 @@
 
 \subsection*{Esercizio 1}
 
-\textbf{Traccia:} Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione, di funzione e di costante aggiuntivi indicati di seguito. 
+Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione, di funzione e di costante aggiuntivi indicati di seguito. 
 Simboli di relazione: \(G(\cdot) = \) \q{è un grafo}; \(V(\cdot, \cdot) = \) \q{è un vertice di}; \(E(\cdot, \cdot, \cdot) = \) \q{è adiacente a in}. 
 Simboli di funzione: \(c(\cdot) = \) \q{il colore di}. 
 Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
-\begin{enumerate}
-    \item[(a)] I vertici di un grafo sono di colore nero solo se i loro adiacenti nel grafo sono di colore bianco.
-    \item[(b)] I vertici neri in un grafo non hanno come adiacenti vertici dello stesso colore.
-    \item[(c)] In ogni grafo, alcuni vertici hanno come adiacenti solo vertici di colore bianco.
-    \item[(d)] Vi sono grafi nei quali i vertici di colore nero hanno, tra i loro adiacenti, almeno due vertici di colore bianco che non sono adiacenti tra di loro.
-    \item[(e)] In un arbitrario grafo, almeno un vertice di colore bianco ha meno di 3 vertici neri tra i suoi adiacenti.
-\end{enumerate}
-
 \paragraph{Svolgimento:}
-\begin{enumerate}
-    \item[(a)] \(\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))\)
-    \item[(b)] \(\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow \neg(c(v)=c(u)))))\)
-    \item[(c)] \(\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))\)
-    \item[(d)] \(\exists g\st (G(g) \land \forall v((V(v,g) \land c(v)=N) \rightarrow \exists u_1\st \exists u_2\st (V(u_1,g) \land V(u_2,g) \land E(u_1,v,g) \land E(u_2,v,g) \land c(u_1)=B \land c(u_2)=B \land \neg E(u_1,u_2,g) \land \neg(u_1=u_2))))\)
-    \item[(e)] \(\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land c(v)=B \land \forall u_1 \forall u_2 \forall u_3 ((V(u_1,g) \land V(u_2,g) \land V(u_3,g) \land E(v,u_1,g) \land E(v,u_2,g) \land E(v,u_3,g) \land c(u_1)=N \land c(u_2)=N \land c(u_3)=N) \rightarrow (u_1=u_2 \lor u_2=u_3 \lor u_1=u_3))))\)
-\end{enumerate}
+\begin{itemize}
+  \item \textbf{(a)} I vertici di un grafo sono di colore nero solo se i loro adiacenti nel grafo sono di colore bianco.
+  \[\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))\]
+
+  \item \textbf{(b)} I vertici neri in un grafo non hanno come adiacenti vertici dello stesso colore.
+  \[\forall g(G(g) \rightarrow \forall v((V(v,g) \land c(v)=N) \rightarrow \forall u((V(u,g) \land E(u,v,g)) \rightarrow \neg(c(v)=c(u)))))\]
+
+  \item \textbf{(c)} In ogni grafo, alcuni vertici hanno come adiacenti solo vertici di colore bianco.
+  \[\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))\]
+
+  \item \textbf{(d)} Vi sono grafi nei quali i vertici di colore nero hanno, tra i loro adiacenti, almeno due vertici di colore bianco che non sono adiacenti tra di loro.
+  \[\exists g\st (G(g) \land \forall v((V(v,g) \land c(v)=N) \rightarrow \exists u_1\st \exists u_2\st (V(u_1,g) \land V(u_2,g) \land E(u_1,v,g) \land E(u_2,v,g) \land c(u_1)=B \land c(u_2)=B \land \neg E(u_1,u_2,g) \land \neg(u_1=u_2))))\]
+
+  \item \textbf{(e)} In un arbitrario grafo, almeno un vertice di colore bianco ha meno di 3 vertici neri tra i suoi adiacenti.
+  \[\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land c(v)=B \land \forall u_1 \forall u_2 \forall u_3 ((V(u_1,g) \land V(u_2,g) \land V(u_3,g) \land E(v,u_1,g) \land E(v,u_2,g) \land E(v,u_3,g) \land c(u_1)=N \land c(u_2)=N \land c(u_3)=N) \rightarrow (u_1=u_2 \lor u_2=u_3 \lor u_1=u_3))))\]
+\end{itemize}
 
 \subsection*{Esercizio 2}
 
@@ -62,9 +63,9 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
       
-      \RuleLabel{\(\lor E\)}[2,3]
+      \RuleLabel{\(\lor E_{2,3}\)}
       \TrinaryInfC{\(\bot\)}
-      \RuleLabel{\(\neg I\)}[1]
+      \RuleLabel{\(\neg I_{1}\)}
       \UnaryInfC{\(\neg ((\neg P\lor\neg Q)\land(P\land Q))\)}
     \end{prooftree}
 
@@ -82,17 +83,17 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       
       \AxiomC{\({[Q]}_4\)}
       
-      \RuleLabel{\(\lor E\)}[3,4]
+      \RuleLabel{\(\lor E_{3,4}\)}
       \TrinaryInfC{\(Q\)}
-      \RuleLabel{\(\to I\)}[5]
+      \RuleLabel{\(\to I_{5}\)}
       \UnaryInfC{\(P \to Q\)}
       
       \AxiomC{\({[\neg(P \to Q)]}_1\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\neg I\)}[2]
+      \RuleLabel{\(\neg I_{2}\)}
       \UnaryInfC{\(\neg(\neg P \lor Q)\)}
-      \RuleLabel{\(\to I\)}[1]
+      \RuleLabel{\(\to I_{1}\)}
       \UnaryInfC{\(\neg(P \to Q) \to \neg(\neg P \lor Q)\)}
     \end{prooftree}
 
@@ -134,11 +135,11 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
       
-      \RuleLabel{\(\lor E\)}[2,3]
+      \RuleLabel{\(\lor E_{2,3}\)}
       \TrinaryInfC{\(\bot\)}
       \RuleLabel{\(\bot E\)}
       \UnaryInfC{\(R\)}
-      \RuleLabel{\(\to I\)}[1]
+      \RuleLabel{\(\to I_{1}\)}
       \UnaryInfC{\(\Psi \to R\)}
     \end{prooftree}
 
@@ -156,7 +157,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \UnaryInfC{\(\Psi\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[4]
+      \RuleLabel{\(\RAA_{4}\)}
       \UnaryInfC{\(\neg Q\)}
       
       \AxiomC{\({[\neg \Psi]}_1\)}
@@ -167,7 +168,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \UnaryInfC{\(\Psi\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[3]
+      \RuleLabel{\(\RAA_{3}\)}
       \UnaryInfC{\(P\)}
       
       \AxiomC{\({[P \to Q]}_2\)}
@@ -175,7 +176,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \BinaryInfC{\(Q\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\neg I\)}[2]
+      \RuleLabel{\(\neg I_{2}\)}
       \UnaryInfC{\(\neg(P \to Q)\)}
       \RuleLabel{\(\lor I\)}
       \UnaryInfC{\(\Psi\)}
@@ -183,7 +184,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \AxiomC{\({[\neg \Psi]}_1\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[1]
+      \RuleLabel{\(\RAA_{1}\)}
       \UnaryInfC{\(\neg(P\rightarrow Q)\vee(\neg P\vee Q)\)}
     \end{prooftree}
 \end{enumerate}
@@ -214,11 +215,11 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \BinaryInfC{\(B(y)\)}
       
       \AxiomC{\({[\exists x\st (A(x) \to B(y))]}_1\)}
-      \RuleLabel{\(\exists E\)}[2]
+      \RuleLabel{\(\exists E_{2}\)}
       \BinaryInfC{\(B(y)\)}
-      \RuleLabel{\(\to I\)}[3]
+      \RuleLabel{\(\to I_{3}\)}
       \UnaryInfC{\(\forall x\st A(x) \to B(y)\)}
-      \RuleLabel{\(\to I\)}[1]
+      \RuleLabel{\(\to I_{1}\)}
       \UnaryInfC{\(\exists x\st (A(x)\rightarrow B(y))\rightarrow(\forall x\st A(x)\rightarrow B(y))\)}
     \end{prooftree}
 
@@ -236,7 +237,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[2]
+      \RuleLabel{\(\RAA_{2}\)}
       \UnaryInfC{\(A(z)\)}
       \RuleLabel{\(\forall I\)}
       \UnaryInfC{\(\forall x\st A(x)\)}
@@ -247,7 +248,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\neg I\)}[1]
+      \RuleLabel{\(\neg I_{1}\)}
       \UnaryInfC{\(\neg(\neg\forall x\st A(x)\wedge\neg\exists x\st \neg A(x))\)}
     \end{prooftree}
 
@@ -282,17 +283,17 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \BinaryInfC{\(\bot\)}
       
       \AxiomC{\({[\exists z\st (\dots)]}_3\)}
-      \RuleLabel{\(\exists E\)}[4]
+      \RuleLabel{\(\exists E_{4}\)}
       \BinaryInfC{\(\bot\)}
       
       \AxiomC{\({[\exists y\st \exists z\st (\dots)]}_2\)}
-      \RuleLabel{\(\exists E\)}[3]
+      \RuleLabel{\(\exists E_{3}\)}
       \BinaryInfC{\(\bot\)}
       
       \AxiomC{\({[\exists x\st \exists y\st \exists z\st (\dots)]}_1\)}
-      \RuleLabel{\(\exists E\)}[2]
+      \RuleLabel{\(\exists E_{2}\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\neg I\)}[1]
+      \RuleLabel{\(\neg I_{1}\)}
       \UnaryInfC{\(\neg \exists x\st \exists y\st \exists z\st (A(1,x)\wedge x=y\wedge\neg A(1,z)\wedge y=z)\)}
     \end{prooftree}
 
@@ -306,7 +307,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \BinaryInfC{\(\bot\)}
       \RuleLabel{\(\bot E\)}
       \UnaryInfC{\(B(y)\)}
-      \RuleLabel{\(\to I\)}[4]
+      \RuleLabel{\(\to I_4\)}
       \UnaryInfC{\(A(t) \to B(y)\)}
       \RuleLabel{\(\exists I\)}
       \UnaryInfC{\(\exists x\st (A(x) \to B(y))\)}
@@ -314,7 +315,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \AxiomC{\({[\neg \exists x\st (A(x) \to B(y))]}_2\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[3]
+      \RuleLabel{\(\RAA_3\)}
       \UnaryInfC{\(A(t)\)}
       \RuleLabel{\(\forall I\)}
       \UnaryInfC{\(\forall x\st A(x)\)}
@@ -332,9 +333,9 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
       \AxiomC{\({[\neg \exists x\st (A(x) \to B(y))]}_2\)}
       \RuleLabel{\(\neg E\)}
       \BinaryInfC{\(\bot\)}
-      \RuleLabel{\(\RAA\)}[2]
+      \RuleLabel{\(\RAA_2\)}
       \UnaryInfC{\(\exists x\st (A(x) \to B(y))\)}
-      \RuleLabel{\(\to I\)}[1]
+      \RuleLabel{\(\to I_1\)}
       \UnaryInfC{\((\forall x\st A(x)\rightarrow B(y))\rightarrow\exists x\st (A(x)\rightarrow B(y))\)}
     \end{prooftree}
 \end{enumerate}

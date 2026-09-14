@@ -23,11 +23,11 @@ La formula è \textbf{valida}. Semanticamente, l'antecedente implica il consegue
     \AxiomC{\({[q]}_2\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\lor E_{2}\)}[\(\neg p, q\)]
+    \RuleLabel{\(\lor E_{2}\)}
     \TrinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_3\)}[\(p \land \neg q\)]
+    \RuleLabel{\(\neg I_3\)}
     \UnaryInfC{\(\neg(p \land \neg q)\)}
-    \RuleLabel{\(\to I_1\)}[\(p \land (\neg p \lor q)\)]
+    \RuleLabel{\(\to I_1\)}
     \UnaryInfC{\((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)}
 \end{prooftree}
 
@@ -51,7 +51,7 @@ La formula è \textbf{insoddisfacibile}. Esibiamo la deduzione per la sua negazi
     \UnaryInfC{\(\neg p \lor q\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\RAA_3\)}[\(\neg p\)]
+    \RuleLabel{\(\RAA_3\)}
     \UnaryInfC{\(p\)}
     \RuleLabel{\(\to E\)}
     \BinaryInfC{\(q\)}
@@ -62,7 +62,7 @@ La formula è \textbf{insoddisfacibile}. Esibiamo la deduzione per la sua negazi
     \UnaryInfC{\(\neg(\neg p \lor q)\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_1\)}[\((p \to q) \land \neg(\neg p \lor q)\)]
+    \RuleLabel{\(\neg I_1\)}
     \UnaryInfC{\(\neg((p \to q) \land \neg(\neg p \lor q))\)}
 \end{prooftree}
 
@@ -86,15 +86,15 @@ La formula è \textbf{valida}.
     \AxiomC{\({[q]}_4\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\lor E_4\)}[\(\neg p, q\)]
+    \RuleLabel{\(\lor E_4\)}
     \TrinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_3\)}[\(\neg p \lor q\)]
+    \RuleLabel{\(\neg I_3\)}
     \UnaryInfC{\(\neg(\neg p \lor q)\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_2\)}[\(p \land \neg q\)]
+    \RuleLabel{\(\neg I_2\)}
     \UnaryInfC{\(\neg(p \land \neg q)\)}
-    \RuleLabel{\(\to I_1\)}[\(\neg\neg(\neg p \lor q)\)]
+    \RuleLabel{\(\to I_1\)}
     \UnaryInfC{\(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)}
 \end{prooftree}
 
@@ -114,30 +114,39 @@ La formula è \textbf{valida}.
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\bot E\)}
     \UnaryInfC{\(q\)}
-    \RuleLabel{\(\to I_2\)}[\(p\)]
+    \RuleLabel{\(\to I_2\)}
     \UnaryInfC{\(p \to q\)}
     \AxiomC{\({[\neg(p \to q) \land \neg(p \lor q)]}_1\)}
     \RuleLabel{\(\land E\)}
     \UnaryInfC{\(\neg(p \to q)\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_1\)}[\(\neg(p \to q) \land \neg(p \lor q)\)]
+    \RuleLabel{\(\neg I_1\)}
     \UnaryInfC{\(\neg(\neg(p \to q) \land \neg(p \lor q))\)}
 \end{prooftree}
 
 \subsection*{Esercizio 2}
-Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni...
+Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione aggiuntivi indicati di seguito: \(C(\cdot) = \) \q{\(\cdot\) è un cane}; \(P(\cdot) = \) \q{\(\cdot\) è una persona}; \(PR(\cdot,\circ) = \) \q{\(\cdot\) è proprietario di \(\circ\)}; \(F(\cdot,\circ) = \) \q{\(\cdot\) è fedele a \(\circ\)}; \(A(\cdot,\circ) = \) \q{\(\cdot\) ama \(\circ\)}.
 \paragraph{Svolgimento:}
-\begin{enumerate}
-    \item[(a)] \(\forall c (C(c) \to \forall p ((P(p) \land PR(p,c)) \to F(c,p)))\)
-    \item[(b)] \(\exists c (C(c) \land \exists p (P(p) \land PR(p,c) \land F(c,p) \land \forall q ((P(q) \land PR(q,c) \land F(c,q)) \to q = p)))\)
-    \item[(c)] \(\neg \exists c (C(c) \land \forall p ((P(p) \land PR(p,c)) \to \neg F(c,p)))\)
-    \item[(d)] \(\forall p ((P(p) \land \forall c (C(c) \to A(p,c))) \to \exists c_1 \exists c_2 (C(c_1) \land C(c_2) \land PR(p,c_1) \land PR(p,c_2) \land \neg(c_1 = c_2)))\)
-    \item[(e)] \(\forall p (P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))\)
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{(a)} I cani sono fedeli ai loro proprietari.
+    \[\forall c (C(c) \to \forall p ((P(p) \land PR(p,c)) \to F(c,p)))\]
+
+    \item \textbf{(b)} Ci sono cani fedeli a uno dei due proprietari.
+    \[\exists c (C(c) \land \exists p (P(p) \land PR(p,c) \land F(c,p) \land \forall q ((P(q) \land PR(q,c) \land F(c,q)) \to q = p)))\]
+
+    \item \textbf{(c)} Nessun cane è infedele a tutti i suoi proprietari.
+    \[\neg \exists c (C(c) \land \forall p ((P(p) \land PR(p,c)) \to \neg F(c,p)))\]
+
+    \item \textbf{(d)} Tutti quelli che amano gli animali possiedono due cani.
+    \[\forall p ((P(p) \land \forall c (C(c) \to A(p,c))) \to \exists c_1 \exists c_2 (C(c_1) \land C(c_2) \land PR(p,c_1) \land PR(p,c_2) \land \neg(c_1 = c_2)))\]
+
+    \item \textbf{(e)} Non ci sono più di due cani posseduti dallo stesso proprietario che sono fedeli ad altre persone.
+    \[\forall p (P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))\]
+\end{itemize}
 
 \subsection*{Esercizio 3}
-Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili...
+Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 \subsubsection*{(a) \(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)\)}
 \paragraph{Svolgimento:}
 \textbf{Insoddisfacibile}. Dimostriamo la sua negazione.
@@ -156,9 +165,9 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \AxiomC{\({[\neg P(z)]}_2\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\exists E_2\)}[\(\neg P(z)\)]
+    \RuleLabel{\(\exists E_2\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\neg I_1\)}[\(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)\)]
+    \RuleLabel{\(\neg I_1\)}
     \UnaryInfC{\(\neg(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x))\)}
 \end{prooftree}
 
@@ -184,11 +193,11 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \BinaryInfC{\(B(c,a)\)}
     \RuleLabel{\(\exists I\)}
     \UnaryInfC{\(\exists x \st B(c,x)\)}
-    \RuleLabel{\(\to I_3\)}[\(\forall x \st B(a,x)\)]
+    \RuleLabel{\(\to I_3\)}
     \UnaryInfC{\((\forall x \st B(a,x)) \to (\exists x \st B(c,x))\)}
-    \RuleLabel{\(\to I_2\)}[\(c=b\)]
+    \RuleLabel{\(\to I_2\)}
     \UnaryInfC{\((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x)))\)}
-    \RuleLabel{\(\to I_1\)}[\(a=b\)]
+    \RuleLabel{\(\to I_1\)}
     \UnaryInfC{\((a=b) \to ((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x))))\)}
 \end{prooftree}
 
@@ -211,7 +220,7 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \UnaryInfC{\(\neg P(k,y)\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\exists E_2\)}[\(P(k,x) \land x=y \land \neg P(k,y)\)]
+    \RuleLabel{\(\exists E_2\)}
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\neg I_1\)}
     \UnaryInfC{\(\neg(\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y)))\)}
@@ -230,13 +239,13 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\bot E\)}
     \UnaryInfC{\(Q(z)\)}
-    \RuleLabel{\(\to I_4\)}[\(P(z)\)]
+    \RuleLabel{\(\to I_4\)}
     \UnaryInfC{\(P(z) \to Q(z)\)}
     \RuleLabel{\(\exists I\)}
     \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\RAA_3\)}[\(\neg P(z)\)]
+    \RuleLabel{\(\RAA_3\)}
     \UnaryInfC{\(P(z)\)}
     \RuleLabel{\(\forall I\)}
     \UnaryInfC{\(\forall x \st P(x)\)}
@@ -250,10 +259,10 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\exists E_2\)}[\(Q(w)\)]
+    \RuleLabel{\(\exists E_2\)}
     \BinaryInfC{\(\bot\)}
-    \RuleLabel{\(\RAA_1\)}[\(\neg \exists x \st (P(x) \to Q(x))\)]
+    \RuleLabel{\(\RAA_1\)}
     \UnaryInfC{\(\exists x \st (P(x) \to Q(x))\)}
-    \RuleLabel{\(\to I_5\)}[\(\forall x \st P(x) \to \exists x \st Q(x)\)]
+    \RuleLabel{\(\to I_5\)}
     \UnaryInfC{\((\forall x \st P(x) \to \exists x \st Q(x)) \to \exists x \st (P(x) \to Q(x))\)}
 \end{prooftree}

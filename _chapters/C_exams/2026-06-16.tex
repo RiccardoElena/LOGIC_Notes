@@ -1,19 +1,11 @@
 \section{Tema d'esame del 16 Giugno 2026}
 \subsection*{Esercizio 1}
-\textbf{Traccia:}
-Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli costanti presenti nelle frasi e i simboli di costante e di predicato indicati di seguito. Simboli di costante: 1 e 2. Simboli di predicato: \(N(\cdot)=\) \q{\(\cdot\) è un numero}; \(Pr(\cdot)=\) \q{\(\cdot\) è un numero primo}; \(Succ(\cdot,\circ)=\) \q{\(\cdot\) è successore di \(\circ\)}; \(Div(\cdot,\circ)=\) \q{\(\cdot\) è divisibile per \(\circ\)}; \((\cdot < \circ)=\) \q{\(\cdot\) minore di \(\circ\)}.
-\begin{enumerate}
-    \item[(a)] I numeri primi non formano un insieme denso.
-    \item[(b)] I numeri primi maggiori di 2 hanno successore pari;
-    \item[(c)] Un numero primo è divisibile solo da 1 e da sé stesso;
-    \item[(d)] I numeri primi formano un insieme discreto.
-\end{enumerate}
-
+Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli costanti presenti nelle frasi e i simboli di costante e di predicato indicati di seguito. Simboli di costante: 1 e 2. Simboli di predicato: \(N(\cdot)=\) \q{\(\cdot\) è un numero}; \(\Pr(\cdot)=\) \q{\(\cdot\) è un numero primo}; \(Succ(\cdot,\circ)=\) \q{\(\cdot\) è successore di \(\circ\)}; \(Div(\cdot,\circ)=\) \q{\(\cdot\) è divisibile per \(\circ\)}; \((\cdot < \circ)=\) \q{\(\cdot\) minore di \(\circ\)}.
 \paragraph{Svolgimento:}
-Definiamo innanzitutto l'abbreviazione \(NP(x) := N(x) \land Pr(x)\).
+Definiamo innanzitutto l'abbreviazione \(NP(x) := N(x) \land \Pr(x)\).
 
 \begin{itemize}
-    \item[(a)] \textbf{I numeri primi non formano un insieme denso.}
+    \item \textbf{(a)} I numeri primi non formano un insieme denso.
     Proprietà dell'ordine lineare:
     \[ \phi_{ANTIRIFL} := \forall x (NP(x) \to \neg(x < x)) \]
     \[ \phi_{TRICO} := \forall x \forall y ((NP(x) \land NP(y)) \to ((x < y) \lor (y < x) \lor (y = x))) \]
@@ -24,20 +16,19 @@ Definiamo innanzitutto l'abbreviazione \(NP(x) := N(x) \land Pr(x)\).
     Soluzione:
     \[ \Phi_{NON\_DENSO} := \neg(\phi_{LIN} \land \phi') \]
 
-    \item[(b)] \textbf{I numeri primi maggiori di 2 hanno successore pari.}
+    \item \textbf{(b)} I numeri primi maggiori di 2 hanno successore pari.
     \[ \forall x ((NP(x) \land (2 < x)) \to \exists s \st (N(s) \land Succ(s, x) \land Div(s, 2))) \]
 
-    \item[(c)] \textbf{Un numero primo è divisibile solo da 1 e da sé stesso.}
+    \item \textbf{(c)} Un numero primo è divisibile solo da 1 e da sé stesso.
     \[ \forall x (NP(x) \to \forall d (N(d) \land Div(x, d) \to ((d = 1) \lor (d = x)))) \]
 
-    \item[(d)] \textbf{I numeri primi formano un insieme discreto.}
+    \item \textbf{(d)} I numeri primi formano un insieme discreto.
     \[ \phi'' := \forall x ((NP(x) \land \exists m \st (NP(m) \land (x < m))) \to \exists s \st (NP(s) \land (x < s) \land \forall t (NP(t) \land (x < t) \to \neg(t < s)))) \]
     Soluzione:
     \[ \phi_{DISC} := \phi_{LIN} \land \phi'' \]
 \end{itemize}
 
 \subsection*{Esercizio 2}
-\textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data.
 Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 \begin{enumerate}
@@ -60,11 +51,11 @@ Semanticamente, la formula è equivalente a \((A \lor B) \to (A \lor B)\), che �
   \RuleLabel{\(\RAA\)}
   \UnaryInfC{\(B\)}
   \AxiomC{\({[B]}_1\)}
-  \RuleLabel{\(\lor E_1\)}[\(A\), \(B\)]
+  \RuleLabel{\(\lor E_1\)}
   \TrinaryInfC{\(B\)}
-  \RuleLabel{\(\to I_2\)}[\(\neg A\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(\neg A \to B\)}
-  \RuleLabel{\(\to I_3\)}[\(A \lor B\)]
+  \RuleLabel{\(\to I_3\)}
   \UnaryInfC{\((A \lor B) \to (\neg A \to B)\)}
 \end{prooftree}
 
@@ -119,9 +110,9 @@ Dimostriamo quindi la sua negazione \(\neg(\neg(A \land B) \land \neg(A \to \neg
   \UnaryInfC{\(\neg(A \land B)\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\to I_2\)}[\(B\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(\neg B\)}
-  \RuleLabel{\(\to I_3\)}[\(A\)]
+  \RuleLabel{\(\to I_3\)}
   \UnaryInfC{\(A \to \neg B\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
@@ -130,7 +121,6 @@ Dimostriamo quindi la sua negazione \(\neg(\neg(A \land B) \land \neg(A \to \neg
 \end{prooftree}
 
 \subsection*{Esercizio 4}
-\textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili.
 \begin{enumerate}
     \item[(a)] \(\neg \exists x \st (A(x) \lor B(x)) \to \neg\neg \forall x \st \neg(A(x) \lor B(x))\)

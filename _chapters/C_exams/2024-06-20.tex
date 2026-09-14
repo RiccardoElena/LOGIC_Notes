@@ -94,7 +94,7 @@ La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\righta
   \UnaryInfC{\(\neg P\vee\neg Q\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_2\)}[\(\neg P\)]
+  \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
 
   \AxiomC{\({[\neg(\neg P\vee\neg Q)]}_1\)}
@@ -104,7 +104,7 @@ La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\righta
   \UnaryInfC{\(\neg P\vee\neg Q\)}
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\RAA_3\)}[\(\neg Q\)]
+  \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(Q\)}
 
   \RuleLabel{\(\land I\)}
@@ -131,12 +131,12 @@ La formula è \textbf{valida}. Scrivendo l'implicazione materiale, risulta equiv
   
   \AxiomC{\({[Q]}_3\)}
   
-  \RuleLabel{\(\lor E_3\)}[\(\neg P\), \(Q\)]
+  \RuleLabel{\(\lor E_3\)}
   \TrinaryInfC{\(Q\)}
   
-  \RuleLabel{\(\to I_2\)}[\(P\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(P\rightarrow Q\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg P\vee Q\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\neg P\vee Q)\rightarrow(P\rightarrow Q)\)}
 \end{prooftree}
 
@@ -200,7 +200,7 @@ Se invece \(\exists x\st P(x)\) è falsa, allora \(\beta\) è vera (ex falso quo
   \RuleLabel{\(\exists I\)}
   \UnaryInfC{\(\exists y\st Q(y)\)}
   
-  \RuleLabel{\(\exists E_3\)}[\(P(z)\)]
+  \RuleLabel{\(\exists E_3\)}
   \BinaryInfC{\(\exists y\st Q(y)\)}
   
   \RuleLabel{\(\to I_2\)}
@@ -293,6 +293,6 @@ La formula è \textbf{valida}. L'uguaglianza \(c=d\) ci permette di sostituire i
   \RuleLabel{\(\to E\)}
   \BinaryInfC{\(\exists y\st P(d,y)\)}
   
-  \RuleLabel{\(\to I_1\)}[\(\exists y\st P(c,y)\wedge c=d\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\((\exists y\st P(c,y)\wedge c=d)\rightarrow\exists y\st P(d,y)\)}
 \end{prooftree}
