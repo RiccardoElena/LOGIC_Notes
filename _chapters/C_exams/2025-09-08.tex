@@ -83,8 +83,8 @@ La formula è valida: l'antecedente è equivalente a \((P\wedge Q)\), il che imp
 \paragraph{Svolgimento:}
 La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\vee(P\wedge Q)\), ossia un'istanza del terzo escluso.
 
+\paragraph{Sottoalbero 1}
 \begin{prooftree}
-  \tiny
   \AxiomC{\({[\neg((\neg P\vee\neg Q)\vee(P\wedge Q))]}_1\)}
   \AxiomC{\({[\neg P]}_2\)}
   \RuleLabel{\(\lor I\)}
@@ -95,6 +95,9 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \BinaryInfC{\(\bot\)}
   \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
+  \end{prooftree}
+  \paragraph{Sottoalbero 2}
+\begin{prooftree}
 
   \AxiomC{\({[\neg((\neg P\vee\neg Q)\vee(P\wedge Q))]}_1\)}
   \AxiomC{\({[\neg Q]}_3\)}
@@ -106,7 +109,10 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \BinaryInfC{\(\bot\)}
   \RuleLabel{\(\RAA_3\)}
   \UnaryInfC{\(Q\)}
-
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{Sottoalbero \(1\)}
+  \AxiomC{Sottoalbero \(2\)}
   \RuleLabel{\(\land I\)}
   \BinaryInfC{\(P\wedge Q\)}
   \RuleLabel{\(\lor I\)}
@@ -119,9 +125,7 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
   \UnaryInfC{\((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
 \end{prooftree}
 
-\vspace{1em}
-\hrule
-\vspace{1em}
+
 
 \subsection*{Esercizio 2}
 
@@ -136,18 +140,33 @@ Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio na
   \[\forall p((P(p) \wedge \exists d\st (Um(d) \wedge St(p,d))) \rightarrow \exists e\st (E(e) \wedge L(e) \wedge S(p,e)))\]
 
   \item \textbf{(c)} Le discipline scientifiche vengono studiate da alcune persone che sostengono almeno tre esami di matematica.
-  \[\forall d(Sc(d) \rightarrow \exists p\st (P(p) \wedge St(p,d) \wedge \exists e_1, e_2, e_3\st (E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge \neg(e_1=e_2) \wedge \neg(e_2=e_3) \wedge \neg(e_3=e_1))))\]
+  \[
+  \begin{aligned}
+    \forall d &(Sc(d) \rightarrow \exists p\st (P(p) \wedge St(p,d) \wedge \\
+    &\exists e_1, e_2, e_3\st (E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge \\
+    &\neg(e_1=e_2) \wedge \neg(e_2=e_3) \wedge \neg(e_3=e_1))))
+  \end{aligned}
+  \]
 
   \item \textbf{(d)} Le persone che studiano discipline scientifiche sostengono gli stessi esami di matematica. (Soluzione 1)
-  \[\forall p_1 \forall p_2 ((P(p_1) \wedge P(p_2) \wedge \exists d\st (Sc(d) \wedge St(p_1,d)) \wedge \exists d\st (Sc(d) \wedge St(p_2,d))) \rightarrow \forall e\st ((E(e) \wedge M(e)) \rightarrow (S(p_1,e) \leftrightarrow S(p_2,e))))\]
+  \[
+  \begin{aligned}
+    \forall p_1 &\forall p_2 ((P(p_1) \wedge P(p_2) \wedge \exists d\st (Sc(d) \wedge St(p_1,d)) \wedge \exists d\st (Sc(d) \wedge St(p_2,d))) \rightarrow \\
+    &\forall e\st ((E(e) \wedge M(e)) \rightarrow (S(p_1,e) \leftrightarrow S(p_2,e))))
+  \end{aligned}
+  \]
 
   \item \textbf{(e)} Le persone che studiano discipline scientifiche sostengono al massimo due esami di matematica.
-  \[\forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow \forall e_1 \forall e_2 \forall e_3 ((E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3)) \rightarrow (e_1=e_2 \vee e_2=e_3 \vee e_1=e_3)))\]
+  \[
+  \begin{aligned}
+    \forall p &((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow \\
+    &\forall e_1 \forall e_2 \forall e_3 ((E(e_1) \wedge E(e_2) \wedge E(e_3) \wedge M(e_1) \wedge M(e_2) \wedge M(e_3) \wedge S(p,e_1) \wedge S(p,e_2) \wedge S(p,e_3)) \rightarrow\\
+    & (e_1=e_2 \vee e_2=e_3 \vee e_1=e_3)))
+  \end{aligned}
+  \]
 \end{itemize}
 
-\vspace{1em}
-\hrule
-\vspace{1em}
+
 
 \subsection*{Esercizio 3}
 
@@ -164,7 +183,7 @@ La formula è equivalente a \(\forall x\st P(x) \rightarrow \exists x\st \neg P(
 La formula è valida. Si motiva osservando che se la relazione è vera per ogni coppia \((x,y)\), allora è necessariamente vera anche per le coppie riflessive \((x,x)\).
 
 \begin{prooftree}
-  \small
+  \tiny
   \AxiomC{\({[\neg(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y))]}_1\)}
   \AxiomC{\({[\forall x\st \forall y\st R(x,y)]}_2\)}
   \RuleLabel{\(\forall E\)}
@@ -220,6 +239,7 @@ La formula è soddisfacibile. Si può avere un modello \(M\) dove \(D=\{1\}\) e 
 La formula è valida perché, per la simmetria dell'uguaglianza, \((d=c)\) equivale a \((c=d)\), per cui possiamo operare una sostituzione. 
 
 \begin{prooftree}
+  \small
   \AxiomC{\({[\exists y\st P(c,y) \wedge (d=c)]}_1\)}
   \RuleLabel{\(\land E\)}
   \UnaryInfC{\(d=c\)}

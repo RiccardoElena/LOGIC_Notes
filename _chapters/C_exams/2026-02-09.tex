@@ -18,15 +18,28 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
   \[\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land \forall u((V(u,g) \land E(u,v,g)) \rightarrow c(u)=B)))\]
 
   \item \textbf{(d)} Vi sono grafi nei quali i vertici di colore nero hanno, tra i loro adiacenti, almeno due vertici di colore bianco che non sono adiacenti tra di loro.
-  \[\exists g\st (G(g) \land \forall v((V(v,g) \land c(v)=N) \rightarrow \exists u_1\st \exists u_2\st (V(u_1,g) \land V(u_2,g) \land E(u_1,v,g) \land E(u_2,v,g) \land c(u_1)=B \land c(u_2)=B \land \neg E(u_1,u_2,g) \land \neg(u_1=u_2))))\]
+  \[
+  \begin{aligned}    
+    \exists g&\st (G(g) \land \forall v((V(v,g) \land c(v)=N) \rightarrow \exists u_1\st \exists u_2\st\\
+    &(V(u_1,g) \land V(u_2,g) \land E(u_1,v,g) \land E(u_2,v,g) \land c(u_1)=B \land c(u_2)=B \land \\
+    &\neg E(u_1,u_2,g) \land \neg(u_1=u_2))))
+  \end{aligned}
+  \]
 
   \item \textbf{(e)} In un arbitrario grafo, almeno un vertice di colore bianco ha meno di 3 vertici neri tra i suoi adiacenti.
-  \[\forall g(G(g) \rightarrow \exists v\st (V(v,g) \land c(v)=B \land \forall u_1 \forall u_2 \forall u_3 ((V(u_1,g) \land V(u_2,g) \land V(u_3,g) \land E(v,u_1,g) \land E(v,u_2,g) \land E(v,u_3,g) \land c(u_1)=N \land c(u_2)=N \land c(u_3)=N) \rightarrow (u_1=u_2 \lor u_2=u_3 \lor u_1=u_3))))\]
+  \[
+  \begin{aligned}
+    \forall g&\st (G(g) \rightarrow \exists v\st\\
+    & (V(v,g) \land c(v)=B \land \forall u_1 \forall u_2 \forall u_3 \\
+    &((V(u_1,g) \land V(u_2,g) \land V(u_3,g) \land E(v,u_1,g) \land E(v,u_2,g) \land E(v,u_3,g) \land c(u_1)=N \land c(u_2)=N \\
+    & \land c(u_3)=N) \rightarrow (u_1=u_2 \lor u_2=u_3 \lor u_1=u_3))))
+  \end{aligned}
+  \]
 \end{itemize}
 
 \subsection*{Esercizio 2}
 
-\textbf{Traccia:} Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
+Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 \begin{enumerate}
     \item[(a)] \((\neg P\vee\neg Q)\wedge(P\wedge Q)\)
     \item[(b)] \(\neg(P\rightarrow Q)\rightarrow\neg(\neg P\vee Q)\)
@@ -40,7 +53,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
     \item[(a)] La formula \((\neg P \lor \neg Q) \land (P \land Q)\) equivale a \(\neg(P \land Q) \land (P \land Q)\), pertanto risulta insoddisfacibile. Dimostrazione della sua negazione:
     
     \begin{prooftree}
-      \small
+      \tiny
       \AxiomC{\({[(\neg P\lor\neg Q)\land(P\land Q)]}_1\)}
       \RuleLabel{\(\land E\)}
       \UnaryInfC{\(\neg P\lor\neg Q\)}
@@ -100,7 +113,7 @@ Simboli di costante: \(B = \) \q{bianco}; \(N = \) \q{nero}.
     \item[(c)] L'antecedente della formula, espanso, include contraddizioni logiche che lo rendono sempre falso, per cui l'implicazione è vacuamente valida. Si definisce \(\Psi := ((P\vee Q)\wedge\neg(P\wedge Q)\wedge(Q\rightarrow P)\wedge(P\rightarrow Q))\). Dimostrazione:
     
     \begin{prooftree}
-      \small
+      \tiny
       \AxiomC{\({[\Psi]}_1\)}
       \RuleLabel{\(\land E\)}
       \UnaryInfC{\(P \lor Q\)}

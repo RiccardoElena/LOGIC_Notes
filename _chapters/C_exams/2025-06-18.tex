@@ -60,9 +60,7 @@ Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tr
   \BinaryInfC{\(P \land \neg Q\)}
 \end{prooftree}
 
-\vspace{1em}
-\hrule
-\vspace{1em}
+
 
 \subsection*{Esercizio 2}
 
@@ -81,7 +79,7 @@ Un'assegnazione che rende \textbf{vera} la formula è: \(R=0\). Con questa asseg
 La formula è logicamente equivalente a \((P \land Q) \land \neg(P \land Q)\), pertanto è \textbf{insoddisfacibile}. Dobbiamo quindi esibire una dimostrazione in Natural Deduction della sua negazione.
 
 \begin{prooftree}
-  \small
+  \tiny
   \AxiomC{\({[(P \land \neg \neg Q) \land (\neg P \lor \neg Q)]}_1\)}
   \RuleLabel{\(\land E\)}
   \UnaryInfC{\(\neg P \lor \neg Q\)}
@@ -115,8 +113,8 @@ La formula è logicamente equivalente a \((P \land Q) \land \neg(P \land Q)\), p
 \paragraph{Svolgimento:}
 Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor Q) \equiv P \rightarrow Q\), la formula assume la forma tautologica \(A \lor \neg A\). Risulta quindi \textbf{valida}.
 
+\paragraph{Sottoalbero 1}
 \begin{prooftree}
-  \tiny
   \AxiomC{\({[\neg P]}_2\)}
   \RuleLabel{\(\lor I\)}
   \UnaryInfC{\(\neg P \lor Q\)}
@@ -127,6 +125,10 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \BinaryInfC{\(\bot\)}
   \RuleLabel{\(\RAA_2\)}
   \UnaryInfC{\(P\)}
+\end{prooftree}
+
+\paragraph{Sottoalbero 2}
+\begin{prooftree}
 
   \AxiomC{\({[Q]}_3\)}
   \RuleLabel{\(\lor I\)}
@@ -138,7 +140,11 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \BinaryInfC{\(\bot\)}
   \RuleLabel{\(\neg I_3\)}
   \UnaryInfC{\(\neg Q\)}
+\end{prooftree}
+\begin{prooftree}
 
+  \AxiomC{Sottoalbero \(1\)}
+  \AxiomC{Sottoalbero \(2\)}
   \RuleLabel{\(\land I\)}
   \BinaryInfC{\(P \land \neg Q\)}
   \RuleLabel{\(\lor I\)}
@@ -151,9 +157,6 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
   \UnaryInfC{\((\neg P \lor Q) \lor (P \land \neg Q)\)}
 \end{prooftree}
 
-\vspace{1em}
-\hrule
-\vspace{1em}
 
 \subsection*{Esercizio 3}
 
@@ -172,15 +175,23 @@ Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in l
   \[\forall a\, (A(a) \rightarrow \exists o\st (O(o) \land P(a, o) \land \forall d\, (L(d, a) \rightarrow U(d, o))))\]
 
   \item \textbf{(d)} Alcuni dipendenti di ogni azienda utilizzano almeno due oggetti non prodotti dalla loro azienda.
-  \[\forall a\, (A(a) \rightarrow \exists d\st (L(d, a) \land \exists o_1\st \exists o_2\st (O(o_1) \land O(o_2) \land \neg P(a, o_1) \land \neg P(a, o_2) \land U(d, o_1) \land U(d, o_2) \land \neg(o_1 = o_2))))\]
-
+  \[
+  \begin{aligned}
+    \forall a&\, (A(a) \rightarrow \exists d\st\\
+                      &(L(d, a) \land \exists o_1\st \exists o_2\st (O(o_1) \land O(o_2) \land \neg P(a, o_1) \land \neg P(a, o_2) \land U(d, o_1) \land U(d, o_2) \land \neg(o_1 = o_2))))
+  \end{aligned}
+  \]
   \item \textbf{(e)} I dipendenti di qualche azienda utilizzano non più di due oggetti prodotti dalla loro azienda.
-  \[\exists a\st (A(a) \land \forall d\, (L(d, a) \rightarrow \forall o_1\, \forall o_2\, \forall o_3\, ((O(o_1) \land O(o_2) \land O(o_3) \land P(a, o_1) \land P(a, o_2) \land P(a, o_3) \land U(d, o_1) \land U(d, o_2) \land U(d, o_3)) \rightarrow (o_1 = o_2 \lor o_2 = o_3 \lor o_1 = o_3))))\]
+  \[
+  \begin{aligned}
+    \exists a&\st (A(a) \land \forall d\, (L(d, a) \rightarrow \forall o_1\, \forall o_2\, \forall o_3\, \\
+    &((O(o_1) \land O(o_2) \land O(o_3) \land P(a, o_1) \land P(a, o_2) \land P(a, o_3) \land U(d, o_1) \land U(d, o_2) \land U(d, o_3)) \rightarrow\\
+    & (o_1 = o_2 \lor o_2 = o_3 \lor o_1 = o_3))))
+  \end{aligned}
+  \]
 \end{itemize}
 
-\vspace{1em}
-\hrule
-\vspace{1em}
+
 
 \subsection*{Esercizio 4}
 

@@ -142,7 +142,13 @@ Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in l
     \[\forall p ((P(p) \land \forall c (C(c) \to A(p,c))) \to \exists c_1 \exists c_2 (C(c_1) \land C(c_2) \land PR(p,c_1) \land PR(p,c_2) \land \neg(c_1 = c_2)))\]
 
     \item \textbf{(e)} Non ci sono più di due cani posseduti dallo stesso proprietario che sono fedeli ad altre persone.
-    \[\forall p (P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))\]
+    \[
+    \begin{aligned}
+      \forall p &(P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \\
+      &\exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \\
+      &\exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))
+    \end{aligned}
+    \]
 \end{itemize}
 
 \subsection*{Esercizio 3}
@@ -205,7 +211,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
 \paragraph{Svolgimento:}
 \textbf{Insoddisfacibile}.
 \begin{prooftree}
-    \small
+    \tiny
     \AxiomC{\({[\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y))]}_1\)}
     \AxiomC{\({[P(k,x) \land x=y \land \neg P(k,y)]}_2\)}
     \RuleLabel{\(\land E\)}
@@ -231,6 +237,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
 \textbf{Valida}.
 \begin{prooftree}
     \tiny
+    \AxiomC{\({[\neg \exists x \st (P(x) \to Q(x))]}_1\)}
     \AxiomC{\({[\forall x \st P(x) \to \exists x \st Q(x)]}_5\)}
     \AxiomC{\({[\neg \exists x \st (P(x) \to Q(x))]}_1\)}
     \AxiomC{\({[\neg P(z)]}_3\)}
@@ -251,7 +258,6 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \UnaryInfC{\(\forall x \st P(x)\)}
     \RuleLabel{\(\to E\)}
     \BinaryInfC{\(\exists x \st Q(x)\)}
-    \AxiomC{\({[\neg \exists x \st (P(x) \to Q(x))]}_1\)}
     \AxiomC{\({[Q(w)]}_2\)}
     \RuleLabel{\(\to I\)}
     \UnaryInfC{\(P(w) \to Q(w)\)}

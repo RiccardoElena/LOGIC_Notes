@@ -15,7 +15,13 @@ Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni 
     \[\forall x ((N(x) \land Pr(x)) \to \exists i \st (N(i) \land (exp(2,i) \le x \land x \le exp(2,s(i)))))\]
 
     \item \textbf{(d)} Qualche numero pari è divisibile da non più di 3 numeri.
-    \[\exists x \st (N(x) \land P(x) \land \forall i \forall j \forall k \forall l ((N(i) \land N(j) \land N(k) \land N(l) \land Div(x,i) \land Div(x,j) \land Div(x,k) \land Div(x,l)) \to (i=j \lor i=k \lor i=l \lor j=k \lor j=l \lor k=l)))\]
+    \[
+    \begin{aligned}
+      \exists x& \st (N(x) \land P(x) \land \forall i \forall j \forall k \forall l ((N(i) \land N(j) \land \\
+      & N(k) \land N(l) \land Div(x,i) \land Div(x,j) \land Div(x,k) \land Div(x,l)) \to\\
+      & (i=j \lor i=k \lor i=l \lor j=k \lor j=l \lor k=l)))
+    \end{aligned}
+    \]
 
     \item \textbf{(e)} Ci sono infiniti numeri primi.
     \[\forall x ((N(x) \land Pr(x)) \to \exists y \st (N(y) \land Pr(y) \land \neg(y \le x)))\]
@@ -103,6 +109,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
 \subsubsection*{(d) \((P \to (Q \lor \neg R)) \lor (( \neg P \land \neg Q ) \to \neg R)\)}
 \paragraph{Svolgimento:}
 \textbf{Valida.} Si dimostra per assurdo, con una costruzione strutturata che ricava dapprima \(\neg P\) tramite \(\RAA\) e successivamente costruisce l'implicazione di sinistra.
+\paragraph{Sottoalbero \(1\)}
 \begin{prooftree}
     \tiny
     \AxiomC{\({[\neg ((P \to (Q \lor \neg R)) \lor ((\neg P \land \neg Q) \to \neg R))]}_1\)}
@@ -129,6 +136,10 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\bot E\)}
+    \UnaryInfC{\(Q \lor \neg R\)}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{Sottoalbero \(1\)}
     \UnaryInfC{\(Q \lor \neg R\)}
     \RuleLabel{\(\to I_4\)}
     \UnaryInfC{\(P \to (Q \lor \neg R)\)}
@@ -277,9 +288,9 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
 \subsubsection*{(e) \(\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))\)}
 \paragraph{Svolgimento:}
 \textbf{Insoddisfacibile.} Semanticamente, ponendo \(y=x\), otteniamo l'equivalenza \(C(x,x) \leftrightarrow \neg C(x,x)\), che è una palese contraddizione per ogni modello. Si mostra la dimostrazione della sua negazione.
+\paragraph{Sottoalbero 1}
 \begin{prooftree}
     \tiny
-    \AxiomC{\({[\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))]}_1\)}
     
     \AxiomC{\({[\forall y ((\neg C(z,z) \to C(z,y)) \land (C(z,y) \to \neg C(z,z)))]}_2\)}
     \RuleLabel{\(\forall E\)}
@@ -294,9 +305,13 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\neg I_3\)}
     \UnaryInfC{\(\neg C(z,z)\)}
-    
-    \AxiomC{\({[\forall y ((\neg C(z,z) \to C(z,y)) \land (C(z,y) \to \neg C(z,z)))]}_2\)}
-    \RuleLabel{\(\forall E\)}
+    \end{prooftree}
+    \paragraph{Sottoalbero 2}
+    \begin{prooftree}
+      \tiny
+      
+      \AxiomC{\({[\forall y ((\neg C(z,z) \to C(z,y)) \land (C(z,y) \to \neg C(z,z)))]}_2\)}
+      \RuleLabel{\(\forall E\)}
     \UnaryInfC{\((\neg C(z,z) \to C(z,z)) \land (C(z,z) \to \neg C(z,z))\)}
     \RuleLabel{\(\land E\)}
     \UnaryInfC{\(\neg C(z,z) \to C(z,z)\)}
@@ -317,10 +332,15 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     
     \RuleLabel{\(\to E\)}
     \BinaryInfC{\(C(z,z)\)}
-    
+  \end{prooftree}
+  \begin{prooftree}
+    \AxiomC{Sottoalbero 1}
+    \AxiomC{Sottoalbero 2}
+
     \RuleLabel{\(\neg E\)}
     \BinaryInfC{\(\bot\)}
     
+    \AxiomC{\({[\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))]}_1\)}
     \RuleLabel{\(\exists E_2\)}
     \BinaryInfC{\(\bot\)}
     \RuleLabel{\(\neg I_1\)}
