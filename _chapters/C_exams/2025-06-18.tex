@@ -1,16 +1,11 @@
-\chapter{Tema d'esame del 18 Giugno 2025}
-\section*{Esercizio 1}
+\section{Tema d'esame del 18 Giugno 2025}
+\subsection*{Esercizio 1}
 
-\subsection*{Traccia}
 Fornire una deduzione in Natural Deduction (utilizzando solo le regole riportate sul retro) per i sequenti sotto riportati:
-\begin{enumerate}
-    \item[(a)] \(P \land \neg Q \vdash \neg (\neg P \lor Q)\)
-    \item[(b)] \(\neg (\neg P \lor Q) \vdash P \land \neg Q\)
-\end{enumerate}
 
-\subsection*{Svolgimento}
+\subsubsection*{(a)  \(P \land \neg Q \vdash \neg (\neg P \lor Q)\)}
 
-\subsubsection*{(a) Dimostrazione di \(P \land \neg Q \vdash \neg (\neg P \lor Q)\)}
+\paragraph{Svolgimento:}
 
 Assumiamo \(\neg P \lor Q\) e dimostriamo una contraddizione eliminando la disgiunzione.
 
@@ -37,7 +32,8 @@ Assumiamo \(\neg P \lor Q\) e dimostriamo una contraddizione eliminando la disgi
   \UnaryInfC{\(\neg(\neg P \lor Q)\)}
 \end{prooftree}
 
-\subsubsection*{(b) Dimostrazione di \(\neg (\neg P \lor Q) \vdash P \land \neg Q\)}
+\subsubsection*{(b) \(\neg (\neg P \lor Q) \vdash P \land \neg Q\)}
+\paragraph{Svolgimento:}
 
 Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tramite ragionamento per assurdo (\(\RAA\)) e \(\neg Q\) tramite introduzione della negazione (\(\neg I\)).
 
@@ -68,9 +64,8 @@ Per dimostrare \(P \land \neg Q\), procediamo dimostrando separatamente \(P\) tr
 \hrule
 \vspace{1em}
 
-\section*{Esercizio 2}
+\subsection*{Esercizio 2}
 
-\subsection*{Traccia}
 Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili, motivando semanticamente la risposta. Esibire una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se insoddisfacibile.
 \begin{enumerate}
     \item[(a)] \(((P \land \neg Q) \lor (\neg R \lor Q)) \rightarrow (R \rightarrow Q)\)
@@ -78,15 +73,17 @@ Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili 
     \item[(c)] \((\neg P \lor Q) \lor (P \land \neg Q)\)
 \end{enumerate}
 
-\subsection*{Svolgimento}
 
 \subsubsection*{(a) \(((P \land \neg Q) \lor (\neg R \lor Q)) \rightarrow (R \rightarrow Q)\)}
+
+\paragraph{Svolgimento:}
 La formula è \textbf{soddisfacibile, ma non valida}.
 Possiamo notare che \((\neg R \lor Q)\) è equivalente a \(R \rightarrow Q\). 
 Un'assegnazione di verità che rende \textbf{falsa} la formula è: \(R=1\), \(Q=0\), \(P=1\). Con questi valori l'antecedente risulta vero (\(1 \land 1 = 1\)), mentre il conseguente risulta falso (\(1 \rightarrow 0 = 0\)). Pertanto l'implicazione è falsa.
 Un'assegnazione che rende \textbf{vera} la formula è: \(R=0\). Con questa assegnazione il conseguente \(0 \rightarrow Q\) è sempre vero, rendendo vera l'intera formula.
 
 \subsubsection*{(b) \((P \land \neg \neg Q) \land (\neg P \lor \neg Q)\)}
+\paragraph{Svolgimento:}
 La formula è logicamente equivalente a \((P \land Q) \land \neg(P \land Q)\), pertanto è \textbf{insoddisfacibile}. Dobbiamo quindi esibire una dimostrazione in Natural Deduction della sua negazione.
 
 \begin{prooftree}
@@ -121,6 +118,7 @@ La formula è logicamente equivalente a \((P \land Q) \land \neg(P \land Q)\), p
 \end{prooftree}
 
 \subsubsection*{(c) \((\neg P \lor Q) \lor (P \land \neg Q)\)}
+\paragraph{Svolgimento:}
 Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor Q) \equiv P \rightarrow Q\), la formula assume la forma tautologica \(A \lor \neg A\). Risulta quindi \textbf{valida}.
 
 \begin{prooftree}
@@ -163,36 +161,35 @@ Notando che \(\neg(P \rightarrow Q) \equiv P \land \neg Q\) e che \((\neg P \lor
 \hrule
 \vspace{1em}
 
-\section*{Esercizio 3}
+\subsection*{Esercizio 3}
 
-\subsection*{Traccia}
-Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione aggiuntivi indicati di seguito: \(A(x) = \text{"}x\text{ è un'azienda"}\); \(O(x) = \text{"}x\text{ è un oggetto"}\); \(P(x, y) = \text{"}x\text{ produce }y\text{"}\); \(U(x, y) = \text{"}x\text{ utilizza }y\text{"}\); \(L(x, y) = \text{"}x\text{ lavora per }y\text{"}\).
+Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli di relazione aggiuntivi indicati di seguito: \(A(x) =\) \q{è un'azienda}; \(O(x) =\) \q{è un oggetto}; \(P(x, y) =\) \q{x produce y}; \(U(x, y) =\) \q{x utilizza y}; \(L(x, y) =\) \q{x lavora per y}.
 
-\begin{enumerate}
-    \item[(a)] I dipendenti di una stessa azienda utilizzano tutti gli oggetti prodotti dalla loro azienda.
-    \item[(b)] I dipendenti di una stessa azienda utilizzano qualche oggetto prodotto dalla loro azienda.
-    \item[(c)] I dipendenti di ogni azienda utilizzano tutti lo stesso oggetto prodotto dalla loro azienda.
-    \item[(d)] Alcuni dipendenti di ogni azienda utilizzano almeno due oggetti non prodotti dalla loro azienda.
-    \item[(e)] I dipendenti di qualche azienda utilizzano non più di due oggetti prodotti dalla loro azienda.
-\end{enumerate}
+\paragraph{Svolgimento:}
 
-\subsection*{Svolgimento}
+\begin{itemize}
+  \item \textbf{(a)} I dipendenti di una stessa azienda utilizzano tutti gli oggetti prodotti dalla loro azienda.
+  \[\forall a\, (A(a) \rightarrow \forall d\, (L(d, a) \rightarrow \forall o\, ((O(o) \land P(a, o)) \rightarrow U(d, o))))\]
 
-\begin{enumerate}
-    \item[(a)] \(\forall a\, (A(a) \rightarrow \forall d\, (L(d, a) \rightarrow \forall o\, ((O(o) \land P(a, o)) \rightarrow U(d, o))))\)
-    \item[(b)] \(\forall a\, (A(a) \rightarrow \forall d\, (L(d, a) \rightarrow \exists o\st (O(o) \land P(a, o) \land U(d, o))))\)
-    \item[(c)] \(\forall a\, (A(a) \rightarrow \exists o\st (O(o) \land P(a, o) \land \forall d\, (L(d, a) \rightarrow U(d, o))))\)
-    \item[(d)] \(\forall a\, (A(a) \rightarrow \exists d\st (L(d, a) \land \exists o_1\st \exists o_2\st (O(o_1) \land O(o_2) \land \neg P(a, o_1) \land \neg P(a, o_2) \land U(d, o_1) \land U(d, o_2) \land \neg(o_1 = o_2))))\)
-    \item[(e)] \(\exists a\st (A(a) \land \forall d\, (L(d, a) \rightarrow \forall o_1\, \forall o_2\, \forall o_3\, ((O(o_1) \land O(o_2) \land O(o_3) \land P(a, o_1) \land P(a, o_2) \land P(a, o_3) \land U(d, o_1) \land U(d, o_2) \land U(d, o_3)) \rightarrow (o_1 = o_2 \lor o_2 = o_3 \lor o_1 = o_3))))\)
-\end{enumerate}
+  \item \textbf{(b)} I dipendenti di una stessa azienda utilizzano qualche oggetto prodotto dalla loro azienda.
+  \[\forall a\, (A(a) \rightarrow \forall d\, (L(d, a) \rightarrow \exists o\st (O(o) \land P(a, o) \land U(d, o))))\]
+
+  \item \textbf{(c)} I dipendenti di ogni azienda utilizzano tutti lo stesso oggetto prodotto dalla loro azienda.
+  \[\forall a\, (A(a) \rightarrow \exists o\st (O(o) \land P(a, o) \land \forall d\, (L(d, a) \rightarrow U(d, o))))\]
+
+  \item \textbf{(d)} Alcuni dipendenti di ogni azienda utilizzano almeno due oggetti non prodotti dalla loro azienda.
+  \[\forall a\, (A(a) \rightarrow \exists d\st (L(d, a) \land \exists o_1\st \exists o_2\st (O(o_1) \land O(o_2) \land \neg P(a, o_1) \land \neg P(a, o_2) \land U(d, o_1) \land U(d, o_2) \land \neg(o_1 = o_2))))\]
+
+  \item \textbf{(e)} I dipendenti di qualche azienda utilizzano non più di due oggetti prodotti dalla loro azienda.
+  \[\exists a\st (A(a) \land \forall d\, (L(d, a) \rightarrow \forall o_1\, \forall o_2\, \forall o_3\, ((O(o_1) \land O(o_2) \land O(o_3) \land P(a, o_1) \land P(a, o_2) \land P(a, o_3) \land U(d, o_1) \land U(d, o_2) \land U(d, o_3)) \rightarrow (o_1 = o_2 \lor o_2 = o_3 \lor o_1 = o_3))))\]
+\end{itemize}
 
 \vspace{1em}
 \hrule
 \vspace{1em}
 
-\section*{Esercizio 4}
+\subsection*{Esercizio 4}
 
-\subsection*{Traccia}
 Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction (utilizzando solo le regole riportate sul retro) per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 \begin{enumerate}
     \item[(a)] \(\neg(\forall x\, R(x) \land \exists x\st \neg R(x))\)
@@ -202,9 +199,8 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
     \item[(e)] \((\forall x\, (f(x)=g(x)) \land \exists z\st P(f(z))) \rightarrow (\neg\forall x\, \neg P(g(x)))\)
 \end{enumerate}
 
-\subsection*{Svolgimento}
-
 \subsubsection*{(a) \(\neg(\forall x\, R(x) \land \exists x\st \neg R(x))\)}
+\paragraph{Svolgimento:}
 La formula è equivalente a \(\neg(\forall x\, R(x) \land \neg \forall x\, R(x))\). Pertanto è \textbf{valida}.
 
 \begin{prooftree}
@@ -228,6 +224,7 @@ La formula è equivalente a \(\neg(\forall x\, R(x) \land \neg \forall x\, R(x))
 \end{prooftree}
 
 \subsubsection*{(b) \(\neg\neg\forall x\, P(x,x) \land \neg\exists x\st P(x,x)\)}
+\paragraph{Svolgimento:}
 Equivalente a \(\forall x\, P(x,x) \land \forall x\, \neg P(x,x) \equiv \forall x\, (P(x,x) \land \neg P(x,x))\), quindi è \textbf{insoddisfacibile}. Forniamo la dimostrazione della sua negazione.
 
 \begin{prooftree}
@@ -256,6 +253,7 @@ Equivalente a \(\forall x\, P(x,x) \land \forall x\, \neg P(x,x) \equiv \forall 
 \end{prooftree}
 
 \subsubsection*{(c) \(\exists x\st (R(x) \rightarrow Q(x)) \rightarrow (\forall x\, R(x) \rightarrow \forall x\, Q(x))\)}
+\paragraph{Svolgimento:}
 La formula risulta \textbf{soddisfacibile, ma non valida}.
 \begin{itemize}
     \item Modello in cui è falsa: Dominio \(D = \{1, 2\}\), \(R^M = \{1, 2\}\), \(Q^M = \{1\}\). L'antecedente è vero (\(R(2) \rightarrow Q(2)\) è \(1 \rightarrow 0 = 0\), ma \(R(1) \rightarrow Q(1)\) è \(1 \rightarrow 1 = 1\), quindi l'esistenziale è soddisfatto). Il conseguente tuttavia è falso (\(\forall x\, R(x)\) è vero ma \(\forall x\, Q(x)\) è falso). Pertanto formula complessiva falsa.
@@ -263,6 +261,7 @@ La formula risulta \textbf{soddisfacibile, ma non valida}.
 \end{itemize}
 
 \subsubsection*{(d) \(\exists x\st \neg Q(x) \land \neg\neg\forall x\, Q(x)\)}
+\paragraph{Svolgimento:}
 La formula equivale a \(\neg\forall x\, Q(x) \land \forall x\, Q(x)\). È \textbf{insoddisfacibile}. Esibiamo la deduzione della sua negazione.
 
 \begin{prooftree}
@@ -292,6 +291,7 @@ La formula equivale a \(\neg\forall x\, Q(x) \land \forall x\, Q(x)\). È \textb
 \end{prooftree}
 
 \subsubsection*{(e) \((\forall x\, (f(x)=g(x)) \land \exists z\st P(f(z))) \rightarrow (\neg\forall x\, \neg P(g(x)))\)}
+\paragraph{Svolgimento:}
 Il conseguente equivale a \(\exists x\st P(g(x))\). Sostituendo si ottiene la verità dall'antecedente, quindi la formula risulta \textbf{valida}. Per costruire la dimostrazione deriviamo innanzitutto l'applicazione della simmetria direttamente nell'albero servendoci delle regole per l'uguaglianza \(Sub_\phi\) (con \(x = f(z)\)) e \(Refl\).
 
 \begin{prooftree}

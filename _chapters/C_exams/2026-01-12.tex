@@ -1,5 +1,5 @@
-\chapter{Tema d'esame del 12 Gennaio 2026}
-\section*{Esercizio 1}
+\section{Tema d'esame del 12 Gennaio 2026}
+\subsection*{Esercizio 1}
 
 \textbf{Traccia:}
 Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni in linguaggio naturale, utilizzando solo i simboli costanti presenti nelle frasi e i simboli di funzione e di predicato indicati di seguito. Simboli di funzione: $s(\cdot) = $ ``il successore di''; $exp(2,\cdot) = $ ``la potenza $\cdot$-esima di 2''. Simboli di predicato: $N(\cdot) = $ ``$\cdot$ è un numero''; $P(\cdot) = $ ``$\cdot$ è un numero pari''; $D(\cdot) = $ ``$\cdot$ è un numero dispari''; $Pr(\cdot) = $ ``$\cdot$ è un numero primo''; $Div(\cdot,\cdot) = $ ``$\cdot$ è divisibile per $\cdot$''; $(\cdot \le \cdot) = $ ``minore o uguale a''.
@@ -11,7 +11,7 @@ Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni 
     \item[(e)] Ci sono infiniti numeri primi.
 \end{itemize}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 \begin{itemize}
     \item[(a)] \(\forall x ((N(x) \land Pr(x)) \to \forall y ((N(y) \land Div(x,y)) \to (y=1 \lor y=x)))\)[cite: 1]
     \item[(b)] \(\exists d \st (N(d) \land \forall x ((N(x) \land D(x)) \to Div(s(x), d)))\)[cite: 1]
@@ -21,7 +21,7 @@ Si traducano in logica del prim'ordine con uguaglianza le seguenti affermazioni 
 \end{itemize}
 
 
-\section*{Esercizio 2}
+\subsection*{Esercizio 2}
 
 \textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
@@ -33,9 +33,9 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \item[(e)] \((((\neg Q \lor \neg R) \to \neg P) \lor (P \to (Q \lor R))) \to (R \to P)\)
 \end{itemize}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 
-\subsection*{(a) \(((\neg Q \lor P) \lor (\neg R \land P)) \to (Q \to P)\)}
+\subsubsection*{(a) \(((\neg Q \lor P) \lor (\neg R \land P)) \to (Q \to P)\)}
 \textbf{Valida.} Semanticamente, la premessa si semplifica in \((\neg Q \lor P) \lor (\neg R \land P)\). Poiché \(\neg Q \lor P \equiv Q \to P\), l'intera implicazione ha la forma \((A \lor B) \to A\), che se analizzata logicamente rende sempre vero il conseguente se la disgiunzione è vera, nel caso si derivi dalla prima parte, altrimenti da \(\neg R \land P\) si deriva \(P\), da cui segue banalmente \(Q \to P\)[cite: 1].
 
 \begin{prooftree}
@@ -65,7 +65,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \UnaryInfC{\(((\neg Q \lor P) \lor (\neg R \land P)) \to (Q \to P)\)}
 \end{prooftree}
 
-\subsection*{(b) \(\neg\neg(P \lor \neg P)\)}
+\subsubsection*{(b) \(\neg\neg(P \lor \neg P)\)}
 \textbf{Valida.} Equivalenza del terzo escluso[cite: 1].
 \begin{prooftree}
     \AxiomC{\({[\neg (P \lor \neg P)]}_1\)}
@@ -85,7 +85,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \UnaryInfC{\(\neg\neg(P \lor \neg P)\)}
 \end{prooftree}
 
-\subsection*{(c) \((P \lor Q) \to (\neg P \to Q)\)}
+\subsubsection*{(c) \((P \lor Q) \to (\neg P \to Q)\)}
 \textbf{Valida.} Riscrittura diretta del sillogismo disgiuntivo[cite: 1].
 \begin{prooftree}
     \AxiomC{\({[P \lor Q]}_1\)}
@@ -104,7 +104,7 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \UnaryInfC{\((P \lor Q) \to (\neg P \to Q)\)}
 \end{prooftree}
 
-\subsection*{(d) \((P \to (Q \lor \neg R)) \lor (( \neg P \land \neg Q ) \to \neg R)\)}
+\subsubsection*{(d) \((P \to (Q \lor \neg R)) \lor (( \neg P \land \neg Q ) \to \neg R)\)}
 \textbf{Valida.}[cite: 1] Si dimostra per assurdo, con una costruzione strutturata che ricava dapprima \(\neg P\) tramite \(\RAA\) e successivamente costruisce l'implicazione di sinistra.
 \begin{prooftree}
     \tiny
@@ -146,11 +146,11 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \UnaryInfC{\((P \to (Q \lor \neg R)) \lor ((\neg P \land \neg Q) \to \neg R)\)}
 \end{prooftree}
 
-\subsection*{(e) \((((\neg Q \lor \neg R) \to \neg P) \lor (P \to (Q \lor R))) \to (R \to P)\)}
+\subsubsection*{(e) \((((\neg Q \lor \neg R) \to \neg P) \lor (P \to (Q \lor R))) \to (R \to P)\)}
 \textbf{Solo soddisfacibile.} Se poniamo \(R = \top\) e \(P = \bot\), la premessa globale valuta a vero e la conclusione \(R \to P\) valuta a falso, rendendo l'implicazione complessivamente falsa. Se invece poniamo \(P = \top\), la formula valuta a vero[cite: 1]. Non essendoci un risultato di validità o insoddisfacibilità assoluta, non presentiamo una deduzione.
 
 
-\section*{Esercizio 3}
+\subsection*{Esercizio 3}
 
 \textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. Motivare semanticamente. Esibire una deduzione in Natural Deduction per le valide o per la negazione delle insoddisfacibili.
@@ -162,9 +162,9 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \item[(e)] \(\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))\)
 \end{itemize}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 
-\subsection*{(a) \(\neg\exists x \st (A(x) \lor B(x)) \to \neg\neg\forall x \st \neg(A(x) \lor B(x))\)}
+\subsubsection*{(a) \(\neg\exists x \st (A(x) \lor B(x)) \to \neg\neg\forall x \st \neg(A(x) \lor B(x))\)}
 \textbf{Valida.}[cite: 1]
 \begin{prooftree}
     \AxiomC{\({[\neg \exists x \st (A(x) \lor B(x))]}_1\)}
@@ -188,7 +188,7 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \UnaryInfC{\(\neg \exists x \st (A(x) \lor B(x)) \to \neg\neg\forall x \st \neg(A(x) \lor B(x))\)}
 \end{prooftree}
 
-\subsection*{(b) \((\exists x \st A(x) \to \forall x \st B(x)) \to \forall x \st (A(x) \to B(x))\)}
+\subsubsection*{(b) \((\exists x \st A(x) \to \forall x \st B(x)) \to \forall x \st (A(x) \to B(x))\)}
 \textbf{Valida.}[cite: 1]
 \begin{prooftree}
     \AxiomC{\({[\exists x \st A(x) \to \forall x \st B(x)]}_1\)}
@@ -208,7 +208,7 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \UnaryInfC{\((\exists x \st A(x) \to \forall x \st B(x)) \to \forall x \st (A(x) \to B(x))\)}
 \end{prooftree}
 
-\subsection*{(c) \(((b=a) \land (\exists x \st C(a,x)) \land \forall x \forall y (C(b,x) \to C(b,y))) \to \exists x \st C(b,x)\)}
+\subsubsection*{(c) \(((b=a) \land (\exists x \st C(a,x)) \land \forall x \forall y (C(b,x) \to C(b,y))) \to \exists x \st C(b,x)\)}
 \textbf{Valida.}[cite: 1]
 \begin{prooftree}
     \tiny
@@ -231,7 +231,7 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \UnaryInfC{\(((b=a) \land (\exists x \st C(a,x)) \land \forall x \forall y (C(b,x) \to C(b,y))) \to \exists x \st C(b,x)\)}
 \end{prooftree}
 
-\subsection*{(d) \((\forall x \st A(x) \to \exists x \st B(x)) \to \exists x \st (A(x) \to B(x))\)}
+\subsubsection*{(d) \((\forall x \st A(x) \to \exists x \st B(x)) \to \exists x \st (A(x) \to B(x))\)}
 \textbf{Valida.}[cite: 1]
 \begin{prooftree}
     \tiny
@@ -277,7 +277,7 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \UnaryInfC{\((\forall x \st A(x) \to \exists x \st B(x)) \to \exists x \st (A(x) \to B(x))\)}
 \end{prooftree}
 
-\subsection*{(e) \(\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))\)}
+\subsubsection*{(e) \(\exists x \st \forall y ((\neg C(x,x) \to C(x,y)) \land (C(x,y) \to \neg C(x,x)))\)}
 \textbf{Insoddisfacibile.} Semanticamente, ponendo \(y=x\), otteniamo l'equivalenza \(C(x,x) \leftrightarrow \neg C(x,x)\), che è una palese contraddizione per ogni modello. Si mostra la dimostrazione della sua negazione.
 \begin{prooftree}
     \tiny

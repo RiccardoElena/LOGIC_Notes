@@ -1,20 +1,20 @@
-\chapter{Tema d'esame del 18 Luglio 2024}
-\section*{Esercizio 1}
+\section{Tema d'esame del 20 Giugno 2024}
+\subsection*{Esercizio 1}
 
 Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare la risposta data.
 Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 
-\subsection*{(a) \((P\vee Q)\rightarrow(P\rightarrow Q)\)}
+\subsubsection*{(a) \((P\vee Q)\rightarrow(P\rightarrow Q)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{solo soddisfacibile} (non valida).
 Possiamo semplificarla logicamente:
 \((P\vee Q)\rightarrow(P\rightarrow Q) \equiv \neg(P\vee Q)\vee(\neg P\vee Q) \equiv (\neg P\wedge \neg Q)\vee \neg P\vee Q \equiv \neg P\vee Q\).
 L'assegnazione \(P=1, Q=0\) la rende falsa, ma in tutti gli altri casi è vera.
 
-\subsection*{(b) \(((P\wedge\neg P)\vee(Q\wedge\neg Q))\)}
+\subsubsection*{(b) \(((P\wedge\neg P)\vee(Q\wedge\neg Q))\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{insoddisfacibile}. Ne dimostriamo dunque la negazione tramite deduzione naturale.
 
 \begin{prooftree}
@@ -39,15 +39,15 @@ La formula è \textbf{insoddisfacibile}. Ne dimostriamo dunque la negazione tram
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\lor E_2\)}[\(P\wedge\neg P\), \(Q\wedge\neg Q\)]
+  \RuleLabel{\(\lor E_2\)}
   \TrinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\((P\wedge\neg P)\vee(Q\wedge\neg Q)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg ((P\wedge\neg P)\vee(Q\wedge\neg Q))\)}
 \end{prooftree}
 
-\subsection*{(c) \(((P\wedge Q)\wedge(Q\rightarrow\neg P))\)}
+\subsubsection*{(c) \(((P\wedge Q)\wedge(Q\rightarrow\neg P))\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{insoddisfacibile}.
 Possiamo verificarlo con le equivalenze logiche:
 \(((P\wedge Q)\wedge(Q\rightarrow\neg P)) \equiv ((P\wedge Q)\wedge(\neg Q\vee\neg P)) \equiv (P\wedge Q)\wedge\neg(Q\wedge P)\).
@@ -76,13 +76,13 @@ Procediamo con la deduzione naturale per la sua negazione.
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\neg I_1\)}[\((P\wedge Q)\wedge(Q\rightarrow\neg P)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg ((P\wedge Q)\wedge(Q\rightarrow\neg P))\)}
 \end{prooftree}
 
-\subsection*{(d) \(\neg(\neg P\vee\neg Q)\rightarrow(P\wedge Q)\)}
+\subsubsection*{(d) \(\neg(\neg P\vee\neg Q)\rightarrow(P\wedge Q)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\rightarrow (P\wedge Q)\) o equivalentemente \(\neg(P\wedge Q)\vee (P\wedge Q)\), per le leggi di De Morgan. Di seguito la dimostrazione in deduzione naturale.
 
 \begin{prooftree}
@@ -109,13 +109,13 @@ La formula è \textbf{valida}. Notiamo che è equivalente a \((P\wedge Q)\righta
 
   \RuleLabel{\(\land I\)}
   \BinaryInfC{\(P\wedge Q\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg(\neg P\vee\neg Q)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\neg(\neg P\vee\neg Q)\rightarrow(P\wedge Q)\)}
 \end{prooftree}
 
-\subsection*{(e) \((\neg P\vee Q)\rightarrow(P\rightarrow Q)\)}
+\subsubsection*{(e) \((\neg P\vee Q)\rightarrow(P\rightarrow Q)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. Scrivendo l'implicazione materiale, risulta equivalente a \((P\rightarrow Q)\rightarrow(P\rightarrow Q)\). Ne forniamo l'albero di deduzione.
 
 \begin{prooftree}
@@ -141,10 +141,10 @@ La formula è \textbf{valida}. Scrivendo l'implicazione materiale, risulta equiv
 \end{prooftree}
 
 \vspace{1cm}
-\section*{Esercizio 2}
+\subsection*{Esercizio 2}
 
 Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio naturale, utilizzando solo i predicati indicati di seguito:
-\(J(\cdot)=\) "è giornale"; \(G(\cdot)=\) "è giornalista"; \(F(\cdot,\cdot)=\) "è figlio di"; \(L(\cdot,\cdot)=\) "legge"; \(C(\cdot,\cdot)=\) "compra"; \(S(\cdot,\cdot)=\) "scrive per".
+\(J(\cdot)=\) \q{è giornale}; \(G(\cdot)=\) \q{è giornalista}; \(F(\cdot,\cdot)=\) \q{è figlio di}; \(L(\cdot,\cdot)=\) \q{legge}; \(C(\cdot,\cdot)=\) \q{compra}; \(S(\cdot,\cdot)=\) \q{scrive per}.
 
 \begin{itemize}
     \item \textbf{(a)} I figli di giornalisti comprano qualche giornale e lo leggono.
@@ -164,20 +164,21 @@ Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio na
     
     \item \textbf{(e)} I figli di qualche giornalista non leggono più di due giornali per i quali il padre non scrive.
     \begin{align*}
-    \exists g\st (&G(g)\wedge\forall f(F(f,g)\rightarrow\forall j_1\forall j_2\forall j_3((J(j_1)\wedge J(j_2)\wedge J(j_3)\wedge L(f,j_1)\wedge L(f,j_2)\wedge L(f,j_3)\wedge \\
-    & \neg S(g,j_1)\wedge\neg S(g,j_2)\wedge\neg S(g,j_3))\rightarrow (j_1=j_2 \vee j_2=j_3 \vee j_1=j_3))))
+    \exists g\st (& G(g)\wedge\forall f(F(f,g)\rightarrow\forall j_1\forall j_2\forall j_3((\\
+                  & J(j_1)\wedge J(j_2)\wedge J(j_3)\wedge L(f,j_1)\wedge L(f,j_2)\wedge L(f,j_3)\wedge \\
+                  & \neg S(g,j_1)\wedge\neg S(g,j_2)\wedge\neg S(g,j_3))\rightarrow (j_1=j_2 \vee j_2=j_3 \vee j_1=j_3))))
     \end{align*}
 \end{itemize}
 
 \vspace{1cm}
-\section*{Esercizio 3}
+\subsection*{Esercizio 3}
 
 Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare la risposta data.
 Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
 
-\subsection*{(a) \(\forall x.(P(x)\rightarrow Q(x))\rightarrow(\exists x.P(x)\rightarrow\exists y.Q(y))\)}
+\subsubsection*{(a) \(\forall x.(P(x)\rightarrow Q(x))\rightarrow(\exists x.P(x)\rightarrow\exists y.Q(y))\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. 
 Sia \( \beta \equiv \exists x\st P(x)\rightarrow\exists y\st Q(y) \equiv \forall x \neg P(x)\vee\exists y\st Q(y) \).
 Assumiamo che \(\forall x(P(x)\rightarrow Q(x))\) sia vero.
@@ -202,15 +203,15 @@ Se invece \(\exists x\st P(x)\) è falsa, allora \(\beta\) è vera (ex falso quo
   \RuleLabel{\(\exists E_3\)}[\(P(z)\)]
   \BinaryInfC{\(\exists y\st Q(y)\)}
   
-  \RuleLabel{\(\to I_2\)}[\(\exists x\st P(x)\)]
+  \RuleLabel{\(\to I_2\)}
   \UnaryInfC{\(\exists x\st P(x)\rightarrow\exists y\st Q(y)\)}
-  \RuleLabel{\(\to I_1\)}[\(\forall x (P(x)\rightarrow Q(x))\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\forall x (P(x)\rightarrow Q(x))\rightarrow(\exists x\st P(x)\rightarrow\exists y\st Q(y))\)}
 \end{prooftree}
 
-\subsection*{(b) \(\exists x.P(x)\wedge\forall x.\neg P(x)\)}
+\subsubsection*{(b) \(\exists x.P(x)\wedge\forall x.\neg P(x)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{insoddisfacibile}, dal momento che \(\exists x\st P(x)\wedge\forall x\neg P(x)\) equivale a dire \(\exists x\st P(x)\wedge\neg\exists x\st P(x)\).
 Dimostriamo quindi la sua negazione.
 
@@ -231,15 +232,15 @@ Dimostriamo quindi la sua negazione.
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
 
-  \RuleLabel{\(\exists E_2\)}[\(P(z)\)]
+  \RuleLabel{\(\exists E_2\)}
   \BinaryInfC{\(\bot\)}
-  \RuleLabel{\(\neg I_1\)}[\(\exists x\st P(x)\wedge\forall x \neg P(x)\)]
+  \RuleLabel{\(\neg I_1\)}
   \UnaryInfC{\(\neg(\exists x\st P(x)\wedge\forall x \neg P(x))\)}
 \end{prooftree}
 
-\subsection*{(c) \(\neg\forall x.R(x,x)\rightarrow\neg\forall x.\forall y.R(x,y)\)}
+\subsubsection*{(c) \(\neg\forall x.R(x,x)\rightarrow\neg\forall x.\forall y.R(x,y)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. Per contronominale è equivalente a \(\forall x\forall y R(x,y)\rightarrow\forall x R(x,x)\). Poiché assumiamo che la relazione valga per ogni coppia di elementi nel dominio, dovrà valere in particolare per tutte le coppie di tipo riflessivo.
 
 \begin{prooftree}
@@ -257,24 +258,24 @@ La formula è \textbf{valida}. Per contronominale è equivalente a \(\forall x\f
   \RuleLabel{\(\neg E\)}
   \BinaryInfC{\(\bot\)}
   
-  \RuleLabel{\(\neg I_2\)}[\(\forall x \forall y R(x,y)\)]
+  \RuleLabel{\(\neg I_2\)}
   \UnaryInfC{\(\neg\forall x \forall y R(x,y)\)}
-  \RuleLabel{\(\to I_1\)}[\(\neg\forall x R(x,x)\)]
+  \RuleLabel{\(\to I_1\)}
   \UnaryInfC{\(\neg\forall x R(x,x)\rightarrow\neg\forall x \forall y R(x,y)\)}
 \end{prooftree}
 
-\subsection*{(d) \(\exists x.(P(x)\rightarrow Q(x))\rightarrow(\exists x.P(x)\rightarrow\exists x.Q(x))\)}
+\subsubsection*{(d) \(\exists x.(P(x)\rightarrow Q(x))\rightarrow(\exists x.P(x)\rightarrow\exists x.Q(x))\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{solo soddisfacibile} (non valida). 
 L'antecedente è logicamente equivalente a \(\exists x\st (\neg P(x)\vee Q(x)) \equiv \exists x\st \neg P(x) \vee \exists x\st Q(x) \equiv \neg\forall x P(x) \vee \exists x\st Q(x) \equiv \forall x P(x) \rightarrow \exists x\st Q(x)\).
 Mostriamo che l'implicazione non regge esibendo un contro-modello. Sia \(D=\{1,2\}\), \(P^M=\{1\}\), \(Q^M=\emptyset\).
 In questo modello \(\exists x\st (P(x)\rightarrow Q(x))\) è vera (ad esempio, \(P(2)\to Q(2)\) è vera), ma \((\exists x\st P(x)\rightarrow\exists x\st Q(x))\) è falsa, poiché esiste un \(x\) per cui \(P\) è vero ma non esiste alcun \(x\) per cui \(Q\) sia vero.
 Essendo non valida, non si fornisce la derivazione in deduzione naturale.
 
-\subsection*{(e) \((\exists y.P(c,y)\wedge(c=d))\rightarrow\exists y.P(d,y)\)}
+\subsubsection*{(e) \((\exists y.P(c,y)\wedge(c=d))\rightarrow\exists y.P(d,y)\)}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. L'uguaglianza \(c=d\) ci permette di sostituire in modo lecito la costante \(c\) con la costante \(d\) all'interno del predicato presente nell'antecedente.
 
 \begin{prooftree}

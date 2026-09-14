@@ -41,3 +41,6 @@ build/
 # linked files
 _files/_images/logo.pdf
 csnotes.cls
+
+# other
+prompt.md

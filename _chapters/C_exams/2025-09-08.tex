@@ -1,5 +1,5 @@
-\chapter{Tema d'esame del 8 Settembre 2025}
-\section*{Esercizio 1}
+\section{Tema d'esame del 8 Settembre 2025}
+\subsection*{Esercizio 1}
 
 \textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare semanticamente la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
@@ -11,9 +11,9 @@ Si indichi, per ciascuna delle seguenti formule, se sono valide, insoddisfacibil
     \item[(e)] \((\neg P\vee\neg Q)\vee(P\wedge Q)\)
 \end{enumerate}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 
-\subsection*{(a) \((P\vee Q)\vee\neg(P\vee Q)\)}
+\subsubsection*{(a) \((P\vee Q)\vee\neg(P\vee Q)\)}
 La formula è valida perché equivalente alla forma tautologica \((A\vee\neg A)\) applicando la sostituzione \(\sigma=\{A\mapsto P\vee Q\}\).
 
 \begin{prooftree}
@@ -34,7 +34,7 @@ La formula è valida perché equivalente alla forma tautologica \((A\vee\neg A)\
   \UnaryInfC{\((P\vee Q)\vee\neg(P\vee Q)\)}
 \end{prooftree}
 
-\subsection*{(b) \((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)}
+\subsubsection*{(b) \((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)}
 La formula è valida, in quanto equivalente, per de Morgan, a \((P\wedge\neg Q)\rightarrow(P\wedge\neg Q)\).
 
 \begin{prooftree}
@@ -62,10 +62,10 @@ La formula è valida, in quanto equivalente, per de Morgan, a \((P\wedge\neg Q)\
   \UnaryInfC{\((P\wedge\neg Q)\rightarrow\neg(\neg P\vee Q)\)}
 \end{prooftree}
 
-\subsection*{(c) \((P\vee Q)\rightarrow\neg(\neg P\vee\neg Q)\)}
+\subsubsection*{(c) \((P\vee Q)\rightarrow\neg(\neg P\vee\neg Q)\)}
 La formula è solo soddisfacibile, ma non valida. Si osserva che è equivalente a \((P\vee Q)\rightarrow(P\wedge Q)\). È vera se \(P = Q\), ma è falsa per \(P \neq Q\).
 
-\subsection*{(d) \(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)}
+\subsubsection*{(d) \(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)}
 La formula è valida: l'antecedente è equivalente a \((P\wedge Q)\), il che implica banalmente il conseguente \((P\vee Q)\). È falsa se e solo se \(P=0\) e \(Q=0\), ma in tal caso l'antecedente è già falso.
 
 \begin{prooftree}
@@ -83,7 +83,7 @@ La formula è valida: l'antecedente è equivalente a \((P\wedge Q)\), il che imp
   \UnaryInfC{\(\neg(\neg P\vee\neg Q)\rightarrow(P\vee Q)\)}
 \end{prooftree}
 
-\subsection*{(e) \((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
+\subsubsection*{(e) \((\neg P\vee\neg Q)\vee(P\wedge Q)\)}
 La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\vee(P\wedge Q)\), ossia un'istanza del terzo escluso.
 
 \begin{prooftree}
@@ -126,10 +126,10 @@ La formula è valida, poiché è semanticamente equivalente a \(\neg(P\wedge Q)\
 \hrule
 \vspace{1em}
 
-\section*{Esercizio 2}
+\subsection*{Esercizio 2}
 
 \textbf{Traccia:}
-Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio naturale, utilizzando solo i predicati indicati di seguito: \(P(\cdot) = \text{"è una persona"}\); \(E(\cdot) = \text{"è un esame"}\); \(Sc(\cdot) = \text{"è una disciplina scientifica"}\); \(Um(\cdot) = \text{"è una disciplina umanistica"}\); \(S(\cdot, \cdot) = \text{"sostiene"}\); \(St(\cdot, \cdot) = \text{"studia"}\); \(M(\cdot) = \text{"è MATEMATICA"}\); \(L(\cdot) = \text{"è LETTERE"}\).
+Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio naturale, utilizzando solo i predicati indicati di seguito: \(P(\cdot) =\) \q{è una persona}; \(E(\cdot) =\) \q{è un esame}; \(Sc(\cdot) =\) \q{è una disciplina scientifica}; \(Um(\cdot) =\) \q{è una disciplina umanistica}; \(S(\cdot, \cdot) =\) \q{sostiene}; \(St(\cdot, \cdot) =\) \q{studia}; \(M(\cdot) =\) \q{è MATEMATICA}; \(L(\cdot) =\) \q{è LETTERE}.
 \begin{enumerate}
     \item[(a)] Le persone che studiano discipline scientifiche sostengono tutti lo stesso esame di matematica.
     \item[(b)] Le persone che studiano discipline umanistiche sostengono almeno un esame di lettere.
@@ -138,7 +138,7 @@ Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio na
     \item[(e)] Le persone che studiano discipline scientifiche sostengono al massimo due esami di matematica.
 \end{enumerate}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 \begin{enumerate}
     \item[(a)] \(\exists e\st (E(e) \wedge M(e) \wedge \forall p((P(p) \wedge \exists d\st (Sc(d) \wedge St(p,d))) \rightarrow S(p,e)))\).
     \item[(b)] \(\forall p((P(p) \wedge \exists d\st (Um(d) \wedge St(p,d))) \rightarrow \exists e\st (E(e) \wedge L(e) \wedge S(p,e)))\).
@@ -151,7 +151,7 @@ Si traducano in logica del prim'ordine le seguenti affermazioni in linguaggio na
 \hrule
 \vspace{1em}
 
-\section*{Esercizio 3}
+\subsection*{Esercizio 3}
 
 \textbf{Traccia:}
 Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili. In ciascun caso, motivare la risposta data. Esibire, successivamente, una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se la formula risulta insoddisfacibile.
@@ -163,12 +163,12 @@ Si indichi, per ciascuna delle seguenti formule se sono valide, insoddisfacibili
     \item[(e)] \((\exists y.P(c,y)\wedge(d=c))\rightarrow\exists y.P(d,y)\) (dove \(c\) e \(d\) sono costanti del linguaggio)
 \end{enumerate}
 
-\textbf{Svolgimento:}
+\paragraph{Svolgimento:}
 
-\subsection*{(a) \(\forall x\st P(x)\rightarrow\neg\neg\exists x\st \neg P(x)\)}
+\subsubsection*{(a) \(\forall x\st P(x)\rightarrow\neg\neg\exists x\st \neg P(x)\)}
 La formula è equivalente a \(\forall x\st P(x) \rightarrow \exists x\st \neg P(x)\) e conseguentemente a \(\neg\forall x\st P(x) \vee \exists x\st \neg P(x)\), che collassa a \(\neg\forall x\st P(x)\). È dunque una formula soddisfacibile ma non valida.
 
-\subsection*{(b) \(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
+\subsubsection*{(b) \(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
 La formula è valida. Si motiva osservando che se la relazione è vera per ogni coppia \((x,y)\), allora è necessariamente vera anche per le coppie riflessive \((x,x)\).
 
 \begin{prooftree}
@@ -196,7 +196,7 @@ La formula è valida. Si motiva osservando che se la relazione è vera per ogni 
   \UnaryInfC{\(\forall x\st R(x,x)\vee\neg\forall x\st \forall y\st R(x,y)\)}
 \end{prooftree}
 
-\subsection*{(c) \(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\rightarrow\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
+\subsubsection*{(c) \(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\rightarrow\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
 La formula è valida: \(\forall x\st (\neg\exists y\st C(x,y) \vee A(x))\) equivale a \(\forall x\st \forall y\st (\neg C(x,y) \vee A(x))\) e quindi \(\forall x\st \forall y\st (C(x,y) \rightarrow A(x))\). Se vale per tutte le coppie, allora vale che per ogni \(x\) trovo un \(y\) che la soddisfa.
 
 \begin{prooftree}
@@ -218,10 +218,10 @@ La formula è valida: \(\forall x\st (\neg\exists y\st C(x,y) \vee A(x))\) equiv
   \UnaryInfC{\(\forall x\st (\exists y\st C(x,y)\rightarrow A(x))\rightarrow\forall x\st \exists y\st (C(x,y)\rightarrow A(x))\)}
 \end{prooftree}
 
-\subsection*{(d) \(\exists x\st \forall y\st ((R(x,y)\rightarrow R(y,x))\wedge(R(y,x)\rightarrow R(x,y)))\)}
+\subsubsection*{(d) \(\exists x\st \forall y\st ((R(x,y)\rightarrow R(y,x))\wedge(R(y,x)\rightarrow R(x,y)))\)}
 La formula è soddisfacibile. Si può avere un modello \(M\) dove \(D=\{1\}\) e \(R^M=\{(1,1)\}\) che la soddisfa, mentre un modello \(M'\) con \(D=\{1,2\}\) e \(R^{M'}=\{(1,2)\}\) non la soddisfa. 
 
-\subsection*{(e) \((\exists y\st P(c,y)\wedge(d=c))\rightarrow\exists y\st P(d,y)\)}
+\subsubsection*{(e) \((\exists y\st P(c,y)\wedge(d=c))\rightarrow\exists y\st P(d,y)\)}
 La formula è valida perché, per la simmetria dell'uguaglianza, \((d=c)\) equivale a \((c=d)\), per cui possiamo operare una sostituzione. 
 
 \begin{prooftree}

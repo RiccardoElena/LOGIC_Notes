@@ -1,17 +1,9 @@
-\chapter{Tema d'esame del 11 Luglio 2025}
-\section*{Esercizio 1}
-\subsection*{Traccia}
+\section{Tema d'esame del 11 Luglio 2025}
+\subsection*{Esercizio 1}
 Indicare, per ciascuna delle seguenti formule, se sono valide, insoddisfacibili o solo soddisfacibili, motivando semanticamente la risposta. Esibire una deduzione in Natural Deduction per ogni formula che risulta valida o per la sua negazione, se insoddisfacibile.
-\begin{enumerate}
-    \item[(a)] \((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)
-    \item[(b)] \(((p \lor r) \lor (p \land q)) \to (\neg r \lor p)\)
-    \item[(c)] \((p \to q) \land \neg(\neg p \lor q)\)
-    \item[(d)] \(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)
-    \item[(e)] \(\neg(\neg(p \to q) \land \neg(p \lor q))\)
-\end{enumerate}
 
-\subsection*{Svolgimento}
 \subsubsection*{(a) \((p \land (\neg p \lor q)) \to \neg(p \land \neg q)\)}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}. Semanticamente, l'antecedente implica il conseguente poiché \((p \land (\neg p \lor q)) \equiv p \land q\), e questo contraddice \((p \land \neg q)\).
 
 \begin{prooftree}
@@ -40,9 +32,10 @@ La formula è \textbf{valida}. Semanticamente, l'antecedente implica il consegue
 \end{prooftree}
 
 \subsubsection*{(b) \(((p \lor r) \lor (p \land q)) \to (\neg r \lor p)\)}
+\paragraph{Svolgimento:}
 La formula è \textbf{soddisfacibile ma non valida}. La formula è falsa per \(r=1\) e \(p=0\), ma è vera per \(r=0\) o \(p=1\).
-
 \subsubsection*{(c) \((p \to q) \land \neg(\neg p \lor q)\)}
+\paragraph{Svolgimento:}
 La formula è \textbf{insoddisfacibile}. Esibiamo la deduzione per la sua negazione.
 
 \begin{prooftree}
@@ -74,6 +67,7 @@ La formula è \textbf{insoddisfacibile}. Esibiamo la deduzione per la sua negazi
 \end{prooftree}
 
 \subsubsection*{(d) \(\neg\neg(\neg p \lor q) \to \neg(p \land \neg q)\)}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}.
 
 \begin{prooftree}
@@ -105,6 +99,7 @@ La formula è \textbf{valida}.
 \end{prooftree}
 
 \subsubsection*{(e) \(\neg(\neg(p \to q) \land \neg(p \lor q))\)}
+\paragraph{Svolgimento:}
 La formula è \textbf{valida}.
 
 \begin{prooftree}
@@ -130,10 +125,9 @@ La formula è \textbf{valida}.
     \UnaryInfC{\(\neg(\neg(p \to q) \land \neg(p \lor q))\)}
 \end{prooftree}
 
-\section*{Esercizio 2}
-\subsection*{Traccia}
+\subsection*{Esercizio 2}
 Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni...
-\subsection*{Svolgimento}
+\paragraph{Svolgimento:}
 \begin{enumerate}
     \item[(a)] \(\forall c (C(c) \to \forall p ((P(p) \land PR(p,c)) \to F(c,p)))\)
     \item[(b)] \(\exists c (C(c) \land \exists p (P(p) \land PR(p,c) \land F(c,p) \land \forall q ((P(q) \land PR(q,c) \land F(c,q)) \to q = p)))\)
@@ -142,12 +136,10 @@ Tradurre in logica del prim'ordine con uguaglianza le seguenti affermazioni...
     \item[(e)] \(\forall p (P(p) \to \forall c_1 \forall c_2 \forall c_3 ((C(c_1) \land C(c_2) \land C(c_3) \land PR(p,c_1) \land PR(p,c_2) \land PR(p,c_3) \land \exists q_1 (P(q_1) \land F(c_1,q_1) \land \neg(p=q_1)) \land \exists q_2 (P(q_2) \land F(c_2,q_2) \land \neg(p=q_2)) \land \exists q_3 (P(q_3) \land F(c_3,q_3) \land \neg(p=q_3))) \to (c_1=c_2 \lor c_2=c_3 \lor c_1=c_3)))\)
 \end{enumerate}
 
-\section*{Esercizio 3}
-\subsection*{Traccia}
+\subsection*{Esercizio 3}
 Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o solo soddisfacibili...
-\subsection*{Svolgimento}
-
 \subsubsection*{(a) \(\exists x \st \neg P(x) \land \neg\neg\forall x \st P(x)\)}
+\paragraph{Svolgimento:}
 \textbf{Insoddisfacibile}. Dimostriamo la sua negazione.
 \begin{prooftree}
     \small
@@ -171,9 +163,11 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
 \end{prooftree}
 
 \subsubsection*{(b) \((\exists y \st (\forall x \st P(x,y) \to B(y))) \to (\exists y \st (\exists x \st P(x,y) \to B(y)))\)}
+\paragraph{Svolgimento:}
 \textbf{Soddisfacibile ma non valida}. Falsificabile con \(D=\{1,2\}\), \(B=\{1\}\), \(P=\{(1,1), (2,2)\}\).
 
 \subsubsection*{(c) \((a=b) \to ((c=b) \to ((\forall x \st B(a,x)) \to (\exists x \st B(c,x))))\)}
+\paragraph{Svolgimento:}
 \textbf{Valida}. Assumendo dimostrati \(Symm\) e \(Trans\):
 \begin{prooftree}
     \small
@@ -199,6 +193,7 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
 \end{prooftree}
 
 \subsubsection*{(d) \(\exists x \st \exists y \st (P(k,x) \land x=y \land \neg P(k,y))\)}
+\paragraph{Svolgimento:}
 \textbf{Insoddisfacibile}.
 \begin{prooftree}
     \small
@@ -223,6 +218,7 @@ Indicare, per ciascuna delle seguenti formule se sono valide, insoddisfacibili o
 \end{prooftree}
 
 \subsubsection*{(e) \((\forall x \st P(x) \to \exists x \st Q(x)) \to \exists x \st (P(x) \to Q(x))\)}
+\paragraph{Svolgimento:}
 \textbf{Valida}.
 \begin{prooftree}
     \tiny
